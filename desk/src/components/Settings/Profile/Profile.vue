@@ -92,7 +92,12 @@
             :label="__('Save')"
             @click="onSave"
             :loading="setAgent.loading || saveLanguageResource.loading"
-            :disabled="!isAccountInfoDirty && !isLanguageChanged"
+            :disabled="
+              !isAccountInfoDirty &&
+              !isLanguageChanged &&
+              !isSignatureEnabledChanged &&
+              !isSignatureDirty
+            "
           />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
@@ -141,6 +146,69 @@
           />
         </div>
       </div>
+      <div class="flex items-center justify-between mt-6">
+        <div class="flex flex-col gap-1">
+          <span class="text-base font-medium text-ink-gray-8">
+            {{ __("Set Availibility") }}
+          </span>
+          <span class="text-p-sm text-ink-gray-6">{{
+            __("Change language of the application.")
+          }}</span>
+        </div>
+        <div class="space-y-1.5 w-40">
+          <Select :options="agentStatusOptions" v-model="agentStatus" />
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 mt-6">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <span class="text-p-sm font-medium text-ink-gray-8">{{
+              __("Set Custom Email Signature")
+            }}</span>
+            <span class="text-p-sm text-ink-gray-6"
+              >{{
+                __(
+                  "Set a personalized email signature text at the end of an email ."
+                )
+              }}
+            </span>
+          </div>
+          <Switch v-model="enableSignatureSwitch" />
+        </div>
+        <div>
+          <SignatureEditor
+            ref="textEditor"
+            editor-class="prose-sm max-w-none min-h-[4rem]"
+            @change="(val) => (emailSignatureContent.message = val)"
+            :starterkit-options="{ heading: { levels: [2, 3, 4] } }"
+            placeholder="Write your email signature here"
+            class="mt-1"
+            v-model:content="emailSignatureContent.message"
+            v-if="enableSignatureSwitch"
+          >
+            <template v-slot:editor="{ editor }">
+              <EditorContent
+                class="max-h-[50vh] overflow-y-auto border rounded-lg p-4"
+                :editor="editor"
+              />
+            </template>
+
+            <template v-slot:bottom>
+              <div
+                class="mt-2 flex flex-col justify-between sm:flex-row sm:items-center"
+              >
+                <TextEditorFixedMenu
+                  class="-ml-1 overflow-x-auto"
+                  :buttons="customButtons"
+                />
+                <div
+                  class="mt-2 flex items-center justify-end space-x-2 sm:mt-0"
+                ></div>
+              </div>
+            </template>
+          </SignatureEditor>
+        </div>
+      </div>
     </template>
   </SettingsLayoutBase>
   <ChangePasswordModal
@@ -150,7 +218,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import {
   Avatar,
   Badge,
@@ -160,7 +228,12 @@ import {
   FileUploader,
   LoadingIndicator,
   toast,
+  TextEditorFixedMenu,
+  Switch,
+  Select,
 } from "frappe-ui";
+
+import { TextEditor as SignatureEditor } from "frappe-ui";
 import { __ } from "@/translation";
 import { useAuthStore } from "@/stores/auth";
 import CameraIcon from "~icons/lucide/camera";
@@ -168,6 +241,7 @@ import ChangePasswordModal from "./components/ChangePasswordModal.vue";
 import { disableSettingModalOutsideClick } from "../settingsModal";
 import SettingsLayoutBase from "@/components/layouts/SettingsLayoutBase.vue";
 import Link from "@/components/frappe-ui/Link.vue";
+import { EditorContent } from "@tiptap/vue-3";
 
 const auth = useAuthStore();
 const profile = ref({
@@ -176,8 +250,8 @@ const profile = ref({
   firstName: auth.userFirstName,
   lastName: auth.userLastName,
 });
-const showChangePasswordModal = ref(false);
 const language = ref(auth.language);
+const agentStatus = computed(() => agentData.data?.agent_status);
 
 const isLanguageChanged = computed(() => {
   return language.value !== auth?.language;
@@ -197,6 +271,34 @@ const isAccountInfoDirty = computed(() => {
   return isDirty;
 });
 
+const customButtons = [
+  "Paragraph",
+  ["Heading 2", "Heading 3", "Heading 4"],
+  "Separator",
+  "Bold",
+  "Italic",
+  "Separator",
+  "Bullet List",
+  "Numbered List",
+  "Separator",
+  "Link",
+  "Image",
+];
+
+const agentStatusOptions = [
+  {
+    label: __("Available"),
+    value: "available",
+  },
+  {
+    label: __("Away"),
+    value: "away",
+  },
+  {
+    label: __("AFK"),
+    value: "afk",
+  },
+];
 const agentData = createResource({
   url: "helpdesk.helpdesk.doctype.hd_agent.hd_agent.get_agent",
   auto: true,
@@ -208,7 +310,31 @@ const agentData = createResource({
       lastName: fullName[1] || "",
       userImage: data.user_image,
     };
+    emailSignatureContent.value.message = data.agent_email_signature || "";
+    enableSignatureSwitch.value = data.enable_email_signature;
+
+    // originals
+    originalSignatureMessage.value = data.agent_email_signature || "";
+    originalEnableSignature.value = data.enable_email_signature;
   },
+});
+
+const enableSignatureSwitch = ref(false);
+const originalSignatureMessage = ref("");
+const originalEnableSignature = ref(false);
+const emailSignatureContent = ref({
+  message: "",
+});
+const isSignatureMessageChanged = computed(() => {
+  return emailSignatureContent.value.message !== originalSignatureMessage.value;
+});
+
+const isSignatureEnabledChanged = computed(() => {
+  return enableSignatureSwitch.value !== originalEnableSignature.value;
+});
+
+const isSignatureDirty = computed(() => {
+  return isSignatureMessageChanged.value || isSignatureEnabledChanged.value;
 });
 
 const setAgent = createResource({
@@ -252,6 +378,26 @@ const saveLanguageResource = createResource({
   },
 });
 
+const saveSignature = createResource({
+  url: "frappe.client.set_value",
+  makeParams() {
+    return {
+      doctype: "HD Agent",
+      name: agentData.data?.name,
+      fieldname: {
+        agent_email_signature: emailSignatureContent.value.message,
+        enable_email_signature: enableSignatureSwitch.value,
+      },
+    };
+  },
+  onSuccess() {
+    originalSignatureMessage.value = emailSignatureContent.value.message;
+    originalEnableSignature.value = enableSignatureSwitch.value;
+
+    agentData.reload();
+  },
+});
+
 const onSave = () => {
   if (isAccountInfoDirty.value) {
     setAgent.submit();
@@ -259,6 +405,9 @@ const onSave = () => {
 
   if (isLanguageChanged.value) {
     saveLanguageResource.submit();
+  }
+  if (isSignatureDirty.value) {
+    saveSignature.submit();
   }
 };
 
