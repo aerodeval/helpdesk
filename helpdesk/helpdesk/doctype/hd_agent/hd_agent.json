@@ -9,7 +9,10 @@
   "user",
   "agent_name",
   "user_image",
-  "is_active"
+  "is_active",
+  "agent_status",
+  "enable_email_signature",
+  "agent_email_signature"
  ],
  "fields": [
   {
@@ -38,11 +41,29 @@
    "fieldname": "user_image",
    "fieldtype": "Attach Image",
    "label": "Image"
+  },
+  {
+   "default": "Available",
+   "fieldname": "agent_status",
+   "fieldtype": "Select",
+   "label": "Agent Status",
+   "options": "Available\nAFK\nUnavailable"
+  },
+  {
+   "fieldname": "agent_email_signature",
+   "fieldtype": "Text Editor",
+   "label": "Email signature"
+  },
+  {
+   "default": "false",
+   "fieldname": "enable_email_signature",
+   "fieldtype": "Check",
+   "label": "Add Email Signature"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-01-19 23:22:29.075052",
+ "modified": "2026-01-28 02:51:02.835472",
  "modified_by": "Administrator",
  "module": "Helpdesk",
  "name": "HD Agent",

@@ -69,6 +69,7 @@ def get_agent():
                 "user": frappe.session.user,
                 "agent_name": user.full_name,
                 "user_image": user.user_image,
+                "agent_status": user.agent_status,
             }
         ).insert(ignore_permissions=True)
         return agent

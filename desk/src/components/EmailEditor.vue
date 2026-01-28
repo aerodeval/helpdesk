@@ -276,6 +276,27 @@ function applySavedReplies(template) {
   newEmail.value = template;
   showSavedRepliesSelectorModal.value = false;
 }
+function applySignature(signature) {
+  if (!signature) return;
+
+  if (!newEmail.value?.includes(signature)) {
+    if (newEmail.value === null || newEmail.value.trim() === "") {
+      newEmail.value = "\n\n";
+    }
+    newEmail.value = newEmail.value + signature;
+  }
+}
+
+const agentData = createResource({
+  url: "helpdesk.helpdesk.doctype.hd_agent.hd_agent.get_agent",
+  auto: true,
+
+  onSuccess: (data) => {
+    if (data.enable_email_signature) {
+      applySignature(data.agent_email_signature);
+    }
+  },
+});
 
 const sendMail = createResource({
   url: "run_doc_method",
