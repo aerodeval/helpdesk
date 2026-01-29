@@ -168,7 +168,7 @@
             <span class="text-p-sm text-ink-gray-6"
               >{{
                 __(
-                  "Set a personalized email signature text at the end of an email ."
+                  "Display a personalized email signature text at the end of an email ."
                 )
               }}
             </span>
@@ -182,7 +182,7 @@
             @change="(val) => (emailSignatureContent.message = val)"
             :starterkit-options="{ heading: { levels: [2, 3, 4] } }"
             placeholder="Write your email signature here"
-            class="mt-1"
+            class="mt-1 [&>img]:border-none"
             v-model:content="emailSignatureContent.message"
             v-if="enableSignatureSwitch"
           >
