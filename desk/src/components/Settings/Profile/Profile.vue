@@ -81,7 +81,12 @@
               {{ __("Account info & security") }}
             </div>
             <Badge
-              v-if="isAccountInfoDirty || isLanguageChanged"
+              v-if="
+                isAccountInfoDirty ||
+                isLanguageChanged ||
+                isSignatureDirty ||
+                isSignatureEnabledChanged
+              "
               :variant="'subtle'"
               :theme="'orange'"
               size="sm"
