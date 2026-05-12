@@ -99,6 +99,20 @@ class TestAgentHome(FrappeTestCase):
     @classmethod
     def tearDownClass(cls):
         frappe.set_user("Administrator")
+        # Clean up SLAs created by _create_ticket_with_sla so they don't leak
+        leaked_slas = frappe.get_all(
+            "HD Service Level Agreement",
+            filters={"service_level": ("like", "Test SLA %")},
+            pluck="name",
+        )
+        for sla_name in leaked_slas:
+            frappe.delete_doc(
+                "HD Service Level Agreement",
+                sla_name,
+                force=True,
+                ignore_permissions=True,
+            )
+        frappe.db.commit()  # nosemgrep
         super().tearDownClass()
 
     def setUp(self):
