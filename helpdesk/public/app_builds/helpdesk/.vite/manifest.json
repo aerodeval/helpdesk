@@ -1,0 +1,104 @@
+{
+  "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts": {
+    "file": "assets/article_view-BJF8QeVW.js",
+    "name": "article_view",
+    "src": "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js",
+      "_settings-MvlymeDD.js"
+    ]
+  },
+  "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts": {
+    "file": "assets/category_page_view-CHueFrs9.js",
+    "name": "category_page_view",
+    "src": "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js",
+      "_settings-MvlymeDD.js"
+    ]
+  },
+  "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
+    "file": "assets/customer_tickets-CwXa9RmS.js",
+    "name": "customer_tickets",
+    "src": "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js",
+      "_settings-MvlymeDD.js"
+    ]
+  },
+  "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts": {
+    "file": "assets/list-C-q6W1sv.js",
+    "name": "list",
+    "src": "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
+    "file": "assets/public_kb-CGBvSlV-.js",
+    "name": "public_kb",
+    "src": "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js",
+      "_settings-MvlymeDD.js"
+    ]
+  },
+  "../../.temp-app-renderers/renderer-helpdesk.js": {
+    "file": "assets/studioRenderer-Dce1CqVj.js",
+    "name": "studioRenderer",
+    "src": "../../.temp-app-renderers/renderer-helpdesk.js",
+    "isEntry": true,
+    "dynamicImports": [
+      "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts",
+      "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
+      "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+      "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts",
+      "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts"
+    ],
+    "css": [
+      "assets/studioRenderer-BR1iLz-X.css"
+    ],
+    "assets": [
+      "assets/Inter.var-C9xDBOS3.woff2",
+      "assets/Inter-Italic.var-BGHziHgI.woff2"
+    ]
+  },
+  "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue": {
+    "file": "assets/FontColor-DyhRTlRc.js",
+    "name": "FontColor",
+    "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue": {
+    "file": "assets/InsertIframe-DgOovYM7.js",
+    "name": "InsertIframe",
+    "src": "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../node_modules/frappe-ui/src/fonts/Inter/Inter-Italic.var.woff2": {
+    "file": "assets/Inter-Italic.var-BGHziHgI.woff2",
+    "src": "../../node_modules/frappe-ui/src/fonts/Inter/Inter-Italic.var.woff2"
+  },
+  "../../node_modules/frappe-ui/src/fonts/Inter/Inter.var.woff2": {
+    "file": "assets/Inter.var-C9xDBOS3.woff2",
+    "src": "../../node_modules/frappe-ui/src/fonts/Inter/Inter.var.woff2"
+  },
+  "_settings-MvlymeDD.js": {
+    "file": "assets/settings-MvlymeDD.js",
+    "name": "settings",
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  }
+}

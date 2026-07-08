@@ -1,0 +1,218 @@
+{
+ "blocks": [],
+ "creation": "2026-06-04 14:43:57.670011",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "alignItems": "flex-start",
+    "display": "flex",
+    "flexDirection": "row",
+    "flexShrink": 0,
+    "flexWrap": "wrap",
+    "height": "100%",
+    "justifyContent": "flex-end",
+    "overflowX": "hidden",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "flex-start",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": "10px",
+      "gridTemplateColumns": "repeat(2, minmax(200px, 1fr))",
+      "justifyContent": "center"
+     },
+     "children": [],
+     "classes": [],
+     "componentId": "Sidebar-isvlqipyz",
+     "componentName": "Sidebar",
+     "componentProps": {
+      "collapsed": null,
+      "header": {
+       "menuItems": [
+        {
+         "icon": "{{ getIcon('circle-question-mark') }}",
+         "label": "Help",
+         "onClick": "()=>alert(`Help clicked!`)",
+         "to": "/help"
+        },
+        {
+         "icon": "{{ getIcon('log-out') }}",
+         "label": "Logout",
+         "onClick": "()=>alert(`Logging out...`)",
+         "to": "/log-out"
+        }
+       ],
+       "subtitle": "Jane Doe",
+       "title": "Frappe"
+      },
+      "sections": [
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('bell') }}",
+          "label": "Notifications",
+          "to": ""
+         }
+        ],
+        "label": ""
+       },
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('house') }}",
+          "label": "Home",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('user-pen') }}",
+          "label": "Profile",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('settings') }}",
+          "label": "Settings",
+          "to": ""
+         }
+        ],
+        "label": ""
+       }
+      ]
+     }
+    },
+    {
+     "blockName": "ListView",
+     "children": [
+      {
+       "children": [],
+       "classes": [],
+       "componentId": "FormControl-cst6diorn",
+       "componentName": "FormControl",
+       "componentProps": {
+        "autocomplete": "off",
+        "label": "Comment Type",
+        "options": [
+         "Comment",
+         "Like",
+         "Info",
+         "Label",
+         "Workflow",
+         "Created",
+         "Submitted",
+         "Cancelled",
+         "Updated",
+         "Deleted",
+         "Assigned",
+         "Assignment Completed",
+         "Attachment",
+         "Attachment Removed",
+         "Shared",
+         "Unshared",
+         "Bot",
+         "Relinked",
+         "Edit"
+        ],
+        "placeholder": "",
+        "required": true,
+        "size": "sm",
+        "type": "select",
+        "variant": "subtle"
+       }
+      },
+      {
+       "children": [],
+       "classes": [],
+       "componentId": "FormControl-futgxpsk6",
+       "componentName": "FormControl",
+       "componentProps": {
+        "autocomplete": "off",
+        "label": "Comment Email",
+        "placeholder": "",
+        "size": "sm",
+        "type": "text",
+        "variant": "subtle"
+       }
+      },
+      {
+       "children": [],
+       "classes": [],
+       "componentId": "FormControl-4armg3dm2",
+       "componentName": "FormControl",
+       "componentProps": {
+        "autocomplete": "off",
+        "label": "Subject",
+        "placeholder": "",
+        "size": "sm",
+        "type": "textarea",
+        "variant": "subtle"
+       }
+      }
+     ],
+     "classes": [],
+     "componentId": "ListView-ognc7jxhb",
+     "componentName": "ListView",
+     "componentProps": {
+      "columns": "{{ comments.data }}",
+      "options": {
+       "emptyState": {
+        "description": "No data available",
+        "title": "No Data"
+       },
+       "getRowRoute": null,
+       "onRowClick": null,
+       "resizeColumn": false,
+       "rowHeight": 40,
+       "selectable": true,
+       "showTooltip": true
+      },
+      "rowKey": "{{ comments.data }}",
+      "rows": "{{ comments.data }}"
+     }
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-07 15:41:11.415056",
+ "modified_by": "Administrator",
+ "name": "my_page",
+ "owner": "Administrator",
+ "page_name": "page-96d18f82",
+ "page_title": "My Page",
+ "resources": [
+  {
+   "auto": 1,
+   "document_type": "Help Article",
+   "fields": "[\"title\",\"category\",\"published\"]",
+   "filters": "{}",
+   "method": "GET",
+   "params": "{}",
+   "resource_name": "Test",
+   "resource_type": "Document List",
+   "whitelisted_methods": "[]"
+  },
+  {
+   "auto": 1,
+   "document_type": "Comment",
+   "fields": "[\"subject\",\"comment_type\",\"seen\"]",
+   "filters": "{\"subject\":[\"like\",\"\"]}",
+   "method": "GET",
+   "params": "{}",
+   "resource_name": "comments",
+   "resource_type": "Document List",
+   "whitelisted_methods": "[]"
+  }
+ ],
+ "route": "/my-page-1e47",
+ "studio_app": "helpdesk",
+ "variables": []
+}

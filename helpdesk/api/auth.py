@@ -77,8 +77,8 @@ def get_user():
 def get_current_user_email_info():
     user = frappe.session.user
 
-    email_signature, email = frappe.db.get_value(
-        "User", user, ["email_signature", "email"]
+    email_signature, email, full_name, user_image = frappe.db.get_value(
+        "User", user, ["email_signature", "email", "full_name", "user_image"]
     )
     user_emails = frappe.db.get_all(
         "User Email",
@@ -104,6 +104,8 @@ def get_current_user_email_info():
     return {
         "email_signature": email_signature,
         "email": email,
+        "full_name": full_name,
+        "user_image": user_image,
         "outgoing_emails": outgoing_emails,
         "available_emails": available_emails,
     }

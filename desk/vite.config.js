@@ -102,6 +102,17 @@ export default defineConfig(async ({ mode }) => {
         ...localFrappeUIAliases,
       },
       dedupe: [
+        // @framework/ui resolves to source in apps/frappe/ui (see vite-helpers),
+        // where frappe-ui isn't installed — dedupe resolves its frappe-ui
+        // imports from this app's node_modules instead of the importer's path.
+        "frappe-ui",
+        "vue",
+        "@vue/runtime-core",
+        "@vue/runtime-dom",
+        "@vue/shared",
+        "@vue/reactivity",
+        "prosemirror-state",
+        "prosemirror-model",
         "prosemirror-view",
         "prosemirror-gapcursor",
         "prosemirror-tables",

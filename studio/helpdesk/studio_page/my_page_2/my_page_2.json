@@ -1,0 +1,87 @@
+{
+ "blocks": [],
+ "creation": "2026-07-05 12:13:55.025928",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "alignItems": "center",
+    "display": "flex",
+    "flexDirection": "column",
+    "flexShrink": 0,
+    "flexWrap": "wrap",
+    "height": "100%",
+    "overflowX": "hidden",
+    "position": "relative",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "height": "1003px",
+      "position": "absolute"
+     },
+     "children": [],
+     "classes": [],
+     "componentId": "AppHeader-fwxnf4asr",
+     "componentName": "AppHeader",
+     "componentProps": {
+      "title": "Frappe"
+     }
+    },
+    {
+     "children": [],
+     "classes": [],
+     "componentId": "Checkbox-yahbuhri5",
+     "componentName": "Checkbox",
+     "componentProps": {
+      "checked": true,
+      "label": "Enable feature",
+      "padding": true,
+      "size": "sm"
+     }
+    },
+    {
+     "baseStyles": {
+      "alignItems": "flex-end",
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": "10px",
+      "gridTemplateColumns": "repeat(auto-fill, minmax(200px, 1fr))",
+      "height": "64px",
+      "justifyContent": "center",
+      "position": "absolute",
+      "right": "0",
+      "width": "516px",
+      "zIndex": "10000"
+     },
+     "children": [],
+     "classes": [],
+     "componentId": "Card-7vasfpqri",
+     "componentName": "Card",
+     "componentProps": {
+      "subtitle": "Engineering Lead",
+      "title": "John Doe"
+     }
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-05 12:18:02.215768",
+ "modified_by": "Administrator",
+ "name": "my_page_2",
+ "owner": "Administrator",
+ "page_name": "page-60b52504",
+ "page_title": "My Page-2",
+ "resources": [],
+ "route": "/my-page-2-63bd",
+ "studio_app": "helpdesk",
+ "variables": []
+}

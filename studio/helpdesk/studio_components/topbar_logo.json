@@ -1,0 +1,116 @@
+{
+ "block": {
+  "attributes": {},
+  "baseStyles": {
+   "alignItems": "center",
+   "cursor": "pointer",
+   "display": "flex",
+   "flexDirection": "row",
+   "gap": "8px",
+   "position": "relative"
+  },
+  "blockName": "topbar-left",
+  "children": [
+   {
+    "attributes": {},
+    "baseStyles": {
+     "backgroundColor": "var(--surface-violet-7, #6e57d1)",
+     "color": "var(--ink-base, #ffffff)"
+    },
+    "blockName": "nav-dropdown",
+    "children": [],
+    "classes": [],
+    "componentEvents": {},
+    "componentId": "Dropdown-w9cy4hr2u",
+    "componentName": "Dropdown",
+    "componentProps": {
+     "button": {
+      "icon": "book-open",
+      "label": "",
+      "size": "sm",
+      "variant": "ghost"
+     },
+     "offset": 4,
+     "open": false,
+     "options": [
+      {
+       "icon": "lucide-inbox",
+       "label": "My tickets",
+       "onClick": "() => { window.location.href = '/helpdesk/tickets' }"
+      },
+      {
+       "icon": "lucide-book",
+       "label": "Knowledge base",
+       "onClick": "() => { window.location.href = '/kb' }"
+      },
+      {
+       "icon": "lucide-user",
+       "label": "My account",
+       "onClick": "() => { openSettings('profile') }"
+      },
+      {
+       "icon": "lucide-settings",
+       "label": "Settings",
+       "onClick": "() => { openSettings('profile') }"
+      },
+      {
+       "icon": "lucide-log-out",
+       "label": "Log out",
+       "onClick": "() => { window.location.href = '/api/method/logout' }"
+      }
+     ],
+     "portalTo": "body",
+     "side": "bottom"
+    },
+    "componentSlots": {},
+    "mobileStyles": {},
+    "rawStyles": {},
+    "tabletStyles": {}
+   },
+   {
+    "attributes": {},
+    "baseStyles": {
+     "color": "var(--ink-gray-9)",
+     "fontWeight": "500"
+    },
+    "blockName": "topbar-title",
+    "children": [],
+    "classes": [],
+    "componentEvents": {},
+    "componentId": "TextBlock-2k3q6mzht",
+    "componentName": "TextBlock",
+    "componentProps": {
+     "fontSize": "text-base",
+     "tag": "span",
+     "text": "Knowledge base"
+    },
+    "componentSlots": {},
+    "mobileStyles": {},
+    "rawStyles": {},
+    "tabletStyles": {}
+   }
+  ],
+  "classes": [],
+  "componentEvents": {},
+  "componentId": "container-tmhzlx2bq",
+  "componentName": "container",
+  "componentProps": {},
+  "componentSlots": {},
+  "mobileStyles": {},
+  "originalElement": "div",
+  "rawStyles": {},
+  "tabletStyles": {}
+ },
+ "component_id": "topbar_logo",
+ "component_name": "Topbar Logo",
+ "creation": "2026-07-06 11:54:37.022115",
+ "docstatus": 0,
+ "doctype": "Studio Component",
+ "idx": 0,
+ "inputs": [],
+ "is_disabled": 0,
+ "modified": "2026-07-06 16:07:02.720860",
+ "modified_by": "Administrator",
+ "name": "topbar_logo",
+ "owner": "Administrator"
+}

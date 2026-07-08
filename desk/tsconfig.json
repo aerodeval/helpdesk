@@ -9,7 +9,9 @@
 		"jsx": "preserve",
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@framework/ui": ["../../frappe/ui/src"],
+			"@framework/ui/*": ["../../frappe/ui/src/*"]
 		},
 		"types": [
 			"unplugin-icons/types/vue",

@@ -1,0 +1,1331 @@
+{
+ "blocks": [],
+ "creation": "2026-07-05 12:13:55.016486",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flexShrink": 0,
+    "height": "100%",
+    "overflowX": "hidden",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "display": "flex",
+      "flex": "1",
+      "flexDirection": "row",
+      "overflow": "hidden"
+     },
+     "blockName": "portal-layout",
+     "children": [
+      {
+       "children": [],
+       "classes": [],
+       "componentId": "Sidebar-wwj3ky2j1",
+       "componentName": "Sidebar",
+       "componentProps": {
+        "header": {
+         "subtitle": "Customer Dashboard",
+         "title": "Acme Portal"
+        },
+        "sections": [
+         {
+          "items": [
+           {
+            "icon": "{{ getIcon('lucide-layout-dashboard') }}",
+            "label": "Dashboard",
+            "to": "/dashboard"
+           },
+           {
+            "icon": "{{ getIcon('lucide-shopping-bag') }}",
+            "label": "Orders",
+            "to": "/orders"
+           },
+           {
+            "icon": "{{ getIcon('lucide-file-text') }}",
+            "label": "Invoices",
+            "to": "/invoices"
+           },
+           {
+            "icon": "{{ getIcon('lucide-credit-card') }}",
+            "label": "Subscriptions",
+            "to": "/subscriptions"
+           }
+          ],
+          "label": "Main"
+         },
+         {
+          "items": [
+           {
+            "icon": "{{ getIcon('lucide-life-buoy') }}",
+            "label": "Tickets",
+            "to": "/tickets"
+           },
+           {
+            "icon": "{{ getIcon('lucide-book-open') }}",
+            "label": "Knowledge Base",
+            "to": "/kb"
+           },
+           {
+            "icon": "{{ getIcon('lucide-mail') }}",
+            "label": "Contact Us",
+            "to": "/contact"
+           }
+          ],
+          "label": "Support"
+         },
+         {
+          "items": [
+           {
+            "icon": "{{ getIcon('lucide-user') }}",
+            "label": "Profile",
+            "to": "/profile"
+           },
+           {
+            "icon": "{{ getIcon('lucide-settings') }}",
+            "label": "Settings",
+            "to": "/settings"
+           }
+          ],
+          "label": "Account"
+         }
+        ]
+       }
+      },
+      {
+       "baseStyles": {
+        "backgroundColor": "var(--surface-gray-1)",
+        "display": "flex",
+        "flex": "1",
+        "flexDirection": "column",
+        "overflowY": "auto"
+       },
+       "blockName": "main",
+       "children": [
+        {
+         "baseStyles": {
+          "alignItems": "center",
+          "backgroundColor": "var(--surface-base)",
+          "borderColor": "var(--outline-gray-2)",
+          "borderStyle": "solid",
+          "borderWidth": "0px 0px 1px 0px",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "padding": "16px 32px"
+         },
+         "blockName": "topbar",
+         "children": [
+          {
+           "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "gap": "8px",
+            "maxWidth": "400px",
+            "width": "100%"
+           },
+           "blockName": "search",
+           "children": [
+            {
+             "baseStyles": {
+              "color": "var(--ink-gray-5)"
+             },
+             "children": [],
+             "classes": [],
+             "componentId": "FeatherIcon-u490d4i9p",
+             "componentName": "FeatherIcon",
+             "componentProps": {
+              "class": "h-4 w-4",
+              "name": "search"
+             }
+            },
+            {
+             "children": [],
+             "classes": [],
+             "componentId": "TextInput-07l41yl51",
+             "componentName": "TextInput",
+             "componentProps": {
+              "placeholder": "Search orders, invoices, tickets..."
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "container-erfuf19oy",
+           "componentName": "container",
+           "originalElement": "div"
+          },
+          {
+           "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "gap": "12px"
+           },
+           "blockName": "topbar-right",
+           "children": [
+            {
+             "children": [],
+             "classes": [],
+             "componentId": "Button-ajydbpbn8",
+             "componentName": "Button",
+             "componentProps": {
+              "icon": "lucide-bell",
+              "variant": "ghost"
+             }
+            },
+            {
+             "children": [],
+             "classes": [],
+             "componentId": "Button-0bsfylbel",
+             "componentName": "Button",
+             "componentProps": {
+              "icon": "lucide-help-circle",
+              "variant": "ghost"
+             }
+            },
+            {
+             "children": [],
+             "classes": [],
+             "componentId": "Avatar-zgpy5dnmb",
+             "componentName": "Avatar",
+             "componentProps": {
+              "image": "",
+              "label": "JD",
+              "shape": "circle",
+              "size": "md"
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "container-wnhaa7k0i",
+           "componentName": "container",
+           "originalElement": "div"
+          }
+         ],
+         "classes": [],
+         "componentId": "container-gud48hjbn",
+         "componentName": "container",
+         "originalElement": "div"
+        },
+        {
+         "baseStyles": {
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "24px",
+          "padding": "32px",
+          "width": "100%"
+         },
+         "blockName": "content",
+         "children": [
+          {
+           "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": "16px",
+            "justifyContent": "space-between"
+           },
+           "blockName": "welcome",
+           "children": [
+            {
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "4px"
+             },
+             "blockName": "welcome-text",
+             "children": [
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-9)",
+                "fontWeight": "600"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-sd0m1pu02",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-2xl",
+                "tag": "h1",
+                "text": "Welcome back, Jordan"
+               }
+              },
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-5)"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-2ghcjee23",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-p-sm",
+                "tag": "p",
+                "text": "Here's what's happening with your account today."
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-q1zt3t78g",
+             "componentName": "container",
+             "originalElement": "div"
+            },
+            {
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "row",
+              "gap": "8px"
+             },
+             "blockName": "welcome-actions",
+             "children": [
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Button-92kuos8bw",
+               "componentName": "Button",
+               "componentProps": {
+                "iconLeft": "lucide-plus",
+                "label": "New Order",
+                "variant": "solid"
+               }
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Button-hfx7i8q0x",
+               "componentName": "Button",
+               "componentProps": {
+                "iconLeft": "lucide-life-buoy",
+                "label": "Raise Ticket",
+                "variant": "outline"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-z8f2q40cs",
+             "componentName": "container",
+             "originalElement": "div"
+            }
+           ],
+           "classes": [],
+           "componentId": "container-xdn2oigoc",
+           "componentName": "container",
+           "originalElement": "div"
+          },
+          {
+           "children": [],
+           "classes": [],
+           "componentId": "Alert-0slv9awoq",
+           "componentName": "Alert",
+           "componentProps": {
+            "description": "Our billing system will undergo maintenance on Sunday 2:00 AM \u2013 4:00 AM UTC.",
+            "theme": "yellow",
+            "title": "Maintenance scheduled"
+           }
+          },
+          {
+           "baseStyles": {
+            "display": "grid",
+            "gap": "16px",
+            "gridTemplateColumns": "repeat(4, minmax(0, 1fr))",
+            "width": "100%"
+           },
+           "blockName": "stats-grid",
+           "children": [
+            {
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.75rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px",
+              "padding": "20px"
+             },
+             "blockName": "stat-card",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "width": "100%"
+               },
+               "blockName": "stat-header",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-5)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-4q2db2fkd",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-sm",
+                  "tag": "p",
+                  "text": "Open Tickets"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-4)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "FeatherIcon-stuwdva6e",
+                 "componentName": "FeatherIcon",
+                 "componentProps": {
+                  "class": "h-4 w-4",
+                  "name": "life-buoy"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-wwd6481kw",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-9)",
+                "fontWeight": "600"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-bdppghxo3",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-3xl",
+                "tag": "h2",
+                "text": "3"
+               }
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Badge-gupmh4ues",
+               "componentName": "Badge",
+               "componentProps": {
+                "label": "1 urgent",
+                "size": "sm",
+                "theme": "red",
+                "variant": "subtle"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-6hix9n5ly",
+             "componentName": "container",
+             "originalElement": "div"
+            },
+            {
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.75rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px",
+              "padding": "20px"
+             },
+             "blockName": "stat-card",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "width": "100%"
+               },
+               "blockName": "stat-header",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-5)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-0v99h272l",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-sm",
+                  "tag": "p",
+                  "text": "Active Orders"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-4)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "FeatherIcon-u6uuhmpl4",
+                 "componentName": "FeatherIcon",
+                 "componentProps": {
+                  "class": "h-4 w-4",
+                  "name": "shopping-bag"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-6n3fxvrog",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-9)",
+                "fontWeight": "600"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-lr3x8wqo1",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-3xl",
+                "tag": "h2",
+                "text": "12"
+               }
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Badge-v2fm0oxpl",
+               "componentName": "Badge",
+               "componentProps": {
+                "label": "2 shipping",
+                "size": "sm",
+                "theme": "blue",
+                "variant": "subtle"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-v1ollepgn",
+             "componentName": "container",
+             "originalElement": "div"
+            },
+            {
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.75rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px",
+              "padding": "20px"
+             },
+             "blockName": "stat-card",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "width": "100%"
+               },
+               "blockName": "stat-header",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-5)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-dv0hne1dq",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-sm",
+                  "tag": "p",
+                  "text": "Unpaid Invoices"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-4)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "FeatherIcon-aisnqkoh4",
+                 "componentName": "FeatherIcon",
+                 "componentProps": {
+                  "class": "h-4 w-4",
+                  "name": "file-text"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-a6ri7x2vi",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-9)",
+                "fontWeight": "600"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-pab9l89vt",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-3xl",
+                "tag": "h2",
+                "text": "$2,480"
+               }
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Badge-ccqhvdeh5",
+               "componentName": "Badge",
+               "componentProps": {
+                "label": "3 overdue",
+                "size": "sm",
+                "theme": "orange",
+                "variant": "subtle"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-pzv1j61ts",
+             "componentName": "container",
+             "originalElement": "div"
+            },
+            {
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.75rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "8px",
+              "padding": "20px"
+             },
+             "blockName": "stat-card",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between",
+                "width": "100%"
+               },
+               "blockName": "stat-header",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-5)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-8whmxx205",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-sm",
+                  "tag": "p",
+                  "text": "Loyalty Points"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-4)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "FeatherIcon-20dppvc8r",
+                 "componentName": "FeatherIcon",
+                 "componentProps": {
+                  "class": "h-4 w-4",
+                  "name": "award"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-lw90z4gw8",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "color": "var(--ink-gray-9)",
+                "fontWeight": "600"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "TextBlock-4qbufszde",
+               "componentName": "TextBlock",
+               "componentProps": {
+                "fontSize": "text-3xl",
+                "tag": "h2",
+                "text": "8,420"
+               }
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "Badge-o71l5pip6",
+               "componentName": "Badge",
+               "componentProps": {
+                "label": "Gold tier",
+                "size": "sm",
+                "theme": "green",
+                "variant": "subtle"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-rry7n4ael",
+             "componentName": "container",
+             "originalElement": "div"
+            }
+           ],
+           "classes": [],
+           "componentId": "container-sbbjbhduo",
+           "componentName": "container",
+           "mobileStyles": {
+            "gridTemplateColumns": "1fr"
+           },
+           "originalElement": "div",
+           "tabletStyles": {
+            "gridTemplateColumns": "repeat(2, minmax(0, 1fr))"
+           }
+          },
+          {
+           "baseStyles": {
+            "display": "grid",
+            "gap": "16px",
+            "gridTemplateColumns": "2fr 1fr",
+            "width": "100%"
+           },
+           "blockName": "panels",
+           "children": [
+            {
+             "baseStyles": {
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.75rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "16px",
+              "padding": "20px"
+             },
+             "blockName": "orders-panel",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "justifyContent": "space-between"
+               },
+               "blockName": "panel-header",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-9)",
+                  "fontWeight": "600"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-udrl51yuq",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-lg",
+                  "tag": "h3",
+                  "text": "Recent Orders"
+                 }
+                },
+                {
+                 "children": [],
+                 "classes": [],
+                 "componentId": "Button-ktx75cojm",
+                 "componentName": "Button",
+                 "componentProps": {
+                  "iconRight": "lucide-arrow-right",
+                  "label": "View all",
+                  "size": "sm",
+                  "variant": "ghost"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-ht45425gm",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "ListView-0usj2k9q3",
+               "componentName": "ListView",
+               "componentProps": {
+                "columns": [
+                 {
+                  "key": "order",
+                  "label": "Order",
+                  "width": 120
+                 },
+                 {
+                  "key": "items",
+                  "label": "Items",
+                  "width": 200
+                 },
+                 {
+                  "key": "date",
+                  "label": "Date",
+                  "width": 120
+                 },
+                 {
+                  "key": "amount",
+                  "label": "Amount",
+                  "width": 100
+                 },
+                 {
+                  "key": "status",
+                  "label": "Status",
+                  "width": 120
+                 }
+                ],
+                "options": {
+                 "emptyState": {
+                  "description": "No data available",
+                  "title": "No Data"
+                 },
+                 "getRowRoute": null,
+                 "onRowClick": null,
+                 "resizeColumn": false,
+                 "rowHeight": 40,
+                 "selectable": true,
+                 "showTooltip": true
+                },
+                "rowKey": "order",
+                "rows": [
+                 {
+                  "amount": "$1,240",
+                  "date": "Oct 12, 2024",
+                  "items": "Ergonomic Chair, Desk Lamp",
+                  "order": "#ORD-10482",
+                  "status": "Shipped"
+                 },
+                 {
+                  "amount": "$129",
+                  "date": "Oct 08, 2024",
+                  "items": "Wireless Keyboard",
+                  "order": "#ORD-10476",
+                  "status": "Delivered"
+                 },
+                 {
+                  "amount": "$84",
+                  "date": "Oct 01, 2024",
+                  "items": "Monitor Stand, Cable Kit",
+                  "order": "#ORD-10461",
+                  "status": "Delivered"
+                 },
+                 {
+                  "amount": "$649",
+                  "date": "Sep 24, 2024",
+                  "items": "Standing Desk",
+                  "order": "#ORD-10449",
+                  "status": "Processing"
+                 },
+                 {
+                  "amount": "$149",
+                  "date": "Sep 18, 2024",
+                  "items": "Webcam HD 1080p",
+                  "order": "#ORD-10432",
+                  "status": "Delivered"
+                 }
+                ]
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "container-wrsd6jqv3",
+             "componentName": "container",
+             "originalElement": "div"
+            },
+            {
+             "baseStyles": {
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "16px"
+             },
+             "blockName": "side-stack",
+             "children": [
+              {
+               "baseStyles": {
+                "backgroundColor": "var(--surface-base)",
+                "borderColor": "var(--outline-gray-2)",
+                "borderRadius": "0.75rem",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "12px",
+                "padding": "20px"
+               },
+               "blockName": "tickets-panel",
+               "children": [
+                {
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "justifyContent": "space-between"
+                 },
+                 "blockName": "panel-header",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-9)",
+                    "fontWeight": "600"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-tx92yq4aw",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-lg",
+                    "tag": "h3",
+                    "text": "Support Tickets"
+                   }
+                  },
+                  {
+                   "children": [],
+                   "classes": [],
+                   "componentId": "Button-wjuhcf222",
+                   "componentName": "Button",
+                   "componentProps": {
+                    "icon": "lucide-plus",
+                    "size": "sm",
+                    "variant": "ghost"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-kp1yvbicm",
+                 "componentName": "container",
+                 "originalElement": "div"
+                },
+                {
+                 "baseStyles": {
+                  "backgroundColor": "var(--surface-gray-1)",
+                  "borderRadius": "0.5rem",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "6px",
+                  "padding": "12px"
+                 },
+                 "blockName": "ticket",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between"
+                   },
+                   "blockName": "ticket-row",
+                   "children": [
+                    {
+                     "baseStyles": {
+                      "color": "var(--ink-gray-9)",
+                      "fontWeight": "500"
+                     },
+                     "children": [],
+                     "classes": [],
+                     "componentId": "TextBlock-bzwe6dlrf",
+                     "componentName": "TextBlock",
+                     "componentProps": {
+                      "fontSize": "text-sm",
+                      "tag": "p",
+                      "text": "Invoice discrepancy"
+                     }
+                    },
+                    {
+                     "children": [],
+                     "classes": [],
+                     "componentId": "Badge-tlh5uewdv",
+                     "componentName": "Badge",
+                     "componentProps": {
+                      "label": "Open",
+                      "size": "sm",
+                      "theme": "orange",
+                      "variant": "subtle"
+                     }
+                    }
+                   ],
+                   "classes": [],
+                   "componentId": "container-k6wqophqg",
+                   "componentName": "container",
+                   "originalElement": "div"
+                  },
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-5)"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-jt8zsg4vx",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-xs",
+                    "tag": "p",
+                    "text": "#TKT-8821 \u00b7 Updated 2h ago"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-2ewbmddr6",
+                 "componentName": "container",
+                 "originalElement": "div"
+                },
+                {
+                 "baseStyles": {
+                  "backgroundColor": "var(--surface-gray-1)",
+                  "borderRadius": "0.5rem",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "6px",
+                  "padding": "12px"
+                 },
+                 "blockName": "ticket",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between"
+                   },
+                   "blockName": "ticket-row",
+                   "children": [
+                    {
+                     "baseStyles": {
+                      "color": "var(--ink-gray-9)",
+                      "fontWeight": "500"
+                     },
+                     "children": [],
+                     "classes": [],
+                     "componentId": "TextBlock-l9bul7zih",
+                     "componentName": "TextBlock",
+                     "componentProps": {
+                      "fontSize": "text-sm",
+                      "tag": "p",
+                      "text": "Login issues on mobile"
+                     }
+                    },
+                    {
+                     "children": [],
+                     "classes": [],
+                     "componentId": "Badge-iaj313hdu",
+                     "componentName": "Badge",
+                     "componentProps": {
+                      "label": "Awaiting you",
+                      "size": "sm",
+                      "theme": "blue",
+                      "variant": "subtle"
+                     }
+                    }
+                   ],
+                   "classes": [],
+                   "componentId": "container-nclwna7qw",
+                   "componentName": "container",
+                   "originalElement": "div"
+                  },
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-5)"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-w009j13vg",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-xs",
+                    "tag": "p",
+                    "text": "#TKT-8804 \u00b7 Updated yesterday"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-qivyl6kxb",
+                 "componentName": "container",
+                 "originalElement": "div"
+                },
+                {
+                 "baseStyles": {
+                  "backgroundColor": "var(--surface-gray-1)",
+                  "borderRadius": "0.5rem",
+                  "display": "flex",
+                  "flexDirection": "column",
+                  "gap": "6px",
+                  "padding": "12px"
+                 },
+                 "blockName": "ticket",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "alignItems": "center",
+                    "display": "flex",
+                    "flexDirection": "row",
+                    "justifyContent": "space-between"
+                   },
+                   "blockName": "ticket-row",
+                   "children": [
+                    {
+                     "baseStyles": {
+                      "color": "var(--ink-gray-9)",
+                      "fontWeight": "500"
+                     },
+                     "children": [],
+                     "classes": [],
+                     "componentId": "TextBlock-88mumdu8j",
+                     "componentName": "TextBlock",
+                     "componentProps": {
+                      "fontSize": "text-sm",
+                      "tag": "p",
+                      "text": "API rate limit increase"
+                     }
+                    },
+                    {
+                     "children": [],
+                     "classes": [],
+                     "componentId": "Badge-ra40vysx4",
+                     "componentName": "Badge",
+                     "componentProps": {
+                      "label": "Resolved",
+                      "size": "sm",
+                      "theme": "green",
+                      "variant": "subtle"
+                     }
+                    }
+                   ],
+                   "classes": [],
+                   "componentId": "container-0c4uz9xk0",
+                   "componentName": "container",
+                   "originalElement": "div"
+                  },
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-5)"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-mk7mm39gc",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-xs",
+                    "tag": "p",
+                    "text": "#TKT-8770 \u00b7 Closed Oct 05"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-o41kl3t5a",
+                 "componentName": "container",
+                 "originalElement": "div"
+                }
+               ],
+               "classes": [],
+               "componentId": "container-aoloee4vj",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "backgroundColor": "var(--surface-blue-1)",
+                "borderColor": "var(--outline-blue-1)",
+                "borderRadius": "0.75rem",
+                "borderStyle": "solid",
+                "borderWidth": "1px",
+                "display": "flex",
+                "flexDirection": "column",
+                "gap": "12px",
+                "padding": "20px"
+               },
+               "blockName": "subscription-panel",
+               "children": [
+                {
+                 "baseStyles": {
+                  "alignItems": "center",
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "gap": "8px"
+                 },
+                 "blockName": "sub-header",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-7)"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "FeatherIcon-mje8oclgi",
+                   "componentName": "FeatherIcon",
+                   "componentProps": {
+                    "class": "h-4 w-4",
+                    "name": "credit-card"
+                   }
+                  },
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-9)",
+                    "fontWeight": "600"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-y5v1hwtif",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-lg",
+                    "tag": "h3",
+                    "text": "Current Plan"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-kk7q2uip0",
+                 "componentName": "container",
+                 "originalElement": "div"
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-9)",
+                  "fontWeight": "700"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-0h9eokvzh",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-2xl",
+                  "tag": "p",
+                  "text": "Business Pro"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-6)"
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-cfif01s6s",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-sm",
+                  "tag": "p",
+                  "text": "$49/month \u00b7 Renews Nov 14, 2024"
+                 }
+                },
+                {
+                 "children": [],
+                 "classes": [],
+                 "componentId": "Progress-feeu6zm24",
+                 "componentName": "Progress",
+                 "componentProps": {
+                  "label": "72% of monthly quota used",
+                  "size": "sm",
+                  "value": 72
+                 }
+                },
+                {
+                 "children": [],
+                 "classes": [],
+                 "componentId": "Button-swvz1xzzw",
+                 "componentName": "Button",
+                 "componentProps": {
+                  "label": "Manage subscription",
+                  "size": "sm",
+                  "variant": "outline"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-mjkvcvu68",
+               "componentName": "container",
+               "originalElement": "div"
+              }
+             ],
+             "classes": [],
+             "componentId": "container-pjn9mbsi8",
+             "componentName": "container",
+             "originalElement": "div"
+            }
+           ],
+           "classes": [],
+           "componentId": "container-a5408luam",
+           "componentName": "container",
+           "mobileStyles": {
+            "gridTemplateColumns": "1fr"
+           },
+           "originalElement": "div",
+           "tabletStyles": {
+            "gridTemplateColumns": "1fr"
+           }
+          }
+         ],
+         "classes": [],
+         "componentId": "container-9l52ugyf9",
+         "componentName": "container",
+         "originalElement": "div"
+        }
+       ],
+       "classes": [],
+       "componentId": "container-9gwx8tjd2",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-3f36c66lf",
+     "componentName": "container",
+     "originalElement": "div"
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-05 12:18:02.215768",
+ "modified_by": "Administrator",
+ "name": "my_page_3",
+ "owner": "Administrator",
+ "page_name": "page-1c3abad6",
+ "page_title": "My Page-3",
+ "resources": [],
+ "route": "/my-page-3-9fee",
+ "studio_app": "helpdesk",
+ "variables": []
+}

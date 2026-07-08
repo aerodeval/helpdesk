@@ -1,0 +1,231 @@
+{
+ "blocks": [],
+ "creation": "2026-07-05 12:13:54.959961",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "row",
+    "flexShrink": 0,
+    "height": "100%",
+    "overflowX": "hidden",
+    "position": "static",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "children": [],
+     "classes": [],
+     "componentId": "Sidebar-yp2bdkviq",
+     "componentName": "Sidebar",
+     "componentProps": {
+      "collapsed": null,
+      "header": {
+       "menuItems": [
+        {
+         "icon": "{{ getIcon('circle-question-mark') }}",
+         "label": "Help",
+         "onClick": "() => alert(\"Help clicked!\")",
+         "to": "/help"
+        },
+        {
+         "icon": "{{ getIcon('log-out') }}",
+         "label": "Logout",
+         "onClick": "() => alert(\"Logging out...\")",
+         "to": "/log-out"
+        }
+       ],
+       "subtitle": "Jane Doe",
+       "title": "Frappe"
+      },
+      "sections": [
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('bell') }}",
+          "label": "Notifications",
+          "to": ""
+         }
+        ],
+        "label": ""
+       },
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('house') }}",
+          "label": "Home",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('user-pen') }}",
+          "label": "Profile",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('settings') }}",
+          "label": "Settings",
+          "to": ""
+         }
+        ],
+        "label": ""
+       }
+      ]
+     }
+    },
+    {
+     "baseStyles": {
+      "borderColor": "var(--outline-gray-2",
+      "borderStyle": "solid",
+      "borderWidth": "1px",
+      "display": "flex",
+      "flexDirection": "column",
+      "flexShrink": 1,
+      "gap": "10px",
+      "height": "200px",
+      "padding": "10px",
+      "position": "static",
+      "width": "100%"
+     },
+     "blockName": "container",
+     "children": [
+      {
+       "baseStyles": {
+        "backgroundColor": "var(--surface-base)",
+        "borderColor": "var(--outline-gray-1)",
+        "borderStyle": "solid",
+        "borderWidth": "0px 0px 1px 0px",
+        "display": "flex",
+        "flexDirection": "row",
+        "height": "fit-content",
+        "padding": "10px 12px",
+        "width": "100%"
+       },
+       "blockName": "header",
+       "children": [
+        {
+         "children": [],
+         "classes": [],
+         "componentId": "Breadcrumbs-lhhvtbjsj",
+         "componentName": "Breadcrumbs",
+         "componentProps": {
+          "items": [
+           {
+            "label": "Home",
+            "route": {
+             "name": "Home"
+            }
+           },
+           {
+            "label": "List",
+            "route": "/list"
+           }
+          ]
+         }
+        },
+        {
+         "baseStyles": {
+          "marginLeft": "auto"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "Button-mkomv91d2",
+         "componentName": "Button",
+         "componentProps": {
+          "disabled": false,
+          "iconLeft": "plus",
+          "label": "Create",
+          "loading": false,
+          "size": "sm",
+          "theme": "gray",
+          "type": "button",
+          "variant": "solid"
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "header-6m1rowsl1",
+       "componentName": "header",
+       "originalElement": "header"
+      },
+      {
+       "children": [],
+       "classes": [],
+       "componentId": "ListView-llyeonuuz",
+       "componentName": "ListView",
+       "componentProps": {
+        "columns": [
+         {
+          "key": "name",
+          "label": "Name",
+          "width": 3
+         },
+         {
+          "key": "email",
+          "label": "Email",
+          "width": "200px"
+         },
+         {
+          "key": "role",
+          "label": "Role"
+         },
+         {
+          "key": "status",
+          "label": "Status"
+         }
+        ],
+        "options": {
+         "emptyState": {
+          "description": "No data available",
+          "title": "No Data"
+         },
+         "getRowRoute": null,
+         "onRowClick": null,
+         "resizeColumn": false,
+         "rowHeight": 40,
+         "selectable": true,
+         "showTooltip": true
+        },
+        "rowKey": "id",
+        "rows": "{{ user.data }}"
+       }
+      }
+     ],
+     "classes": [],
+     "componentId": "container-uqqgn7ee7",
+     "componentName": "container",
+     "originalElement": "div"
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-05 12:18:02.215768",
+ "modified_by": "Administrator",
+ "name": "home",
+ "owner": "Administrator",
+ "page_name": "page-47a04b66",
+ "page_title": "Home",
+ "resources": [
+  {
+   "auto": 1,
+   "document_type": "User",
+   "fields": "[\"enabled\",\"email\",\"first_name\",\"middle_name\",\"last_name\",\"full_name\",\"username\",\"language\",\"time_zone\",\"send_welcome_email\",\"unsubscribed\",\"user_image\",\"role_profile_name\",\"role_profiles\",\"roles\",\"module_profile\",\"block_modules\",\"home_settings\",\"gender\",\"birth_date\",\"interest\",\"phone\",\"location\",\"bio\",\"mobile_no\",\"mute_sounds\",\"desk_theme\",\"code_editor_type\",\"search_bar\",\"notifications\",\"bulk_actions\",\"list_sidebar\",\"view_switcher\",\"form_sidebar\",\"form_navigation_buttons\",\"timeline\",\"dashboard\",\"show_absolute_datetime_in_timeline\",\"new_password\",\"logout_all_sessions\",\"reset_password_key\",\"last_reset_password_key_generated_on\",\"last_password_reset_date\",\"redirect_url\",\"document_follow_notify\",\"document_follow_frequency\",\"follow_created_documents\",\"follow_commented_documents\",\"follow_liked_documents\",\"follow_assigned_documents\",\"follow_shared_documents\",\"email_signature\",\"thread_notify\",\"send_me_a_copy\",\"allowed_in_mentions\",\"user_emails\",\"default_workspace\",\"default_app\",\"defaults\",\"simultaneous_sessions\",\"restrict_ip\",\"last_ip\",\"login_after\",\"user_type\",\"last_active\",\"login_before\",\"bypass_restrict_ip_check_if_2fa_enabled\",\"last_login\",\"last_known_versions\",\"social_logins\",\"api_key\",\"api_secret\",\"onboarding_status\",\"active_sessions\",\"name\"]",
+   "filters": "{}",
+   "method": "GET",
+   "params": "{}",
+   "resource_name": "user",
+   "resource_type": "Document List",
+   "whitelisted_methods": "[]"
+  }
+ ],
+ "route": "/home",
+ "studio_app": "helpdesk",
+ "variables": []
+}

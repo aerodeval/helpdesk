@@ -1,0 +1,404 @@
+{
+ "blocks": [],
+ "creation": "2026-07-05 12:13:55.004948",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "row",
+    "flexShrink": 0,
+    "height": "100%",
+    "overflowX": "hidden",
+    "position": "static",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "children": [],
+     "classes": [],
+     "componentId": "Sidebar-m7ekz1ndv",
+     "componentName": "Sidebar",
+     "componentProps": {
+      "collapsed": null,
+      "header": {
+       "menuItems": [
+        {
+         "icon": "{{ getIcon('circle-question-mark') }}",
+         "label": "Help",
+         "onClick": "() => alert(\"Help clicked!\")",
+         "to": "/help"
+        },
+        {
+         "icon": "{{ getIcon('log-out') }}",
+         "label": "Logout",
+         "onClick": "() => alert(\"Logging out...\")",
+         "to": "/log-out"
+        }
+       ],
+       "subtitle": "Jane Doe",
+       "title": "Frappe"
+      },
+      "sections": [
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('bell') }}",
+          "label": "Notifications",
+          "to": ""
+         }
+        ],
+        "label": ""
+       },
+       {
+        "items": [
+         {
+          "icon": "{{ getIcon('house') }}",
+          "label": "Home",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('user-pen') }}",
+          "label": "Profile",
+          "to": ""
+         },
+         {
+          "icon": "{{ getIcon('settings') }}",
+          "label": "Settings",
+          "to": ""
+         }
+        ],
+        "label": ""
+       }
+      ]
+     }
+    },
+    {
+     "baseStyles": {
+      "position": "static"
+     },
+     "children": [],
+     "classes": [],
+     "componentId": "Dialog-m097vsaro",
+     "componentName": "Dialog",
+     "componentProps": {
+      "actions": [
+       {
+        "label": "Confirm",
+        "onClick": "() => {}",
+        "variant": "solid"
+       }
+      ],
+      "bare": false,
+      "dismissible": true,
+      "message": "Are you sure you want to confirm this action?",
+      "modelValue": {
+       "$type": "variable",
+       "name": "showDialog"
+      },
+      "showCloseButton": true,
+      "size": "lg",
+      "title": "Confirm"
+     },
+     "componentSlots": {
+      "body-content": {
+       "parentBlockId": "Dialog-m097vsaro",
+       "slotContent": [
+        {
+         "attributes": {},
+         "baseStyles": {
+          "display": "flex",
+          "flexDirection": "column",
+          "flexShrink": 1,
+          "gap": "27px",
+          "height": "200px",
+          "position": "static",
+          "width": "100%"
+         },
+         "blockName": "container",
+         "children": [
+          {
+           "attributes": {},
+           "baseStyles": {},
+           "children": [],
+           "classes": [],
+           "componentEvents": {},
+           "componentId": "TextInput-6dxp1kfyx",
+           "componentName": "TextInput",
+           "componentProps": {
+            "placeholder": "Enter your name",
+            "size": "sm",
+            "type": "text",
+            "variant": "subtle"
+           },
+           "componentSlots": {},
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "attributes": {},
+           "baseStyles": {},
+           "children": [],
+           "classes": [],
+           "componentEvents": {},
+           "componentId": "TextInput-5nxkuaeck",
+           "componentName": "TextInput",
+           "componentProps": {
+            "placeholder": "Enter your name",
+            "size": "sm",
+            "type": "text",
+            "variant": "subtle"
+           },
+           "componentSlots": {},
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "attributes": {},
+           "baseStyles": {},
+           "children": [],
+           "classes": [],
+           "componentEvents": {},
+           "componentId": "TextInput-9fgn065nt",
+           "componentName": "TextInput",
+           "componentProps": {
+            "placeholder": "Enter your name",
+            "size": "sm",
+            "type": "text",
+            "variant": "subtle"
+           },
+           "componentSlots": {},
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          },
+          {
+           "attributes": {},
+           "baseStyles": {},
+           "children": [],
+           "classes": [],
+           "componentEvents": {},
+           "componentId": "TextInput-6ga6tkfqc",
+           "componentName": "TextInput",
+           "componentProps": {
+            "placeholder": "Enter your name",
+            "size": "sm",
+            "type": "text",
+            "variant": "subtle"
+           },
+           "componentSlots": {},
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
+          }
+         ],
+         "classes": [],
+         "componentEvents": {},
+         "componentId": "container-7ie98jk8u",
+         "componentName": "container",
+         "componentProps": {},
+         "componentSlots": {},
+         "mobileStyles": {},
+         "originalElement": "div",
+         "parentSlotName": "body-content",
+         "rawStyles": {},
+         "tabletStyles": {}
+        }
+       ],
+       "slotId": "Dialog-m097vsaro:body-content",
+       "slotName": "body-content"
+      }
+     }
+    },
+    {
+     "baseStyles": {
+      "alignItems": "flex-start",
+      "borderColor": "var(--outline-gray-2",
+      "borderStyle": "solid",
+      "borderWidth": "1px",
+      "display": "flex",
+      "flexDirection": "column",
+      "flexShrink": 1,
+      "gap": "10px",
+      "justifyContent": "flex-start",
+      "position": "static",
+      "width": "100%"
+     },
+     "blockName": "container",
+     "children": [
+      {
+       "baseStyles": {
+        "backgroundColor": "var(--surface-base)",
+        "borderColor": "var(--outline-gray-1)",
+        "borderStyle": "solid",
+        "borderWidth": "0px 0px 1px 0px",
+        "display": "flex",
+        "flexDirection": "row",
+        "height": "fit-content",
+        "padding": "10px 12px",
+        "width": "100%"
+       },
+       "blockName": "header",
+       "children": [
+        {
+         "children": [],
+         "classes": [],
+         "componentId": "Breadcrumbs-azjaxdiu7",
+         "componentName": "Breadcrumbs",
+         "componentProps": {
+          "items": [
+           {
+            "label": "Home",
+            "route": {
+             "name": "Home"
+            }
+           },
+           {
+            "label": "List",
+            "route": "/components/breadcrumbs"
+           }
+          ]
+         }
+        },
+        {
+         "baseStyles": {
+          "marginLeft": "auto"
+         },
+         "children": [],
+         "classes": [],
+         "componentEvents": {
+          "click": {
+           "action": "Run Script",
+           "event": "click",
+           "oldEvent": "click",
+           "script": "showCreateDialog.value = true"
+          }
+         },
+         "componentId": "Button-p6na9dvj1",
+         "componentName": "Button",
+         "componentProps": {
+          "disabled": false,
+          "iconLeft": "plus",
+          "label": "{{ btnLabel }}",
+          "loading": false,
+          "size": "sm",
+          "theme": "gray",
+          "type": "button",
+          "variant": "solid"
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "header-atkz3mh9k",
+       "componentName": "header",
+       "originalElement": "header"
+      },
+      {
+       "baseStyles": {
+        "display": "flex",
+        "flexDirection": "row",
+        "flexShrink": 1,
+        "height": "100%",
+        "padding": "14px",
+        "width": "100%"
+       },
+       "blockName": "container",
+       "children": [
+        {
+         "children": [],
+         "classes": [],
+         "componentId": "ListView-xtiqdvid2",
+         "componentName": "ListView",
+         "componentProps": {
+          "columns": [
+           {
+            "key": "name",
+            "label": "Name",
+            "width": 3
+           },
+           {
+            "key": "email",
+            "label": "Email",
+            "width": "200px"
+           },
+           {
+            "key": "role",
+            "label": "Role"
+           },
+           {
+            "key": "status",
+            "label": "Status"
+           }
+          ],
+          "options": {
+           "emptyState": {
+            "description": "No data available",
+            "title": "No Data"
+           },
+           "getRowRoute": null,
+           "onRowClick": null,
+           "resizeColumn": false,
+           "rowHeight": 40,
+           "selectable": true,
+           "showTooltip": true
+          },
+          "rowKey": "id",
+          "rows": [
+           {
+            "email": "john@doe.com",
+            "id": 1,
+            "name": "John Doe",
+            "role": "Developer",
+            "status": "Active"
+           },
+           {
+            "email": "jane@doe.com",
+            "id": 2,
+            "name": "Jane Doe",
+            "role": "HR",
+            "status": "Inactive"
+           }
+          ]
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "container-ppw4rld7o",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-f8mu12xat",
+     "componentName": "container",
+     "originalElement": "div"
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-05 14:34:26.418418",
+ "modified_by": "Administrator",
+ "name": "list",
+ "owner": "Administrator",
+ "page_name": "page-dd63c40a",
+ "page_title": "List",
+ "resources": [],
+ "route": "/list",
+ "studio_app": "helpdesk",
+ "variables": [
+  {
+   "initial_value": "false",
+   "variable_name": "showDialog",
+   "variable_type": "Boolean"
+  }
+ ]
+}
