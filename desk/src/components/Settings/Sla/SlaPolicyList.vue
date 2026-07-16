@@ -1,14 +1,14 @@
 <template>
   <div
     v-if="slaPolicyList.list.loading && !slaPolicyList.list.data"
-    class="flex items-center justify-center h-[stretch] absolute w-[stretch] left-0 top-5.5"
+    class="flex items-center justify-center absolute inset-x-0 top-5.5 bottom-0"
   >
     <LoadingIndicator class="w-4" />
   </div>
   <div v-else class="grow">
     <div
       v-if="!slaPolicyList.list.loading && !slaPolicyList.list.data?.length"
-      class="flex items-center justify-center h-[stretch] absolute w-[stretch] left-0 top-5.5"
+      class="flex items-center justify-center absolute inset-x-0 top-5.5 bottom-0"
     >
       <div
         class="p-4 size-14.5 rounded-full bg-surface-gray-1 flex justify-center items-center"
@@ -16,7 +16,7 @@
         <ShieldCheck class="size-6 text-ink-gray-6" />
       </div>
       <div class="flex flex-col items-center gap-1">
-        <div class="text-base font-medium text-ink-gray-6">
+        <div class="text-base-medium text-ink-gray-6">
           {{ __("No SLA found") }}
         </div>
         <div class="text-p-sm text-ink-gray-5 max-w-60 text-center">

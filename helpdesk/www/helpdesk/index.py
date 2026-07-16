@@ -5,6 +5,8 @@ from frappe.utils import cint, get_system_timezone
 from frappe.utils.jinja_globals import is_rtl
 from frappe.utils.telemetry import capture
 
+from helpdesk.utils import get_agent_name
+
 no_cache = 1
 
 
@@ -38,6 +40,7 @@ def get_boot():
             "agent": get_agent_name(),
             "date_format": frappe.get_system_settings("date_format"),
             "time_format": frappe.get_system_settings("time_format"),
+            "default_country": frappe.db.get_default("country"),
             "timezone": {
                 "system": get_system_timezone(),
                 "user": frappe.db.get_value("User", frappe.session.user, "time_zone")
@@ -52,10 +55,3 @@ def get_boot():
 
 def get_default_route():
     return "/helpdesk"
-
-
-def get_agent_name():
-    agent = frappe.db.get_value("HD Agent", {"user": frappe.session.user}, "name")
-    if not agent:
-        return None
-    return agent

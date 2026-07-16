@@ -226,6 +226,15 @@ defineExpose({
   editor: emailEditorRef,
 });
 
+const IGNORED_SELECTORS = [
+  ".tippy-box",
+  ".tippy-content",
+  ".PopoverContent",
+  '[role="dialog"]',
+  '[role="menu"]',
+  ".dialog-overlay",
+];
+
 onClickOutside(
   emailBoxRef,
   () => {
@@ -234,12 +243,7 @@ onClickOutside(
     }
   },
   {
-    ignore: [
-      ".tippy-box",
-      ".tippy-content",
-      ".PopoverContent",
-      '[role="dialog"]',
-    ],
+    ignore: IGNORED_SELECTORS,
   }
 );
 
@@ -251,7 +255,7 @@ onClickOutside(
     }
   },
   {
-    ignore: [".tippy-box", ".tippy-content", ".PopoverContent"],
+    ignore: IGNORED_SELECTORS,
   }
 );
 </script>
