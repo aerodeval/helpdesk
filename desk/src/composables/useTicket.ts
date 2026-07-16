@@ -45,11 +45,12 @@ export const useTicket = (ticketId: string): MapValue => {
         url: "helpdesk.helpdesk.doctype.hd_ticket.api.get_ticket_assignees",
         params: { ticket: ticketId },
         auto: true,
-        transform: (data: string) => {
-          return JSON.parse(data).map((name: string) => ({ name })) as Record<
-            "name",
-            string
-          >[];
+        transform: (data: string | Record<"name", string>[]) => {
+          // newer backend branches return parsed assignee dicts already
+          if (Array.isArray(data)) return data;
+          return JSON.parse(data || "[]").map((name: string) => ({
+            name,
+          })) as Record<"name", string>[];
         },
       }),
       contact: createResource({
