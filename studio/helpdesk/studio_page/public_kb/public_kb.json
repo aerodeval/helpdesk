@@ -170,93 +170,12 @@
          "blockName": "search-container",
          "children": [
           {
-           "blockName": "TextInput",
+           "blockName": "kb-search",
            "children": [],
            "classes": [],
-           "componentEvents": {
-            "update:modelValue": {
-             "action": "Run Script",
-             "event": "update:modelValue",
-             "script": "searchQuery.value = eventArgs[0]"
-            }
-           },
-           "componentId": "TextInput-epbh2gp9a",
-           "componentName": "TextInput",
-           "componentProps": {
-            "modelValue": "{{ searchQuery }}",
-            "placeholder": "Search articles (e.g. billing, integration, or general)",
-            "size": "lg",
-            "type": "text",
-            "variant": "subtle"
-           },
-           "componentSlots": {
-            "prefix": {
-             "parentBlockId": "TextInput-epbh2gp9a",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "color": "var(--ink-gray-4, oklch(0.683 0 0))",
-                "height": "12px",
-                "minHeight": "12px",
-                "width": "NaNpx"
-               },
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "FeatherIcon-8ue4h67m4",
-               "componentName": "FeatherIcon",
-               "componentProps": {
-                "class": "h-6 w-6",
-                "color": "",
-                "name": "search",
-                "strokeWidth": 1.5
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "parentSlotName": "prefix",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-epbh2gp9a:prefix",
-             "slotName": "prefix"
-            },
-            "suffix": {
-             "parentBlockId": "TextInput-epbh2gp9a",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "backgroundColor": "var(--surface-gray-2, oklch(0.964 0 0))",
-                "color": "var(--ink-gray-4, oklch(0.683 0 0))"
-               },
-               "blockName": "Button",
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "Button-p1dnuo27f",
-               "componentName": "Button",
-               "componentProps": {
-                "disabled": true,
-                "label": "Cmd+k",
-                "loading": false,
-                "size": "sm",
-                "theme": "gray",
-                "type": "button",
-                "variant": "outline"
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "parentSlotName": "suffix",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-epbh2gp9a:suffix",
-             "slotName": "suffix"
-            }
-           }
+           "componentId": "KbSearch-search01",
+           "componentName": "KbSearch",
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
@@ -2317,7 +2236,7 @@
      "blockName": "kb-settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-166230177",
+     "componentId": "KbSettings-55248f9c4",
      "componentName": "KbSettings",
      "isCustomVueComponent": true
     }
@@ -2501,93 +2420,12 @@
          "blockName": "search-container",
          "children": [
           {
-           "blockName": "TextInput",
+           "blockName": "kb-search",
            "children": [],
            "classes": [],
-           "componentEvents": {
-            "update:modelValue": {
-             "action": "Run Script",
-             "event": "update:modelValue",
-             "script": "searchQuery.value = eventArgs[0]"
-            }
-           },
-           "componentId": "TextInput-epbh2gp9a",
-           "componentName": "TextInput",
-           "componentProps": {
-            "modelValue": "{{ searchQuery }}",
-            "placeholder": "Search articles (e.g. billing, integration, or general)",
-            "size": "lg",
-            "type": "text",
-            "variant": "subtle"
-           },
-           "componentSlots": {
-            "prefix": {
-             "parentBlockId": "TextInput-epbh2gp9a",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "color": "var(--ink-gray-4, oklch(0.683 0 0))",
-                "height": "12px",
-                "minHeight": "12px",
-                "width": "NaNpx"
-               },
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "FeatherIcon-8ue4h67m4",
-               "componentName": "FeatherIcon",
-               "componentProps": {
-                "class": "h-6 w-6",
-                "color": "",
-                "name": "search",
-                "strokeWidth": 1.5
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "parentSlotName": "prefix",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-epbh2gp9a:prefix",
-             "slotName": "prefix"
-            },
-            "suffix": {
-             "parentBlockId": "TextInput-epbh2gp9a",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "backgroundColor": "var(--surface-gray-2, oklch(0.964 0 0))",
-                "color": "var(--ink-gray-4, oklch(0.683 0 0))"
-               },
-               "blockName": "Button",
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "Button-p1dnuo27f",
-               "componentName": "Button",
-               "componentProps": {
-                "disabled": true,
-                "label": "Cmd+k",
-                "loading": false,
-                "size": "sm",
-                "theme": "gray",
-                "type": "button",
-                "variant": "outline"
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "parentSlotName": "suffix",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-epbh2gp9a:suffix",
-             "slotName": "suffix"
-            }
-           }
+           "componentId": "KbSearch-search01",
+           "componentName": "KbSearch",
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
@@ -4643,6 +4481,14 @@
      "componentName": "container",
      "originalElement": "div",
      "visibilityCondition": "{{ settingsOpen }}"
+    },
+    {
+     "blockName": "kb-settings",
+     "children": [],
+     "classes": [],
+     "componentId": "KbSettings-55248f9c4",
+     "componentName": "KbSettings",
+     "isCustomVueComponent": true
     }
    ],
    "classes": [],
@@ -4653,7 +4499,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-27 22:16:34.248295",
+ "modified": "2026-07-28 11:35:58.346004",
  "modified_by": "Administrator",
  "name": "public_kb",
  "owner": "Administrator",

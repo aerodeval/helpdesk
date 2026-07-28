@@ -1,9 +1,14 @@
-import { t as e } from "./settings-MvlymeDD.js";
-import { M as t, P as n, h as r, l as i } from "./studioRenderer-Dce1CqVj.js";
+import {
+  F as e,
+  M as t,
+  l as n,
+  p as r,
+  t as i,
+} from "./studioRenderer-CDp9bQsF.js";
 function a(a) {
   let { category: o, articles: s, route: c, router: l } = a,
-    u = n(``),
-    d = n(!1);
+    u = e(``),
+    d = e(!1);
   t(
     () => c.params.category,
     (e) => {
@@ -85,8 +90,8 @@ function a(a) {
       ? `<img src="${t}" style="width:100%;height:100%;object-fit:cover" alt="" />`
       : ``;
   }
-  return i(
-    i({}, e()),
+  return n(
+    n({}, i()),
     {},
     {
       navMenuOpen: d,
@@ -104,4 +109,4 @@ function a(a) {
   );
 }
 export { a as default };
-//# sourceMappingURL=category_page_view-CHueFrs9.js.map
+//# sourceMappingURL=category_page_view-CSkMZBHK.js.map

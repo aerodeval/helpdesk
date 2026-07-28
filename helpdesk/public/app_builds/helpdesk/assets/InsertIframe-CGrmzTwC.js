@@ -1,27 +1,27 @@
 import {
-  A as e,
-  C as t,
-  D as n,
-  E as r,
-  F as i,
-  L as a,
-  N as o,
-  O as s,
-  P as c,
-  R as l,
-  S as u,
-  T as d,
-  a as f,
-  b as p,
-  g as m,
-  h,
-  i as g,
-  o as _,
-  p as v,
-  v as y,
-  x as b,
-  y as x,
-} from "./studioRenderer-Dce1CqVj.js";
+  D as e,
+  E as t,
+  F as n,
+  I as r,
+  N as i,
+  R as a,
+  T as o,
+  _ as s,
+  a as c,
+  b as l,
+  d as u,
+  g as d,
+  i as f,
+  k as p,
+  m,
+  o as h,
+  p as g,
+  v as _,
+  w as v,
+  x as y,
+  y as b,
+  z as x,
+} from "./studioRenderer-CDp9bQsF.js";
 var S = [
     `youtube.com`,
     `www.youtube.com`,
@@ -199,20 +199,20 @@ var N = { class: `space-y-4` },
   P = { key: 0, class: `text-red-500 text-sm mt-1` },
   F = { key: 1, class: `text-ink-green-6 text-sm mt-1` },
   I = { class: `flex justify-end space-x-2` },
-  L = u({
+  L = l({
     __name: `InsertIframe`,
     props: { editor: {} },
-    setup(u) {
-      let C = u,
-        k = c(!1),
-        A = c(``),
-        j = c(``),
-        M = c(``),
-        L = c(`center`),
-        R = c(640),
-        z = c(360),
-        B = c(),
-        V = h(() => {
+    setup(l) {
+      let C = l,
+        k = n(!1),
+        A = n(``),
+        j = n(``),
+        M = n(``),
+        L = n(`center`),
+        R = n(640),
+        z = n(360),
+        B = n(),
+        V = g(() => {
           if (!A.value) return !1;
           try {
             if (A.value.trim().startsWith(`<iframe`)) {
@@ -226,7 +226,7 @@ var N = { class: `space-y-4` },
             return !1;
           }
         }),
-        H = h(() => {
+        H = g(() => {
           if (!A.value) return ``;
           if (A.value.trim().startsWith(`<iframe`)) {
             let e = A.value.match(/src=["']([^"']+)["']/);
@@ -234,7 +234,7 @@ var N = { class: `space-y-4` },
           }
           return O(A.value);
         }),
-        U = h(() => {
+        U = g(() => {
           if (!A.value || !V.value)
             return { platform: `Generic`, aspectRatio: 9 / 16 };
           let e = w(H.value),
@@ -244,7 +244,7 @@ var N = { class: `space-y-4` },
             aspectRatio: t.ratio,
           };
         }),
-        W = h(() =>
+        W = g(() =>
           !A.value || !V.value ? { width: 640, height: 360 } : E(H.value, 800)
         );
       function G() {
@@ -261,12 +261,12 @@ var N = { class: `space-y-4` },
           (L.value = `center`),
           (R.value = 640),
           (z.value = 360),
-          d(() => {
+          v(() => {
             var e;
             (e = B.value) == null || (e = e.el) == null || e.focus();
           });
       }
-      h(() => {
+      g(() => {
         if (A.value && V.value) {
           let e = W.value;
           (R.value = e.width), (z.value = e.height);
@@ -290,49 +290,47 @@ var N = { class: `space-y-4` },
         ((t = e.detail) == null ? void 0 : t.editor) === C.editor && K();
       }
       return (
-        r(() => {
+        o(() => {
           C.editor.view.dom.addEventListener(`iframe:open-dialog`, J);
         }),
-        n(() => {
+        t(() => {
           try {
             C.editor.view.dom.removeEventListener(`iframe:open-dialog`, J);
           } catch (e) {}
         }),
-        (n, r) => (
-          s(),
-          x(`div`, null, [
-            e(n.$slots, `default`, a(t({ onClick: K }))),
-            y(` Iframe URL Input Dialog `),
+        (t, n) => (
+          e(),
+          s(`div`, null, [
+            p(t.$slots, `default`, a(y({ onClick: K }))),
+            d(` Iframe URL Input Dialog `),
             b(
-              i(f),
+              r(c),
               {
                 modelValue: k.value,
-                "onUpdate:modelValue": r[2] || (r[2] = (e) => (k.value = e)),
+                "onUpdate:modelValue": n[2] || (n[2] = (e) => (k.value = e)),
                 options: { title: `Insert Embed`, size: `md` },
               },
               {
-                "body-content": o(() => [
+                "body-content": i(() => [
                   m(`div`, N, [
                     m(`div`, null, [
-                      r[3] ||
-                        (r[3] = m(
+                      n[3] ||
+                        (n[3] = m(
                           `label`,
-                          {
-                            class: `block text-sm-medium text-ink-gray-7 mb-2`,
-                          },
+                          { class: `mb-2 block text-base text-ink-gray-5` },
                           ` URL or Embed Code `,
                           -1
                         )),
                       b(
-                        i(g),
+                        r(f),
                         {
                           ref_key: `urlInput`,
                           ref: B,
                           modelValue: A.value,
                           "onUpdate:modelValue":
-                            r[0] || (r[0] = (e) => (A.value = e)),
+                            n[0] || (n[0] = (e) => (A.value = e)),
                           placeholder: `https://youtube.com/watch?v=... or <iframe src=...>`,
-                          onKeydown: v(q, [`enter`]),
+                          onKeydown: u(q, [`enter`]),
                           onInput: G,
                         },
                         null,
@@ -340,44 +338,44 @@ var N = { class: `space-y-4` },
                         [`modelValue`]
                       ),
                       j.value
-                        ? (s(), x(`p`, P, l(j.value), 1))
+                        ? (e(), s(`p`, P, x(j.value), 1))
                         : A.value && V.value
-                        ? (s(),
-                          x(
+                        ? (e(),
+                          s(
                             `p`,
                             F,
-                            ` ✓ Valid ` + l(U.value.platform) + ` URL `,
+                            ` ✓ Valid ` + x(U.value.platform) + ` URL `,
                             1
                           ))
-                        : y(`v-if`, !0),
+                        : d(`v-if`, !0),
                     ]),
                   ]),
                 ]),
-                actions: o(() => [
+                actions: i(() => [
                   m(`div`, I, [
                     b(
-                      i(_),
+                      r(h),
                       {
                         variant: `subtle`,
-                        onClick: r[1] || (r[1] = (e) => (k.value = !1)),
+                        onClick: n[1] || (n[1] = (e) => (k.value = !1)),
                       },
                       {
-                        default: o(() => [
-                          ...(r[4] || (r[4] = [p(`Cancel`, -1)])),
+                        default: i(() => [
+                          ...(n[4] || (n[4] = [_(`Cancel`, -1)])),
                         ]),
                         _: 1,
                       }
                     ),
                     b(
-                      i(_),
+                      r(h),
                       {
                         variant: `solid`,
                         disabled: !A.value || !V.value,
                         onClick: q,
                       },
                       {
-                        default: o(() => [
-                          ...(r[5] || (r[5] = [p(` Insert Embed `, -1)])),
+                        default: i(() => [
+                          ...(n[5] || (n[5] = [_(` Insert Embed `, -1)])),
                         ]),
                         _: 1,
                       },
@@ -397,4 +395,4 @@ var N = { class: `space-y-4` },
     },
   });
 export { L as default };
-//# sourceMappingURL=InsertIframe-DgOovYM7.js.map
+//# sourceMappingURL=InsertIframe-CGrmzTwC.js.map

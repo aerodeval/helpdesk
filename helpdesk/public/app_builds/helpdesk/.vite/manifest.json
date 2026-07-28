@@ -1,67 +1,68 @@
 {
-  "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts": {
-    "file": "assets/article_view-BJF8QeVW.js",
+  "../../../../.worktrees/studio/studio/helpdesk/studio_page/article_view/article_view.ts": {
+    "file": "assets/article_view-Bn71JbdJ.js",
     "name": "article_view",
-    "src": "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts",
-    "isDynamicEntry": true,
-    "imports": [
-      "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-MvlymeDD.js"
-    ]
-  },
-  "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts": {
-    "file": "assets/category_page_view-CHueFrs9.js",
-    "name": "category_page_view",
-    "src": "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
-    "isDynamicEntry": true,
-    "imports": [
-      "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-MvlymeDD.js"
-    ]
-  },
-  "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
-    "file": "assets/customer_tickets-CwXa9RmS.js",
-    "name": "customer_tickets",
-    "src": "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
-    "isDynamicEntry": true,
-    "imports": [
-      "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-MvlymeDD.js"
-    ]
-  },
-  "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts": {
-    "file": "assets/list-C-q6W1sv.js",
-    "name": "list",
-    "src": "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts",
+    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/article_view/article_view.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
-    "file": "assets/public_kb-CGBvSlV-.js",
-    "name": "public_kb",
-    "src": "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts",
+  "../../../../.worktrees/studio/studio/helpdesk/studio_page/category_page_view/category_page_view.ts": {
+    "file": "assets/category_page_view-CSkMZBHK.js",
+    "name": "category_page_view",
+    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
     "isDynamicEntry": true,
     "imports": [
-      "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-MvlymeDD.js"
+      "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
+  "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
+    "file": "assets/customer_tickets-bTs3eblx.js",
+    "name": "customer_tickets",
+    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts": {
+    "file": "assets/list-CqqHJAIl.js",
+    "name": "list",
+    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
+    "file": "assets/public_kb-Cwj2X5LL.js",
+    "name": "public_kb",
+    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js"
+    ]
+  },
+  "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg": {
+    "file": "assets/spritesheet-DpIxuf5L.svg",
+    "src": "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg"
+  },
   "../../.temp-app-renderers/renderer-helpdesk.js": {
-    "file": "assets/studioRenderer-Dce1CqVj.js",
+    "file": "assets/studioRenderer-CDp9bQsF.js",
     "name": "studioRenderer",
     "src": "../../.temp-app-renderers/renderer-helpdesk.js",
     "isEntry": true,
     "dynamicImports": [
-      "../../../helpdesk/studio/helpdesk/studio_page/article_view/article_view.ts",
-      "../../../helpdesk/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
-      "../../../helpdesk/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
-      "../../../helpdesk/studio/helpdesk/studio_page/list/list.ts",
-      "../../../helpdesk/studio/helpdesk/studio_page/public_kb/public_kb.ts"
+      "components/ProxyComponents/ProxyDialog.vue",
+      "../../../../.worktrees/studio/studio/helpdesk/studio_page/article_view/article_view.ts",
+      "../../../../.worktrees/studio/studio/helpdesk/studio_page/category_page_view/category_page_view.ts",
+      "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+      "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts",
+      "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts"
     ],
     "css": [
-      "assets/studioRenderer-BR1iLz-X.css"
+      "assets/studioRenderer-uzvRPVDJ.css"
     ],
     "assets": [
       "assets/Inter.var-C9xDBOS3.woff2",
@@ -69,7 +70,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue": {
-    "file": "assets/FontColor-DyhRTlRc.js",
+    "file": "assets/FontColor-DLwALtqx.js",
     "name": "FontColor",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue",
     "isDynamicEntry": true,
@@ -78,7 +79,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue": {
-    "file": "assets/InsertIframe-DgOovYM7.js",
+    "file": "assets/InsertIframe-CGrmzTwC.js",
     "name": "InsertIframe",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue",
     "isDynamicEntry": true,
@@ -94,9 +95,11 @@
     "file": "assets/Inter.var-C9xDBOS3.woff2",
     "src": "../../node_modules/frappe-ui/src/fonts/Inter/Inter.var.woff2"
   },
-  "_settings-MvlymeDD.js": {
-    "file": "assets/settings-MvlymeDD.js",
-    "name": "settings",
+  "components/ProxyComponents/ProxyDialog.vue": {
+    "file": "assets/ProxyDialog-BF-fmxTb.js",
+    "name": "ProxyDialog",
+    "src": "components/ProxyComponents/ProxyDialog.vue",
+    "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]

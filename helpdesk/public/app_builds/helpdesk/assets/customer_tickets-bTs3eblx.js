@@ -1,5 +1,10 @@
-import { t as e } from "./settings-MvlymeDD.js";
-import { P as t, h as n, l as r, w as i } from "./studioRenderer-Dce1CqVj.js";
+import {
+  F as e,
+  S as t,
+  l as n,
+  p as r,
+  t as i,
+} from "./studioRenderer-CDp9bQsF.js";
 var a = {
     Open: `#f59e0b`,
     New: `#f59e0b`,
@@ -11,7 +16,7 @@ var a = {
   o = { Low: `#9ca3af`, Medium: `#f59e0b`, High: `#ef4444`, Urgent: `#ef4444` };
 function s(s) {
   let { tickets: c } = s,
-    l = t(!1);
+    l = e(!1);
   function u(e) {
     try {
       let t = JSON.parse(e || `[]`);
@@ -39,7 +44,7 @@ function s(s) {
       r = t % 60;
     return n >= 24 ? `${Math.floor(n / 24)}d ${n % 24}h` : `${n}h ${r}m`;
   }
-  let p = n(() =>
+  let p = r(() =>
       (c.data || []).map((e) => {
         let t = u(e._assign),
           n = Math.round((e.feedback_rating || 0) * 5);
@@ -62,12 +67,12 @@ function s(s) {
         };
       })
     ),
-    m = n(() => {
+    m = r(() => {
       var e;
       return ((e = c.data) == null ? void 0 : e.length) || 0;
     }),
     h = (e) =>
-      i(`div`, {
+      t(`div`, {
         style: {
           width: `8px`,
           height: `8px`,
@@ -78,7 +83,7 @@ function s(s) {
       }),
     g = (e) =>
       e
-        ? i(
+        ? t(
             `span`,
             {
               style: {
@@ -94,7 +99,7 @@ function s(s) {
           )
         : null,
     _ = (e) =>
-      i(`div`, {
+      t(`div`, {
         style: {
           width: `3px`,
           height: `12px`,
@@ -104,7 +109,7 @@ function s(s) {
         },
       }),
     v = (e) =>
-      i(
+      t(
         `div`,
         {
           style: {
@@ -123,11 +128,11 @@ function s(s) {
         e
       ),
     y = (e) =>
-      i(
+      t(
         `div`,
         { style: { display: `flex`, gap: `1px` } },
         e.map((e) =>
-          i(
+          t(
             `span`,
             {
               style: {
@@ -140,7 +145,7 @@ function s(s) {
           )
         )
       );
-  return r(
+  return n(
     {
       navMenuOpen: l,
       rows: p,
@@ -223,8 +228,8 @@ function s(s) {
         },
       },
     },
-    e()
+    i()
   );
 }
 export { s as default };
-//# sourceMappingURL=customer_tickets-CwXa9RmS.js.map
+//# sourceMappingURL=customer_tickets-bTs3eblx.js.map

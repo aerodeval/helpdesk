@@ -1,11 +1,11 @@
-import { t as e } from "./settings-MvlymeDD.js";
 import {
+  F as e,
   M as t,
-  P as n,
-  f as r,
-  h as i,
-  l as a,
-} from "./studioRenderer-Dce1CqVj.js";
+  l as n,
+  p as r,
+  t as i,
+  u as a,
+} from "./studioRenderer-CDp9bQsF.js";
 function o(o) {
   let {
     categories: s,
@@ -27,7 +27,7 @@ function o(o) {
           year: `numeric`,
         });
   }
-  let h = i(() => {
+  let h = r(() => {
       var e;
       let t = ((e = l.doc) == null ? void 0 : e.content) || ``,
         n = new DOMParser().parseFromString(t, `text/html`),
@@ -44,9 +44,9 @@ function o(o) {
         });
       return { html: n.body.innerHTML, toc: r };
     }),
-    g = i(() => h.value.html),
-    _ = i(() => h.value.toc),
-    v = i(() => {
+    g = r(() => h.value.html),
+    _ = r(() => h.value.toc),
+    v = r(() => {
       let e = u.params.name,
         t = s.data || [],
         n = c.data || [];
@@ -62,7 +62,7 @@ function o(o) {
           })),
       }));
     }),
-    y = i(() => {
+    y = r(() => {
       let e = l.doc;
       return e
         ? (c.data || [])
@@ -70,15 +70,15 @@ function o(o) {
             .slice(0, 6)
         : [];
     }),
-    b = n(null),
-    x = n(null),
-    S = n(null);
+    b = e(null),
+    x = e(null),
+    S = e(null);
   function C(e) {
     return w.apply(this, arguments);
   }
   function w() {
     return (
-      (w = r(function* (e) {
+      (w = a(function* (e) {
         if (((b.value = null), (x.value = null), e))
           try {
             S.value = yield f(`frappe.auth.get_logged_user`);
@@ -107,7 +107,7 @@ function o(o) {
   }
   function E() {
     return (
-      (E = r(function* (e) {
+      (E = a(function* (e) {
         var t;
         let n = (t = l.doc) == null ? void 0 : t.name;
         if (n) {
@@ -139,18 +139,18 @@ function o(o) {
       E.apply(this, arguments)
     );
   }
-  let D = n(!1),
-    O = n(``),
-    k = n(`Question`),
-    A = n(``),
-    j = n(``),
-    M = n(`Low`);
+  let D = e(!1),
+    O = e(``),
+    k = e(`Question`),
+    A = e(``),
+    j = e(``),
+    M = e(`Low`);
   function N() {
     return P.apply(this, arguments);
   }
   function P() {
     return (
-      (P = r(function* () {
+      (P = a(function* () {
         if (!O.value) {
           p.error(`Please enter a subject`);
           return;
@@ -177,7 +177,7 @@ function o(o) {
       P.apply(this, arguments)
     );
   }
-  let F = n({});
+  let F = e({});
   function I(e) {
     let t = v.value.find((t) => t.name === e);
     return t ? t.children.some((e) => e.isActive) : !1;
@@ -186,11 +186,11 @@ function o(o) {
     return e in F.value ? F.value[e] : I(e);
   }
   function R(e) {
-    F.value = a(a({}, F.value), {}, { [e]: !L(e) });
+    F.value = n(n({}, F.value), {}, { [e]: !L(e) });
   }
-  let z = n(!1);
-  return a(
-    a({}, e()),
+  let z = e(!1);
+  return n(
+    n({}, i()),
     {},
     {
       formatDate: m,
@@ -214,4 +214,4 @@ function o(o) {
   );
 }
 export { o as default };
-//# sourceMappingURL=article_view-BJF8QeVW.js.map
+//# sourceMappingURL=article_view-Bn71JbdJ.js.map

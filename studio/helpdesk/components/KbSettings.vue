@@ -39,7 +39,7 @@
           description="How you appear across the knowledge base."
         />
         <SettingsBody>
-          <div class="flex max-w-md flex-col gap-6">
+          <div class="flex max-w-md flex-col gap-6 pt-8">
             <div class="flex items-center gap-4">
               <Avatar
                 :image="settingsUser.image"

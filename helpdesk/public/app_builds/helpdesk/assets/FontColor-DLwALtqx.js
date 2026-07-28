@@ -1,24 +1,24 @@
 import {
   A as e,
-  C as t,
-  I as n,
-  L as r,
-  N as i,
-  O as a,
+  D as t,
+  L as n,
+  N as r,
+  O as i,
+  R as a,
   _ as o,
-  c as s,
-  g as c,
-  j as l,
-  k as u,
-  m as d,
+  f as s,
+  h as c,
+  k as l,
+  m as u,
+  n as d,
   r as f,
   s as p,
-  y as m,
-} from "./studioRenderer-Dce1CqVj.js";
+  x as m,
+} from "./studioRenderer-CDp9bQsF.js";
 var h = {
     name: `FontColor`,
     props: [`editor`],
-    components: { Popover: s, Tooltip: f },
+    components: { Popover: f, Tooltip: d },
     methods: {
       setBackgroundColor(e) {
         e.name == `Default`
@@ -116,42 +116,42 @@ var h = {
   v = [`aria-label`, `onClick`],
   y = { class: `mt-1 grid grid-cols-6 gap-1` },
   b = [`aria-label`, `onClick`];
-function x(s, f, p, h, x, S) {
-  let C = l(`Tooltip`),
-    w = l(`Popover`);
+function x(d, f, p, h, x, S) {
+  let C = e(`Tooltip`),
+    w = e(`Popover`);
   return (
-    a(),
-    o(
+    t(),
+    c(
       w,
       { transition: `default` },
       {
-        target: i(({ togglePopover: n, isOpen: i }) => [
-          e(s.$slots, `default`, r(t({ onClick: () => n(), isActive: i }))),
+        target: r(({ togglePopover: e, isOpen: t }) => [
+          l(d.$slots, `default`, a(m({ onClick: () => e(), isActive: t }))),
         ]),
-        "body-main": i(() => [
-          c(`div`, g, [
+        "body-main": r(() => [
+          u(`div`, g, [
             f[0] ||
-              (f[0] = c(
+              (f[0] = u(
                 `div`,
                 { class: `text-sm text-ink-gray-7` },
                 `Text Color`,
                 -1
               )),
-            c(`div`, _, [
-              (a(!0),
-              m(
-                d,
+            u(`div`, _, [
+              (t(!0),
+              o(
+                s,
                 null,
-                u(
+                i(
                   S.foregroundColors,
                   (e) => (
-                    a(),
-                    o(
+                    t(),
+                    c(
                       C,
                       { class: `flex`, key: e.name, text: e.name },
                       {
-                        default: i(() => [
-                          c(
+                        default: r(() => [
+                          u(
                             `button`,
                             {
                               "aria-label": e.name,
@@ -177,27 +177,27 @@ function x(s, f, p, h, x, S) {
               )),
             ]),
             f[1] ||
-              (f[1] = c(
+              (f[1] = u(
                 `div`,
                 { class: `mt-2 text-sm text-ink-gray-7` },
                 `Background Color`,
                 -1
               )),
-            c(`div`, y, [
-              (a(!0),
-              m(
-                d,
+            u(`div`, y, [
+              (t(!0),
+              o(
+                s,
                 null,
-                u(
+                i(
                   S.backgroundColors,
                   (e) => (
-                    a(),
-                    o(
+                    t(),
+                    c(
                       C,
                       { class: `flex`, key: e.name, text: e.name },
                       {
-                        default: i(() => [
-                          c(
+                        default: r(() => [
+                          u(
                             `button`,
                             {
                               "aria-label": e.name,
@@ -231,4 +231,4 @@ function x(s, f, p, h, x, S) {
 }
 var S = p(h, [[`render`, x]]);
 export { S as default };
-//# sourceMappingURL=FontColor-DyhRTlRc.js.map
+//# sourceMappingURL=FontColor-DLwALtqx.js.map
