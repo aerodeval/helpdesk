@@ -1,10 +1,10 @@
 import {
-  F as e,
-  S as t,
-  l as n,
-  p as r,
+  U as e,
+  b as t,
+  g as n,
+  k as r,
   t as i,
-} from "./studioRenderer-CDp9bQsF.js";
+} from "./studioRenderer-CDVyqa2z.js";
 var a = {
     Open: `#f59e0b`,
     New: `#f59e0b`,
@@ -44,7 +44,7 @@ function s(s) {
       r = t % 60;
     return n >= 24 ? `${Math.floor(n / 24)}d ${n % 24}h` : `${n}h ${r}m`;
   }
-  let p = r(() =>
+  let p = t(() =>
       (c.data || []).map((e) => {
         let t = u(e._assign),
           n = Math.round((e.feedback_rating || 0) * 5);
@@ -67,12 +67,12 @@ function s(s) {
         };
       })
     ),
-    m = r(() => {
+    m = t(() => {
       var e;
       return ((e = c.data) == null ? void 0 : e.length) || 0;
     }),
     h = (e) =>
-      t(`div`, {
+      r(`div`, {
         style: {
           width: `8px`,
           height: `8px`,
@@ -83,7 +83,7 @@ function s(s) {
       }),
     g = (e) =>
       e
-        ? t(
+        ? r(
             `span`,
             {
               style: {
@@ -99,7 +99,7 @@ function s(s) {
           )
         : null,
     _ = (e) =>
-      t(`div`, {
+      r(`div`, {
         style: {
           width: `3px`,
           height: `12px`,
@@ -109,7 +109,7 @@ function s(s) {
         },
       }),
     v = (e) =>
-      t(
+      r(
         `div`,
         {
           style: {
@@ -128,11 +128,11 @@ function s(s) {
         e
       ),
     y = (e) =>
-      t(
+      r(
         `div`,
         { style: { display: `flex`, gap: `1px` } },
         e.map((e) =>
-          t(
+          r(
             `span`,
             {
               style: {
@@ -232,4 +232,4 @@ function s(s) {
   );
 }
 export { s as default };
-//# sourceMappingURL=customer_tickets-bTs3eblx.js.map
+//# sourceMappingURL=customer_tickets-DwRpjpc5.js.map

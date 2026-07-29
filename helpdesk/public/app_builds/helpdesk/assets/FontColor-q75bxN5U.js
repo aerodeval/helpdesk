@@ -1,24 +1,24 @@
 import {
-  A as e,
-  D as t,
-  L as n,
-  N as r,
-  O as i,
-  R as a,
-  _ as o,
-  f as s,
-  h as c,
-  k as l,
+  F as e,
+  G as t,
+  I as n,
+  K as r,
+  L as i,
+  O as a,
+  P as o,
+  S as s,
+  V as c,
+  l,
   m as u,
-  n as d,
-  r as f,
-  s as p,
-  x as m,
-} from "./studioRenderer-CDp9bQsF.js";
+  u as d,
+  w as f,
+  x as p,
+  y as m,
+} from "./studioRenderer-CDVyqa2z.js";
 var h = {
     name: `FontColor`,
     props: [`editor`],
-    components: { Popover: f, Tooltip: d },
+    components: { Popover: d, Tooltip: l },
     methods: {
       setBackgroundColor(e) {
         e.name == `Default`
@@ -116,46 +116,46 @@ var h = {
   v = [`aria-label`, `onClick`],
   y = { class: `mt-1 grid grid-cols-6 gap-1` },
   b = [`aria-label`, `onClick`];
-function x(d, f, p, h, x, S) {
-  let C = e(`Tooltip`),
-    w = e(`Popover`);
+function x(l, u, d, h, x, S) {
+  let C = i(`Tooltip`),
+    w = i(`Popover`);
   return (
-    t(),
-    c(
+    o(),
+    s(
       w,
       { transition: `default` },
       {
-        target: r(({ togglePopover: e, isOpen: t }) => [
-          l(d.$slots, `default`, a(m({ onClick: () => e(), isActive: t }))),
+        target: c(({ togglePopover: e, isOpen: t }) => [
+          n(l.$slots, `default`, r(a({ onClick: () => e(), isActive: t }))),
         ]),
-        "body-main": r(() => [
-          u(`div`, g, [
-            f[0] ||
-              (f[0] = u(
+        "body-main": c(() => [
+          p(`div`, g, [
+            u[0] ||
+              (u[0] = p(
                 `div`,
                 { class: `text-sm text-ink-gray-7` },
                 `Text Color`,
                 -1
               )),
-            u(`div`, _, [
-              (t(!0),
-              o(
-                s,
+            p(`div`, _, [
+              (o(!0),
+              f(
+                m,
                 null,
-                i(
+                e(
                   S.foregroundColors,
                   (e) => (
-                    t(),
-                    c(
+                    o(),
+                    s(
                       C,
                       { class: `flex`, key: e.name, text: e.name },
                       {
-                        default: r(() => [
-                          u(
+                        default: c(() => [
+                          p(
                             `button`,
                             {
                               "aria-label": e.name,
-                              class: n([
+                              class: t([
                                 `flex h-5 w-5 items-center justify-center rounded border text-base`,
                                 e.class,
                               ]),
@@ -176,32 +176,32 @@ function x(d, f, p, h, x, S) {
                 128
               )),
             ]),
-            f[1] ||
-              (f[1] = u(
+            u[1] ||
+              (u[1] = p(
                 `div`,
                 { class: `mt-2 text-sm text-ink-gray-7` },
                 `Background Color`,
                 -1
               )),
-            u(`div`, y, [
-              (t(!0),
-              o(
-                s,
+            p(`div`, y, [
+              (o(!0),
+              f(
+                m,
                 null,
-                i(
+                e(
                   S.backgroundColors,
                   (e) => (
-                    t(),
-                    c(
+                    o(),
+                    s(
                       C,
                       { class: `flex`, key: e.name, text: e.name },
                       {
-                        default: r(() => [
-                          u(
+                        default: c(() => [
+                          p(
                             `button`,
                             {
                               "aria-label": e.name,
-                              class: n([
+                              class: t([
                                 `flex h-5 w-5 items-center justify-center rounded border text-base text-ink-gray-9`,
                                 e.class,
                               ]),
@@ -229,6 +229,6 @@ function x(d, f, p, h, x, S) {
     )
   );
 }
-var S = p(h, [[`render`, x]]);
+var S = u(h, [[`render`, x]]);
 export { S as default };
-//# sourceMappingURL=FontColor-DLwALtqx.js.map
+//# sourceMappingURL=FontColor-q75bxN5U.js.map

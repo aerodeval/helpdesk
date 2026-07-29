@@ -1,22 +1,22 @@
 import {
-  F as e,
-  M as t,
-  l as n,
-  p as r,
+  B as e,
+  U as t,
+  b as n,
+  g as r,
   t as i,
-} from "./studioRenderer-CDp9bQsF.js";
+} from "./studioRenderer-CDVyqa2z.js";
 function a(a) {
   let { category: o, articles: s, route: c, router: l } = a,
-    u = e(``),
-    d = e(!1);
-  t(
+    u = t(``),
+    d = t(!1);
+  e(
     () => c.params.category,
     (e) => {
       e && (o.reload(), s.reload());
     },
     { immediate: !0 }
   );
-  let f = r(() => {
+  let f = n(() => {
       let e = s.data || [],
         t = u.value.trim().toLowerCase();
       return t
@@ -27,7 +27,7 @@ function a(a) {
           )
         : e;
     }),
-    p = r(() => {
+    p = n(() => {
       var e;
       return (
         ((e = o.doc) == null ? void 0 : e.category_name) ||
@@ -35,7 +35,7 @@ function a(a) {
         ``
       );
     }),
-    m = r(() => {
+    m = n(() => {
       var e;
       let t = (e = o.doc) == null ? void 0 : e.description;
       if (t) return t;
@@ -90,8 +90,8 @@ function a(a) {
       ? `<img src="${t}" style="width:100%;height:100%;object-fit:cover" alt="" />`
       : ``;
   }
-  return n(
-    n({}, i()),
+  return r(
+    r({}, i()),
     {},
     {
       navMenuOpen: d,
@@ -109,4 +109,4 @@ function a(a) {
   );
 }
 export { a as default };
-//# sourceMappingURL=category_page_view-CSkMZBHK.js.map
+//# sourceMappingURL=category_page_view-Cmam3L89.js.map

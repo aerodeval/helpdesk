@@ -1,30 +1,30 @@
 import {
-  C as e,
-  D as t,
-  I as n,
-  L as r,
-  N as i,
-  O as a,
-  P as o,
-  R as s,
-  _ as c,
-  b as l,
-  c as u,
-  f as d,
-  g as f,
-  h as p,
-  j as m,
-  k as h,
-  l as g,
-  m as _,
-  o as v,
-  p as y,
-  u as b,
-  v as x,
-  x as S,
-  y as C,
-  z as w,
-} from "./studioRenderer-CDp9bQsF.js";
+  A as e,
+  C as t,
+  D as n,
+  E as r,
+  F as i,
+  G as a,
+  H as o,
+  I as s,
+  K as c,
+  O as l,
+  P as u,
+  R as d,
+  S as f,
+  T as p,
+  V as m,
+  W as h,
+  _ as g,
+  b as _,
+  g as v,
+  h as y,
+  p as b,
+  q as x,
+  w as S,
+  x as C,
+  y as w,
+} from "./studioRenderer-CDVyqa2z.js";
 var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
   E = { class: `flex` },
   D = { class: `w-full flex-1` },
@@ -37,7 +37,7 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
   P = { class: `text-p-base text-ink-gray-7` },
   F = { key: 2, class: `px-4 pb-7 pt-4 sm:px-6` },
   I = { key: 3 },
-  L = l({
+  L = n({
     __name: `ProxyDialog`,
     props: {
       open: { type: Boolean, default: void 0 },
@@ -56,11 +56,11 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
       bare: { type: Boolean, default: !1 },
     },
     emits: [`update:open`, `update:modelValue`, `close`, `after-leave`],
-    setup(l, { expose: L, emit: R }) {
-      let z = l,
+    setup(n, { expose: L, emit: R }) {
+      let z = n,
         B = R,
-        V = m(),
-        H = y(() => {
+        V = d(),
+        H = _(() => {
           var e, t, n, r, i, a, o, s, c, l;
           let u = z.options || {};
           return {
@@ -79,8 +79,8 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
             bare: z.bare,
           };
         });
-      y(() => (z.disableOutsideClickToClose ? !1 : z.dismissible !== !1));
-      let U = y(
+      _(() => (z.disableOutsideClickToClose ? !1 : z.dismissible !== !1));
+      let U = _(
           () =>
             ({
               xs: `max-w-xs`,
@@ -96,7 +96,7 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
               "7xl": `max-w-7xl`,
             }[H.value.size] || `max-w-lg`)
         ),
-        W = y({
+        W = _({
           get() {
             return z.open === void 0 ? !!z.modelValue : !!z.open;
           },
@@ -107,11 +107,11 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
       function G() {
         W.value = !1;
       }
-      let K = y(() => {
+      let K = _(() => {
           let e = H.value.icon;
           return e ? (typeof e == `string` ? { name: e } : e) : null;
         }),
-        q = y(() => {
+        q = _(() => {
           let e = K.value;
           return e
             ? e.theme
@@ -126,7 +126,7 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
               : null
             : null;
         }),
-        J = y(() => {
+        J = _(() => {
           let e = q.value;
           return e
             ? {
@@ -137,7 +137,7 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
               }[e]
             : `bg-surface-gray-2`;
         }),
-        Y = y(() => {
+        Y = _(() => {
           let e = q.value;
           return e
             ? {
@@ -148,26 +148,26 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
               }[e]
             : `text-ink-gray-5`;
         });
-      y(() =>
+      _(() =>
         H.value.paddingTop
           ? ``
           : { center: `justify-center`, top: `pt-[20vh]` }[H.value.position] ||
             `justify-center`
       ),
-        y(() => (H.value.paddingTop ? { paddingTop: H.value.paddingTop } : {}));
-      let X = y(() => {
+        _(() => (H.value.paddingTop ? { paddingTop: H.value.paddingTop } : {}));
+      let X = _(() => {
           if (H.value.bare) return [];
           let e = H.value.actions;
           return e != null && e.length
             ? e.map((e) => {
                 let t = o(
-                  g(
-                    g({}, e),
+                  v(
+                    v({}, e),
                     {},
                     {
                       loading: !1,
                       onClick: e.onClick
-                        ? b(function* () {
+                        ? g(function* () {
                             t.loading = !0;
                             try {
                               let t = () => {
@@ -186,11 +186,11 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
               })
             : [];
         }),
-        Z = y(
+        Z = _(
           () =>
             X.value.length === 1 && [`xs`, `sm`, `md`].includes(H.value.size)
         ),
-        Q = y(() =>
+        Q = _(() =>
           H.value.bare ? !1 : !!(V.title || V[`body-title`] || H.value.title)
         );
       function $(e) {
@@ -198,73 +198,73 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
       }
       return (
         L({ close: G }),
-        (o, l) => (
-          t(),
-          c(
+        (n, o) => (
+          u(),
+          S(
             `div`,
             {
-              class: r([
+              class: a([
                 `dialog-content my-8 inline-block w-full transform overflow-hidden rounded-xl bg-surface-elevation-1 text-start align-middle shadow-xl focus-visible:outline-none`,
                 U.value,
               ]),
             },
             [
-              f(` bare: no chrome, render default slot directly `),
+              t(` bare: no chrome, render default slot directly `),
               H.value.bare
-                ? h(o.$slots, `default`, { key: 0, close: G })
-                : o.$slots.body
-                ? (t(),
-                  c(
-                    d,
+                ? s(n.$slots, `default`, { key: 0, close: G })
+                : n.$slots.body
+                ? (u(),
+                  S(
+                    w,
                     { key: 1 },
                     [
-                      f(
+                      t(
                         " legacy `#body` slot: full layout override (deprecated) "
                       ),
-                      h(o.$slots, `body`),
+                      s(n.$slots, `body`),
                     ],
                     2112
                   ))
-                : (t(),
-                  c(
-                    d,
+                : (u(),
+                  S(
+                    w,
                     { key: 2 },
                     [
-                      f(
+                      t(
                         " legacy `#body-main`: full middle override (deprecated) "
                       ),
-                      o.$slots[`body-main`]
-                        ? h(o.$slots, `body-main`, { key: 0 })
-                        : (t(),
-                          c(`div`, T, [
-                            _(`div`, E, [
-                              _(`div`, D, [
-                                f(" legacy `#body-header` "),
-                                o.$slots[`body-header`]
-                                  ? h(o.$slots, `body-header`, { key: 0 })
+                      n.$slots[`body-main`]
+                        ? s(n.$slots, `body-main`, { key: 0 })
+                        : (u(),
+                          S(`div`, T, [
+                            C(`div`, E, [
+                              C(`div`, D, [
+                                t(" legacy `#body-header` "),
+                                n.$slots[`body-header`]
+                                  ? s(n.$slots, `body-header`, { key: 0 })
                                   : Q.value
-                                  ? (t(),
-                                    c(`div`, O, [
-                                      _(`div`, k, [
+                                  ? (u(),
+                                    S(`div`, O, [
+                                      C(`div`, k, [
                                         K.value
-                                          ? (t(),
-                                            c(
+                                          ? (u(),
+                                            S(
                                               `div`,
                                               {
                                                 key: 0,
-                                                class: r([
+                                                class: a([
                                                   `flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full`,
                                                   J.value,
                                                 ]),
                                               },
                                               [
                                                 $(K.value.name)
-                                                  ? (t(),
-                                                    c(
+                                                  ? (u(),
+                                                    S(
                                                       `span`,
                                                       {
                                                         key: 0,
-                                                        class: r([
+                                                        class: a([
                                                           K.value.name,
                                                           `size-4`,
                                                           Y.value,
@@ -274,13 +274,13 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                                                       null,
                                                       2
                                                     ))
-                                                  : (t(),
-                                                    p(
-                                                      n(u),
+                                                  : (u(),
+                                                    f(
+                                                      h(y),
                                                       {
                                                         key: 1,
                                                         name: K.value.name,
-                                                        class: r([
+                                                        class: a([
                                                           `h-4 w-4`,
                                                           Y.value,
                                                         ]),
@@ -293,27 +293,27 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                                               ],
                                               2
                                             ))
-                                          : f(`v-if`, !0),
-                                        _(`header`, A, [
-                                          h(
-                                            o.$slots,
+                                          : t(`v-if`, !0),
+                                        C(`header`, A, [
+                                          s(
+                                            n.$slots,
                                             `title`,
                                             { close: G },
                                             () => [
-                                              h(
-                                                o.$slots,
+                                              s(
+                                                n.$slots,
                                                 `body-title`,
                                                 {},
                                                 () => [
                                                   H.value.title
-                                                    ? (t(),
-                                                      c(
+                                                    ? (u(),
+                                                      S(
                                                         `h3`,
                                                         j,
-                                                        w(H.value.title),
+                                                        x(H.value.title),
                                                         1
                                                       ))
-                                                    : f(`v-if`, !0),
+                                                    : t(`v-if`, !0),
                                                 ]
                                               ),
                                             ]
@@ -321,20 +321,20 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                                         ]),
                                       ]),
                                       H.value.showCloseButton
-                                        ? (t(),
-                                          c(`div`, M, [
-                                            C(
-                                              n(v),
+                                        ? (u(),
+                                          S(`div`, M, [
+                                            r(
+                                              h(b),
                                               {
                                                 variant: `ghost`,
                                                 label: `Close`,
                                                 onClick: G,
                                               },
                                               {
-                                                icon: i(() => [
-                                                  ...(l[0] ||
-                                                    (l[0] = [
-                                                      _(
+                                                icon: m(() => [
+                                                  ...(o[0] ||
+                                                    (o[0] = [
+                                                      C(
                                                         `span`,
                                                         {
                                                           class: `lucide-x size-4 text-ink-gray-9`,
@@ -348,60 +348,60 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                                               }
                                             ),
                                           ]))
-                                        : f(`v-if`, !0),
+                                        : t(`v-if`, !0),
                                     ]))
-                                  : f(`v-if`, !0),
-                                h(o.$slots, `body-content`, {}, () => [
-                                  h(o.$slots, `default`, { close: G }, () => [
+                                  : t(`v-if`, !0),
+                                s(n.$slots, `body-content`, {}, () => [
+                                  s(n.$slots, `default`, { close: G }, () => [
                                     H.value.message
-                                      ? (t(),
-                                        c(`div`, N, [
-                                          _(`p`, P, w(H.value.message), 1),
+                                      ? (u(),
+                                        S(`div`, N, [
+                                          C(`p`, P, x(H.value.message), 1),
                                         ]))
-                                      : f(`v-if`, !0),
+                                      : t(`v-if`, !0),
                                   ]),
                                 ]),
                               ]),
                             ]),
                           ])),
-                      X.value.length || o.$slots.actions
-                        ? (t(),
-                          c(`div`, F, [
-                            h(
-                              o.$slots,
+                      X.value.length || n.$slots.actions
+                        ? (u(),
+                          S(`div`, F, [
+                            s(
+                              n.$slots,
                               `actions`,
-                              s(S({ close: G, actions: X.value })),
+                              c(l({ close: G, actions: X.value })),
                               () => [
-                                _(
+                                C(
                                   `div`,
                                   {
-                                    class: r(
+                                    class: a(
                                       Z.value ? `` : `flex justify-end gap-2`
                                     ),
                                   },
                                   [
-                                    (t(!0),
-                                    c(
-                                      d,
+                                    (u(!0),
+                                    S(
+                                      w,
                                       null,
-                                      a(
+                                      i(
                                         X.value,
-                                        (r) => (
-                                          t(),
-                                          p(
-                                            n(v),
+                                        (t) => (
+                                          u(),
+                                          f(
+                                            h(b),
                                             e(
                                               {
-                                                key: r.label,
+                                                key: t.label,
                                                 class: Z.value ? `w-full` : ``,
-                                                disabled: r.disabled,
+                                                disabled: t.disabled,
                                               },
                                               { ref_for: !0 },
-                                              r
+                                              t
                                             ),
                                             {
-                                              default: i(() => [
-                                                x(w(r.label), 1),
+                                              default: m(() => [
+                                                p(x(t.label), 1),
                                               ]),
                                               _: 2,
                                             },
@@ -418,20 +418,20 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                               ]
                             ),
                           ]))
-                        : f(`v-if`, !0),
+                        : t(`v-if`, !0),
                     ],
                     64
                   )),
-              f(` close button when auto-header is suppressed `),
+              t(` close button when auto-header is suppressed `),
               H.value.showCloseButton &&
               !Q.value &&
               !H.value.bare &&
-              !o.$slots.body &&
-              !o.$slots[`body-header`]
-                ? (t(),
-                  c(`div`, I, [
-                    C(
-                      n(v),
+              !n.$slots.body &&
+              !n.$slots[`body-header`]
+                ? (u(),
+                  S(`div`, I, [
+                    r(
+                      h(b),
                       {
                         class: `absolute right-4 top-4 z-10`,
                         variant: `ghost`,
@@ -439,10 +439,10 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                         onClick: G,
                       },
                       {
-                        icon: i(() => [
-                          ...(l[1] ||
-                            (l[1] = [
-                              _(
+                        icon: m(() => [
+                          ...(o[1] ||
+                            (o[1] = [
+                              C(
                                 `span`,
                                 { class: `lucide-x size-4 text-ink-gray-9` },
                                 null,
@@ -454,7 +454,7 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
                       }
                     ),
                   ]))
-                : f(`v-if`, !0),
+                : t(`v-if`, !0),
             ],
             2
           )
@@ -463,4 +463,4 @@ var T = { key: 1, class: `bg-surface-elevation-1 px-4 pb-6 pt-5 sm:px-6` },
     },
   });
 export { L as default };
-//# sourceMappingURL=ProxyDialog-BF-fmxTb.js.map
+//# sourceMappingURL=ProxyDialog-C2kTALje.js.map

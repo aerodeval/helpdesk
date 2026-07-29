@@ -8,6 +8,7 @@ def get_config():
         "brand_logo",
         "favicon",
         "prefer_knowledge_base",
+        "banner_image",
         "setup_complete",
         "skip_email_workflow",
         "is_feedback_mandatory",

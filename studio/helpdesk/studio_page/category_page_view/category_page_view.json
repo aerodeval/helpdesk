@@ -519,6 +519,13 @@
          },
          "children": [],
          "classes": [],
+         "componentEvents": {
+          "click": {
+           "action": "Run Script",
+           "event": "click",
+           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
+          }
+         },
          "componentId": "TextBlock-tuw3gfcun",
          "componentName": "TextBlock",
          "componentProps": {
@@ -534,7 +541,7 @@
           "click": {
            "action": "Run Script",
            "event": "click",
-           "script": "ticketModalOpen.value = true"
+           "script": "router.push('/new-ticket')"
           }
          },
          "componentId": "Button-tt214fyaa",
@@ -3088,6 +3095,13 @@
          },
          "children": [],
          "classes": [],
+         "componentEvents": {
+          "click": {
+           "action": "Run Script",
+           "event": "click",
+           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
+          }
+         },
          "componentId": "TextBlock-tuw3gfcun",
          "componentName": "TextBlock",
          "componentProps": {
@@ -3103,7 +3117,7 @@
           "click": {
            "action": "Run Script",
            "event": "click",
-           "script": "ticketModalOpen.value = true"
+           "script": "router.push('/new-ticket')"
           }
          },
          "componentId": "Button-tt214fyaa",
@@ -5134,7 +5148,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-06 16:17:03.370158",
+ "modified": "2026-07-29 18:02:31.105626",
  "modified_by": "Administrator",
  "name": "category_page_view",
  "owner": "Administrator",

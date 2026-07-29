@@ -1,0 +1,256 @@
+{
+ "blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100%",
+    "overflowX": "hidden",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "center",
+      "backgroundColor": "var(--surface-base)",
+      "borderColor": "var(--outline-gray-2)",
+      "borderStyle": "solid",
+      "borderWidth": "0px 0px 1px 0px",
+      "display": "flex",
+      "flexDirection": "row",
+      "flexShrink": 0,
+      "height": "44px",
+      "padding": "0 16px",
+      "width": "100%"
+     },
+     "blockName": "topbar",
+     "children": [
+      {
+       "blockName": "Topbar Logo",
+       "children": [],
+       "classes": [],
+       "componentId": "topbar_logo-newticket",
+       "componentName": "topbar_logo",
+       "isStudioComponent": true
+      },
+      {
+       "baseStyles": {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "gap": "6px",
+        "marginLeft": "6px"
+       },
+       "blockName": "breadcrumb",
+       "children": [
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-4)"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "crumb-sep",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "/"
+         }
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-8)",
+          "fontWeight": "500"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "crumb-active",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "New ticket"
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "container-breadcrumb-nt",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-topbar-nt",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "baseStyles": {
+      "display": "flex",
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "overflowY": "auto",
+      "width": "100%"
+     },
+     "blockName": "content",
+     "children": [
+      {
+       "blockName": "new-ticket",
+       "children": [],
+       "classes": [],
+       "componentId": "NewTicket-newticket01",
+       "componentName": "NewTicket",
+       "isCustomVueComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-content-nt",
+     "componentName": "container",
+     "originalElement": "div"
+    }
+   ],
+   "classes": [],
+   "componentId": "container-body-nt",
+   "componentName": "container",
+   "originalElement": "div"
+  }
+ ],
+ "creation": "2026-07-29 15:59:17.320394",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100%",
+    "overflowX": "hidden",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "center",
+      "backgroundColor": "var(--surface-base)",
+      "borderColor": "var(--outline-gray-2)",
+      "borderStyle": "solid",
+      "borderWidth": "0px 0px 1px 0px",
+      "display": "flex",
+      "flexDirection": "row",
+      "flexShrink": 0,
+      "height": "44px",
+      "padding": "0 16px",
+      "width": "100%"
+     },
+     "blockName": "topbar",
+     "children": [
+      {
+       "blockName": "Topbar Logo",
+       "children": [],
+       "classes": [],
+       "componentId": "topbar_logo-newticket",
+       "componentName": "topbar_logo",
+       "isStudioComponent": true
+      },
+      {
+       "baseStyles": {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "gap": "6px",
+        "marginLeft": "6px"
+       },
+       "blockName": "breadcrumb",
+       "children": [
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-4)"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "crumb-sep",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "/"
+         }
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-8)",
+          "fontWeight": "500"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "crumb-active",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "New ticket"
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "container-breadcrumb-nt",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-topbar-nt",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "baseStyles": {
+      "display": "flex",
+      "flexDirection": "column",
+      "flexGrow": 1,
+      "flexShrink": 1,
+      "overflowY": "auto",
+      "width": "100%"
+     },
+     "blockName": "content",
+     "children": [
+      {
+       "blockName": "new-ticket",
+       "children": [],
+       "classes": [],
+       "componentId": "NewTicket-newticket01",
+       "componentName": "NewTicket",
+       "componentProps": {
+        "registerUrl": "#"
+       },
+       "isCustomVueComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-content-nt",
+     "componentName": "container",
+     "originalElement": "div"
+    }
+   ],
+   "classes": [],
+   "componentId": "container-body-nt",
+   "componentName": "container",
+   "originalElement": "div"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-29 17:58:55.229151",
+ "modified_by": "Administrator",
+ "name": "new_ticket",
+ "owner": "Administrator",
+ "page_name": "page-d05d82bf",
+ "page_title": "New ticket",
+ "published": 1,
+ "resources": [],
+ "route": "/new-ticket",
+ "studio_app": "helpdesk",
+ "variables": []
+}

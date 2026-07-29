@@ -54,9 +54,15 @@ website_route_rules = [
     },
     # Frappe ships a legacy "/kb/<category>" rule (Help Article portal) that would
     # otherwise shadow single-segment pages of the Studio-built KB app at /kb.
-    # A static rule always outranks the dynamic one in werkzeug's route map.
+    # Only a fully static rule outranks that dynamic one in werkzeug's route map, so
+    # every single-segment KB page needs its own entry here (multi-segment routes
+    # like /kb/articles/<name> don't collide and resolve via the app renderer).
     {
         "from_route": "/kb/customer-tickets",
+        "to_route": "kb",
+    },
+    {
+        "from_route": "/kb/new-ticket",
         "to_route": "kb",
     },
 ]

@@ -38,8 +38,8 @@
           title="Profile"
           description="How you appear across the knowledge base."
         />
-        <SettingsBody>
-          <div class="flex max-w-md flex-col gap-6 pt-8">
+        <SettingsBody class="mt-8">
+          <div class="flex max-w-md flex-col gap-6">
             <div class="flex items-center gap-4">
               <Avatar
                 :image="settingsUser.image"
@@ -106,7 +106,7 @@
           </SettingsHeader>
           <SettingsBody>
             <div
-              class="flex items-center justify-between border-b border-outline-gray-1 pb-2 text-sm text-ink-gray-5"
+              class="flex items-center justify-between border-b border-outline-gray-1 pb-2 text-sm text-ink-gray-5 mt-8"
             >
               <span>Name</span><span>Role</span>
             </div>
@@ -181,7 +181,7 @@
             </template>
           </SettingsHeader>
           <SettingsBody>
-            <div class="flex max-w-xl flex-col gap-8">
+            <div class="flex max-w-xl flex-col gap-8 mt-8">
               <div class="flex items-center gap-4">
                 <Avatar
                   :image="settingsOrg?.image"

@@ -1,85 +1,83 @@
 <template>
-  <Popover class="w-full" :match-trigger-width="true">
-    <!-- Search input: opens the results popover once the query is meaningful -->
-    <template #target="{ open, close }">
-      <FormControl
-        class="w-full"
-        type="text"
-        size="lg"
-        variant="subtle"
-        :placeholder="placeholder"
-        v-model="query"
-        @update:model-value="(value) => (value.length >= 3 ? open() : close())"
-      >
-        <template #prefix>
-          <FeatherIcon name="search" class="size-4 text-ink-gray-4" />
-        </template>
-      </FormControl>
+  <Combobox
+    class="w-full"
+    trigger="input"
+    variant="subtle"
+    size="lg"
+    :placeholder="placeholder"
+    :options="options"
+    :loading="articles.loading && !articles.data"
+  >
+    <template #prefix>
+      <FeatherIcon name="search" class="size-4 text-ink-gray-4" />
     </template>
 
-    <!-- Results dropdown -->
-    <template #body-main="{ close }">
-      <div
-        class="max-h-[420px] overflow-auto p-2"
-        :style="{ width: 'var(--reka-popover-trigger-width)' }"
-      >
-        <template v-if="results.length">
-          <button
-            v-for="article in results"
-            :key="article.name"
-            class="flex w-full flex-col gap-1 rounded-md p-2 text-left hover:bg-surface-gray-2"
-            @click="openArticle(article, close)"
+    <!-- Replaces the default chevron so the trigger reads as a search box. -->
+    <template #suffix><span /></template>
+
+    <!-- One result row: article icon + title + a snippet windowed around the match. -->
+    <template #item="{ item, query }">
+      <div class="flex min-w-0 items-center gap-3">
+        <div
+          class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-surface-gray-2 text-ink-gray-7"
+        >
+          <svg
+            viewBox="0 0 16 16"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            class="size-5"
           >
-            <span class="block w-full truncate text-base text-ink-gray-8">{{
-              article.title
-            }}</span>
-            <span class="line-clamp-1 w-full text-p-sm text-ink-gray-5">{{
-              article.snippet
-            }}</span>
-          </button>
-        </template>
-
-        <div
-          v-else-if="loading"
-          class="flex h-[200px] flex-col items-center justify-center gap-2"
-        >
-          <FeatherIcon name="search" class="size-8 text-ink-gray-3" />
-          <p class="text-base text-ink-gray-6">Searching…</p>
+            <path
+              d="M11 1C12.6569 1 14 2.34315 14 4V12.5C14 13.8807 12.8807 15 11.5 15H4.5C3.11929 15 2 13.8807 2 12.5V3.5C2 2.11929 3.11929 1 4.5 1H11ZM4.5 2C3.67157 2 3 2.67157 3 3.5V12.5C3 13.3284 3.67157 14 4.5 14H11.5C12.3284 14 13 13.3284 13 12.5V4C13 2.89543 12.1046 2 11 2H4.5ZM10.75 10.5C11.0261 10.5 11.25 10.7239 11.25 11C11.25 11.2761 11.0261 11.5 10.75 11.5H5.25C4.97386 11.5 4.75 11.2761 4.75 11C4.75 10.7239 4.97386 10.5 5.25 10.5H10.75ZM10.75 7.5C11.0261 7.5 11.25 7.72386 11.25 8C11.25 8.27614 11.0261 8.5 10.75 8.5H5.25C4.97386 8.5 4.75 8.27614 4.75 8C4.75 7.72386 4.97386 7.5 5.25 7.5H10.75ZM10.75 4.5C11.0261 4.5 11.25 4.72386 11.25 5C11.25 5.27614 11.0261 5.5 10.75 5.5H5.25C4.97386 5.5 4.75 5.27614 4.75 5C4.75 4.72386 4.97386 4.5 5.25 4.5H10.75Z"
+            />
+          </svg>
         </div>
-
-        <div
-          v-else
-          class="flex h-[200px] flex-col items-center justify-center gap-2"
-        >
-          <FeatherIcon name="search" class="size-8 text-ink-gray-3" />
-          <p class="text-base text-ink-gray-6">No answers found</p>
-          <span class="text-center text-p-sm text-ink-gray-5">
-            Rephrase and try again with some keywords
-          </span>
+        <div class="flex min-w-0 flex-col gap-0.5">
+          <span class="truncate text-base text-ink-gray-8">{{
+            item.label
+          }}</span>
+          <span class="line-clamp-1 text-p-sm text-ink-gray-5">{{
+            snippet(item.key, query)
+          }}</span>
         </div>
       </div>
     </template>
-  </Popover>
+
+    <template #empty="{ query }">
+      <div
+        class="flex flex-col items-center justify-center gap-2 py-8 text-center"
+      >
+        <FeatherIcon name="search" class="size-8 text-ink-gray-3" />
+        <p class="text-base text-ink-gray-6">
+          {{
+            query.trim().length < MIN_QUERY
+              ? "Keep typing to search…"
+              : "No answers found"
+          }}
+        </p>
+      </div>
+    </template>
+  </Combobox>
 </template>
 
 <script setup lang="ts">
-// KB article search for the public Knowledge Base Studio page. Mirrors the
-// desk KB search UX (SearchPopover + SearchArticles) — a results dropdown that
-// opens once the query is meaningful. RediSearch isn't available on this bench,
-// so instead of helpdesk.api.article.search we filter the published articles
-// client-side (small corpus). Results route to /articles/<name>, matching the
-// article-card navigation used elsewhere on the page.
-import { computed, ref } from "vue";
+// KB article search for the public Knowledge Base Studio page. Built on
+// frappe-ui's Combobox so keyboard navigation (↑/↓/Enter/Esc) comes for free.
+// Each article is a `custom` option: its `condition` drives visibility (our own
+// title + body search, since Combobox's built-in filter only matches label) and
+// its `onClick` opens the article; the #item slot renders the title + snippet.
+// RediSearch isn't available on this bench, so we fetch the published articles
+// once and match client-side (small corpus).
+import { computed } from "vue";
 import { useRouter } from "vue-router";
-import { Popover, FormControl, FeatherIcon, createResource } from "frappe-ui";
+import { Combobox, FeatherIcon, createResource } from "frappe-ui";
 
 withDefaults(defineProps<{ placeholder?: string }>(), {
   placeholder: "Search articles (e.g. billing, integration, or general)",
 });
 
 const router = useRouter();
-const query = ref("");
-const MAX_RESULTS = 7;
+const MIN_QUERY = 3;
 
 const articles = createResource({
   url: "frappe.client.get_list",
@@ -91,38 +89,65 @@ const articles = createResource({
   },
   auto: true,
 });
-const loading = computed(() => articles.loading);
 
-function snippet(content: string, needle: string) {
-  const text = (content || "")
-    .replace(/<[^>]*>/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+// name -> plain-text content, reused for both matching and snippet building.
+const contentByName = computed(() => {
+  const map = new Map<string, string>();
+  for (const article of articles.data || []) {
+    const text = (article.content || "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    map.set(article.name, text);
+  }
+  return map;
+});
+
+const options = computed(() =>
+  (articles.data || []).map((article: any) => {
+    const haystack = `${article.title || ""} ${
+      contentByName.value.get(article.name) || ""
+    }`.toLowerCase();
+    return {
+      type: "custom",
+      key: article.name,
+      label: article.title,
+      condition: ({ query }: { query: string }) => {
+        const needle = query.trim().toLowerCase();
+        return needle.length >= MIN_QUERY && haystack.includes(needle);
+      },
+      onClick: () => router.push(`/articles/${article.name}`),
+    };
+  })
+);
+
+function snippet(name: string, query: string) {
+  const text = contentByName.value.get(name) || "";
+  const needle = query.trim().toLowerCase();
   const index = needle ? text.toLowerCase().indexOf(needle) : -1;
   if (index < 0) return text.slice(0, 140);
   const start = Math.max(0, index - 40);
   return (start > 0 ? "…" : "") + text.slice(start, start + 140);
 }
-
-const results = computed(() => {
-  const needle = query.value.trim().toLowerCase();
-  if (needle.length < 3 || !articles.data) return [];
-  return articles.data
-    .filter(
-      (article: any) =>
-        (article.title || "").toLowerCase().includes(needle) ||
-        (article.content || "").toLowerCase().includes(needle)
-    )
-    .slice(0, MAX_RESULTS)
-    .map((article: any) => ({
-      name: article.name,
-      title: article.title,
-      snippet: snippet(article.content, needle),
-    }));
-});
-
-function openArticle(article: { name: string }, close: () => void) {
-  close();
-  router.push({ path: `/articles/${article.name}` });
-}
 </script>
+
+<style>
+/* Pin the results dropdown to the search input's width. reka exposes the
+   trigger width as a CSS var on the content element; without this the long
+   snippets stretch the panel wider than the input. Unscoped on purpose — the
+   popover is portaled to <body>, outside this component's DOM subtree. */
+[data-slot="content"][data-variant="subtle"][data-size="lg"] {
+  width: var(--reka-combobox-trigger-width);
+}
+/* Flat, generously padded rows with hairline dividers, matching the KB design. */
+[data-slot="content"][data-variant="subtle"][data-size="lg"]
+  [data-slot="item"] {
+  border-radius: 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+[data-slot="content"][data-variant="subtle"][data-size="lg"]
+  [data-slot="item"]:not(:last-child) {
+  border-bottom: 1px solid var(--outline-gray-1, #ededed);
+}
+</style>

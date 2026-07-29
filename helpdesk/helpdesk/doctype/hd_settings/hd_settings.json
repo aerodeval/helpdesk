@@ -18,6 +18,7 @@
   "base_support_rotation",
   "knowledge_base_section",
   "prefer_knowledge_base",
+  "banner_image",
   "ticket_tab",
   "ticket_type_section",
   "default_ticket_type",
@@ -209,6 +210,12 @@
    "fieldname": "prefer_knowledge_base",
    "fieldtype": "Check",
    "label": "Prefer knowledge base"
+  },
+  {
+   "description": "Banner image shown at the top of the Knowledge Base portal",
+   "fieldname": "banner_image",
+   "fieldtype": "Attach Image",
+   "label": "Banner Image"
   },
   {
    "fieldname": "priority_section",
