@@ -1,0 +1,2 @@
+import{G as e,I as t,L as n,nt as r}from"./studioRenderer-YI-463Nx.js";var i=t({__name:`InsertLink`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.commands.openLinkEditor()}return(t,i)=>e(t.$slots,`default`,r(n({onClick:a})))}});export{i as default};
+//# sourceMappingURL=InsertLink-DMfHkACy.js.map

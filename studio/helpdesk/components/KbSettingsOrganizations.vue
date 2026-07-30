@@ -5,12 +5,12 @@
     <SettingsHeader :title="copy.title" :description="copy.description" />
     <SettingsBody>
       <div class="pt-8">
-        <p v-if="!organizations.length" class="text-base text-ink-gray-5">
-          You are not a member of any organization yet.
+        <p v-if="!listedOrganizations.length" class="text-base text-ink-gray-5">
+          {{ copy.empty }}
         </p>
         <div v-else class="divide-y divide-outline-gray-1">
           <button
-            v-for="organization in organizations"
+            v-for="organization in listedOrganizations"
             :key="organization.name"
             class="flex h-12.5 w-full cursor-pointer items-center gap-3 rounded px-2 text-left hover:bg-surface-sidebar"
             @click="openOrganization(organization.name)"
@@ -30,6 +30,7 @@
               </div>
             </div>
             <Badge
+              v-if="mode === 'members'"
               variant="subtle"
               :theme="organization.is_manager ? 'blue' : 'gray'"
               :label="organization.is_manager ? 'Manager' : 'Member'"
@@ -240,10 +241,12 @@ const copy = computed(() =>
         title: "Organization settings",
         description:
           "Pick an organization to manage its name, logo and admin contact.",
+        empty: "You do not manage any organization.",
       }
     : {
         title: "Manage organization",
         description: "Pick an organization to manage the people in it.",
+        empty: "You are not a member of any organization yet.",
       }
 );
 
@@ -269,6 +272,14 @@ const {
   cancelInvitation,
   deleteOrganization,
 } = useSettingsModal();
+
+// Only a manager can change an organization's settings, so that tab lists just
+// those — drilling into one you merely belong to would open a read-only page.
+const listedOrganizations = computed(() =>
+  props.mode === "settings"
+    ? organizations.value.filter((organization) => organization.is_manager)
+    : organizations.value
+);
 
 function renameOrganization(value: string) {
   orgName.value = value;
