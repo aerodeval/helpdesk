@@ -15,7 +15,7 @@
           Profile
         </SettingsNavItem>
       </SettingsNavGroup>
-      <SettingsNavGroup v-if="isOrgManager" label="Organization">
+      <SettingsNavGroup v-if="organizations.length" label="Organization">
         <SettingsNavItem value="members">
           <template #prefix
             ><FeatherIcon name="users" class="h-4 w-4"
@@ -38,265 +38,60 @@
           title="Profile"
           description="How you appear across the knowledge base."
         />
-        <SettingsBody class="mt-8">
-          <div class="flex max-w-md flex-col gap-6">
-            <div class="flex items-center gap-4">
-              <Avatar
-                :image="settingsUser.image"
-                :label="settingsUser.full_name"
-                size="3xl"
-              />
-              <div class="flex gap-2">
-                <Button variant="subtle" @click="uploadProfileImage"
-                  >Upload image</Button
-                >
-                <Button
-                  v-if="settingsUser.image"
-                  variant="ghost"
-                  @click="removeProfileImage"
-                  >Remove</Button
-                >
-              </div>
-            </div>
-            <div class="flex gap-4">
-              <FormControl
-                class="flex-1"
-                label="First name"
-                v-model="profileFirstName"
-              />
-              <FormControl
-                class="flex-1"
-                label="Last name"
-                v-model="profileLastName"
-              />
-            </div>
-            <FormControl
-              label="Email"
-              type="email"
-              :modelValue="settingsUser.email"
-              disabled
+        <!-- SettingsHeader carries no bottom padding, so the body opens with the
+             same 32px gap the agent portal's SettingsLayoutBase gives it. -->
+        <SettingsBody>
+          <div class="pt-8">
+            <KbSettingsIdentity
+              :name="settingsUser.full_name"
+              :subtitle="settingsUser.email"
+              :image="settingsUser.image"
+              :busy="settingsBusy"
+              @upload="uploadProfileImage"
+              @remove="removeProfileImage"
+              @rename="renameProfile"
             />
-            <div>
-              <Button
-                variant="solid"
-                :loading="settingsBusy"
-                @click="saveProfile"
-                >Save changes</Button
-              >
-            </div>
+            <KbSettingsPreferences
+              v-if="settingsUser.email"
+              :userId="settingsUser.email"
+            />
           </div>
         </SettingsBody>
       </SettingsPanel>
 
-      <!-- Manage organization + Organization settings are manager-only -->
-      <template v-if="isOrgManager">
-        <SettingsPanel value="members">
-          <SettingsHeader
-            title="Manage organization"
-            description="Manage teams and their roles within your organization"
-          >
-            <template #actions>
-              <Button variant="solid" @click="inviteOpen = true">
-                <template #prefix
-                  ><FeatherIcon name="plus" class="h-4 w-4"
-                /></template>
-                Invite people
-              </Button>
-            </template>
-          </SettingsHeader>
-          <SettingsBody>
-            <div
-              class="flex items-center justify-between border-b border-outline-gray-1 pb-2 text-sm text-ink-gray-5 mt-8"
-            >
-              <span>Name</span><span>Role</span>
-            </div>
-            <ul class="divide-y divide-outline-gray-1">
-              <li
-                v-for="member in orgMembers"
-                :key="member.contact || member.invitation"
-                class="flex items-center gap-3 py-3"
-              >
-                <Avatar
-                  :image="member.image"
-                  :label="member.full_name"
-                  size="lg"
-                />
-                <div class="min-w-0 flex-1">
-                  <div class="flex items-center gap-2">
-                    <span class="truncate text-base text-ink-gray-8">{{
-                      member.full_name
-                    }}</span>
-                    <Badge
-                      v-if="member.pending"
-                      theme="orange"
-                      variant="subtle"
-                      label="Pending"
-                    />
-                  </div>
-                  <div class="truncate text-sm text-ink-gray-5">
-                    {{ member.email }}
-                  </div>
-                </div>
-                <span v-if="member.is_owner" class="text-sm text-ink-gray-6"
-                  >Owner</span
-                >
-                <Dropdown
-                  v-else-if="!member.pending"
-                  :options="roleOptions(member)"
-                >
-                  <button
-                    class="flex items-center gap-1 text-sm text-ink-gray-7"
-                  >
-                    {{ member.is_manager ? "Manager" : "Member" }}
-                    <FeatherIcon name="chevron-down" class="h-4 w-4" />
-                  </button>
-                </Dropdown>
-                <span v-else class="text-sm text-ink-gray-6">
-                  {{ member.is_manager ? "Manager" : "Member" }}
-                </span>
-                <Button
-                  v-if="!member.is_owner"
-                  variant="ghost"
-                  @click="removeMember(member)"
-                >
-                  <FeatherIcon name="trash-2" class="h-4 w-4 text-ink-gray-6" />
-                </Button>
-              </li>
-            </ul>
-          </SettingsBody>
-        </SettingsPanel>
+      <!-- Both panels list the organizations first, then drill into one: members
+           on this tab, the organization's own settings on the next. -->
+      <SettingsPanel value="members">
+        <KbSettingsOrganizations mode="members" />
+      </SettingsPanel>
 
-        <SettingsPanel value="organization">
-          <SettingsHeader
-            title="Organization settings"
-            description="Manage teams and their roles within your organization"
-          >
-            <template #actions>
-              <Button variant="solid" @click="inviteOpen = true">
-                <template #prefix
-                  ><FeatherIcon name="plus" class="h-4 w-4"
-                /></template>
-                Invite people
-              </Button>
-            </template>
-          </SettingsHeader>
-          <SettingsBody>
-            <div class="flex max-w-xl flex-col gap-8 mt-8">
-              <div class="flex items-center gap-4">
-                <Avatar
-                  :image="settingsOrg?.image"
-                  :label="settingsOrg?.customer_name"
-                  size="2xl"
-                  shape="square"
-                />
-                <div class="min-w-0 flex-1">
-                  <div class="truncate text-base font-medium text-ink-gray-8">
-                    {{ settingsOrg?.customer_name }}
-                  </div>
-                  <div class="truncate text-sm text-ink-gray-5">
-                    {{ settingsOrg?.email }}
-                  </div>
-                </div>
-                <Button
-                  v-if="settingsOrg?.image"
-                  variant="ghost"
-                  @click="removeOrgImage"
-                  >Remove</Button
-                >
-                <Button variant="subtle" @click="uploadOrgImage"
-                  >Upload image</Button
-                >
-              </div>
-
-              <div class="flex gap-4">
-                <div class="flex-1">
-                  <FormControl
-                    label="Name"
-                    v-model="orgName"
-                    maxlength="34"
-                    @change="saveOrganization"
-                  />
-                  <p class="mt-1 text-sm text-ink-gray-5">
-                    Organization name can up to 34 characters
-                  </p>
-                </div>
-                <FormControl
-                  class="flex-1"
-                  label="Domain"
-                  :modelValue="settingsOrg?.domain"
-                  disabled
-                />
-              </div>
-
-              <div>
-                <h3 class="text-base font-semibold text-ink-gray-8">
-                  Organization admin
-                </h3>
-                <div class="mt-4 flex items-end justify-between gap-4">
-                  <div class="min-w-0 flex-1">
-                    <div class="text-sm text-ink-gray-5">Admin Email</div>
-                    <div
-                      v-if="!orgEmailEditing"
-                      class="truncate text-base text-ink-gray-8"
-                    >
-                      {{ settingsOrg?.email }}
-                    </div>
-                    <FormControl
-                      v-else
-                      type="email"
-                      v-model="orgEmail"
-                      class="mt-1"
-                    />
-                  </div>
-                  <Button
-                    v-if="!orgEmailEditing"
-                    variant="subtle"
-                    @click="orgEmailEditing = true"
-                  >
-                    Change email
-                  </Button>
-                  <Button
-                    v-else
-                    variant="solid"
-                    :loading="settingsBusy"
-                    @click="saveOrgEmail"
-                    >Save</Button
-                  >
-                </div>
-              </div>
-
-              <div>
-                <h3 class="text-base font-semibold text-ink-gray-8">
-                  Danger Zone
-                </h3>
-                <div class="mt-4 flex items-center justify-between gap-4">
-                  <div>
-                    <div class="text-base font-medium text-ink-gray-8">
-                      Delete account
-                    </div>
-                    <div class="text-sm text-ink-gray-5">
-                      Permanently remove your account and all associated data.
-                    </div>
-                  </div>
-                  <Button
-                    theme="red"
-                    variant="subtle"
-                    :loading="settingsBusy"
-                    @click="deleteOrganization"
-                  >
-                    <template #prefix
-                      ><FeatherIcon name="alert-triangle" class="h-4 w-4"
-                    /></template>
-                    Delete account
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </SettingsBody>
-        </SettingsPanel>
-      </template>
+      <SettingsPanel value="organization">
+        <KbSettingsOrganizations mode="settings" />
+      </SettingsPanel>
     </SettingsContent>
   </SettingsDialog>
+
+  <Dialog
+    :modelValue="Boolean(confirmAction)"
+    @update:modelValue="(value) => !value && cancelConfirm()"
+    :options="{ title: confirmAction?.title }"
+  >
+    <template #body-content>
+      <p class="text-p-base text-ink-gray-8">{{ confirmAction?.message }}</p>
+    </template>
+    <template #actions>
+      <div class="flex justify-end gap-2">
+        <Button label="Cancel" @click="cancelConfirm" />
+        <Button
+          theme="red"
+          variant="solid"
+          :label="confirmAction?.label || 'Confirm'"
+          :loading="settingsBusy"
+          @click="acceptConfirm"
+        />
+      </div>
+    </template>
+  </Dialog>
 
   <!-- Invite dialog -->
   <Dialog v-model="inviteOpen">
@@ -330,16 +125,15 @@
 // (`#settings/<tab>`) so it layers over the page underneath — the topbar menu
 // opens it via the page script's openSettings(). All data + actions come from
 // the shared useSettingsModal store (helpdesk.api.organization); the
-// Organization tabs are manager-only — isOrgManager gates both the nav items and
-// the panels, backed server-side by get_managed_customer().
+// Organizations live in their own panel: a contact can belong to several, so it
+// lists them and drills in, and every action there names the organization it acts
+// on — the API re-checks management of that specific one.
 import { computed, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import {
   Avatar,
-  Badge,
   Button,
   Dialog,
-  Dropdown,
   FeatherIcon,
   FormControl,
   SettingsBody,
@@ -351,6 +145,9 @@ import {
   SettingsPanel,
   SettingsSidebar,
 } from "frappe-ui";
+import KbSettingsIdentity from "@app/components/KbSettingsIdentity.vue";
+import KbSettingsOrganizations from "@app/components/KbSettingsOrganizations.vue";
+import KbSettingsPreferences from "@app/components/KbSettingsPreferences.vue";
 import { useSettingsModal } from "@app/stores/settings";
 
 const HASH_ROOT = "settings";
@@ -378,36 +175,29 @@ const tab = computed({
 const {
   settingsBusy,
   settingsUser,
-  settingsOrg,
-  isOrgManager,
-  orgMembers,
+  organizations,
   profileFirstName,
   profileLastName,
-  orgName,
-  orgEmail,
-  orgEmailEditing,
   inviteOpen,
   inviteEmail,
   inviteRole,
+  confirmAction,
+  cancelConfirm,
+  acceptConfirm,
   openSettings: loadSettingsData,
   saveProfile,
   uploadProfileImage,
   removeProfileImage,
   sendInvite,
-  setMemberRole,
-  removeMember,
-  saveOrganization,
-  saveOrgEmail,
-  uploadOrgImage,
-  removeOrgImage,
-  deleteOrganization,
 } = useSettingsModal();
 
-function roleOptions(member: any) {
-  return [
-    { label: "Member", onClick: () => setMemberRole(member, "Member") },
-    { label: "Manager", onClick: () => setMemberRole(member, "Manager") },
-  ];
+// The portal stores first and last name separately; the inline field is one box,
+// so it splits on the first space and everything after it is the last name.
+function renameProfile(value: string) {
+  const [first, ...rest] = value.split(/\s+/);
+  profileFirstName.value = first;
+  profileLastName.value = rest.join(" ");
+  saveProfile();
 }
 
 // (Re)load the settings payload each time the dialog opens.

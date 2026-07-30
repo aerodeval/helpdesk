@@ -14,9 +14,13 @@ from helpdesk.utils import get_customers, is_agent
 
 @frappe.whitelist()
 def get_settings() -> dict:
-    """Everything the portal settings modal needs, scoped to the session user."""
+    """The session user's profile plus every organization they belong to.
+
+    A contact can be a member of several HD Customers, so this lists them all and
+    the portal drills into one at a time via `get_organization`.
+    """
     user = frappe.get_doc("User", frappe.session.user)
-    context = {
+    return {
         "user": {
             "name": user.name,
             "email": user.email,
@@ -26,44 +30,85 @@ def get_settings() -> dict:
             "image": user.user_image,
         },
         "is_agent": is_agent(),
-        "is_manager": False,
-        "organization": None,
-        "members": [],
+        "organizations": get_organizations(),
     }
 
-    membership = get_membership()
-    if not membership:
-        return context
 
-    customer = frappe.get_doc("HD Customer", membership["name"])
-    context["is_manager"] = bool(membership["is_manager"])
-    context["organization"] = {
-        "name": customer.name,
-        "customer_name": customer.customer_name,
-        "image": customer.image,
-        "domain": customer.domain,
-        "email": customer.email_id or customer.owner,
-    }
-    if context["is_manager"]:
-        context["members"] = get_members(customer)
-    return context
-
-
-def get_membership() -> dict | None:
-    """The session user's customer membership, preferring one they manage."""
+def get_organizations() -> list[dict]:
+    """Every organization the session user belongs to, with their role in each."""
     memberships = get_customers(get_roles=True)
     if not memberships:
-        return None
-    managed = [member for member in memberships if member.get("is_manager")]
-    return (managed or list(memberships))[0]
+        return []
+
+    rows = frappe.get_all(
+        "HD Customer",
+        filters={"name": ["in", [membership["name"] for membership in memberships]]},
+        fields=["name", "customer_name", "image", "domain", "email_id", "owner"],
+    )
+    by_name = {row.name: row for row in rows}
+
+    organizations = []
+    for membership in memberships:
+        row = by_name.get(membership["name"])
+        if not row:
+            continue
+        organizations.append(
+            {
+                "name": row.name,
+                "customer_name": row.customer_name,
+                "image": row.image,
+                "domain": row.domain,
+                "email": row.email_id or row.owner,
+                "is_manager": bool(membership.get("is_manager")),
+            }
+        )
+    organizations.sort(key=lambda org: (org["customer_name"] or org["name"]).lower())
+    return organizations
 
 
-def get_managed_customer():
-    """The HD Customer the session user manages; throws if they manage none."""
+@frappe.whitelist()
+def get_organization(customer: str) -> dict:
+    """One organization the caller belongs to, with its members if they manage it."""
+    membership = get_membership(customer)
+    if not membership:
+        frappe.throw(
+            _("You are not a member of {0}").format(customer), frappe.PermissionError
+        )
+
+    doc = frappe.get_doc("HD Customer", customer)
+    is_manager = bool(membership.get("is_manager"))
+    return {
+        "name": doc.name,
+        "customer_name": doc.customer_name,
+        "image": doc.image,
+        "domain": doc.domain,
+        "email": doc.email_id or doc.owner,
+        "is_manager": is_manager,
+        # Member details are manager-only: portal users hold no Contact permissions.
+        "members": get_members(doc) if is_manager else [],
+    }
+
+
+def get_membership(customer: str) -> dict | None:
+    """The session user's membership row for `customer`, or None if they have none."""
     for membership in get_customers(get_roles=True):
-        if membership.get("is_manager"):
-            return frappe.get_doc("HD Customer", membership["name"])
-    frappe.throw(_("You are not a manager of any organization"), frappe.PermissionError)
+        if membership["name"] == customer:
+            return membership
+    return None
+
+
+def get_managed_customer(customer: str):
+    """The named HD Customer, asserting the caller manages *that* organization.
+
+    Every mutation resolves its target through here. Taking the name explicitly is
+    what keeps a manager of one organization from acting on another.
+    """
+    membership = get_membership(customer)
+    if not membership or not membership.get("is_manager"):
+        frappe.throw(
+            _("You are not a manager of {0}").format(customer), frappe.PermissionError
+        )
+    return frappe.get_doc("HD Customer", customer)
 
 
 def get_members(customer) -> list[dict]:
@@ -166,9 +211,9 @@ def sync_contact(user) -> None:
 
 
 @frappe.whitelist()
-def update_member_role(contact: str, is_manager) -> None:
-    """Toggle a member between manager and member in the caller's organization."""
-    customer = get_managed_customer()
+def update_member_role(customer: str, contact: str, is_manager) -> None:
+    """Toggle a member between manager and member in an organization you manage."""
+    customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner's role cannot be changed"))
     row = next((row for row in customer.contacts if row.contact_name == contact), None)
@@ -179,9 +224,9 @@ def update_member_role(contact: str, is_manager) -> None:
 
 
 @frappe.whitelist()
-def remove_member(contact: str) -> None:
-    """Remove a member from the caller's organization."""
-    customer = get_managed_customer()
+def remove_member(customer: str, contact: str) -> None:
+    """Remove a member from an organization you manage."""
+    customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner cannot be removed"))
     if not any(row.contact_name == contact for row in customer.contacts):
@@ -191,9 +236,9 @@ def remove_member(contact: str) -> None:
 
 
 @frappe.whitelist()
-def cancel_invitation(invitation: str) -> None:
-    """Cancel a pending invitation that belongs to the caller's organization."""
-    customer = get_managed_customer()
+def cancel_invitation(customer: str, invitation: str) -> None:
+    """Cancel a pending invitation belonging to an organization you manage."""
+    customer = get_managed_customer(customer)
     invitation_doc = frappe.get_doc("User Invitation", invitation)
     if invitation_doc.customer != customer.name:
         frappe.throw(
@@ -206,12 +251,13 @@ def cancel_invitation(invitation: str) -> None:
 
 @frappe.whitelist()
 def update_organization(
+    customer: str,
     customer_name: str | None = None,
     image: str | None = None,
     email: str | None = None,
 ) -> str:
-    """Update the caller's organization name, logo or admin email."""
-    customer = get_managed_customer()
+    """Update the name, logo or admin email of an organization you manage."""
+    customer = get_managed_customer(customer)
     if image is not None:
         customer.image = image or None
     if email:
@@ -224,7 +270,7 @@ def update_organization(
 
 
 @frappe.whitelist()
-def delete_organization() -> None:
-    """Danger zone: delete the caller's organization. Tickets are unlinked, not deleted."""
-    customer = get_managed_customer()
+def delete_organization(customer: str) -> None:
+    """Danger zone: delete an organization you manage. Tickets are unlinked, not deleted."""
+    customer = get_managed_customer(customer)
     frappe.delete_doc("HD Customer", customer.name)

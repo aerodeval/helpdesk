@@ -1,0 +1,111 @@
+{
+ "block": {
+  "attributes": {},
+  "baseStyles": {
+   "height": "fit-content",
+   "width": "fit-content"
+  },
+  "children": [
+   {
+    "attributes": {},
+    "baseStyles": {
+     "alignItems": "center",
+     "display": "flex",
+     "flexDirection": "row",
+     "flexShrink": 1,
+     "gap": "8px",
+     "height": "fit-content",
+     "justifyContent": "center",
+     "width": "fit-content"
+    },
+    "blockName": "container",
+    "children": [
+     {
+      "attributes": {},
+      "baseStyles": {},
+      "children": [],
+      "classes": [],
+      "componentEvents": {},
+      "componentId": "topbar_logo-1k0b8u75h",
+      "componentName": "topbar_logo",
+      "componentProps": {},
+      "componentSlots": {},
+      "isStudioComponent": true,
+      "mobileStyles": {},
+      "rawStyles": {},
+      "tabletStyles": {}
+     },
+     {
+      "attributes": {},
+      "baseStyles": {},
+      "children": [],
+      "classes": [],
+      "componentEvents": {},
+      "componentId": "Breadcrumbs-header",
+      "componentName": "Breadcrumbs",
+      "componentProps": {
+       "items": "{{ [{ label: 'Knowledge base', route: '/' }].concat(inputs.parentCrumb ? [{ label: inputs.parentCrumb, route: inputs.parentRoute }] : []).concat(route.path === '/' ? [] : [{ label: inputs.crumb || route.name }]) }}"
+      },
+      "componentSlots": {},
+      "mobileStyles": {},
+      "rawStyles": {},
+      "tabletStyles": {}
+     }
+    ],
+    "classes": [],
+    "componentEvents": {},
+    "componentId": "container-xy0t2y8tg",
+    "componentName": "container",
+    "componentProps": {},
+    "componentSlots": {},
+    "mobileStyles": {},
+    "originalElement": "div",
+    "rawStyles": {},
+    "tabletStyles": {}
+   }
+  ],
+  "classes": [],
+  "componentEvents": {},
+  "componentId": "container-v2fhlmh1f",
+  "componentName": "container",
+  "componentProps": {},
+  "componentSlots": {},
+  "mobileStyles": {},
+  "originalElement": "div",
+  "rawStyles": {},
+  "tabletStyles": {}
+ },
+ "component_id": "header",
+ "component_name": "Header",
+ "creation": "2026-07-30 15:28:06.178698",
+ "docstatus": 0,
+ "doctype": "Studio Component",
+ "idx": 0,
+ "inputs": [
+  {
+   "default": "",
+   "input_name": "crumb",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "default": "",
+   "doctype": "Studio Component Input",
+   "input_name": "parentCrumb",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "default": "",
+   "doctype": "Studio Component Input",
+   "input_name": "parentRoute",
+   "required": 0,
+   "type": "Data"
+  }
+ ],
+ "is_disabled": 0,
+ "modified": "2026-07-30 10:57:16.919505",
+ "modified_by": "Administrator",
+ "name": "header",
+ "owner": "Administrator"
+}
