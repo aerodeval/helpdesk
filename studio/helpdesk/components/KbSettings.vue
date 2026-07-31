@@ -22,12 +22,6 @@
           /></template>
           Manage organization
         </SettingsNavItem>
-        <SettingsNavItem value="organization">
-          <template #prefix
-            ><FeatherIcon name="briefcase" class="h-4 w-4"
-          /></template>
-          Organization settings
-        </SettingsNavItem>
       </SettingsNavGroup>
     </SettingsSidebar>
 
@@ -59,14 +53,9 @@
         </SettingsBody>
       </SettingsPanel>
 
-      <!-- Both panels list the organizations first, then drill into one: members
-           on this tab, the organization's own settings on the next. -->
+      <!-- Lists the organizations, then drills into one for its people and settings. -->
       <SettingsPanel value="members">
-        <KbSettingsOrganizations mode="members" />
-      </SettingsPanel>
-
-      <SettingsPanel value="organization">
-        <KbSettingsOrganizations mode="settings" />
+        <KbSettingsOrganizations />
       </SettingsPanel>
     </SettingsContent>
   </SettingsDialog>

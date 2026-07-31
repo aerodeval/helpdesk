@@ -84,8 +84,9 @@ def get_organization(customer: str) -> dict:
         "domain": doc.domain,
         "email": doc.email_id or doc.owner,
         "is_manager": is_manager,
-        # Member details are manager-only: portal users hold no Contact permissions.
-        "members": get_members(doc) if is_manager else [],
+        # Anyone in the organization may see who else is in it; only a manager can
+        # change it. Resolved here because portal users hold no Contact permissions.
+        "members": get_members(doc),
     }
 
 

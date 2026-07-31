@@ -2,15 +2,18 @@
   <!-- List: a contact can belong to several organizations, so this drills in one
        at a time — the same list→detail shape the agent portal uses for Teams. -->
   <template v-if="!selectedOrg">
-    <SettingsHeader :title="copy.title" :description="copy.description" />
+    <SettingsHeader
+      title="Manage organization"
+      description="Pick an organization to manage its people and settings."
+    />
     <SettingsBody>
       <div class="pt-8">
-        <p v-if="!listedOrganizations.length" class="text-base text-ink-gray-5">
-          {{ copy.empty }}
+        <p v-if="!organizations.length" class="text-base text-ink-gray-5">
+          You are not a member of any organization yet.
         </p>
         <div v-else class="divide-y divide-outline-gray-1">
           <button
-            v-for="organization in listedOrganizations"
+            v-for="organization in organizations"
             :key="organization.name"
             class="flex h-12.5 w-full cursor-pointer items-center gap-3 rounded px-2 text-left hover:bg-surface-sidebar"
             @click="openOrganization(organization.name)"
@@ -30,7 +33,6 @@
               </div>
             </div>
             <Badge
-              v-if="mode === 'members'"
               variant="subtle"
               :theme="organization.is_manager ? 'blue' : 'gray'"
               :label="organization.is_manager ? 'Manager' : 'Member'"
@@ -62,7 +64,7 @@
           </span>
         </Button>
         <Button
-          v-if="isOrgManager && mode === 'members'"
+          v-if="isOrgManager"
           variant="solid"
           label="Invite people"
           @click="inviteOpen = true"
@@ -89,8 +91,9 @@
           @rename="renameOrganization"
         />
 
-        <!-- Members are manager-only: the API returns none to plain members. -->
-        <section v-if="isOrgManager && mode === 'members'">
+        <!-- Everyone in the organization sees its people; the role menu and the
+             sections below are a manager's to use. -->
+        <section v-if="orgMembers.length">
           <span class="text-base font-semibold text-ink-gray-9">Members</span>
           <div
             class="mt-2 flex items-center justify-between border-b border-outline-gray-1 pb-2 text-sm text-ink-gray-5"
@@ -124,8 +127,10 @@
                   {{ member.email }}
                 </div>
               </div>
-              <span v-if="member.is_owner" class="text-sm text-ink-gray-6"
-                >Owner</span
+              <span
+                v-if="member.is_owner || !isOrgManager"
+                class="text-sm text-ink-gray-6"
+                >{{ roleLabel(member) }}</span
               >
               <Dropdown
                 v-else
@@ -141,8 +146,8 @@
           </ul>
         </section>
 
-        <template v-if="isOrgManager && mode === 'settings'">
-          <section>
+        <template v-if="isOrgManager">
+          <section class="mt-10">
             <span class="text-base font-semibold text-ink-gray-9"
               >Organization admin</span
             >
@@ -229,26 +234,7 @@ import KbSettingsIdentity from "@app/components/KbSettingsIdentity.vue";
 import { useSettingsModal } from "@app/stores/settings";
 import { computed } from "vue";
 
-const props = withDefaults(defineProps<{ mode?: "members" | "settings" }>(), {
-  mode: "members",
-});
-
 const ORG_NAME_MAX_LENGTH = 34;
-
-const copy = computed(() =>
-  props.mode === "settings"
-    ? {
-        title: "Organization settings",
-        description:
-          "Pick an organization to manage its name, logo and admin contact.",
-        empty: "You do not manage any organization.",
-      }
-    : {
-        title: "Manage organization",
-        description: "Pick an organization to manage the people in it.",
-        empty: "You are not a member of any organization yet.",
-      }
-);
 
 const {
   organizations,
@@ -273,14 +259,6 @@ const {
   deleteOrganization,
 } = useSettingsModal();
 
-// Only a manager can change an organization's settings, so that tab lists just
-// those — drilling into one you merely belong to would open a read-only page.
-const listedOrganizations = computed(() =>
-  props.mode === "settings"
-    ? organizations.value.filter((organization) => organization.is_manager)
-    : organizations.value
-);
-
 function renameOrganization(value: string) {
   orgName.value = value;
   saveOrganization();
@@ -288,6 +266,11 @@ function renameOrganization(value: string) {
 
 // Role and removal share one menu: a pending invite can only be cancelled, so it
 // gets that single entry rather than roles it cannot hold yet.
+function roleLabel(member: any) {
+  if (member.is_owner) return "Owner";
+  return member.is_manager ? "Manager" : "Member";
+}
+
 function memberOptions(member: any) {
   if (member.pending) {
     return [
