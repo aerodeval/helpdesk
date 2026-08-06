@@ -366,12 +366,20 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-overlay",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
     }
    ],
    "classes": [],

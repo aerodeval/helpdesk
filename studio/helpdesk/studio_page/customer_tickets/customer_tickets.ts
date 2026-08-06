@@ -98,7 +98,7 @@ export default function setup(context) {
   }
 
   return {
-    ...useSettingsModal(),
+    ...useSettingsModal(context),
     navMenuOpen: ref(false),
     // toolbar control state
     filters: view.filters.conditions,

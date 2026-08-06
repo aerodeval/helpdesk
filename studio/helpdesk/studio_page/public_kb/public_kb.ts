@@ -1,15 +1,11 @@
 import { ref, computed } from 'vue'
+import { useSettingsModal } from '@app/stores/settings'
 
 export default function setup(context) {
-  const { articles, HD_Article_Category, route, router } = context
+  const { articles, HD_Article_Category } = context
 
   const activeTab = ref('All')
   const searchQuery = ref('')
-
-  // Opens the settings overlay (KbSettings.vue) via the URL hash.
-  function openSettings(tab = 'profile') {
-    router.push({ query: route.query, hash: `#settings/${tab}` })
-  }
 
   const filteredArticles = computed(() => {
     if (!articles.data) return []
@@ -35,5 +31,5 @@ export default function setup(context) {
     return list
   })
 
-  return { activeTab, searchQuery, filteredArticles, openSettings }
+  return { ...useSettingsModal(context), activeTab, searchQuery, filteredArticles }
 }

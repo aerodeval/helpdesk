@@ -69,28 +69,6 @@
           "tag": "span",
           "text": "Login"
          }
-        },
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-tt214fyaa",
-         "componentName": "Button",
-         "componentProps": {
-          "disabled": false,
-          "label": "Create ticket",
-          "loading": false,
-          "size": "sm",
-          "theme": "gray",
-          "type": "button",
-          "variant": "solid"
-         }
         }
        ],
        "classes": [],
@@ -318,12 +296,14 @@
              "baseStyles": {
               "alignItems": "center",
               "borderColor": "var(--outline-gray-1)",
+              "borderRadius": "6px",
               "borderStyle": "solid",
               "borderWidth": "0px 0px 1px 0px",
               "cursor": "pointer",
               "display": "flex",
               "flexDirection": "row",
               "gap": "16px",
+              "transition": "background-color 150ms ease",
               "width": "100%"
              },
              "blockName": "article-row",
@@ -331,15 +311,16 @@
               {
                "baseStyles": {
                 "display": "flex",
+                "flex": "1 1 0%",
                 "flexDirection": "row",
                 "flexShrink": 1,
                 "gap": "12px",
                 "height": "fit-content",
+                "minWidth": "0",
                 "paddingBottom": "6px",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
-                "paddingTop": "6px",
-                "width": "fit-content"
+                "paddingTop": "6px"
                },
                "blockName": "container",
                "children": [
@@ -496,7 +477,8 @@
                    "componentId": "Avatar-3xop1gd6g",
                    "componentName": "Avatar",
                    "componentProps": {
-                    "label": "{{ getInitials(dataItem.author || dataItem.owner) }}",
+                    "image": "{{ authorOf(dataItem.name).image }}",
+                    "label": "{{ authorOf(dataItem.name).name || dataItem.author || dataItem.owner }}",
                     "shape": "circle",
                     "size": "xs"
                    }
@@ -512,7 +494,7 @@
                    "componentProps": {
                     "fontSize": "text-base",
                     "tag": "span",
-                    "text": "{{ dataItem.author || dataItem.owner }}"
+                    "text": "{{ authorOf(dataItem.name).name || dataItem.author || dataItem.owner }}"
                    }
                   }
                  ],
@@ -548,7 +530,9 @@
                "originalElement": "div"
               }
              ],
-             "classes": [],
+             "classes": [
+              "hover:bg-surface-gray-2"
+             ],
              "componentEvents": {
               "click": {
                "action": "Run Script",
@@ -661,12 +645,20 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-overlay",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
     }
    ],
    "classes": [],
@@ -747,28 +739,6 @@
           "tag": "span",
           "text": "Login"
          }
-        },
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-tt214fyaa",
-         "componentName": "Button",
-         "componentProps": {
-          "disabled": false,
-          "label": "Create ticket",
-          "loading": false,
-          "size": "sm",
-          "theme": "gray",
-          "type": "button",
-          "variant": "solid"
-         }
         }
        ],
        "classes": [],
@@ -996,12 +966,14 @@
              "baseStyles": {
               "alignItems": "center",
               "borderColor": "var(--outline-gray-1)",
+              "borderRadius": "6px",
               "borderStyle": "solid",
               "borderWidth": "0px 0px 1px 0px",
               "cursor": "pointer",
               "display": "flex",
               "flexDirection": "row",
               "gap": "16px",
+              "transition": "background-color 150ms ease",
               "width": "100%"
              },
              "blockName": "article-row",
@@ -1009,15 +981,16 @@
               {
                "baseStyles": {
                 "display": "flex",
+                "flex": "1 1 0%",
                 "flexDirection": "row",
                 "flexShrink": 1,
                 "gap": "12px",
                 "height": "fit-content",
+                "minWidth": "0",
                 "paddingBottom": "6px",
                 "paddingLeft": "8px",
                 "paddingRight": "8px",
-                "paddingTop": "6px",
-                "width": "fit-content"
+                "paddingTop": "6px"
                },
                "blockName": "container",
                "children": [
@@ -1174,7 +1147,8 @@
                    "componentId": "Avatar-3xop1gd6g",
                    "componentName": "Avatar",
                    "componentProps": {
-                    "label": "{{ getInitials(dataItem.author || dataItem.owner) }}",
+                    "image": "{{ authorOf(dataItem.name).image }}",
+                    "label": "{{ authorOf(dataItem.name).name || dataItem.author || dataItem.owner }}",
                     "shape": "circle",
                     "size": "xs",
                     "theme": "gray"
@@ -1191,7 +1165,7 @@
                    "componentProps": {
                     "fontSize": "text-base",
                     "tag": "span",
-                    "text": "{{ dataItem.author || dataItem.owner }}"
+                    "text": "{{ authorOf(dataItem.name).name || dataItem.author || dataItem.owner }}"
                    }
                   }
                  ],
@@ -1227,7 +1201,9 @@
                "originalElement": "div"
               }
              ],
-             "classes": [],
+             "classes": [
+              "hover:bg-surface-gray-2"
+             ],
              "componentEvents": {
               "click": {
                "action": "Run Script",
@@ -1340,12 +1316,20 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-overlay",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
     }
    ],
    "classes": [],

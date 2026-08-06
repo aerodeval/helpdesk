@@ -102,6 +102,41 @@ def get_categories():
     return categories
 
 
+@frappe.whitelist(allow_guest=True)
+def get_popular_categories(limit: int = 3) -> list[dict]:
+    """Categories drawing the most article views, most-viewed first.
+
+    Backs the portal's "Popular searches" chips, so they track real traffic
+    instead of being hand-maintained. Categories with no views are left out.
+    """
+    views = {}
+    for article in frappe.get_all(
+        "HD Article", filters={"status": "Published"}, fields=["category", "views"]
+    ):
+        # category is optional on HD Article; an uncategorised one has no chip.
+        if not article.category:
+            continue
+        views[article.category] = views.get(article.category, 0) + (article.views or 0)
+
+    ranked = sorted(
+        ((category, total) for category, total in views.items() if total),
+        key=lambda item: item[1],
+        reverse=True,
+    )[: int(limit)]
+
+    return [
+        {
+            "name": category,
+            "label": frappe.db.get_value(
+                "HD Article Category", category, "category_name"
+            )
+            or category,
+            "views": total,
+        }
+        for category, total in ranked
+    ]
+
+
 @frappe.whitelist()
 def get_category_articles(category: str):
     articles = frappe.get_all(

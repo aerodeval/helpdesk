@@ -3,8 +3,9 @@
        the avatar itself opens the native file picker — no intermediate dialog — and a
        hover-revealed × clears it. The name is edited inline rather than in a form. -->
   <div class="flex items-center gap-4 pt-1.5 pb-8">
-    <div class="group relative size-16 shrink-0">
-      <Avatar class="!size-16" :image="image" :label="name" :shape="shape" />
+    <div class="group relative shrink-0" :style="avatarBox">
+      <!-- Avatar's size enum stops at 46px, so both scales set it directly. -->
+      <Avatar :style="avatarBox" :image="image" :label="name" :shape="shape" />
       <div
         v-if="editable"
         class="absolute inset-0 cursor-pointer"
@@ -13,7 +14,8 @@
       />
       <div
         v-if="image && editable"
-        class="absolute -right-1 -top-1 flex size-4 cursor-pointer items-center justify-center rounded-full bg-surface-base opacity-0 outline outline-black-overlay-50 duration-300 ease-in-out group-hover:opacity-100 hover:bg-surface-gray-2"
+        class="absolute -right-1 -top-1 flex size-4 cursor-pointer items-center justify-center rounded-full bg-surface-base opacity-0 outline duration-300 ease-in-out group-hover:opacity-100 hover:bg-surface-gray-2"
+        style="outline-color: rgb(0 0 0 / 0.05)"
         @click.stop="$emit('remove')"
       >
         <FeatherIcon name="x" class="size-3.5 text-ink-gray-4" />
@@ -22,10 +24,11 @@
 
     <div class="flex min-w-0 flex-col gap-1">
       <div v-if="!editing" class="flex items-end gap-1">
-        <span class="text-md font-semibold text-ink-gray-8">{{ name }}</span>
+        <span class="text-ink-gray-8" :class="titleClass">{{ name }}</span>
         <Button
           v-if="editable"
-          class="!h-5 !px-1"
+          class="!h-5"
+          style="padding-inline: 4px"
           variant="ghost"
           @click="startEditing"
         >
@@ -48,13 +51,15 @@
         />
       </div>
       <span class="text-p-sm text-ink-gray-6">{{ subtitle }}</span>
+      <!-- Anything else that belongs to the identity, aligned with the name column. -->
+      <slot />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Avatar, Button, FeatherIcon, TextInput } from "frappe-ui";
-import { nextTick, ref } from "vue";
+import { computed, nextTick, ref } from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -66,8 +71,19 @@ const props = withDefaults(
     busy?: boolean;
     /** A read-only viewer sees the block without upload/remove/rename affordances. */
     editable?: boolean;
+    /** "page" matches the agent portal's PageInfo header; "settings" is the compact one. */
+    scale?: "settings" | "page";
   }>(),
-  { shape: "circle", editable: true }
+  { shape: "circle", editable: true, scale: "settings" }
+);
+
+const avatarBox = computed(() => {
+  const size = props.scale === "page" ? "52px" : "64px";
+  return { width: size, height: size };
+});
+
+const titleClass = computed(() =>
+  props.scale === "page" ? "text-2xl font-medium" : "text-md font-semibold"
 );
 
 const emit = defineEmits<{

@@ -32,38 +32,6 @@
        "componentId": "header-topbar",
        "componentName": "header",
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex"
-       },
-       "blockName": "nav-right",
-       "children": [
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-zr081a5i1",
-         "componentName": "Button",
-         "componentProps": {
-          "iconLeft": "plus",
-          "label": "New ticket",
-          "size": "sm",
-          "variant": "solid"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-kd747j2zl",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -265,12 +233,20 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-overlay",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
     }
    ],
    "classes": [],
@@ -314,38 +290,6 @@
        "componentId": "header-topbar",
        "componentName": "header",
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex"
-       },
-       "blockName": "nav-right",
-       "children": [
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-zr081a5i1",
-         "componentName": "Button",
-         "componentProps": {
-          "iconLeft": "plus",
-          "label": "New ticket",
-          "size": "sm",
-          "variant": "solid"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-kd747j2zl",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -547,12 +491,20 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-overlay",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
     }
    ],
    "classes": [],

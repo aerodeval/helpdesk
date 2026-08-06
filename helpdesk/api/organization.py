@@ -112,8 +112,14 @@ def get_managed_customer(customer: str):
     return frappe.get_doc("HD Customer", customer)
 
 
+def own_contact() -> str | None:
+    """The session user's own Contact — the membership they must not act on."""
+    return frappe.db.get_value("Contact", {"user": frappe.session.user})
+
+
 def get_members(customer) -> list[dict]:
     """Active members (from the contacts table) followed by pending invites."""
+    you = own_contact()
     contact_names = [row.contact_name for row in customer.contacts]
     details = {}
     if contact_names:
@@ -135,6 +141,7 @@ def get_members(customer) -> list[dict]:
                 "image": info and info.image,
                 "is_manager": bool(row.is_manager),
                 "is_owner": row.contact_name == customer.primary_contact,
+                "is_you": row.contact_name == you,
                 "pending": False,
             }
         )
@@ -174,6 +181,7 @@ def get_pending_members(customer_name: str) -> list[dict]:
                 "image": None,
                 "is_manager": "HD Customer Manager" in roles,
                 "is_owner": False,
+                "is_you": False,
                 "pending": True,
             }
         )
@@ -212,11 +220,14 @@ def sync_contact(user) -> None:
 
 
 @frappe.whitelist()
-def update_member_role(customer: str, contact: str, is_manager) -> None:
+def update_member_role(customer: str, contact: str, is_manager: bool) -> None:
     """Toggle a member between manager and member in an organization you manage."""
     customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner's role cannot be changed"))
+    # demoting yourself would revoke the very rights this call needs
+    if contact == own_contact():
+        frappe.throw(_("You cannot change your own role"))
     row = next((row for row in customer.contacts if row.contact_name == contact), None)
     if not row:
         frappe.throw(_("{0} is not a member of {1}").format(contact, customer.name))
@@ -230,6 +241,8 @@ def remove_member(customer: str, contact: str) -> None:
     customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner cannot be removed"))
+    if contact == own_contact():
+        frappe.throw(_("You cannot remove yourself from the organization"))
     if not any(row.contact_name == contact for row in customer.contacts):
         frappe.throw(_("{0} is not a member of {1}").format(contact, customer.name))
     customer.remove_contact(contact)

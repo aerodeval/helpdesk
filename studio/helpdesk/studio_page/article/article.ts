@@ -62,6 +62,24 @@ export default function setup(context) {
       .filter(cat => !searchQuery.value || cat.children.length)
   })
 
+  // The Document resource carries only the author's user id ("Administrator"), so
+  // the byline showed that and an empty avatar. The KB API resolves it to a display
+  // name and picture, and is guest-readable like the page itself.
+  const author = ref({ name: '', image: '' })
+  watch(
+    () => article?.doc?.name,
+    async (name) => {
+      if (!name) return
+      try {
+        const data = await call('helpdesk.api.knowledge_base.get_article', { name })
+        if (data?.author) author.value = data.author
+      } catch (error) {
+        // Leave it empty; the byline falls back to the raw author id.
+      }
+    },
+    { immediate: true },
+  )
+
   // Middle crumb for the header: the article's category, resolved to its display
   // name because `article.doc.category` only holds the docname.
   const currentCategory = computed(() => {
@@ -129,39 +147,6 @@ export default function setup(context) {
     }
   }
 
-  // New-ticket modal state + form fields.
-  const ticketModalOpen = ref(false)
-  const ticketSubject = ref('')
-  const ticketType = ref('Question')
-  const ticketDescription = ref('')
-  const ticketMobile = ref('')
-  const ticketPriority = ref('Low')
-
-  async function createTicket() {
-    if (!ticketSubject.value) {
-      toast.error('Please enter a subject')
-      return
-    }
-    try {
-      await call('frappe.client.insert', {
-        doc: {
-          doctype: 'HD Ticket',
-          subject: ticketSubject.value,
-          ticket_type: ticketType.value,
-          description: ticketDescription.value,
-          priority: ticketPriority.value,
-        },
-      })
-      toast.success('Ticket created!')
-      ticketModalOpen.value = false
-      ticketSubject.value = ''
-      ticketDescription.value = ''
-      ticketMobile.value = ''
-    } catch (e) {
-      toast.error('Could not create ticket')
-    }
-  }
-
   // Per-category expand/collapse. Collapsed by default, except the category that
   // holds the article being read. A user toggle overrides that default.
   const expandedOverrides = ref({})
@@ -180,11 +165,10 @@ export default function setup(context) {
   const navMenuOpen = ref(false)
 
   return {
-    ...useSettingsModal(),
+    ...useSettingsModal(context),
     formatDate,
-    categoryTrees, toggleCategory, isExpanded, articleHtml, toc, currentCategory, relatedArticles,
+    categoryTrees, toggleCategory, isExpanded, articleHtml, toc, author, currentCategory, relatedArticles,
     selectedFeedback, submitFeedback,
-    ticketModalOpen, ticketSubject, ticketType, ticketDescription, ticketMobile, ticketPriority, createTicket,
     navMenuOpen,
   }
 }

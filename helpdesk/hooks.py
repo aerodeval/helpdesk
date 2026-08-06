@@ -65,6 +65,10 @@ website_route_rules = [
         "from_route": "/kb/new-ticket",
         "to_route": "kb",
     },
+    {
+        "from_route": "/kb/help",
+        "to_route": "kb",
+    },
 ]
 
 user_invitation = {

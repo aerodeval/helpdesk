@@ -18,7 +18,6 @@
       "backgroundColor": "var(--surface-base)",
       "borderColor": "var(--outline-gray-2)",
       "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
@@ -65,887 +64,6 @@
           "fontSize": "text-base",
           "tag": "span",
           "text": "Login"
-         }
-        },
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-qsfv37pdt",
-         "componentName": "Button",
-         "componentProps": {
-          "disabled": false,
-          "label": "Create Ticket",
-          "loading": false,
-          "size": "sm",
-          "theme": "gray",
-          "type": "button",
-          "variant": "solid"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-ganszx5vs",
-       "componentName": "container",
-       "originalElement": "div"
-      }
-     ],
-     "classes": [],
-     "componentId": "container-cmv5rqe56",
-     "componentName": "container",
-     "originalElement": "div"
-    },
-    {
-     "baseStyles": {
-      "backgroundColor": "var(--surface-base)",
-      "display": "flex",
-      "flex": "1",
-      "flexDirection": "column",
-      "overflowY": "auto",
-      "position": "relative",
-      "width": "100%"
-     },
-     "blockName": "scroll-wrapper",
-     "children": [
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "column",
-        "justifyContent": "flex-start",
-        "margin": "0px",
-        "paddingBottom": "80px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "84px",
-        "position": "relative",
-        "width": "100%"
-       },
-       "blockName": "hero-section",
-       "children": [
-        {
-         "baseStyles": {
-          "height": "100%",
-          "position": "absolute",
-          "top": "0",
-          "width": "100%"
-         },
-         "children": [],
-         "classes": [],
-         "componentId": "ImageView-j56brvccc",
-         "componentName": "ImageView",
-         "componentProps": {
-          "image": "{{ config.data.banner_image }}",
-          "shape": "square",
-          "size": "xs"
-         },
-         "rawStyles": {
-          "background": "rgba(0, 0, 0, 0.3)"
-         }
-        },
-        {
-         "baseStyles": {
-          "borderColor": "var(--outline-gray-2",
-          "borderStyle": "solid",
-          "borderWidth": "1px",
-          "display": "flex",
-          "flexDirection": "row",
-          "flexShrink": 1,
-          "height": "100%",
-          "position": "absolute",
-          "top": "0",
-          "width": "100%"
-         },
-         "blockName": "container",
-         "children": [],
-         "classes": [],
-         "componentId": "container-5rqjmt5ey",
-         "componentName": "container",
-         "originalElement": "div",
-         "rawStyles": {
-          "background": "rgba(0, 0, 0, 0.3)"
-         }
-        },
-        {
-         "baseStyles": {
-          "display": "flex",
-          "flexDirection": "column",
-          "flexShrink": 1,
-          "position": "relative"
-         },
-         "blockName": "container",
-         "children": [
-          {
-           "baseStyles": {
-            "display": "flex",
-            "flexDirection": "column",
-            "flexShrink": 1,
-            "position": "relative"
-           },
-           "blockName": "container",
-           "children": [
-            {
-             "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
-              "fontWeight": "600",
-              "textAlign": "center"
-             },
-             "children": [],
-             "classes": [],
-             "componentId": "TextBlock-m3x3mi17k",
-             "componentName": "TextBlock",
-             "componentProps": {
-              "fontSize": "text-6xl",
-              "tag": "h1",
-              "text": "Here's what might help"
-             }
-            },
-            {
-             "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
-              "textAlign": "center"
-             },
-             "children": [],
-             "classes": [],
-             "componentId": "TextBlock-wx7p86va2",
-             "componentName": "TextBlock",
-             "componentProps": {
-              "fontSize": "text-p-lg",
-              "tag": "p",
-              "text": "Explore answers to frequently asked questions about Frappe."
-             }
-            }
-           ],
-           "classes": [],
-           "componentId": "container-8bzxv8zav",
-           "componentName": "container",
-           "originalElement": "div"
-          },
-          {
-           "baseStyles": {
-            "marginBottom": "0px",
-            "marginLeft": "0px",
-            "marginRight": "0px",
-            "marginTop": "37px",
-            "maxWidth": "100%",
-            "width": "531px"
-           },
-           "blockName": "search-container",
-           "children": [
-            {
-             "blockName": "kb-search",
-             "children": [],
-             "classes": [],
-             "componentId": "KbSearch-search01",
-             "componentName": "KbSearch",
-             "componentProps": {
-              "placeholder": "Search articles (e.g. billing, integration, or general)"
-             },
-             "isCustomVueComponent": true
-            }
-           ],
-           "classes": [],
-           "componentId": "container-2ys8iri2i",
-           "componentName": "container",
-           "originalElement": "div"
-          },
-          {
-           "baseStyles": {
-            "alignItems": "center",
-            "display": "flex",
-            "flexDirection": "row",
-            "flexWrap": "wrap",
-            "gap": "8px",
-            "justifyContent": "center",
-            "marginBottom": "0px",
-            "marginLeft": "0px",
-            "marginRight": "0px",
-            "marginTop": "10px",
-            "position": "relative"
-           },
-           "blockName": "popular-searches",
-           "children": [
-            {
-             "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
-             },
-             "children": [],
-             "classes": [],
-             "componentId": "TextBlock-0736a9632",
-             "componentName": "TextBlock",
-             "componentProps": {
-              "fontSize": "text-p-base",
-              "tag": "span",
-              "text": "Popular searches:"
-             }
-            },
-            {
-             "baseStyles": {
-              "alignItems": "center",
-              "display": "flex",
-              "flexDirection": "row",
-              "flexWrap": "wrap",
-              "gap": "8px",
-              "width": "fit-content"
-             },
-             "children": [
-              {
-               "baseStyles": {
-                "backgroundColor": "var(--surface-violet-2, oklch(0.943 0.031 297.722))",
-                "borderRadius": "6px",
-                "cursor": "pointer"
-               },
-               "children": [],
-               "classes": [],
-               "componentEvents": {
-                "click": {
-                 "action": "Run Script",
-                 "event": "click",
-                 "script": "router.push({ path: `/category/${dataItem.name}` })"
-                }
-               },
-               "componentId": "Badge-popular-tag",
-               "componentName": "Badge",
-               "componentProps": {
-                "label": "{{ dataItem.label }}",
-                "size": "md",
-                "theme": "violet",
-                "variant": "outline"
-               }
-              }
-             ],
-             "classes": [],
-             "componentId": "Repeater-popular-tags",
-             "componentName": "Repeater",
-             "componentProps": {
-              "data": "{{ popularCategories.data }}",
-              "dataKey": "name",
-              "emptyStateMessage": ""
-             }
-            }
-           ],
-           "classes": [],
-           "componentId": "container-j4ogok21h",
-           "componentName": "container",
-           "originalElement": "div",
-           "visibilityCondition": "{{ popularCategories.data && popularCategories.data.length > 0 }}"
-          }
-         ],
-         "classes": [],
-         "componentId": "container-dm3g8lv9a",
-         "componentName": "container",
-         "originalElement": "div"
-        }
-       ],
-       "classes": [],
-       "componentId": "container-leo7uctqp",
-       "componentName": "container",
-       "originalElement": "div"
-      },
-      {
-       "baseStyles": {
-        "display": "flex",
-        "flexDirection": "column",
-        "gap": "20px",
-        "margin": "0 auto",
-        "maxWidth": "700px",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "20px",
-        "width": "100%"
-       },
-       "blockName": "categories-section",
-       "children": [
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-7, oklch(0.341 0 0))",
-          "fontWeight": "600"
-         },
-         "children": [],
-         "classes": [],
-         "componentId": "TextBlock-fbq9hffj6",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-lg",
-          "tag": "h2",
-          "text": "All knowledge base"
-         }
-        },
-        {
-         "baseStyles": {
-          "alignItems": "stretch",
-          "display": "grid",
-          "gap": "12px",
-          "gridTemplateColumns": "1fr",
-          "justifyContent": "stretch",
-          "width": "auto"
-         },
-         "blockName": "categories-grid",
-         "children": [
-          {
-           "baseStyles": {
-            "display": "grid",
-            "gap": "10px",
-            "gridAutoColumns": "minmax(0, 1fr)",
-            "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
-            "height": "auto",
-            "width": "100%"
-           },
-           "children": [
-            {
-             "baseStyles": {
-              "alignItems": "flex-start",
-              "borderColor": "var(--outline-gray-2)",
-              "borderRadius": "0.625rem",
-              "borderStyle": "solid",
-              "borderWidth": "1px",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "column",
-              "gap": "10px",
-              "justifyContent": "center",
-              "minWidth": "226px",
-              "paddingBottom": "16px",
-              "paddingLeft": "20px",
-              "paddingRight": "20px",
-              "paddingTop": "16px",
-              "width": "100%"
-             },
-             "blockName": "category-card",
-             "children": [
-              {
-               "baseStyles": {
-                "height": "24px",
-                "width": "24px"
-               },
-               "children": [],
-               "classes": [],
-               "componentId": "FeatherIcon-x3ezapeha",
-               "componentName": "FeatherIcon",
-               "componentProps": {
-                "class": "h-4 w-4",
-                "color": null,
-                "name": "{{ dataItem.icon || 'folder' }}",
-                "strokeWidth": 1.5
-               },
-               "rawStyles": {
-                "color": "var(--ink-gray-5)"
-               }
-              },
-              {
-               "baseStyles": {
-                "__last_display": "flex",
-                "alignItems": "center",
-                "display": "none",
-                "flexShrink": 0,
-                "height": "36px",
-                "justifyContent": "center",
-                "marginBottom": "4px",
-                "width": "fit-content"
-               },
-               "blockName": "card-icon-wrapper",
-               "children": [],
-               "classes": [],
-               "componentId": "container-rf6xi6a78",
-               "componentName": "container",
-               "originalElement": "div"
-              },
-              {
-               "baseStyles": {
-                "display": "flex",
-                "flexDirection": "column",
-                "flexShrink": 1,
-                "gap": "4px",
-                "height": "fit-content",
-                "width": "fit-content"
-               },
-               "blockName": "container",
-               "children": [
-                {
-                 "baseStyles": {
-                  "color": "var(--ink-gray-9)",
-                  "fontWeight": "600"
-                 },
-                 "blockName": "category-title",
-                 "children": [],
-                 "classes": [],
-                 "componentId": "TextBlock-sn7kwi5gk",
-                 "componentName": "TextBlock",
-                 "componentProps": {
-                  "fontSize": "text-lg",
-                  "tag": "h3",
-                  "text": "{{ dataItem.category_name }}"
-                 }
-                },
-                {
-                 "baseStyles": {
-                  "color": "var(--ink-gray-5)",
-                  "flexGrow": 0
-                 },
-                 "blockName": "category-description",
-                 "children": [],
-                 "classes": [],
-                 "componentId": "TextBlock-2jee9t8sl",
-                 "componentName": "TextBlock",
-                 "componentProps": {
-                  "fontSize": "text-p-base",
-                  "tag": "p",
-                  "text": "{{ dataItem.description || 'Browse articles in this category' }}"
-                 }
-                }
-               ],
-               "classes": [],
-               "componentId": "container-fynnwc9gx",
-               "componentName": "container",
-               "originalElement": "div"
-              }
-             ],
-             "classes": [
-              "bg-surface-base",
-              "hover:bg-surface-gray-1"
-             ],
-             "componentEvents": {
-              "click": {
-               "action": "Run Script",
-               "event": "click",
-               "oldEvent": "click",
-               "script": "router.push({ path: `/category/${dataItem.name}` })\n"
-              }
-             },
-             "componentId": "container-fvud8e41t",
-             "componentName": "container",
-             "originalElement": "div"
-            }
-           ],
-           "classes": [],
-           "componentId": "Repeater-sxfnpzbam",
-           "componentName": "Repeater",
-           "componentProps": {
-            "data": "{{ HD_Article_Category.data }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
-           }
-          }
-         ],
-         "classes": [],
-         "componentId": "container-3jcpczdo3",
-         "componentName": "container",
-         "mobileStyles": {
-          "gridTemplateColumns": "repeat(1, minmax(0, 1fr))"
-         },
-         "originalElement": "div",
-         "tabletStyles": {
-          "gridTemplateColumns": "repeat(2, minmax(0, 1fr))"
-         }
-        },
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-4)",
-          "textAlign": "center"
-         },
-         "children": [],
-         "classes": [],
-         "componentId": "TextBlock-uboyx0fo9",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No categories found."
-         },
-         "visibilityCondition": "{{ !HD_Article_Category.data || HD_Article_Category.data.length === 0 }}"
-        }
-       ],
-       "classes": [],
-       "componentId": "container-a9wzslqxz",
-       "componentName": "container",
-       "originalElement": "div"
-      },
-      {
-       "baseStyles": {
-        "display": "flex",
-        "flexDirection": "column",
-        "gap": "16px",
-        "margin": "0 auto",
-        "maxWidth": "700px",
-        "paddingBottom": "0px",
-        "paddingLeft": "0px",
-        "paddingRight": "0px",
-        "paddingTop": "57px",
-        "width": "100%"
-       },
-       "blockName": "articles-section",
-       "children": [
-        {
-         "baseStyles": {
-          "alignItems": "center",
-          "display": "flex",
-          "flexDirection": "row",
-          "justifyContent": "space-between",
-          "width": "100%"
-         },
-         "blockName": "articles-header",
-         "children": [
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-9)",
-            "fontWeight": "600"
-           },
-           "children": [],
-           "classes": [],
-           "componentId": "TextBlock-wq25lxphd",
-           "componentName": "TextBlock",
-           "componentProps": {
-            "fontSize": "text-base",
-            "tag": "h2",
-            "text": "Articles"
-           }
-          },
-          {
-           "children": [],
-           "classes": [],
-           "componentEvents": {
-            "update:modelValue": {
-             "action": "Run Script",
-             "event": "update:modelValue",
-             "script": "activeTab.value = eventArgs[0]"
-            }
-           },
-           "componentId": "TabButtons-pe448xu0n",
-           "componentName": "TabButtons",
-           "componentProps": {
-            "direction": "left",
-            "modelValue": "{{ activeTab }}",
-            "options": [
-             {
-              "label": "All",
-              "value": "All"
-             },
-             {
-              "label": "New",
-              "value": "New"
-             },
-             {
-              "label": "Popular",
-              "value": "Popular"
-             }
-            ],
-            "size": "sm",
-            "type": "subtle",
-            "vertical": false
-           }
-          }
-         ],
-         "classes": [],
-         "componentId": "container-yihf8crlt",
-         "componentName": "container",
-         "originalElement": "div"
-        },
-        {
-         "baseStyles": {
-          "borderColor": "var(--outline-gray-2)",
-          "borderRadius": "0px",
-          "borderStyle": "solid",
-          "display": "flex",
-          "flexDirection": "column",
-          "gap": "0px",
-          "paddingBottom": "190px",
-          "paddingLeft": "0px",
-          "paddingRight": "0px",
-          "paddingTop": "0px",
-          "width": "100%"
-         },
-         "blockName": "articles-list",
-         "children": [
-          {
-           "baseStyles": {
-            "borderColor": "var(--outline-gray-1, oklch(0.946 0 0))",
-            "borderRadius": "12px",
-            "borderStyle": "solid",
-            "borderWidth": "1px",
-            "display": "flex",
-            "flexDirection": "column",
-            "gap": "0px"
-           },
-           "children": [
-            {
-             "baseStyles": {
-              "alignItems": "center",
-              "borderColor": "transparent",
-              "borderRadius": "0px",
-              "borderStyle": "none",
-              "borderWidth": "0px",
-              "cursor": "pointer",
-              "display": "flex",
-              "flexDirection": "row",
-              "padding": "12px 16px",
-              "width": "100%"
-             },
-             "blockName": "article-row",
-             "children": [
-              {
-               "baseStyles": {
-                "alignItems": "center",
-                "display": "flex",
-                "flexDirection": "row",
-                "flexShrink": 1,
-                "height": "fit-content",
-                "justifyContent": "space-between",
-                "width": "100%"
-               },
-               "blockName": "container",
-               "children": [
-                {
-                 "baseStyles": {
-                  "display": "flex",
-                  "flexDirection": "row",
-                  "flexShrink": 1,
-                  "height": "fit-content",
-                  "width": "fit-content"
-                 },
-                 "blockName": "container",
-                 "children": [
-                  {
-                   "baseStyles": {
-                    "backgroundImage": "url(\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExIDFDMTIuNjU2OSAxIDE0IDIuMzQzMTUgMTQgNFYxMi41QzE0IDEzLjg4MDcgMTIuODgwNyAxNSAxMS41IDE1SDQuNUMzLjExOTI5IDE1IDIgMTMuODgwNyAyIDEyLjVWMy41QzIgMi4xMTkyOSAzLjExOTI5IDEgNC41IDFIMTFaTTQuNSAyQzMuNjcxNTcgMiAzIDIuNjcxNTcgMyAzLjVWMTIuNUMzIDEzLjMyODQgMy42NzE1NyAxNCA0LjUgMTRIMTEuNUMxMi4zMjg0IDE0IDEzIDEzLjMyODQgMTMgMTIuNVY0QzEzIDIuODk1NDMgMTIuMTA0NiAyIDExIDJINC41Wk0xMC43NSAxMC41QzExLjAyNjEgMTAuNSAxMS4yNSAxMC43MjM5IDExLjI1IDExQzExLjI1IDExLjI3NjEgMTEuMDI2MSAxMS41IDEwLjc1IDExLjVINS4yNUM0Ljk3Mzg2IDExLjUgNC43NSAxMS4yNzYxIDQuNzUgMTFDNC43NSAxMC43MjM5IDQuOTczODYgMTAuNSA1LjI1IDEwLjVIMTAuNzVaTTEwLjc1IDcuNUMxMS4wMjYxIDcuNSAxMS4yNSA3LjcyMzg2IDExLjI1IDhDMTEuMjUgOC4yNzYxNCAxMS4wMjYxIDguNSAxMC43NSA4LjVINS4yNUM0Ljk3Mzg2IDguNSA0Ljc1IDguMjc2MTQgNC43NSA4QzQuNzUgNy43MjM4NiA0Ljk3Mzg2IDcuNSA1LjI1IDcuNUgxMC43NVpNMTAuNzUgNC41QzExLjAyNjEgNC41IDExLjI1IDQuNzIzODYgMTEuMjUgNUMxMS4yNSA1LjI3NjE0IDExLjAyNjEgNS41IDEwLjc1IDUuNUg1LjI1QzQuOTczODYgNS41IDQuNzUgNS4yNzYxNCA0Ljc1IDVDNC43NSA0LjcyMzg2IDQuOTczODYgNC41IDUuMjUgNC41SDEwLjc1WiIgZmlsbD0iIzUyNTI1MiIvPgo8L3N2Zz4K\")",
-                    "backgroundPosition": "center",
-                    "backgroundRepeat": "no-repeat",
-                    "backgroundSize": "contain",
-                    "flexShrink": 0,
-                    "height": "16px",
-                    "marginRight": "8px",
-                    "width": "16px"
-                   },
-                   "blockName": "article-icon",
-                   "children": [],
-                   "classes": [],
-                   "componentId": "article-icon-svg",
-                   "componentName": "container"
-                  },
-                  {
-                   "baseStyles": {
-                    "color": "var(--ink-gray-8)",
-                    "flex": "1"
-                   },
-                   "children": [],
-                   "classes": [],
-                   "componentId": "TextBlock-okskr3j72",
-                   "componentName": "TextBlock",
-                   "componentProps": {
-                    "fontSize": "text-p-sm",
-                    "tag": "span",
-                    "text": "{{ dataItem.title }}"
-                   }
-                  }
-                 ],
-                 "classes": [],
-                 "componentId": "container-b3ofn4yxu",
-                 "componentName": "container",
-                 "originalElement": "div"
-                },
-                {
-                 "baseStyles": {
-                  "flexShrink": 0
-                 },
-                 "children": [],
-                 "classes": [],
-                 "componentId": "FeatherIcon-nmxpb4soy",
-                 "componentName": "FeatherIcon",
-                 "componentProps": {
-                  "class": "h-3.5 w-3.5",
-                  "color": null,
-                  "name": "chevron-right",
-                  "strokeWidth": 1.5
-                 },
-                 "rawStyles": {
-                  "color": "var(--ink-gray-4)"
-                 }
-                }
-               ],
-               "classes": [],
-               "componentId": "container-24f1icia3",
-               "componentName": "container",
-               "originalElement": "div"
-              }
-             ],
-             "classes": [
-              "hover:bg-surface-gray-2"
-             ],
-             "componentEvents": {
-              "click": {
-               "action": "Run Script",
-               "event": "click",
-               "oldEvent": "click",
-               "script": "router.push({ path: `/articles/${dataItem.name}` })\n"
-              }
-             },
-             "componentId": "container-ijrf3qvaj",
-             "componentName": "container",
-             "originalElement": "div",
-             "rawStyles": {
-              "borderTop": "1px solid var(--outline-gray-2)",
-              "marginTop": "-1px"
-             }
-            }
-           ],
-           "classes": [],
-           "componentId": "Repeater-9o4hxaycp",
-           "componentName": "Repeater",
-           "componentProps": {
-            "data": "{{ filteredArticles }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
-           },
-           "rawStyles": {
-            "overflow": "hidden"
-           }
-          }
-         ],
-         "classes": [],
-         "componentId": "container-njr6t61bb",
-         "componentName": "container",
-         "originalElement": "div"
-        },
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-4)",
-          "padding": "24px 0",
-          "textAlign": "center"
-         },
-         "children": [],
-         "classes": [],
-         "componentId": "TextBlock-wlzd15fla",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No articles found."
-         },
-         "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
-        }
-       ],
-       "classes": [],
-       "componentId": "container-yi3s1zcyy",
-       "componentName": "container",
-       "originalElement": "div"
-      }
-     ],
-     "classes": [],
-     "componentId": "container-y9htwdf95",
-     "componentName": "container",
-     "originalElement": "div"
-    },
-    {
-     "blockName": "kb-settings",
-     "children": [],
-     "classes": [],
-     "componentId": "KbSettings-55248f9c4",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
-    }
-   ],
-   "classes": [],
-   "componentId": "root",
-   "componentName": "div",
-   "originalElement": "body"
-  }
- ],
- "creation": "2026-07-05 12:13:54.982393",
- "doctype": "Studio Page",
- "draft_blocks": [
-  {
-   "baseStyles": {
-    "display": "flex",
-    "flexDirection": "column",
-    "flexShrink": 0,
-    "height": "100%",
-    "overflowX": "hidden",
-    "position": "static",
-    "width": "inherit"
-   },
-   "blockName": "body",
-   "children": [
-    {
-     "baseStyles": {
-      "alignItems": "center",
-      "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
-      "display": "flex",
-      "flexDirection": "row",
-      "flexShrink": 0,
-      "height": "44px",
-      "padding": "0 16px",
-      "width": "100%"
-     },
-     "blockName": "topbar",
-     "children": [
-      {
-       "blockName": "Header",
-       "children": [],
-       "classes": [],
-       "componentId": "header-topbar",
-       "componentName": "header",
-       "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "gap": "12px",
-        "marginLeft": "auto"
-       },
-       "blockName": "topbar-right",
-       "children": [
-        {
-         "baseStyles": {
-          "cursor": "pointer"
-         },
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
-          }
-         },
-         "componentId": "TextBlock-xahg78cjt",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-base",
-          "tag": "span",
-          "text": "Login"
-         }
-        },
-        {
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "router.push('/new-ticket')"
-          }
-         },
-         "componentId": "Button-qsfv37pdt",
-         "componentName": "Button",
-         "componentProps": {
-          "disabled": false,
-          "label": "Create Ticket",
-          "loading": false,
-          "size": "sm",
-          "theme": "gray",
-          "type": "button",
-          "variant": "solid"
          }
         }
        ],
@@ -1697,12 +815,839 @@
      "originalElement": "div"
     },
     {
-     "blockName": "kb-settings",
+     "baseStyles": {
+      "height": "0px"
+     },
+     "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentId": "KbSettings-55248f9c4",
-     "componentName": "KbSettings",
-     "isCustomVueComponent": true
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "isStudioComponent": true
+    }
+   ],
+   "classes": [],
+   "componentId": "root",
+   "componentName": "div",
+   "originalElement": "body"
+  }
+ ],
+ "creation": "2026-07-05 12:13:54.982393",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "display": "flex",
+    "flexDirection": "column",
+    "flexShrink": 0,
+    "height": "100%",
+    "overflowX": "hidden",
+    "position": "static",
+    "width": "inherit"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "center",
+      "backgroundColor": "var(--surface-base)",
+      "borderColor": "var(--outline-gray-2)",
+      "borderStyle": "solid",
+      "display": "flex",
+      "flexDirection": "row",
+      "flexShrink": 0,
+      "height": "44px",
+      "padding": "0 16px",
+      "width": "100%"
+     },
+     "blockName": "topbar",
+     "children": [
+      {
+       "blockName": "Header",
+       "children": [],
+       "classes": [],
+       "componentId": "header-topbar",
+       "componentName": "header",
+       "isStudioComponent": true
+      },
+      {
+       "baseStyles": {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "row",
+        "gap": "12px",
+        "marginLeft": "auto"
+       },
+       "blockName": "topbar-right",
+       "children": [
+        {
+         "baseStyles": {
+          "cursor": "pointer"
+         },
+         "children": [],
+         "classes": [],
+         "componentEvents": {
+          "click": {
+           "action": "Run Script",
+           "event": "click",
+           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
+          }
+         },
+         "componentId": "TextBlock-xahg78cjt",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "Login"
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "container-ganszx5vs",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-cmv5rqe56",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "baseStyles": {
+      "backgroundColor": "var(--surface-base)",
+      "display": "flex",
+      "flex": "1",
+      "flexDirection": "column",
+      "overflowY": "auto",
+      "position": "relative",
+      "width": "100%"
+     },
+     "blockName": "scroll-wrapper",
+     "children": [
+      {
+       "baseStyles": {
+        "alignItems": "center",
+        "display": "flex",
+        "flexDirection": "column",
+        "justifyContent": "flex-start",
+        "margin": "0px",
+        "paddingBottom": "80px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "84px",
+        "position": "relative",
+        "width": "100%"
+       },
+       "blockName": "hero-section",
+       "children": [
+        {
+         "baseStyles": {
+          "height": "100%",
+          "position": "absolute",
+          "top": "0",
+          "width": "100%"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "ImageView-j56brvccc",
+         "componentName": "ImageView",
+         "componentProps": {
+          "image": "{{ config.data.banner_image }}",
+          "shape": "square",
+          "size": "xs"
+         },
+         "rawStyles": {
+          "background": "rgba(0, 0, 0, 0.3)"
+         }
+        },
+        {
+         "baseStyles": {
+          "borderRadius": "0px",
+          "display": "flex",
+          "flexDirection": "row",
+          "flexShrink": 1,
+          "height": "100%",
+          "position": "absolute",
+          "top": "0",
+          "width": "100%"
+         },
+         "blockName": "container",
+         "children": [],
+         "classes": [],
+         "componentId": "container-5rqjmt5ey",
+         "componentName": "container",
+         "originalElement": "div",
+         "rawStyles": {
+          "background": "rgba(0, 0, 0, 0.3)"
+         }
+        },
+        {
+         "baseStyles": {
+          "display": "flex",
+          "flexDirection": "column",
+          "flexShrink": 1,
+          "position": "relative"
+         },
+         "blockName": "container",
+         "children": [
+          {
+           "baseStyles": {
+            "display": "flex",
+            "flexDirection": "column",
+            "flexShrink": 1,
+            "position": "relative"
+           },
+           "blockName": "container",
+           "children": [
+            {
+             "baseStyles": {
+              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "fontWeight": "600",
+              "textAlign": "center"
+             },
+             "children": [],
+             "classes": [],
+             "componentId": "TextBlock-m3x3mi17k",
+             "componentName": "TextBlock",
+             "componentProps": {
+              "fontSize": "text-6xl",
+              "tag": "h1",
+              "text": "Here's what might help"
+             }
+            },
+            {
+             "baseStyles": {
+              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "textAlign": "center"
+             },
+             "children": [],
+             "classes": [],
+             "componentId": "TextBlock-wx7p86va2",
+             "componentName": "TextBlock",
+             "componentProps": {
+              "fontSize": "text-p-lg",
+              "tag": "p",
+              "text": "Explore answers to frequently asked questions about Frappe."
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "container-8bzxv8zav",
+           "componentName": "container",
+           "originalElement": "div"
+          },
+          {
+           "baseStyles": {
+            "marginBottom": "0px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "marginTop": "37px",
+            "maxWidth": "100%",
+            "width": "531px"
+           },
+           "blockName": "search-container",
+           "children": [
+            {
+             "blockName": "kb-search",
+             "children": [],
+             "classes": [],
+             "componentId": "KbSearch-search01",
+             "componentName": "KbSearch",
+             "componentProps": {
+              "placeholder": "Search articles (e.g. billing, integration, or general)"
+             },
+             "isCustomVueComponent": true
+            }
+           ],
+           "classes": [],
+           "componentId": "container-2ys8iri2i",
+           "componentName": "container",
+           "originalElement": "div"
+          },
+          {
+           "baseStyles": {
+            "alignItems": "center",
+            "display": "flex",
+            "flexDirection": "row",
+            "flexWrap": "wrap",
+            "gap": "8px",
+            "justifyContent": "center",
+            "marginBottom": "0px",
+            "marginLeft": "0px",
+            "marginRight": "0px",
+            "marginTop": "10px",
+            "position": "relative"
+           },
+           "blockName": "popular-searches",
+           "children": [
+            {
+             "baseStyles": {
+              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
+             },
+             "children": [],
+             "classes": [],
+             "componentId": "TextBlock-0736a9632",
+             "componentName": "TextBlock",
+             "componentProps": {
+              "fontSize": "text-p-base",
+              "tag": "span",
+              "text": "Popular searches:"
+             }
+            },
+            {
+             "baseStyles": {
+              "alignItems": "center",
+              "display": "flex",
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "gap": "8px",
+              "width": "fit-content"
+             },
+             "children": [
+              {
+               "baseStyles": {
+                "backgroundColor": "var(--surface-violet-2, oklch(0.943 0.031 297.722))",
+                "borderRadius": "6px",
+                "cursor": "pointer"
+               },
+               "children": [],
+               "classes": [],
+               "componentEvents": {
+                "click": {
+                 "action": "Run Script",
+                 "event": "click",
+                 "script": "router.push({ path: `/category/${dataItem.name}` })"
+                }
+               },
+               "componentId": "Badge-popular-tag",
+               "componentName": "Badge",
+               "componentProps": {
+                "label": "{{ dataItem.label }}",
+                "size": "md",
+                "theme": "violet",
+                "variant": "outline"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "Repeater-popular-tags",
+             "componentName": "Repeater",
+             "componentProps": {
+              "data": "{{ popularCategories.data }}",
+              "dataKey": "name",
+              "emptyStateMessage": ""
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "container-j4ogok21h",
+           "componentName": "container",
+           "originalElement": "div",
+           "visibilityCondition": "{{ popularCategories.data && popularCategories.data.length > 0 }}"
+          }
+         ],
+         "classes": [],
+         "componentId": "container-dm3g8lv9a",
+         "componentName": "container",
+         "originalElement": "div"
+        }
+       ],
+       "classes": [],
+       "componentId": "container-leo7uctqp",
+       "componentName": "container",
+       "originalElement": "div"
+      },
+      {
+       "baseStyles": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "20px",
+        "margin": "0 auto",
+        "maxWidth": "700px",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "20px",
+        "width": "100%"
+       },
+       "blockName": "categories-section",
+       "children": [
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-7, oklch(0.341 0 0))",
+          "fontWeight": "600"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "TextBlock-fbq9hffj6",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-lg",
+          "tag": "h2",
+          "text": "All knowledge base"
+         }
+        },
+        {
+         "baseStyles": {
+          "alignItems": "stretch",
+          "display": "grid",
+          "gap": "12px",
+          "gridTemplateColumns": "1fr",
+          "justifyContent": "stretch",
+          "width": "auto"
+         },
+         "blockName": "categories-grid",
+         "children": [
+          {
+           "baseStyles": {
+            "display": "grid",
+            "gap": "10px",
+            "gridAutoColumns": "minmax(0, 1fr)",
+            "gridTemplateColumns": "repeat(3, minmax(0, 1fr))",
+            "height": "auto",
+            "width": "100%"
+           },
+           "children": [
+            {
+             "baseStyles": {
+              "alignItems": "flex-start",
+              "backgroundColor": "var(--surface-base)",
+              "borderColor": "var(--outline-gray-2)",
+              "borderRadius": "0.625rem",
+              "borderStyle": "solid",
+              "borderWidth": "1px",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "column",
+              "gap": "10px",
+              "justifyContent": "center",
+              "minWidth": "226px",
+              "paddingBottom": "16px",
+              "paddingLeft": "20px",
+              "paddingRight": "20px",
+              "paddingTop": "16px",
+              "width": "100%"
+             },
+             "blockName": "category-card",
+             "children": [
+              {
+               "baseStyles": {
+                "height": "24px",
+                "width": "24px"
+               },
+               "children": [],
+               "classes": [],
+               "componentId": "FeatherIcon-x3ezapeha",
+               "componentName": "FeatherIcon",
+               "componentProps": {
+                "class": "h-4 w-4",
+                "color": null,
+                "name": "{{ dataItem.icon || 'folder' }}",
+                "strokeWidth": 1.5
+               },
+               "rawStyles": {
+                "color": "var(--ink-gray-5)"
+               }
+              },
+              {
+               "baseStyles": {
+                "__last_display": "flex",
+                "alignItems": "center",
+                "display": "none",
+                "flexShrink": 0,
+                "height": "36px",
+                "justifyContent": "center",
+                "marginBottom": "4px",
+                "width": "fit-content"
+               },
+               "blockName": "card-icon-wrapper",
+               "children": [],
+               "classes": [],
+               "componentId": "container-rf6xi6a78",
+               "componentName": "container",
+               "originalElement": "div"
+              },
+              {
+               "baseStyles": {
+                "display": "flex",
+                "flexDirection": "column",
+                "flexShrink": 1,
+                "gap": "4px",
+                "height": "fit-content",
+                "width": "fit-content"
+               },
+               "blockName": "container",
+               "children": [
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-9)",
+                  "fontWeight": "600"
+                 },
+                 "blockName": "category-title",
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-sn7kwi5gk",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-lg",
+                  "tag": "h3",
+                  "text": "{{ dataItem.category_name }}"
+                 }
+                },
+                {
+                 "baseStyles": {
+                  "color": "var(--ink-gray-5)",
+                  "flexGrow": 0
+                 },
+                 "blockName": "category-description",
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-2jee9t8sl",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "fontSize": "text-p-base",
+                  "tag": "p",
+                  "text": "{{ dataItem.description || 'Browse articles in this category' }}"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-fynnwc9gx",
+               "componentName": "container",
+               "originalElement": "div"
+              }
+             ],
+             "classes": [
+              "hover:bg-surface-gray-2"
+             ],
+             "componentEvents": {
+              "click": {
+               "action": "Run Script",
+               "event": "click",
+               "oldEvent": "click",
+               "script": "router.push({ path: `/category/${dataItem.name}` })\n"
+              }
+             },
+             "componentId": "container-fvud8e41t",
+             "componentName": "container",
+             "originalElement": "div"
+            }
+           ],
+           "classes": [],
+           "componentId": "Repeater-sxfnpzbam",
+           "componentName": "Repeater",
+           "componentProps": {
+            "data": "{{ HD_Article_Category.data }}",
+            "dataKey": "name",
+            "emptyStateMessage": ""
+           }
+          }
+         ],
+         "classes": [],
+         "componentId": "container-3jcpczdo3",
+         "componentName": "container",
+         "mobileStyles": {
+          "gridTemplateColumns": "repeat(1, minmax(0, 1fr))"
+         },
+         "originalElement": "div",
+         "tabletStyles": {
+          "gridTemplateColumns": "repeat(2, minmax(0, 1fr))"
+         }
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-4)",
+          "textAlign": "center"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "TextBlock-uboyx0fo9",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-p-sm",
+          "tag": "p",
+          "text": "No categories found."
+         },
+         "visibilityCondition": "{{ !HD_Article_Category.data || HD_Article_Category.data.length === 0 }}"
+        }
+       ],
+       "classes": [],
+       "componentId": "container-a9wzslqxz",
+       "componentName": "container",
+       "originalElement": "div"
+      },
+      {
+       "baseStyles": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "16px",
+        "margin": "0 auto",
+        "maxWidth": "700px",
+        "paddingBottom": "0px",
+        "paddingLeft": "0px",
+        "paddingRight": "0px",
+        "paddingTop": "57px",
+        "width": "100%"
+       },
+       "blockName": "articles-section",
+       "children": [
+        {
+         "baseStyles": {
+          "alignItems": "center",
+          "display": "flex",
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "width": "100%"
+         },
+         "blockName": "articles-header",
+         "children": [
+          {
+           "baseStyles": {
+            "color": "var(--ink-gray-9)",
+            "fontWeight": "600"
+           },
+           "children": [],
+           "classes": [],
+           "componentId": "TextBlock-wq25lxphd",
+           "componentName": "TextBlock",
+           "componentProps": {
+            "fontSize": "text-base",
+            "tag": "h2",
+            "text": "Articles"
+           }
+          },
+          {
+           "children": [],
+           "classes": [],
+           "componentEvents": {
+            "update:modelValue": {
+             "action": "Run Script",
+             "event": "update:modelValue",
+             "script": "activeTab.value = eventArgs[0]"
+            }
+           },
+           "componentId": "TabButtons-pe448xu0n",
+           "componentName": "TabButtons",
+           "componentProps": {
+            "direction": "left",
+            "modelValue": "{{ activeTab }}",
+            "options": [
+             {
+              "label": "All",
+              "value": "All"
+             },
+             {
+              "label": "New",
+              "value": "New"
+             },
+             {
+              "label": "Popular",
+              "value": "Popular"
+             }
+            ],
+            "size": "sm",
+            "type": "subtle",
+            "vertical": false
+           }
+          }
+         ],
+         "classes": [],
+         "componentId": "container-yihf8crlt",
+         "componentName": "container",
+         "originalElement": "div"
+        },
+        {
+         "baseStyles": {
+          "borderColor": "var(--outline-gray-2)",
+          "borderRadius": "0px",
+          "borderStyle": "solid",
+          "display": "flex",
+          "flexDirection": "column",
+          "gap": "0px",
+          "paddingBottom": "190px",
+          "paddingLeft": "0px",
+          "paddingRight": "0px",
+          "paddingTop": "0px",
+          "width": "100%"
+         },
+         "blockName": "articles-list",
+         "children": [
+          {
+           "baseStyles": {
+            "borderColor": "var(--outline-gray-1, oklch(0.946 0 0))",
+            "borderRadius": "12px",
+            "borderStyle": "solid",
+            "borderWidth": "1px",
+            "display": "flex",
+            "flexDirection": "column",
+            "gap": "0px"
+           },
+           "children": [
+            {
+             "baseStyles": {
+              "alignItems": "center",
+              "borderColor": "transparent",
+              "borderRadius": "0px",
+              "borderStyle": "none",
+              "borderWidth": "0px",
+              "cursor": "pointer",
+              "display": "flex",
+              "flexDirection": "row",
+              "padding": "12px 16px",
+              "width": "100%"
+             },
+             "blockName": "article-row",
+             "children": [
+              {
+               "baseStyles": {
+                "alignItems": "center",
+                "display": "flex",
+                "flexDirection": "row",
+                "flexShrink": 1,
+                "height": "fit-content",
+                "justifyContent": "space-between",
+                "width": "100%"
+               },
+               "blockName": "container",
+               "children": [
+                {
+                 "baseStyles": {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "flexShrink": 1,
+                  "height": "fit-content",
+                  "width": "fit-content"
+                 },
+                 "blockName": "container",
+                 "children": [
+                  {
+                   "baseStyles": {
+                    "backgroundImage": "url(\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTExIDFDMTIuNjU2OSAxIDE0IDIuMzQzMTUgMTQgNFYxMi41QzE0IDEzLjg4MDcgMTIuODgwNyAxNSAxMS41IDE1SDQuNUMzLjExOTI5IDE1IDIgMTMuODgwNyAyIDEyLjVWMy41QzIgMi4xMTkyOSAzLjExOTI5IDEgNC41IDFIMTFaTTQuNSAyQzMuNjcxNTcgMiAzIDIuNjcxNTcgMyAzLjVWMTIuNUMzIDEzLjMyODQgMy42NzE1NyAxNCA0LjUgMTRIMTEuNUMxMi4zMjg0IDE0IDEzIDEzLjMyODQgMTMgMTIuNVY0QzEzIDIuODk1NDMgMTIuMTA0NiAyIDExIDJINC41Wk0xMC43NSAxMC41QzExLjAyNjEgMTAuNSAxMS4yNSAxMC43MjM5IDExLjI1IDExQzExLjI1IDExLjI3NjEgMTEuMDI2MSAxMS41IDEwLjc1IDExLjVINS4yNUM0Ljk3Mzg2IDExLjUgNC43NSAxMS4yNzYxIDQuNzUgMTFDNC43NSAxMC43MjM5IDQuOTczODYgMTAuNSA1LjI1IDEwLjVIMTAuNzVaTTEwLjc1IDcuNUMxMS4wMjYxIDcuNSAxMS4yNSA3LjcyMzg2IDExLjI1IDhDMTEuMjUgOC4yNzYxNCAxMS4wMjYxIDguNSAxMC43NSA4LjVINS4yNUM0Ljk3Mzg2IDguNSA0Ljc1IDguMjc2MTQgNC43NSA4QzQuNzUgNy43MjM4NiA0Ljk3Mzg2IDcuNSA1LjI1IDcuNUgxMC43NVpNMTAuNzUgNC41QzExLjAyNjEgNC41IDExLjI1IDQuNzIzODYgMTEuMjUgNUMxMS4yNSA1LjI3NjE0IDExLjAyNjEgNS41IDEwLjc1IDUuNUg1LjI1QzQuOTczODYgNS41IDQuNzUgNS4yNzYxNCA0Ljc1IDVDNC43NSA0LjcyMzg2IDQuOTczODYgNC41IDUuMjUgNC41SDEwLjc1WiIgZmlsbD0iIzUyNTI1MiIvPgo8L3N2Zz4K\")",
+                    "backgroundPosition": "center",
+                    "backgroundRepeat": "no-repeat",
+                    "backgroundSize": "contain",
+                    "flexShrink": 0,
+                    "height": "16px",
+                    "marginRight": "8px",
+                    "width": "16px"
+                   },
+                   "blockName": "article-icon",
+                   "children": [],
+                   "classes": [],
+                   "componentId": "article-icon-svg",
+                   "componentName": "container"
+                  },
+                  {
+                   "baseStyles": {
+                    "color": "var(--ink-gray-8)",
+                    "flex": "1"
+                   },
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextBlock-okskr3j72",
+                   "componentName": "TextBlock",
+                   "componentProps": {
+                    "fontSize": "text-p-sm",
+                    "tag": "span",
+                    "text": "{{ dataItem.title }}"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "container-b3ofn4yxu",
+                 "componentName": "container",
+                 "originalElement": "div"
+                },
+                {
+                 "baseStyles": {
+                  "flexShrink": 0
+                 },
+                 "children": [],
+                 "classes": [],
+                 "componentId": "FeatherIcon-nmxpb4soy",
+                 "componentName": "FeatherIcon",
+                 "componentProps": {
+                  "class": "h-3.5 w-3.5",
+                  "color": null,
+                  "name": "chevron-right",
+                  "strokeWidth": 1.5
+                 },
+                 "rawStyles": {
+                  "color": "var(--ink-gray-4)"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "container-24f1icia3",
+               "componentName": "container",
+               "originalElement": "div"
+              }
+             ],
+             "classes": [],
+             "componentEvents": {
+              "click": {
+               "action": "Run Script",
+               "event": "click",
+               "oldEvent": "click",
+               "script": "router.push({ path: `/articles/${dataItem.name}` })\n"
+              }
+             },
+             "componentId": "container-ijrf3qvaj",
+             "componentName": "container",
+             "originalElement": "div",
+             "rawStyles": {
+              "borderTop": "1px solid var(--outline-gray-2)",
+              "marginTop": "-1px"
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "Repeater-9o4hxaycp",
+           "componentName": "Repeater",
+           "componentProps": {
+            "data": "{{ filteredArticles }}",
+            "dataKey": "name",
+            "emptyStateMessage": ""
+           },
+           "rawStyles": {
+            "overflow": "hidden"
+           }
+          }
+         ],
+         "classes": [],
+         "componentId": "container-njr6t61bb",
+         "componentName": "container",
+         "originalElement": "div"
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-4)",
+          "padding": "24px 0",
+          "textAlign": "center"
+         },
+         "children": [],
+         "classes": [],
+         "componentId": "TextBlock-wlzd15fla",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-p-sm",
+          "tag": "p",
+          "text": "No articles found."
+         },
+         "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
+        }
+       ],
+       "classes": [],
+       "componentId": "container-yi3s1zcyy",
+       "componentName": "container",
+       "originalElement": "div"
+      }
+     ],
+     "classes": [],
+     "componentId": "container-y9htwdf95",
+     "componentName": "container",
+     "originalElement": "div"
     }
    ],
    "classes": [],
@@ -1713,7 +1658,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-31 00:36:42.330876",
+ "modified": "2026-08-06 13:06:40.027111",
  "modified_by": "Administrator",
  "name": "public_kb",
  "owner": "Administrator",

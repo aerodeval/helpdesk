@@ -2,10 +2,34 @@ import { ref, computed, watch } from 'vue'
 import { useSettingsModal } from '@app/stores/settings'
 
 export default function setup(context) {
-  const { category, articles, route, router } = context
+  const { category, articles, route, router, call } = context
 
   const searchQuery = ref('')
   const navMenuOpen = ref(false)
+
+  // The list resource carries the author's user id, so rows showed "Administrator"
+  // beside an empty avatar. This endpoint resolves every author in the category to a
+  // display name and picture in one call; it needs a session, so a guest keeps the
+  // id fallback below rather than losing the byline.
+  const authors = ref({})
+
+  async function loadAuthors(categoryName) {
+    if (!categoryName) return
+    try {
+      const rows = await call('helpdesk.api.knowledge_base.get_category_articles', {
+        category: categoryName,
+      })
+      authors.value = Object.fromEntries(
+        (rows || []).map((row) => [row.name, row.author])
+      )
+    } catch (error) {
+      authors.value = {}
+    }
+  }
+
+  function authorOf(articleName) {
+    return authors.value[articleName] || {}
+  }
 
   // Reload data whenever the route param changes
   watch(
@@ -14,6 +38,7 @@ export default function setup(context) {
       if (val) {
         category.reload()
         articles.reload()
+        loadAuthors(val)
       }
     },
     { immediate: true }
@@ -87,7 +112,7 @@ export default function setup(context) {
   }
 
   return {
-    ...useSettingsModal(),
+    ...useSettingsModal(context),
     navMenuOpen,
     searchQuery,
     filteredArticles,
@@ -95,6 +120,7 @@ export default function setup(context) {
     categoryDescription,
     getArticleExcerpt,
     getInitials,
+    authorOf,
     timeAgo,
     navigateToArticle,
     articleImage,

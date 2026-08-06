@@ -1,19 +1,33 @@
-import { ref, computed } from 'vue'
-import { call, toast, FileUploadHandler } from 'frappe-ui'
+import { ref, computed, reactive, watch } from 'vue'
+import { call, toast, FileUploadHandler, useTheme } from 'frappe-ui'
+import { usePreferences } from '@app/stores/preferences'
 
-// Shared state + actions for the portal settings modal, used by every page
-// script via `useSettingsModal()`. Backed by helpdesk.api.organization.
+// Shared state + actions for the portal settings dialog, used by every page script
+// via `useSettingsModal(context)`. The dialog itself is the `kb_settings` studio
+// component, which binds to whatever the host page's script returns — so every page
+// carrying it returns this store. Backed by helpdesk.api.organization.
 
 const MANAGER_ROLE = 'HD Customer Manager'
 const MEMBER_ROLE = 'HD Customer'
+const HASH_ROOT = 'settings'
 
-// One instance for the whole app. Every page script spreads this alongside
-// KbSettings.vue's own call, so per-call state would give each of them a private
-// copy — a load in one would leave the other showing stale settings.
+// One instance for the whole app: per-call state would give each page a private copy,
+// so a load on one would leave the others showing stale settings.
 const store = createSettingsStore()
 
-export function useSettingsModal() {
-  return store
+// Every page script imports this module, so calling it here applies the saved theme on
+// load rather than only once the settings dialog renders the picker.
+const { currentTheme, setTheme } = useTheme()
+
+// Writable so the theme Select can bind to it two-way; frappe-ui persists the choice.
+const theme = computed({
+  get: () => currentTheme.value,
+  set: setTheme,
+})
+
+export function useSettingsModal(context) {
+  if (context) store.bindRouter(context.router)
+  return { ...store, ...usePreferences(), theme }
 }
 
 function createSettingsStore() {
@@ -43,6 +57,9 @@ function createSettingsStore() {
   const inviteOpen = ref(false)
   const inviteEmail = ref('')
   const inviteRole = ref('Member') // 'Member' | 'Manager'
+  const passwordOpen = ref(false)
+  const currentPassword = ref('')
+  const newPassword = ref('')
 
   // Destructive actions route through one dialog rather than window.confirm, the
   // way the agent portal's ConfirmDialog does.
@@ -67,6 +84,7 @@ function createSettingsStore() {
       settingsData.value = await call('helpdesk.api.organization.get_settings')
       profileFirstName.value = settingsUser.value.first_name || ''
       profileLastName.value = settingsUser.value.last_name || ''
+      usePreferences().loadPreferences(settingsUser.value.email)
       if (selectedOrg.value) await loadOrganization(selectedOrg.value)
     } catch (error) {
       console.error(error)
@@ -116,6 +134,41 @@ function createSettingsStore() {
     settingsOpen.value = false
   }
 
+  // The dialog lives in the URL hash (#settings/<tab>) so it layers over the page
+  // underneath and survives a refresh; the topbar menu opens it by pushing that hash.
+  // Bound once per app, through `afterEach` rather than a watcher on the route, because
+  // a page script's `route` is a snapshot taken when the script ran.
+  let routerBound = false
+
+  function bindRouter(router) {
+    if (routerBound || !router) return
+    routerBound = true
+    applyHash(currentRoute(router).hash)
+    router.afterEach((to) => applyHash(to.hash))
+    watch([settingsOpen, settingsTab], () => pushHash(router))
+  }
+
+  // The router reaches a page script through a reactive proxy, which unwraps refs — so
+  // `currentRoute` is the route itself there, and the ref only outside that proxy.
+  function currentRoute(router) {
+    return router.currentRoute?.value || router.currentRoute || {}
+  }
+
+  function applyHash(hash) {
+    const [root, tab] = String(hash || '')
+      .replace(/^#/, '')
+      .split('/')
+    if (root !== HASH_ROOT) return closeSettings()
+    if (settingsOpen.value) settingsTab.value = tab || 'profile'
+    else openSettings(tab)
+  }
+
+  function pushHash(router) {
+    const hash = settingsOpen.value ? `#${HASH_ROOT}/${settingsTab.value}` : ''
+    const current = currentRoute(router)
+    if ((current.hash || '') !== hash) router.push({ query: current.query, hash })
+  }
+
   async function run(action, successMessage) {
     if (settingsBusy.value) return
     settingsBusy.value = true
@@ -147,6 +200,15 @@ function createSettingsStore() {
     )
   }
 
+  // The portal stores first and last name separately; the dialog edits one field, so it
+  // splits on the first space and everything after it is the last name.
+  function renameProfile(value) {
+    const [first, ...rest] = value.split(/\s+/)
+    profileFirstName.value = first
+    profileLastName.value = rest.join(' ')
+    return saveProfile()
+  }
+
   function pickImage(onUploaded) {
     const input = document.createElement('input')
     input.type = 'file'
@@ -175,7 +237,35 @@ function createSettingsStore() {
     return run(() => call('helpdesk.api.organization.update_profile', { image: '' }), 'Photo removed')
   }
 
+  // --- Password ---
+
+  function openPasswordChange() {
+    currentPassword.value = ''
+    newPassword.value = ''
+    passwordOpen.value = true
+  }
+
+  function changePassword() {
+    if (!currentPassword.value || !newPassword.value) {
+      toast.error('Please fill in both passwords')
+      return
+    }
+    return run(async () => {
+      await call('frappe.core.doctype.user.user.update_password', {
+        old_password: currentPassword.value,
+        new_password: newPassword.value,
+      })
+      passwordOpen.value = false
+    }, 'Password updated')
+  }
+
   // --- Manage organization ---
+
+  function openInvite() {
+    inviteEmail.value = ''
+    inviteRole.value = 'Member'
+    inviteOpen.value = true
+  }
 
   function sendInvite() {
     const email = inviteEmail.value.trim()
@@ -205,9 +295,53 @@ function createSettingsStore() {
     })
   }
 
-  function setMemberRole(member, roleLabel) {
+  // People are shown as a tree: the organization's owner at the root, everyone else
+  // as their direct reports. Helpdesk records no reporting line, so ownership is the
+  // only hierarchy the data actually carries.
+  const memberTree = computed(() => {
+    const people = orgMembers.value.map(toTreeNode)
+    const owner = people.find((person) => person.is_owner)
+    if (!owner) return people
+    owner.children = people.filter((person) => person !== owner)
+    return [owner]
+  })
+
+  // reactive: Tree collapses a node by writing `expanded` onto it, and a plain copy
+  // would take the write without re-rendering.
+  function toTreeNode(member) {
+    return reactive({
+      ...member,
+      key: member.email || member.contact || member.invitation,
+      label: member.full_name,
+    })
+  }
+
+  function roleLabel(member) {
+    if (member.is_owner) return 'Owner'
+    return member.is_manager ? 'Manager' : 'Member'
+  }
+
+  // Role and removal share one menu, and it only offers what changes something: the role
+  // the member does not hold, and — for a pending invite, which holds none yet — the
+  // cancellation on its own.
+  function memberOptions(member) {
+    if (member.pending) {
+      return [
+        { label: 'Cancel invitation', icon: 'x-circle', onClick: () => cancelInvitation(member) },
+      ]
+    }
+    const role = member.is_manager
+      ? { label: 'Make member', icon: 'user', onClick: () => setMemberRole(member, 'Member') }
+      : { label: 'Make manager', icon: 'shield', onClick: () => setMemberRole(member, 'Manager') }
+    return [
+      role,
+      { label: 'Remove from organization', icon: 'user-minus', onClick: () => removeMember(member) },
+    ]
+  }
+
+  function setMemberRole(member, role) {
     if (member.is_owner || member.pending) return
-    const isManager = roleLabel === 'Manager'
+    const isManager = role === 'Manager'
     if (isManager === Boolean(member.is_manager)) return
     return run(
       () => call('helpdesk.api.organization.update_member_role', {
@@ -274,6 +408,17 @@ function createSettingsStore() {
     )
   }
 
+  function renameOrganization(value) {
+    orgName.value = value
+    return saveOrganization()
+  }
+
+  // A Run Script handler calls functions rather than assigning to a binding, so the
+  // fields the dialog toggles get one of these.
+  function editOrgEmail() {
+    orgEmailEditing.value = true
+  }
+
   function saveOrgEmail() {
     return run(async () => {
       await call('helpdesk.api.organization.update_organization', {
@@ -328,6 +473,7 @@ function createSettingsStore() {
     isOrgManager,
     isAgentUser,
     orgMembers,
+    memberTree,
     profileFirstName,
     profileLastName,
     orgName,
@@ -336,6 +482,12 @@ function createSettingsStore() {
     inviteOpen,
     inviteEmail,
     inviteRole,
+    passwordOpen,
+    currentPassword,
+    newPassword,
+    openPasswordChange,
+    changePassword,
+    bindRouter,
     openSettings,
     closeSettings,
     openOrganization,
@@ -344,13 +496,19 @@ function createSettingsStore() {
     cancelConfirm,
     acceptConfirm,
     saveProfile,
+    renameProfile,
     uploadProfileImage,
     removeProfileImage,
+    openInvite,
     sendInvite,
+    roleLabel,
+    memberOptions,
     setMemberRole,
     removeMember,
     cancelInvitation,
     saveOrganization,
+    renameOrganization,
+    editOrgEmail,
     saveOrgEmail,
     uploadOrgImage,
     removeOrgImage,

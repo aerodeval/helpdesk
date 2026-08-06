@@ -308,60 +308,174 @@
        "blockName": "container",
        "children": [
         {
-         "children": [],
-         "classes": [],
-         "componentId": "ListView-xtiqdvid2",
-         "componentName": "ListView",
-         "componentProps": {
-          "columns": [
-           {
-            "key": "name",
-            "label": "Name",
-            "width": 3
-           },
-           {
-            "key": "email",
-            "label": "Email",
-            "width": "200px"
-           },
-           {
-            "key": "role",
-            "label": "Role"
-           },
-           {
-            "key": "status",
-            "label": "Status"
-           }
-          ],
-          "options": {
-           "emptyState": {
-            "description": "No data available",
-            "title": "No Data"
-           },
-           "getRowRoute": null,
-           "onRowClick": null,
-           "resizeColumn": false,
-           "rowHeight": 40,
-           "selectable": true,
-           "showTooltip": true
+         "blockName": "Settings Dialog",
+         "children": [
+          {
+           "children": [
+            {
+             "children": [
+              {
+               "children": [
+                {
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-wri27rw8b",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "tag": "span",
+                  "text": "Profile"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "SettingsNavItem-oq4jqkz9c",
+               "componentName": "SettingsNavItem",
+               "componentProps": {
+                "value": "profile"
+               }
+              },
+              {
+               "children": [
+                {
+                 "children": [],
+                 "classes": [],
+                 "componentId": "TextBlock-mzwgvx5z9",
+                 "componentName": "TextBlock",
+                 "componentProps": {
+                  "tag": "span",
+                  "text": "Notifications"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "SettingsNavItem-0qz8opk4s",
+               "componentName": "SettingsNavItem",
+               "componentProps": {
+                "value": "notifications"
+               }
+              }
+             ],
+             "classes": [],
+             "componentId": "SettingsNavGroup-4pxhbjwpm",
+             "componentName": "SettingsNavGroup",
+             "componentProps": {
+              "label": "User settings"
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "SettingsSidebar-b0tqtr9xr",
+           "componentName": "SettingsSidebar"
           },
-          "rowKey": "id",
-          "rows": [
-           {
-            "email": "john@doe.com",
-            "id": 1,
-            "name": "John Doe",
-            "role": "Developer",
-            "status": "Active"
-           },
-           {
-            "email": "jane@doe.com",
-            "id": 2,
-            "name": "Jane Doe",
-            "role": "HR",
-            "status": "Inactive"
-           }
-          ]
+          {
+           "children": [
+            {
+             "children": [
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "SettingsHeader-5lpwu7y81",
+               "componentName": "SettingsHeader",
+               "componentProps": {
+                "description": "How you appear across the app.",
+                "title": "Profile"
+               }
+              },
+              {
+               "children": [
+                {
+                 "children": [
+                  {
+                   "children": [],
+                   "classes": [],
+                   "componentId": "TextInput-dx8u7ojvs",
+                   "componentName": "TextInput",
+                   "componentProps": {
+                    "modelValue": "Alex Rivera"
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "SettingsRow-6ro9a7wcq",
+                 "componentName": "SettingsRow",
+                 "componentProps": {
+                  "description": "Your display name.",
+                  "title": "Full name"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "SettingsBody-pkacuqwno",
+               "componentName": "SettingsBody"
+              }
+             ],
+             "classes": [],
+             "componentId": "SettingsPanel-ch296zpzn",
+             "componentName": "SettingsPanel",
+             "componentProps": {
+              "value": "profile"
+             }
+            },
+            {
+             "children": [
+              {
+               "children": [],
+               "classes": [],
+               "componentId": "SettingsHeader-yjt1exwzg",
+               "componentName": "SettingsHeader",
+               "componentProps": {
+                "title": "Notifications"
+               }
+              },
+              {
+               "children": [
+                {
+                 "children": [
+                  {
+                   "children": [],
+                   "classes": [],
+                   "componentId": "Switch-tx2j0poc8",
+                   "componentName": "Switch",
+                   "componentProps": {
+                    "modelValue": true
+                   }
+                  }
+                 ],
+                 "classes": [],
+                 "componentId": "SettingsRow-rezk89mf4",
+                 "componentName": "SettingsRow",
+                 "componentProps": {
+                  "description": "Send a summary of missed activity.",
+                  "title": "Enable email digests"
+                 }
+                }
+               ],
+               "classes": [],
+               "componentId": "SettingsBody-6e21xj809",
+               "componentName": "SettingsBody"
+              }
+             ],
+             "classes": [],
+             "componentId": "SettingsPanel-pmrb7ydgo",
+             "componentName": "SettingsPanel",
+             "componentProps": {
+              "value": "notifications"
+             }
+            }
+           ],
+           "classes": [],
+           "componentId": "SettingsContent-mzu161c7z",
+           "componentName": "SettingsContent"
+          }
+         ],
+         "classes": [],
+         "componentId": "SettingsDialog-n5qgdi2xh",
+         "componentName": "SettingsDialog",
+         "componentProps": {
+          "modelValue": false,
+          "shortcut": false,
+          "tab": "profile",
+          "unmountOnHide": false
          }
         }
        ],
@@ -385,7 +499,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-05 14:34:26.418418",
+ "modified": "2026-08-06 12:58:35.366811",
  "modified_by": "Administrator",
  "name": "list",
  "owner": "Administrator",

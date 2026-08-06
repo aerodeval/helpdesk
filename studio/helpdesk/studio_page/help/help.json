@@ -1,0 +1,190 @@
+{
+ "__unsaved": 1,
+ "blocks": [
+  {
+   "baseStyles": {
+    "backgroundColor": "var(--surface-base)",
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100vh",
+    "width": "100%"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "center",
+      "borderBottom": "1px solid var(--outline-gray-2)",
+      "display": "flex",
+      "flexShrink": "0",
+      "height": "52px",
+      "justifyContent": "space-between",
+      "padding": "0 20px",
+      "width": "100%"
+     },
+     "blockName": "navbar",
+     "children": [
+      {
+       "blockName": "Header",
+       "children": [],
+       "classes": [],
+       "componentId": "header-help",
+       "componentName": "header",
+       "isStudioComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-help-navbar",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "baseStyles": {
+      "display": "flex",
+      "flex": "1",
+      "flexDirection": "column",
+      "minHeight": "0",
+      "overflowY": "auto",
+      "width": "100%"
+     },
+     "blockName": "help-body",
+     "children": [
+      {
+       "blockName": "help-search",
+       "children": [],
+       "classes": [],
+       "componentId": "KbHelpSearch-help",
+       "componentName": "KbHelpSearch",
+       "isCustomVueComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-help-content",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
+     "children": [],
+     "classes": [],
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    }
+   ],
+   "classes": [],
+   "componentId": "container-help-body",
+   "componentName": "container",
+   "originalElement": "div"
+  }
+ ],
+ "creation": "2026-07-31 12:11:26.799823",
+ "doctype": "Studio Page",
+ "draft_blocks": [
+  {
+   "baseStyles": {
+    "backgroundColor": "var(--surface-base)",
+    "display": "flex",
+    "flexDirection": "column",
+    "height": "100vh",
+    "width": "100%"
+   },
+   "blockName": "body",
+   "children": [
+    {
+     "baseStyles": {
+      "alignItems": "center",
+      "borderBottom": "1px solid var(--outline-gray-2)",
+      "display": "flex",
+      "flexShrink": "0",
+      "height": "52px",
+      "justifyContent": "space-between",
+      "padding": "0 20px",
+      "width": "100%"
+     },
+     "blockName": "navbar",
+     "children": [
+      {
+       "blockName": "Header",
+       "children": [],
+       "classes": [],
+       "componentId": "header-help",
+       "componentName": "header",
+       "isStudioComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-help-navbar",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "baseStyles": {
+      "display": "flex",
+      "flex": "1",
+      "flexDirection": "column",
+      "minHeight": "0",
+      "overflowY": "auto",
+      "width": "100%"
+     },
+     "blockName": "help-body",
+     "children": [
+      {
+       "blockName": "help-search",
+       "children": [],
+       "classes": [],
+       "componentId": "KbHelpSearch-help",
+       "componentName": "KbHelpSearch",
+       "isCustomVueComponent": true
+      }
+     ],
+     "classes": [],
+     "componentId": "container-help-content",
+     "componentName": "container",
+     "originalElement": "div"
+    },
+    {
+     "attributes": {},
+     "baseStyles": {},
+     "blockName": "KB Settings",
+     "children": [],
+     "classes": [],
+     "componentEvents": {},
+     "componentId": "kb_settings-ref",
+     "componentName": "kb_settings",
+     "componentProps": {},
+     "componentSlots": {},
+     "isStudioComponent": true,
+     "mobileStyles": {},
+     "rawStyles": {},
+     "tabletStyles": {}
+    }
+   ],
+   "classes": [],
+   "componentId": "container-help-body",
+   "componentName": "container",
+   "originalElement": "div"
+  }
+ ],
+ "frappe_app": "helpdesk",
+ "is_standard": 1,
+ "modified": "2026-07-31 12:11:26.799823",
+ "modified_by": "Administrator",
+ "name": "help",
+ "owner": "Administrator",
+ "page_name": "page-ad474ae9",
+ "page_title": "Help",
+ "published": 1,
+ "resources": [],
+ "route": "/help",
+ "studio_app": "helpdesk",
+ "variables": []
+}

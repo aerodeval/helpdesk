@@ -1,4 +1,5 @@
 import { reactive, computed } from 'vue'
+import { useSettingsModal } from '@app/stores/settings'
 
 // New ticket form. The middle fields render through a Repeater over the HD Ticket
 // Template's field list (`fields`); each repeated FormControl reads its value with
@@ -6,7 +7,12 @@ import { reactive, computed } from 'vue'
 // Run-Script calling `setField`. The suggested-articles card is a separate custom
 // component (KbArticleSuggestions.vue) fed the subject variable as `query`.
 export default function setup(context) {
-  const { subject, description, template, ticketTypes, newTicket, router } = context
+  const { subject, description, template, ticketTypes, newTicket, router, route } = context
+
+  // Arriving from the help page: whatever was searched for becomes the subject, so
+  // nobody retypes it — and it immediately feeds the suggested-articles card.
+  const searched = String(route?.query?.subject || '').trim()
+  if (searched && !subject.value) subject.value = searched
 
   // Values for the template-driven fields, keyed by fieldname.
   const model = reactive({})
@@ -65,5 +71,8 @@ export default function setup(context) {
       .then(() => router.push('/customer-tickets'))
   }
 
-  return { fields, getField, setField, setDescription, controlType, optionsFor, canSubmit, createTicket }
+  return {
+    ...useSettingsModal(context),
+    fields, getField, setField, setDescription, controlType, optionsFor, canSubmit, createTicket,
+  }
 }

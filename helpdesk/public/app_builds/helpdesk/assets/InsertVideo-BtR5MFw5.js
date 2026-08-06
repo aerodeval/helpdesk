@@ -1,2 +1,0 @@
-import{G as e,I as t,L as n,nt as r}from"./studioRenderer-CObTnvd2.js";var i=t({__name:`InsertVideo`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.chain().focus().selectAndUploadVideo().run()}return(t,i)=>e(t.$slots,`default`,r(n({onClick:a})))}});export{i as default};
-//# sourceMappingURL=InsertVideo-BtR5MFw5.js.map
