@@ -165,110 +165,22 @@
           },
           {
            "baseStyles": {
-            "padding": "0px",
+            "flexShrink": 0,
             "width": "100%"
            },
            "children": [],
            "classes": [],
            "componentId": "TextInput-yjpuif5rq",
-           "componentName": "TextInput",
+           "componentName": "KbSearchInput",
            "componentProps": {
             "modelValue": {
              "$type": "variable",
              "name": "searchQuery"
             },
-            "placeholder": "Search articles (e.g. billing, integration, or general)",
-            "size": "md",
-            "type": "text",
-            "variant": "subtle"
+            "placeholder": "Search articles (e.g. billing, integration, or general)"
            },
-           "componentSlots": {
-            "prefix": {
-             "parentBlockId": "TextInput-yjpuif5rq",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {},
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "FeatherIcon-sybd2nqcx",
-               "componentName": "FeatherIcon",
-               "componentProps": {
-                "color": null,
-                "name": "search",
-                "strokeWidth": 1.5
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "rawStyles": {
-                "color": "var(--ink-gray-4)",
-                "height": "14px",
-                "width": "14px"
-               },
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-yjpuif5rq:prefix",
-             "slotName": "prefix"
-            },
-            "suffix": {
-             "parentBlockId": "TextInput-yjpuif5rq",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "alignItems": "center",
-                "borderColor": "var(--outline-gray-2, oklch(0.913 0 0))",
-                "borderRadius": "0.25rem",
-                "borderStyle": "solid",
-                "borderWidth": "1px",
-                "display": "flex",
-                "flexDirection": "row",
-                "height": "24px",
-                "justifyContent": "center",
-                "position": "relative",
-                "width": "66px"
-               },
-               "blockName": "shortcut-badge",
-               "children": [
-                {
-                 "attributes": {},
-                 "baseStyles": {
-                  "color": "var(--ink-gray-4)"
-                 },
-                 "children": [],
-                 "classes": [],
-                 "componentEvents": {},
-                 "componentId": "TextBlock-bttr9o17j",
-                 "componentName": "TextBlock",
-                 "componentProps": {
-                  "fontSize": "text-p-base",
-                  "tag": "span",
-                  "text": "Cmd+k"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
-                }
-               ],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "container-9emz4x36b",
-               "componentName": "container",
-               "componentProps": {},
-               "componentSlots": {},
-               "mobileStyles": {},
-               "originalElement": "div",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-yjpuif5rq:suffix",
-             "slotName": "suffix"
-            }
-           }
+           "componentSlots": {},
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
@@ -550,9 +462,9 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ filteredArticles }}",
-            "dataKey": "name",
-            "emptyStateMessage": "\u200a\u200a\u200a"
-           }
+            "dataKey": "name"
+           },
+           "visibilityCondition": "{{ filteredArticles && filteredArticles.length }}"
           }
          ],
          "classes": [],
@@ -566,36 +478,14 @@
         {
          "baseStyles": {
           "alignItems": "center",
-          "borderRadius": "0.5rem",
           "display": "flex",
-          "flexDirection": "column",
-          "gap": "12px",
-          "gridTemplateColumns": "repeat(2, minmax(200px, 1fr))",
           "height": "585px",
           "justifyContent": "center",
-          "marginBottom": "0px",
-          "padding": "48px 0",
           "position": "absolute",
           "width": "98%"
          },
          "blockName": "empty-state",
          "children": [
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-3)",
-            "height": "32px",
-            "width": "32px"
-           },
-           "children": [],
-           "classes": [],
-           "componentId": "FeatherIcon-fc13uwn2c",
-           "componentName": "FeatherIcon",
-           "componentProps": {
-            "color": null,
-            "name": "inbox",
-            "strokeWidth": 1.5
-           }
-          },
           {
            "baseStyles": {
             "color": "var(--ink-gray-6)",
@@ -604,26 +494,13 @@
            "children": [],
            "classes": [],
            "componentId": "TextBlock-7wj9iidyv",
-           "componentName": "TextBlock",
+           "componentName": "KbEmptyState",
            "componentProps": {
-            "fontSize": "text-lg",
-            "tag": "p",
-            "text": "No articles found"
-           }
-          },
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-4)"
+            "description": "{{ searchQuery ? 'Try a different search term.' : \"Check back soon \u2014 articles are added here as they're published.\" }}",
+            "icon": "article",
+            "title": "{{ searchQuery ? 'No matching articles' : 'No articles in this category' }}"
            },
-           "children": [],
-           "classes": [],
-           "componentId": "TextBlock-8cnmyrxbq",
-           "componentName": "TextBlock",
-           "componentProps": {
-            "fontSize": "text-p-sm",
-            "tag": "p",
-            "text": "Try a different search term or check back later."
-           }
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
@@ -835,110 +712,22 @@
           },
           {
            "baseStyles": {
-            "padding": "0px",
+            "flexShrink": 0,
             "width": "100%"
            },
            "children": [],
            "classes": [],
            "componentId": "TextInput-yjpuif5rq",
-           "componentName": "TextInput",
+           "componentName": "KbSearchInput",
            "componentProps": {
             "modelValue": {
              "$type": "variable",
              "name": "searchQuery"
             },
-            "placeholder": "Search articles (e.g. billing, integration, or general)",
-            "size": "md",
-            "type": "text",
-            "variant": "subtle"
+            "placeholder": "Search articles (e.g. billing, integration, or general)"
            },
-           "componentSlots": {
-            "prefix": {
-             "parentBlockId": "TextInput-yjpuif5rq",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {},
-               "children": [],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "FeatherIcon-sybd2nqcx",
-               "componentName": "FeatherIcon",
-               "componentProps": {
-                "color": null,
-                "name": "search",
-                "strokeWidth": 1.5
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "rawStyles": {
-                "color": "var(--ink-gray-4)",
-                "height": "14px",
-                "width": "14px"
-               },
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-yjpuif5rq:prefix",
-             "slotName": "prefix"
-            },
-            "suffix": {
-             "parentBlockId": "TextInput-yjpuif5rq",
-             "slotContent": [
-              {
-               "attributes": {},
-               "baseStyles": {
-                "alignItems": "center",
-                "borderColor": "var(--outline-gray-2, oklch(0.913 0 0))",
-                "borderRadius": "0.25rem",
-                "borderStyle": "solid",
-                "borderWidth": "1px",
-                "display": "flex",
-                "flexDirection": "row",
-                "height": "24px",
-                "justifyContent": "center",
-                "position": "relative",
-                "width": "66px"
-               },
-               "blockName": "shortcut-badge",
-               "children": [
-                {
-                 "attributes": {},
-                 "baseStyles": {
-                  "color": "var(--ink-gray-4)"
-                 },
-                 "children": [],
-                 "classes": [],
-                 "componentEvents": {},
-                 "componentId": "TextBlock-bttr9o17j",
-                 "componentName": "TextBlock",
-                 "componentProps": {
-                  "fontSize": "text-p-base",
-                  "tag": "span",
-                  "text": "Cmd+k"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
-                }
-               ],
-               "classes": [],
-               "componentEvents": {},
-               "componentId": "container-9emz4x36b",
-               "componentName": "container",
-               "componentProps": {},
-               "componentSlots": {},
-               "mobileStyles": {},
-               "originalElement": "div",
-               "rawStyles": {},
-               "tabletStyles": {}
-              }
-             ],
-             "slotId": "TextInput-yjpuif5rq:suffix",
-             "slotName": "suffix"
-            }
-           }
+           "componentSlots": {},
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
@@ -1221,9 +1010,9 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ filteredArticles }}",
-            "dataKey": "name",
-            "emptyStateMessage": "\u200a\u200a\u200a"
-           }
+            "dataKey": "name"
+           },
+           "visibilityCondition": "{{ filteredArticles && filteredArticles.length }}"
           }
          ],
          "classes": [],
@@ -1237,36 +1026,14 @@
         {
          "baseStyles": {
           "alignItems": "center",
-          "borderRadius": "0.5rem",
           "display": "flex",
-          "flexDirection": "column",
-          "gap": "12px",
-          "gridTemplateColumns": "repeat(2, minmax(200px, 1fr))",
           "height": "585px",
           "justifyContent": "center",
-          "marginBottom": "0px",
-          "padding": "48px 0",
           "position": "absolute",
           "width": "98%"
          },
          "blockName": "empty-state",
          "children": [
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-3)",
-            "height": "32px",
-            "width": "32px"
-           },
-           "children": [],
-           "classes": [],
-           "componentId": "FeatherIcon-fc13uwn2c",
-           "componentName": "FeatherIcon",
-           "componentProps": {
-            "color": null,
-            "name": "inbox",
-            "strokeWidth": 1.5
-           }
-          },
           {
            "baseStyles": {
             "color": "var(--ink-gray-6)",
@@ -1275,26 +1042,13 @@
            "children": [],
            "classes": [],
            "componentId": "TextBlock-7wj9iidyv",
-           "componentName": "TextBlock",
+           "componentName": "KbEmptyState",
            "componentProps": {
-            "fontSize": "text-lg",
-            "tag": "p",
-            "text": "No articles found"
-           }
-          },
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-4)"
+            "description": "{{ searchQuery ? 'Try a different search term.' : \"Check back soon \u2014 articles are added here as they're published.\" }}",
+            "icon": "article",
+            "title": "{{ searchQuery ? 'No matching articles' : 'No articles in this category' }}"
            },
-           "children": [],
-           "classes": [],
-           "componentId": "TextBlock-8cnmyrxbq",
-           "componentName": "TextBlock",
-           "componentProps": {
-            "fontSize": "text-p-sm",
-            "tag": "p",
-            "text": "Try a different search term or check back later."
-           }
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],

@@ -7,9 +7,13 @@ here, scoped to the caller's own organization (HD Customer membership).
 
 import frappe
 from frappe import _
+from frappe.query_builder.functions import Count
 from frappe.utils import sbool, validate_email_address
 
 from helpdesk.utils import get_customers, is_agent
+
+# The organizations you can act on come first; alphabetical within a role.
+ROLE_ORDER = {"Owner": 0, "Manager": 1, "Member": 2}
 
 
 @frappe.whitelist()
@@ -43,9 +47,24 @@ def get_organizations() -> list[dict]:
     rows = frappe.get_all(
         "HD Customer",
         filters={"name": ["in", [membership["name"] for membership in memberships]]},
-        fields=["name", "customer_name", "image", "domain", "email_id", "owner"],
+        fields=[
+            "name",
+            "customer_name",
+            "image",
+            "domain",
+            "email_id",
+            "owner",
+            "primary_contact",
+        ],
     )
     by_name = {row.name: row for row in rows}
+    you = own_contact()
+    members = count_by(
+        "HD Customer Member", "parent", list(by_name), parenttype="HD Customer"
+    )
+    open_tickets = count_by(
+        "HD Ticket", "customer", list(by_name), status_category="Open"
+    )
 
     organizations = []
     for membership in memberships:
@@ -60,10 +79,51 @@ def get_organizations() -> list[dict]:
                 "domain": row.domain,
                 "email": row.email_id or row.owner,
                 "is_manager": bool(membership.get("is_manager")),
+                "role": describe_role(row, membership, you),
+                "member_count": members.get(row.name, 0),
+                "open_ticket_count": open_tickets.get(row.name, 0),
             }
         )
-    organizations.sort(key=lambda org: (org["customer_name"] or org["name"]).lower())
+    organizations.sort(
+        key=lambda org: (
+            ROLE_ORDER.get(org["role"], len(ROLE_ORDER)),
+            (org["customer_name"] or org["name"]).lower(),
+        )
+    )
     return organizations
+
+
+def describe_role(row, membership: dict, contact: str | None) -> str:
+    """The caller's standing in one organization.
+
+    Owner is the primary contact, whom HD Customer keeps a manager, so the three
+    labels are a hierarchy rather than independent flags.
+    """
+    if contact and row.primary_contact == contact:
+        return "Owner"
+    return "Manager" if membership.get("is_manager") else "Member"
+
+
+def count_by(
+    doctype: str, fieldname: str, values: list[str], **equals
+) -> dict[str, int]:
+    """Rows of `doctype` per value of `fieldname`, grouped in SQL rather than fetched.
+
+    Skips permission filters deliberately: the caller has already narrowed `values`
+    to organizations the session user belongs to.
+    """
+    if not values:
+        return {}
+    table = frappe.qb.DocType(doctype)
+    query = (
+        frappe.qb.from_(table)
+        .select(table[fieldname], Count(table.name).as_("total"))
+        .where(table[fieldname].isin(values))
+        .groupby(table[fieldname])
+    )
+    for name, value in equals.items():
+        query = query.where(table[name] == value)
+    return {row[fieldname]: row.total for row in query.run(as_dict=True)}
 
 
 @frappe.whitelist()

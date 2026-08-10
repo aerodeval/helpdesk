@@ -48,27 +48,13 @@
       <ListSelectBanner />
     </ListView>
 
-    <!-- Mirrors the agent list's EmptyState: icon over a medium title over a
-         smaller description, centred and non-interactive. -->
-    <div
+    <KbEmptyState
       v-else
-      class="pointer-events-none flex h-full items-center justify-center"
-    >
-      <div class="flex flex-col items-center gap-2 text-ink-gray-4">
-        <FeatherIcon name="inbox" class="h-10 w-10" />
-        <div class="flex flex-col items-center justify-center gap-0.5">
-          <span class="text-base font-medium text-ink-gray-8">
-            {{ emptyState.title }}
-          </span>
-          <span
-            v-if="emptyState.description"
-            class="mt-1 text-center text-p-sm text-ink-gray-6"
-          >
-            {{ emptyState.description }}
-          </span>
-        </div>
-      </div>
-    </div>
+      class="pointer-events-none h-full"
+      icon="ticket"
+      :title="emptyState.title"
+      :description="emptyState.description"
+    />
 
     <div v-if="rows.length" class="border-t px-3 py-2 sm:px-5">
       <ListFooter
@@ -86,8 +72,8 @@
 // gutters (`mx-5`), same footer chrome — so both list views read as one design.
 // It draws nothing itself: every cell comes from its column's `cell()`, the way
 // ListViewBuilder defers to `listCell`.
+import KbEmptyState from "@app/components/KbEmptyState.vue";
 import {
-  FeatherIcon,
   ListFooter,
   ListHeader,
   ListHeaderItem,

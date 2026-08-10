@@ -240,81 +240,19 @@
                {
                 "attributes": {},
                 "baseStyles": {
-                 "alignItems": "center",
-                 "display": "flex",
-                 "gap": "0px",
-                 "marginInlineEnd": "6px",
                  "marginTop": "8px"
                 },
                 "blockName": "Your organizations",
-                "children": [
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {
-                     "boxShadow": "0 0 0 2px var(--surface-base)",
-                     "marginInlineEnd": "-6px"
-                    },
-                    "children": [
-                     {
-                      "attributes": {},
-                      "baseStyles": {},
-                      "children": [],
-                      "classes": [],
-                      "componentEvents": {},
-                      "componentId": "kb_settings-profile-org-avatar-initial",
-                      "componentName": "TextBlock",
-                      "componentProps": {
-                       "tag": "span",
-                       "text": "{{ dataItem.customer_name && dataItem.customer_name[0] }}"
-                      },
-                      "componentSlots": {},
-                      "mobileStyles": {},
-                      "rawStyles": {},
-                      "tabletStyles": {}
-                     }
-                    ],
-                    "classes": [],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-profile-org-avatar",
-                    "componentName": "Avatar",
-                    "componentProps": {
-                     "image": "{{ dataItem.image }}",
-                     "label": "{{ dataItem.customer_name }}",
-                     "shape": "circle",
-                     "size": "md"
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "classes": [],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-profile-org-tooltip",
-                  "componentName": "Tooltip",
-                  "componentProps": {
-                   "text": "{{ dataItem.customer_name }}"
-                  },
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "rawStyles": {},
-                  "tabletStyles": {}
-                 }
-                ],
+                "children": [],
                 "classes": [],
                 "componentEvents": {},
-                "componentId": "kb_settings-profile-organizations",
-                "componentName": "Repeater",
+                "componentId": "kb_settings-profile-organization-group",
+                "componentName": "KbOrganizationAvatars",
                 "componentProps": {
-                 "data": "{{ organizations }}",
-                 "dataKey": "name"
+                 "organizations": "{{ organizations }}"
                 },
                 "componentSlots": {},
+                "isCustomVueComponent": true,
                 "mobileStyles": {},
                 "rawStyles": {},
                 "tabletStyles": {},
@@ -758,244 +696,18 @@
             "baseStyles": {
              "paddingTop": "32px"
             },
-            "children": [
-             {
-              "attributes": {},
-              "baseStyles": {},
-              "children": [],
-              "classes": [
-               "text-base",
-               "text-ink-gray-5"
-              ],
-              "componentEvents": {},
-              "componentId": "kb_settings-organization-empty",
-              "componentName": "TextBlock",
-              "componentProps": {
-               "tag": "span",
-               "text": "You are not a member of any organization yet."
-              },
-              "componentSlots": {},
-              "mobileStyles": {},
-              "rawStyles": {},
-              "tabletStyles": {},
-              "visibilityCondition": "{{ !organizations.length }}"
-             },
-             {
-              "attributes": {},
-              "baseStyles": {
-               "display": "flex",
-               "flexDirection": "column",
-               "gap": "0px",
-               "width": "100%"
-              },
-              "blockName": "Organizations",
-              "children": [
-               {
-                "attributes": {
-                 "role": "button",
-                 "tabindex": "0"
-                },
-                "baseStyles": {
-                 "height": "50px"
-                },
-                "children": [
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [],
-                    "classes": [],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-organization-row-avatar-initial",
-                    "componentName": "TextBlock",
-                    "componentProps": {
-                     "tag": "span",
-                     "text": "{{ dataItem.customer_name && dataItem.customer_name[0] }}"
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "classes": [],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-row-avatar",
-                  "componentName": "Avatar",
-                  "componentProps": {
-                   "image": "{{ dataItem.image }}",
-                   "label": "{{ dataItem.customer_name }}",
-                   "shape": "square",
-                   "size": "lg"
-                  },
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "rawStyles": {},
-                  "tabletStyles": {}
-                 },
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [],
-                    "classes": [
-                     "truncate",
-                     "text-base",
-                     "text-ink-gray-8"
-                    ],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-organization-row-name",
-                    "componentName": "TextBlock",
-                    "componentProps": {
-                     "tag": "div",
-                     "text": "{{ dataItem.customer_name }}"
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   },
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [],
-                    "classes": [
-                     "truncate",
-                     "text-sm",
-                     "text-ink-gray-5"
-                    ],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-organization-row-domain",
-                    "componentName": "TextBlock",
-                    "componentProps": {
-                     "tag": "div",
-                     "text": "{{ dataItem.domain }}"
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "classes": [
-                   "min-w-0",
-                   "flex-1"
-                  ],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-row-text",
-                  "componentName": "container",
-                  "componentProps": {},
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "originalElement": "div",
-                  "rawStyles": {},
-                  "tabletStyles": {}
-                 },
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [],
-                  "classes": [],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-row-role",
-                  "componentName": "Badge",
-                  "componentProps": {
-                   "label": "{{ dataItem.is_manager ? 'Manager' : 'Member' }}",
-                   "theme": "{{ dataItem.is_manager ? 'blue' : 'gray' }}",
-                   "variant": "subtle"
-                  },
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "rawStyles": {},
-                  "tabletStyles": {}
-                 },
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [],
-                  "classes": [
-                   "h-4",
-                   "w-4",
-                   "shrink-0",
-                   "text-ink-gray-5"
-                  ],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-row-chevron",
-                  "componentName": "FeatherIcon",
-                  "componentProps": {
-                   "name": "chevron-right"
-                  },
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "rawStyles": {},
-                  "tabletStyles": {}
-                 }
-                ],
-                "classes": [
-                 "flex",
-                 "w-full",
-                 "cursor-pointer",
-                 "items-center",
-                 "gap-3",
-                 "rounded",
-                 "px-2",
-                 "text-left",
-                 "hover:bg-surface-sidebar"
-                ],
-                "componentEvents": {
-                 "click": {
-                  "action": "Run Script",
-                  "event": "click",
-                  "script": "openOrganization(dataItem.name)"
-                 },
-                 "keydown.enter": {
-                  "action": "Run Script",
-                  "event": "keydown.enter",
-                  "script": "openOrganization(dataItem.name)"
-                 }
-                },
-                "componentId": "kb_settings-organization-row",
-                "componentName": "container",
-                "componentProps": {},
-                "componentSlots": {},
-                "mobileStyles": {},
-                "originalElement": "div",
-                "rawStyles": {},
-                "tabletStyles": {}
-               }
-              ],
-              "classes": [
-               "divide-y",
-               "divide-outline-gray-1"
-              ],
-              "componentEvents": {},
-              "componentId": "kb_settings-organization-repeater",
-              "componentName": "Repeater",
-              "componentProps": {
-               "data": "{{ organizations }}",
-               "dataKey": "name"
-              },
-              "componentSlots": {},
-              "mobileStyles": {},
-              "rawStyles": {},
-              "tabletStyles": {},
-              "visibilityCondition": "{{ organizations.length }}"
-             }
-            ],
+            "children": [],
             "classes": [],
             "componentEvents": {},
             "componentId": "kb_settings-organization-list",
-            "componentName": "container",
-            "componentProps": {},
+            "componentName": "KbOrganizationList",
+            "componentProps": {
+             "onSelect": "{{ openOrganization }}",
+             "organizations": "{{ organizations }}"
+            },
             "componentSlots": {},
+            "isCustomVueComponent": true,
             "mobileStyles": {},
-            "originalElement": "div",
             "rawStyles": {},
             "tabletStyles": {}
            }
@@ -1099,7 +811,7 @@
           "mobileStyles": {},
           "rawStyles": {},
           "tabletStyles": {},
-          "visibilityCondition": "{{ selectedOrg }}"
+          "visibilityCondition": "{{ selectedOrg && !inviteOpen }}"
          },
          {
           "attributes": {},
@@ -2063,7 +1775,205 @@
           "mobileStyles": {},
           "rawStyles": {},
           "tabletStyles": {},
-          "visibilityCondition": "{{ selectedOrg }}"
+          "visibilityCondition": "{{ selectedOrg && !inviteOpen }}"
+         },
+         {
+          "attributes": {},
+          "baseStyles": {},
+          "blockName": "Invite header",
+          "children": [
+           {
+            "attributes": {},
+            "baseStyles": {},
+            "children": [
+             {
+              "attributes": {},
+              "baseStyles": {
+               "marginLeft": "-8px"
+              },
+              "children": [],
+              "classes": [
+               "hover:bg-transparent"
+              ],
+              "componentEvents": {
+               "click": {
+                "action": "Run Script",
+                "event": "click",
+                "script": "closeInvite()"
+               }
+              },
+              "componentId": "kb_settings-invite-back",
+              "componentName": "Button",
+              "componentProps": {
+               "iconLeft": "chevron-left",
+               "label": "Invite people",
+               "variant": "ghost"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             },
+             {
+              "attributes": {},
+              "baseStyles": {},
+              "children": [],
+              "classes": [],
+              "componentEvents": {
+               "click": {
+                "action": "Run Script",
+                "event": "click",
+                "script": "sendInvite()"
+               }
+              },
+              "componentId": "kb_settings-invite-send",
+              "componentName": "Button",
+              "componentProps": {
+               "label": "Send Invite",
+               "loading": "{{ settingsBusy }}",
+               "variant": "subtle"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             }
+            ],
+            "classes": [
+             "flex",
+             "items-start",
+             "justify-between",
+             "gap-4"
+            ],
+            "componentEvents": {},
+            "componentId": "kb_settings-invite-headings",
+            "componentName": "container",
+            "componentProps": {},
+            "componentSlots": {},
+            "mobileStyles": {},
+            "originalElement": "div",
+            "rawStyles": {},
+            "tabletStyles": {}
+           }
+          ],
+          "classes": [],
+          "componentEvents": {},
+          "componentId": "kb_settings-invite-header",
+          "componentName": "SettingsHeader",
+          "componentProps": {},
+          "componentSlots": {},
+          "mobileStyles": {},
+          "rawStyles": {},
+          "tabletStyles": {},
+          "visibilityCondition": "{{ inviteOpen }}"
+         },
+         {
+          "attributes": {},
+          "baseStyles": {},
+          "blockName": "Invite body",
+          "children": [
+           {
+            "attributes": {},
+            "baseStyles": {
+             "display": "flex",
+             "flexDirection": "column",
+             "gap": "12px",
+             "paddingTop": "32px"
+            },
+            "children": [
+             {
+              "attributes": {},
+              "baseStyles": {},
+              "children": [
+               {
+                "attributes": {},
+                "baseStyles": {},
+                "children": [],
+                "classes": [
+                 "w-32"
+                ],
+                "componentEvents": {},
+                "componentId": "kb_settings-invite-role",
+                "componentName": "Select",
+                "componentProps": {
+                 "modelValue": {
+                  "$type": "variable",
+                  "name": "inviteRole"
+                 },
+                 "options": [
+                  {
+                   "label": "Member",
+                   "value": "Member"
+                  },
+                  {
+                   "label": "Manager",
+                   "value": "Manager"
+                  }
+                 ]
+                },
+                "componentSlots": {},
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+               }
+              ],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-invite-row",
+              "componentName": "SettingsRow",
+              "componentProps": {
+               "description": "New people will be added to the team as",
+               "title": "Invite by email"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             },
+             {
+              "attributes": {},
+              "baseStyles": {},
+              "children": [],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-invite-emails",
+              "componentName": "KbEmailInput",
+              "componentProps": {
+               "modelValue": {
+                "$type": "variable",
+                "name": "inviteEmails"
+               },
+               "placeholder": "Separate multiple emails with commas"
+              },
+              "componentSlots": {},
+              "isCustomVueComponent": true,
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             }
+            ],
+            "classes": [],
+            "componentEvents": {},
+            "componentId": "kb_settings-invite-content",
+            "componentName": "container",
+            "componentProps": {},
+            "componentSlots": {},
+            "mobileStyles": {},
+            "originalElement": "div",
+            "rawStyles": {},
+            "tabletStyles": {}
+           }
+          ],
+          "classes": [],
+          "componentEvents": {},
+          "componentId": "kb_settings-invite-body",
+          "componentName": "SettingsBody",
+          "componentProps": {},
+          "componentSlots": {},
+          "mobileStyles": {},
+          "rawStyles": {},
+          "tabletStyles": {},
+          "visibilityCondition": "{{ inviteOpen }}"
          }
         ],
         "classes": [],
@@ -2099,6 +2009,7 @@
       "$type": "variable",
       "name": "settingsOpen"
      },
+     "size": "5xl",
      "tab": {
       "$type": "variable",
       "name": "settingsTab"
@@ -2241,181 +2152,6 @@
         },
         "componentSlots": {},
         "mobileStyles": {},
-        "rawStyles": {},
-        "tabletStyles": {}
-       }
-      ],
-      "slotId": "kb_settings-slot-body-content",
-      "slotName": "body-content"
-     }
-    },
-    "mobileStyles": {},
-    "rawStyles": {},
-    "tabletStyles": {}
-   },
-   {
-    "attributes": {},
-    "baseStyles": {},
-    "blockName": "Invite dialog",
-    "children": [],
-    "classes": [],
-    "componentEvents": {},
-    "componentId": "kb_settings-invite-dialog",
-    "componentName": "Dialog",
-    "componentProps": {
-     "modelValue": {
-      "$type": "variable",
-      "name": "inviteOpen"
-     }
-    },
-    "componentSlots": {
-     "body-content": {
-      "slotContent": [
-       {
-        "attributes": {},
-        "baseStyles": {},
-        "children": [
-         {
-          "attributes": {},
-          "baseStyles": {},
-          "children": [],
-          "classes": [
-           "mb-4",
-           "text-lg",
-           "font-semibold",
-           "text-ink-gray-9"
-          ],
-          "componentEvents": {},
-          "componentId": "kb_settings-invite-title",
-          "componentName": "TextBlock",
-          "componentProps": {
-           "tag": "span",
-           "text": "Invite people"
-          },
-          "componentSlots": {},
-          "mobileStyles": {},
-          "rawStyles": {},
-          "tabletStyles": {}
-         },
-         {
-          "attributes": {},
-          "baseStyles": {},
-          "children": [
-           {
-            "attributes": {},
-            "baseStyles": {},
-            "children": [],
-            "classes": [],
-            "componentEvents": {},
-            "componentId": "kb_settings-invite-email",
-            "componentName": "FormControl",
-            "componentProps": {
-             "label": "Email",
-             "modelValue": {
-              "$type": "variable",
-              "name": "inviteEmail"
-             },
-             "placeholder": "name@company.com",
-             "type": "email"
-            },
-            "componentSlots": {},
-            "mobileStyles": {},
-            "rawStyles": {},
-            "tabletStyles": {}
-           },
-           {
-            "attributes": {},
-            "baseStyles": {},
-            "children": [],
-            "classes": [],
-            "componentEvents": {},
-            "componentId": "kb_settings-invite-role",
-            "componentName": "FormControl",
-            "componentProps": {
-             "label": "Role",
-             "modelValue": {
-              "$type": "variable",
-              "name": "inviteRole"
-             },
-             "options": [
-              "Member",
-              "Manager"
-             ],
-             "type": "select"
-            },
-            "componentSlots": {},
-            "mobileStyles": {},
-            "rawStyles": {},
-            "tabletStyles": {}
-           },
-           {
-            "attributes": {},
-            "baseStyles": {},
-            "children": [
-             {
-              "attributes": {},
-              "baseStyles": {},
-              "children": [],
-              "classes": [],
-              "componentEvents": {
-               "click": {
-                "action": "Run Script",
-                "event": "click",
-                "script": "sendInvite()"
-               }
-              },
-              "componentId": "kb_settings-invite-send",
-              "componentName": "Button",
-              "componentProps": {
-               "label": "Send invite",
-               "loading": "{{ settingsBusy }}",
-               "variant": "solid"
-              },
-              "componentSlots": {},
-              "mobileStyles": {},
-              "rawStyles": {},
-              "tabletStyles": {}
-             }
-            ],
-            "classes": [
-             "flex",
-             "justify-end"
-            ],
-            "componentEvents": {},
-            "componentId": "kb_settings-invite-actions",
-            "componentName": "container",
-            "componentProps": {},
-            "componentSlots": {},
-            "mobileStyles": {},
-            "originalElement": "div",
-            "rawStyles": {},
-            "tabletStyles": {}
-           }
-          ],
-          "classes": [
-           "flex",
-           "flex-col",
-           "gap-4"
-          ],
-          "componentEvents": {},
-          "componentId": "kb_settings-invite-fields",
-          "componentName": "container",
-          "componentProps": {},
-          "componentSlots": {},
-          "mobileStyles": {},
-          "originalElement": "div",
-          "rawStyles": {},
-          "tabletStyles": {}
-         }
-        ],
-        "classes": [],
-        "componentEvents": {},
-        "componentId": "kb_settings-invite-body",
-        "componentName": "container",
-        "componentProps": {},
-        "componentSlots": {},
-        "mobileStyles": {},
-        "originalElement": "div",
         "rawStyles": {},
         "tabletStyles": {}
        }

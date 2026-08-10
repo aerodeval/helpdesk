@@ -27,10 +27,17 @@ export default function setup(context) {
       h.setAttribute('id', id)
       return { id, text: (h.textContent || '').trim(), level: Number(h.tagName[1]) }
     })
-    return { html: dom.body.innerHTML, toc }
+    const words = (dom.body.textContent || '').trim().split(/\s+/).filter(Boolean).length
+    return { html: dom.body.innerHTML, toc, words }
   })
   const articleHtml = computed(() => parsed.value.html)
   const toc = computed(() => parsed.value.toc)
+
+  // 200 words per minute, the usual assumption for prose; never below a minute.
+  const readingTime = computed(() => {
+    const minutes = Math.max(1, Math.round(parsed.value.words / 200))
+    return minutes + (minutes === 1 ? ' minute to read' : ' minutes to read')
+  })
 
   // LHS navigation tree: one collapsible section per category, one item per
   // article. `icon` is the category's own feather icon name; `isCurrent` marks
@@ -167,7 +174,7 @@ export default function setup(context) {
   return {
     ...useSettingsModal(context),
     formatDate,
-    categoryTrees, toggleCategory, isExpanded, articleHtml, toc, author, currentCategory, relatedArticles,
+    categoryTrees, toggleCategory, isExpanded, articleHtml, toc, readingTime, author, currentCategory, relatedArticles,
     selectedFeedback, submitFeedback,
     navMenuOpen,
   }

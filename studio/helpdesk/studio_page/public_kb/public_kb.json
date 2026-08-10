@@ -300,9 +300,9 @@
              "componentName": "Repeater",
              "componentProps": {
               "data": "{{ popularCategories.data }}",
-              "dataKey": "name",
-              "emptyStateMessage": ""
-             }
+              "dataKey": "name"
+             },
+             "visibilityCondition": "{{ popularCategories.data && popularCategories.data.length }}"
             }
            ],
            "classes": [],
@@ -504,9 +504,9 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ HD_Article_Category.data }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
-           }
+            "dataKey": "name"
+           },
+           "visibilityCondition": "{{ HD_Article_Category.data && HD_Article_Category.data.length }}"
           }
          ],
          "classes": [],
@@ -528,12 +528,13 @@
          "children": [],
          "classes": [],
          "componentId": "TextBlock-uboyx0fo9",
-         "componentName": "TextBlock",
+         "componentName": "KbEmptyState",
          "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No categories found."
+          "description": "Categories show up here once they're published.",
+          "icon": "article",
+          "title": "No categories yet"
          },
+         "isCustomVueComponent": true,
          "visibilityCondition": "{{ !HD_Article_Category.data || HD_Article_Category.data.length === 0 }}"
         }
        ],
@@ -772,12 +773,12 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ filteredArticles }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
+            "dataKey": "name"
            },
            "rawStyles": {
             "overflow": "hidden"
-           }
+           },
+           "visibilityCondition": "{{ filteredArticles && filteredArticles.length }}"
           }
          ],
          "classes": [],
@@ -794,12 +795,13 @@
          "children": [],
          "classes": [],
          "componentId": "TextBlock-wlzd15fla",
-         "componentName": "TextBlock",
+         "componentName": "KbEmptyState",
          "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No articles found."
+          "description": "New articles appear here as they're published.",
+          "icon": "article",
+          "title": "No articles yet"
          },
+         "isCustomVueComponent": true,
          "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
         }
        ],
@@ -1135,9 +1137,9 @@
              "componentName": "Repeater",
              "componentProps": {
               "data": "{{ popularCategories.data }}",
-              "dataKey": "name",
-              "emptyStateMessage": ""
-             }
+              "dataKey": "name"
+             },
+             "visibilityCondition": "{{ popularCategories.data && popularCategories.data.length }}"
             }
            ],
            "classes": [],
@@ -1339,9 +1341,9 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ HD_Article_Category.data }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
-           }
+            "dataKey": "name"
+           },
+           "visibilityCondition": "{{ HD_Article_Category.data && HD_Article_Category.data.length }}"
           }
          ],
          "classes": [],
@@ -1363,12 +1365,13 @@
          "children": [],
          "classes": [],
          "componentId": "TextBlock-uboyx0fo9",
-         "componentName": "TextBlock",
+         "componentName": "KbEmptyState",
          "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No categories found."
+          "description": "Categories show up here once they're published.",
+          "icon": "article",
+          "title": "No categories yet"
          },
+         "isCustomVueComponent": true,
          "visibilityCondition": "{{ !HD_Article_Category.data || HD_Article_Category.data.length === 0 }}"
         }
        ],
@@ -1607,12 +1610,12 @@
            "componentName": "Repeater",
            "componentProps": {
             "data": "{{ filteredArticles }}",
-            "dataKey": "name",
-            "emptyStateMessage": ""
+            "dataKey": "name"
            },
            "rawStyles": {
             "overflow": "hidden"
-           }
+           },
+           "visibilityCondition": "{{ filteredArticles && filteredArticles.length }}"
           }
          ],
          "classes": [],
@@ -1629,12 +1632,13 @@
          "children": [],
          "classes": [],
          "componentId": "TextBlock-wlzd15fla",
-         "componentName": "TextBlock",
+         "componentName": "KbEmptyState",
          "componentProps": {
-          "fontSize": "text-p-sm",
-          "tag": "p",
-          "text": "No articles found."
+          "description": "New articles appear here as they're published.",
+          "icon": "article",
+          "title": "No articles yet"
          },
+         "isCustomVueComponent": true,
          "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
         }
        ],

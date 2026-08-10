@@ -55,7 +55,7 @@ function createSettingsStore() {
   const orgEmail = ref('')
   const orgEmailEditing = ref(false)
   const inviteOpen = ref(false)
-  const inviteEmail = ref('')
+  const inviteEmails = ref([])
   const inviteRole = ref('Member') // 'Member' | 'Manager'
   const passwordOpen = ref(false)
   const currentPassword = ref('')
@@ -261,29 +261,35 @@ function createSettingsStore() {
 
   // --- Manage organization ---
 
+  // Inviting is its own screen inside the organization panel, the same way the
+  // organization list drills into a detail — not a dialog on top of it.
   function openInvite() {
-    inviteEmail.value = ''
+    inviteEmails.value = []
     inviteRole.value = 'Member'
     inviteOpen.value = true
   }
 
+  function closeInvite() {
+    inviteOpen.value = false
+  }
+
   function sendInvite() {
-    const email = inviteEmail.value.trim()
-    if (!email) {
+    const emails = inviteEmails.value.map((email) => email.trim()).filter(Boolean)
+    if (!emails.length) {
       toast.error('Please enter an email address')
       return
     }
     return run(async () => {
       const result = await call('frappe.core.api.user_invitation.invite_by_email', {
-        emails: email,
+        emails: emails.join(','),
         roles: [inviteRole.value === 'Manager' ? MANAGER_ROLE : MEMBER_ROLE],
         redirect_to_path: '/helpdesk',
         app_name: 'helpdesk',
         customer: selectedOrg.value,
       })
       if (result.invited_emails?.length) {
-        toast.success('Invitation sent')
-        inviteEmail.value = ''
+        toast.success(result.invited_emails.length > 1 ? 'Invitations sent' : 'Invitation sent')
+        inviteEmails.value = []
         inviteOpen.value = false
       } else if (result.pending_invite_emails?.length) {
         toast.error('An invitation for this email is already pending')
@@ -480,7 +486,7 @@ function createSettingsStore() {
     orgEmail,
     orgEmailEditing,
     inviteOpen,
-    inviteEmail,
+    inviteEmails,
     inviteRole,
     passwordOpen,
     currentPassword,
@@ -500,6 +506,7 @@ function createSettingsStore() {
     uploadProfileImage,
     removeProfileImage,
     openInvite,
+    closeInvite,
     sendInvite,
     roleLabel,
     memberOptions,

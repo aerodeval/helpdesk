@@ -2,7 +2,7 @@
   <!-- The agent portal's Profile identity block (desk/.../Settings/Profile/Profile.vue):
        the avatar itself opens the native file picker — no intermediate dialog — and a
        hover-revealed × clears it. The name is edited inline rather than in a form. -->
-  <div class="flex items-center gap-4 pt-1.5 pb-8">
+  <div class="flex items-center gap-4 pt-1.5">
     <div class="group relative shrink-0" :style="avatarBox">
       <!-- Avatar's size enum stops at 46px, so both scales set it directly. -->
       <Avatar :style="avatarBox" :image="image" :label="name" :shape="shape" />
@@ -23,32 +23,35 @@
     </div>
 
     <div class="flex min-w-0 flex-col gap-1">
-      <div v-if="!editing" class="flex items-end gap-1">
-        <span class="text-ink-gray-8" :class="titleClass">{{ name }}</span>
-        <Button
-          v-if="editable"
-          class="!h-5"
-          style="padding-inline: 4px"
-          variant="ghost"
-          @click="startEditing"
-        >
-          <FeatherIcon name="edit-2" class="size-3.5" />
-        </Button>
-      </div>
-      <div v-else class="flex items-center gap-1">
-        <TextInput
-          ref="nameInput"
-          v-model="draft"
-          :maxlength="maxLength"
-          @keydown.enter="commit"
-          @keydown.esc.stop="editing = false"
-        />
-        <Button
-          variant="outline"
-          icon="lucide-check"
-          :loading="busy"
-          @click="commit"
-        />
+      <!-- Both states share the input's height so switching doesn't move the block. -->
+      <div class="flex items-center gap-1" style="min-height: 28px">
+        <template v-if="!editing">
+          <span class="text-ink-gray-8" :class="titleClass">{{ name }}</span>
+          <Button
+            v-if="editable"
+            class="!h-5"
+            style="padding-inline: 4px"
+            variant="ghost"
+            @click="startEditing"
+          >
+            <LucideSquarePen class="size-3.5" />
+          </Button>
+        </template>
+        <template v-else>
+          <TextInput
+            ref="nameInput"
+            v-model="draft"
+            :maxlength="maxLength"
+            @keydown.enter="commit"
+            @keydown.esc.stop="editing = false"
+          />
+          <Button
+            variant="outline"
+            icon="lucide-check"
+            :loading="busy"
+            @click="commit"
+          />
+        </template>
       </div>
       <span class="text-p-sm text-ink-gray-6">{{ subtitle }}</span>
       <!-- Anything else that belongs to the identity, aligned with the name column. -->
@@ -60,6 +63,8 @@
 <script setup lang="ts">
 import { Avatar, Button, FeatherIcon, TextInput } from "frappe-ui";
 import { computed, nextTick, ref } from "vue";
+// The agent portal draws its icons from lucide; feather's pencil is a different glyph.
+import LucideSquarePen from "~icons/lucide/square-pen";
 
 const props = withDefaults(
   defineProps<{

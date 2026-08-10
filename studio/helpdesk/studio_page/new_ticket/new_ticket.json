@@ -183,9 +183,9 @@
          "componentName": "Repeater",
          "componentProps": {
           "data": "{{ fields }}",
-          "dataKey": "fieldname",
-          "emptyStateMessage": ""
-         }
+          "dataKey": "fieldname"
+         },
+         "visibilityCondition": "{{ fields && fields.length }}"
         },
         {
          "baseStyles": {
