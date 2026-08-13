@@ -137,6 +137,73 @@ def get_popular_categories(limit: int = 3) -> list[dict]:
     ]
 
 
+# The public knowledge base reads through the four endpoints below rather than
+# `frappe.client.get_list`/`get`, which frappe does not open to guests. The field
+# lists are fixed and the status filter is not a parameter, so an anonymous caller
+# can widen neither.
+PUBLIC_ARTICLE_FIELDS = [
+    "name",
+    "title",
+    "content",
+    "author",
+    "owner",
+    "category",
+    "status",
+    "published_on",
+    "modified",
+    "views",
+]
+PUBLIC_CATEGORY_FIELDS = ["name", "category_name", "description", "icon"]
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_public_articles(
+    category: str | None = None, limit: int | None = None
+) -> list[dict]:
+    """Published articles, newest first, optionally within one category."""
+    filters = {"status": "Published"}
+    if category:
+        filters["category"] = category
+    return frappe.get_all(
+        "HD Article",
+        filters=filters,
+        fields=PUBLIC_ARTICLE_FIELDS,
+        order_by="published_on desc",
+        limit_page_length=int(limit) if limit else 0,
+    )
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_public_article(name: str) -> dict:
+    """One article, published — or any article to an agent previewing a draft."""
+    article = frappe.db.get_value(
+        "HD Article", name, PUBLIC_ARTICLE_FIELDS, as_dict=True
+    )
+    if not article or (article.status != "Published" and not is_agent()):
+        frappe.throw(_("Article not found"), frappe.DoesNotExistError)
+    return article
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_public_categories(limit: int | None = None) -> list[dict]:
+    return frappe.get_all(
+        "HD Article Category",
+        fields=PUBLIC_CATEGORY_FIELDS,
+        order_by="category_name asc",
+        limit_page_length=int(limit) if limit else 0,
+    )
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_public_category(name: str) -> dict:
+    category = frappe.db.get_value(
+        "HD Article Category", name, PUBLIC_CATEGORY_FIELDS, as_dict=True
+    )
+    if not category:
+        frappe.throw(_("Category not found"), frappe.DoesNotExistError)
+    return category
+
+
 @frappe.whitelist()
 def get_category_articles(category: str):
     articles = frappe.get_all(

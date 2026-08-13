@@ -1,7 +1,15 @@
 import frappe
 from frappe.tests import IntegrationTestCase
 
-from helpdesk.api.knowledge_base import get_popular_categories
+from helpdesk.api.knowledge_base import (
+    PUBLIC_ARTICLE_FIELDS,
+    PUBLIC_CATEGORY_FIELDS,
+    get_popular_categories,
+    get_public_article,
+    get_public_articles,
+    get_public_categories,
+    get_public_category,
+)
 
 # The site's real articles carry real view counts, so fixtures use totals far
 # above anything present to keep the ranking assertions deterministic.
@@ -80,3 +88,128 @@ class TestPopularCategories(IntegrationTestCase):
         self.make_article(None, BASE_VIEWS)
         self.assertTrue(all(self.names(limit=ALL)))
         self.assertTrue(all(self.labels(limit=ALL)))
+
+
+class TestPublicReads(IntegrationTestCase):
+    """The four endpoints the public knowledge base reads through.
+
+    They exist because `frappe.client.get_list`/`get` are closed to guests, so what
+    matters is that they stay open to a guest while never widening past published
+    articles — the field lists and the status filter are not parameters.
+    """
+
+    def setUp(self) -> None:
+        self.category = frappe.get_doc(
+            {
+                "doctype": "HD Article Category",
+                "category_name": "Fixture Public",
+                "description": "Fixture description",
+            }
+        ).insert()
+        self.published = self.make_article("Fixture published", "Published")
+        self.draft = self.make_article("Fixture draft", "Draft")
+
+    def tearDown(self) -> None:
+        frappe.set_user("Administrator")
+
+    def make_article(self, title: str, status: str) -> str:
+        return (
+            frappe.get_doc(
+                {
+                    "doctype": "HD Article",
+                    "title": title,
+                    "content": "<p>content</p>",
+                    "status": status,
+                    "category": self.category.name,
+                }
+            )
+            .insert()
+            .name
+        )
+
+    def titles(self, **kwargs) -> list[str]:
+        return [row["title"] for row in get_public_articles(**kwargs)]
+
+    def test_every_endpoint_is_reachable_without_a_session(self) -> None:
+        for endpoint in (
+            get_public_articles,
+            get_public_article,
+            get_public_categories,
+            get_public_category,
+        ):
+            self.assertIn(endpoint, frappe.guest_methods)
+
+    def test_lists_only_published_articles(self) -> None:
+        titles = self.titles(category=self.category.name)
+
+        self.assertIn("Fixture published", titles)
+        self.assertNotIn("Fixture draft", titles)
+
+    def test_a_guest_cannot_widen_past_published(self) -> None:
+        frappe.set_user("Guest")
+
+        self.assertNotIn("Fixture draft", self.titles(category=self.category.name))
+
+    def test_narrows_to_one_category(self) -> None:
+        other = frappe.get_doc(
+            {"doctype": "HD Article Category", "category_name": "Fixture Other"}
+        ).insert()
+        frappe.get_doc(
+            {
+                "doctype": "HD Article",
+                "title": "Fixture elsewhere",
+                "content": "<p>content</p>",
+                "status": "Published",
+                "category": other.name,
+            }
+        ).insert()
+
+        self.assertEqual(
+            self.titles(category=self.category.name), ["Fixture published"]
+        )
+
+    def test_limit_caps_the_list(self) -> None:
+        self.assertEqual(len(self.titles(limit=1)), 1)
+
+    def test_articles_carry_a_fixed_shape(self) -> None:
+        # The portal binds to these names; the caller cannot ask for others.
+        [article] = get_public_articles(category=self.category.name)
+
+        self.assertEqual(set(article), set(PUBLIC_ARTICLE_FIELDS))
+
+    def test_reads_one_published_article(self) -> None:
+        article = get_public_article(self.published)
+
+        self.assertEqual(article.title, "Fixture published")
+        self.assertEqual(set(article), set(PUBLIC_ARTICLE_FIELDS))
+
+    def test_a_guest_cannot_read_a_draft(self) -> None:
+        frappe.set_user("Guest")
+
+        with self.assertRaises(frappe.DoesNotExistError):
+            get_public_article(self.draft)
+
+    def test_an_agent_can_preview_a_draft(self) -> None:
+        self.assertEqual(get_public_article(self.draft).title, "Fixture draft")
+
+    def test_an_unknown_article_is_not_found(self) -> None:
+        with self.assertRaises(frappe.DoesNotExistError):
+            get_public_article("no-such-article")
+
+    def test_categories_carry_a_fixed_shape(self) -> None:
+        [category] = [
+            row for row in get_public_categories() if row["name"] == self.category.name
+        ]
+
+        self.assertEqual(set(category), set(PUBLIC_CATEGORY_FIELDS))
+        self.assertEqual(category["category_name"], "Fixture Public")
+
+    def test_reads_one_category(self) -> None:
+        category = get_public_category(self.category.name)
+
+        self.assertEqual(category.description, "Fixture description")
+        self.assertEqual(set(category), set(PUBLIC_CATEGORY_FIELDS))
+
+    def test_an_unknown_category_is_not_found(self) -> None:
+        with self.assertRaises(frappe.DoesNotExistError):
+            get_public_category("no-such-category")
