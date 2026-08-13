@@ -16,8 +16,19 @@ def get_config():
         "assign_within_team",
         "disable_saved_replies_global_scope",
         "enable_comment_reactions",
+        "allow_anyone_to_create_tickets",
     ]
-    res = frappe.get_value(doctype="HD Settings", fieldname=fields, as_dict=True)
+    # A Single stores only the fields that have been set, so one never touched comes
+    # back missing rather than empty — and the portal reads a missing key as undefined
+    # instead of as "no value". Every requested field is answered for.
+    values = (
+        frappe.get_value(doctype="HD Settings", fieldname=fields, as_dict=True) or {}
+    )
+    res = frappe._dict({field: values.get(field) for field in fields})
+
+    # The only guest-readable endpoint the portals share, so it also answers "who am
+    # I?" — the Studio-rendered portal gets no boot payload to read that from.
+    res.session_user = frappe.session.user
 
     res.favicon = (
         res.favicon

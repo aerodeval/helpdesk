@@ -1,5 +1,8 @@
 import frappe
 from frappe import _
+from frappe.contacts.doctype.contact.contact import get_contact_name
+from frappe.rate_limiter import rate_limit
+from frappe.utils import strip_html_tags, validate_email_address
 
 from helpdesk.utils import agent_only, is_admin
 
@@ -66,6 +69,58 @@ def assign_ticket_to_agent(ticket_id, agent_id=None):
 
     ticket_doc.assign_agent(agent_id)
     return ticket_doc
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=5, seconds=60 * 60)
+def new_guest_ticket(
+    subject: str, description: str, email: str, first_name: str | None = None
+) -> dict:
+    """Raise a ticket as a signed-out visitor, when HD Settings allows it.
+
+    Deliberately not `hd_ticket.api.new`: that takes a whole document dict, which an
+    anonymous caller could use to set status, customer, team or assignment. Only the
+    four arguments here reach the ticket; everything else comes from the defaults
+    `HD Ticket.before_validate` already applies.
+    """
+    if not frappe.db.get_single_value("HD Settings", "allow_anyone_to_create_tickets"):
+        frappe.throw(_("Raising a ticket requires an account"), frappe.PermissionError)
+
+    email = (email or "").strip()
+    validate_email_address(email, throw=True)
+    # Description arrives as editor HTML, so "empty" is `<p><br></p>`, not `""`.
+    if not (subject or "").strip() or not strip_html_tags(description or "").strip():
+        frappe.throw(_("Subject and description are required"))
+
+    ticket = frappe.get_doc(
+        {
+            "doctype": "HD Ticket",
+            "subject": subject.strip(),
+            "description": description,
+            "raised_by": email,
+            "contact": get_or_create_contact(email, first_name),
+            "via_customer_portal": 1,
+        }
+    )
+    # The visitor holds no role that can insert; the setting above is the permission.
+    ticket.insert(ignore_permissions=True)
+    return {"name": ticket.name, "email": email}
+
+
+def get_or_create_contact(email: str, first_name: str | None) -> str:
+    """The Contact for `email`, created if this is the first time we've seen it.
+
+    Giving the ticket a contact is what lets the requester see it later: signing up
+    with the same address links the User to this Contact.
+    """
+    if contact := get_contact_name(email):
+        return contact
+    contact = frappe.get_doc(
+        {"doctype": "Contact", "first_name": (first_name or "").strip() or email}
+    )
+    contact.append("email_ids", {"email_id": email, "is_primary": True})
+    contact.insert(ignore_permissions=True)
+    return contact.name
 
 
 @frappe.whitelist()

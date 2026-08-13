@@ -735,7 +735,11 @@ class HDTicket(Document):
         c.sent_or_received = "Received"
         c.email_status = "Open"
         c.subject = f"Re: {self.subject}"
-        c.sender = frappe.session.user
+        # A signed-out requester has no session identity, so the first message would
+        # read as coming from "Guest"; the address they gave is who it is from.
+        c.sender = (
+            self.raised_by if frappe.session.user == "Guest" else frappe.session.user
+        )
         c.content = message
         c.status = "Linked"
         c.reference_doctype = "HD Ticket"
@@ -956,8 +960,10 @@ class HDTicket(Document):
         # Fetch description from communication if not set already. This might not be needed
         # anymore as a communication is created when a ticket is created.
         self.description = self.description or c.content
-        # Save the ticket, allowing for hooks to run.
-        self.save()
+        # Save the ticket, allowing for hooks to run. Unchecked like the other saves
+        # in this path: the permission was asserted when the communication was
+        # written, and this is only the bookkeeping that follows from it.
+        self.save(ignore_permissions=True)
 
     def attach_file_with_doc(self, doctype, docname, file_url):
         if frappe.db.exists(
@@ -1204,7 +1210,7 @@ def _agent_has_permission(doc, user: str) -> bool:
         try:
             if user in json.loads(doc._assign):
                 return True
-        except (ValueError, TypeError):
+        except ValueError, TypeError:
             return False
 
     teams = get_agents_team()
@@ -1297,11 +1303,15 @@ def set_guest_ticket_creation_permission():
 
     role = "Guest"
     permlevel = 0
-    ptype = ["read", "write", "create", "if_owner"]
+    # Create only. Every guest ticket is owned by the literal user "Guest", so
+    # `if_owner` does not separate one visitor from another — granting read or write
+    # would let any anonymous visitor open everyone else's tickets. Each is set
+    # explicitly because `add_permission` seeds the new row with read already on.
+    ptype = {"create": 1, "read": 0, "write": 0, "delete": 0, "if_owner": 0}
 
-    for p in ptype:
+    for p, value in ptype.items():
         # update permissions
-        update_permission_property(doctype, role, permlevel, p, 1)
+        update_permission_property(doctype, role, permlevel, p, value)
 
 
 def remove_guest_ticket_creation_permission():
