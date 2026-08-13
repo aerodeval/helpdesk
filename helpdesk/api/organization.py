@@ -336,15 +336,32 @@ def update_organization(
         customer.image = image or None
     if email:
         validate_email_address(email, throw=True)
-        customer.email_id = email
+        set_admin_email(customer, email)
     customer.save()
     if customer_name and customer_name != customer.name:
         return frappe.rename_doc("HD Customer", customer.name, customer_name)
     return customer.name
 
 
-@frappe.whitelist()
-def delete_organization(customer: str) -> None:
-    """Danger zone: delete an organization you manage. Tickets are unlinked, not deleted."""
-    customer = get_managed_customer(customer)
-    frappe.delete_doc("HD Customer", customer.name)
+def set_admin_email(customer, email: str) -> None:
+    """Point the organization's admin email at `email`.
+
+    `HD Customer.email_id` is read-only and fetched from `primary_contact.email_id`,
+    so assigning to it is discarded on save — the address that has to change is the
+    primary contact's primary one, which the field then re-derives.
+    """
+    if not customer.primary_contact:
+        frappe.throw(
+            _("{0} has no primary contact to hold the admin email").format(
+                customer.name
+            )
+        )
+    contact = frappe.get_doc("Contact", customer.primary_contact)
+    primary = next((row for row in contact.email_ids if row.is_primary), None)
+    if primary:
+        primary.email_id = email
+    else:
+        contact.append("email_ids", {"email_id": email, "is_primary": 1})
+    # Portal users hold no write permission on Contact; the caller's standing was
+    # already asserted by `get_managed_customer`.
+    contact.save(ignore_permissions=True)
