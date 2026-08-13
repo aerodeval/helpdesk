@@ -99,57 +99,9 @@
     "componentProps": {
      "offset": 4,
      "open": false,
-     "options": [
-      {
-       "icon": "lucide-inbox",
-       "label": "My tickets",
-       "onClick": "() => { window.location.href = '/helpdesk/tickets' }"
-      },
-      {
-       "icon": "lucide-book",
-       "label": "Knowledge base",
-       "onClick": "() => { window.location.href = '/kb' }"
-      },
-      {
-       "icon": "lucide-user",
-       "label": "My account",
-       "onClick": "() => { router.push({ hash: '#settings/profile' }) }"
-      },
-      {
-       "icon": "lucide-settings",
-       "label": "Settings",
-       "onClick": "() => { router.push({ hash: '#settings/profile' }) }"
-      },
-      {
-       "icon": "lucide-log-out",
-       "label": "Log out",
-       "onClick": "() => { window.location.href = '/api/method/logout' }"
-      }
-     ],
+     "options": "{{ accountMenuOptions }}",
      "portalTo": "body",
      "side": "bottom"
-    },
-    "componentSlots": {},
-    "mobileStyles": {},
-    "rawStyles": {},
-    "tabletStyles": {}
-   },
-   {
-    "attributes": {},
-    "baseStyles": {
-     "color": "var(--ink-gray-9)",
-     "fontWeight": "500"
-    },
-    "blockName": "topbar-title",
-    "children": [],
-    "classes": [],
-    "componentEvents": {},
-    "componentId": "TextBlock-69aefeba3",
-    "componentName": "TextBlock",
-    "componentProps": {
-     "fontSize": "text-lg",
-     "tag": "span",
-     "text": "Knowledge base"
     },
     "componentSlots": {},
     "mobileStyles": {},

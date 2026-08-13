@@ -55,14 +55,11 @@ const props = withDefaults(defineProps<{ query?: string }>(), { query: "" });
 const router = useRouter();
 const MIN_QUERY = 3;
 
+// Guest-callable: a signed-out visitor raising a ticket is exactly who these
+// suggestions are for, and `frappe.client.get_list` is closed to them.
 const articles = createResource({
-  url: "frappe.client.get_list",
-  params: {
-    doctype: "HD Article",
-    filters: { status: "Published" },
-    fields: ["name", "title", "content"],
-    limit_page_length: 0,
-  },
+  url: "helpdesk.api.knowledge_base.get_public_articles",
+  method: "GET",
   auto: true,
 });
 

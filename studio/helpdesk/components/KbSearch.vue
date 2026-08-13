@@ -154,8 +154,19 @@ const options = computed(() => [
    icon in the input above it. */
 [data-slot="content"][data-variant="subtle"][data-size="lg"]
   [data-slot="item"] {
-  border-radius: 0;
+  /* The row sits 4px inside the panel, so a square highlight reads as a band
+     floating in a gutter; the radius makes it a row again. */
+  border-radius: 6px;
   padding: 0.75rem 0.5rem;
+}
+
+/* Search matches: the surrounding portal is greyscale, so weight and ink carry
+   the emphasis instead of a highlighter pill. Global on purpose — the results
+   are portaled to <body>, and the help page renders the same markup inline. */
+.kb-mark {
+  background: transparent;
+  color: var(--ink-gray-9);
+  font-weight: 600;
 }
 [data-slot="content"][data-variant="subtle"][data-size="lg"]
   [data-slot="item"]:not(:last-child) {

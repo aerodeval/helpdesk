@@ -1,5 +1,10 @@
 <template>
-  <div class="mx-auto flex w-full max-w-2xl flex-col px-5 py-8">
+  <!-- Inline min-height: an arbitrary Tailwind value would not compile for this
+       app, and the empty state needs room to centre in. -->
+  <div
+    class="mx-auto flex w-full max-w-2xl flex-col px-5 py-8"
+    style="min-height: 70vh"
+  >
     <TextInput
       v-model="query"
       size="md"
@@ -59,10 +64,12 @@
       </button>
     </div>
 
-    <!-- Nothing matched: this is the moment to offer a ticket. -->
+    <!-- Nothing matched: this is the moment to offer a ticket. Centred in what
+         is left of the viewport rather than hugging the search box, which left
+         it stranded against a page of empty space. -->
     <div
       v-else-if="searched"
-      class="mt-10 flex flex-col items-center gap-1 text-center"
+      class="flex flex-1 flex-col items-center justify-center gap-1 pb-16 text-center"
     >
       <FeatherIcon name="search" class="size-6 text-ink-gray-4" />
       <span class="mt-2 text-base font-medium text-ink-gray-8">

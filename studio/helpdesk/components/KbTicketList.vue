@@ -50,7 +50,7 @@
 
     <KbEmptyState
       v-else
-      class="pointer-events-none h-full"
+      class="pointer-events-none flex-1"
       icon="ticket"
       :title="emptyState.title"
       :description="emptyState.description"
@@ -73,6 +73,7 @@
 // It draws nothing itself: every cell comes from its column's `cell()`, the way
 // ListViewBuilder defers to `listCell`.
 import KbEmptyState from "@app/components/KbEmptyState.vue";
+import { loadTicketMeta } from "@app/components/ticketCells";
 import {
   ListFooter,
   ListHeader,
@@ -84,6 +85,11 @@ import {
   ListView,
   LoadingIndicator,
 } from "frappe-ui";
+
+// The status colours and priority levels the cells draw with. Asked for here
+// rather than at module load: this file ships in every page bundle, including the
+// public ones a guest sees.
+loadTicketMeta();
 
 withDefaults(
   defineProps<{

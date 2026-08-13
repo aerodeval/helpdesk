@@ -1,4 +1,5 @@
-import { reactive, computed } from 'vue'
+import { reactive, computed, ref, watch } from 'vue'
+import { toast } from 'frappe-ui'
 import { useSettingsModal } from '@app/stores/settings'
 
 // New ticket form. The middle fields render through a Repeater over the HD Ticket
@@ -8,11 +9,25 @@ import { useSettingsModal } from '@app/stores/settings'
 // component (KbArticleSuggestions.vue) fed the subject variable as `query`.
 export default function setup(context) {
   const { subject, description, template, ticketTypes, newTicket, router, route } = context
+  const { guestName, guestEmail, guestTicket } = context
+  const session = useSettingsModal(context)
 
   // Arriving from the help page: whatever was searched for becomes the subject, so
   // nobody retypes it — and it immediately feeds the suggested-articles card.
   const searched = String(route?.query?.subject || '').trim()
   if (searched && !subject.value) subject.value = searched
+
+  // The template and its ticket types are permission-gated, so they are fetched once
+  // the session is known rather than on mount — a guest asking for them only 403s.
+  watch(
+    session.isGuest,
+    (guest) => {
+      if (guest) return
+      template.fetch()
+      ticketTypes.fetch()
+    },
+    { immediate: true }
+  )
 
   // Values for the template-driven fields, keyed by fieldname.
   const model = reactive({})
@@ -58,12 +73,38 @@ export default function setup(context) {
   const canSubmit = computed(() => {
     const descEmpty = (description.value || '').replace(/<[^>]*>/g, '').trim().length === 0
     if (!subject.value || descEmpty) return false
+    if (session.isGuest.value) return isEmail(guestEmail.value)
     return fields.value.filter((f) => f.required).every((f) => model[f.fieldname])
   })
 
+  function isEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim())
+  }
+
+  // Set once the ticket exists, which is also what swaps the form for the receipt.
+  const submittedTicket = ref(null)
+
   function createTicket() {
     if (!canSubmit.value) return
-    newTicket
+    const request = session.isGuest.value ? raiseAsGuest() : raiseAsCustomer()
+    request.catch((error) => toast.error(error?.messages?.[0] || 'Could not create the ticket'))
+  }
+
+  // A visitor has nowhere to be sent afterwards — no ticket list, no account — so the
+  // page keeps them here and tells them what happened.
+  function raiseAsGuest() {
+    return guestTicket
+      .submit({
+        subject: subject.value,
+        description: description.value,
+        email: guestEmail.value.trim(),
+        first_name: guestName.value.trim(),
+      })
+      .then((created) => (submittedTicket.value = created))
+  }
+
+  function raiseAsCustomer() {
+    return newTicket
       .submit({
         doc: { subject: subject.value, description: description.value, template: 'Default', ...model },
         attachments: [],
@@ -72,7 +113,8 @@ export default function setup(context) {
   }
 
   return {
-    ...useSettingsModal(context),
-    fields, getField, setField, setDescription, controlType, optionsFor, canSubmit, createTicket,
+    ...session,
+    fields, getField, setField, setDescription, controlType, optionsFor, canSubmit,
+    createTicket, submittedTicket,
   }
 }

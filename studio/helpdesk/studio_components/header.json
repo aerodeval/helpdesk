@@ -2,8 +2,11 @@
  "block": {
   "attributes": {},
   "baseStyles": {
+   "alignItems": "center",
+   "display": "flex",
    "height": "fit-content",
-   "width": "fit-content"
+   "justifyContent": "space-between",
+   "width": "100%"
   },
   "children": [
    {
@@ -62,6 +65,62 @@
     "originalElement": "div",
     "rawStyles": {},
     "tabletStyles": {}
+   },
+   {
+    "baseStyles": {
+     "alignItems": "center",
+     "display": "flex",
+     "flexDirection": "row",
+     "gap": "12px"
+    },
+    "blockName": "header-right",
+    "children": [
+     {
+      "baseStyles": {},
+      "children": [],
+      "classes": [],
+      "componentEvents": {
+       "click": {
+        "action": "Run Script",
+        "event": "click",
+        "script": "router.push('/new-ticket')"
+       }
+      },
+      "componentId": "Button-raise-ticket",
+      "componentName": "Button",
+      "componentProps": {
+       "label": "Raise a ticket",
+       "variant": "subtle"
+      },
+      "visibilityCondition": "{{ canCreateTicket && route.path !== '/new-ticket' }}"
+     },
+     {
+      "baseStyles": {
+       "cursor": "pointer"
+      },
+      "children": [],
+      "classes": [],
+      "componentEvents": {
+       "click": {
+        "action": "Run Script",
+        "event": "click",
+        "script": "window.location.href = loginUrl"
+       }
+      },
+      "componentId": "TextBlock-login",
+      "componentName": "TextBlock",
+      "componentProps": {
+       "fontSize": "text-base",
+       "tag": "span",
+       "text": "Login"
+      },
+      "visibilityCondition": "{{ isGuest }}"
+     }
+    ],
+    "classes": [],
+    "componentId": "container-header-right",
+    "componentName": "container",
+    "originalElement": "div"
    }
   ],
   "classes": [],

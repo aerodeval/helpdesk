@@ -14,7 +14,6 @@ const statuses = createListResource({
   fields: ['label_agent', 'label_customer', 'different_view', 'category', 'color'],
   orderBy: '`tabHD Ticket Status`.order',
   pageLength: 1000,
-  auto: true,
 })
 
 function getStatus(label: string) {
@@ -23,33 +22,29 @@ function getStatus(label: string) {
   )
 }
 
-// `parseColor` from the desk store, spelled out per HD Ticket Status colour rather
-// than interpolated: Tailwind scans this file for literals, and a built class name
-// would be purged out of the bundle.
-const STATUS_COLORS: Record<string, string> = {
-  black: '!text-ink-gray-9',
-  gray: '!text-gray-500',
-  blue: '!text-blue-500',
-  green: '!text-green-500',
-  red: '!text-red-500',
-  pink: '!text-pink-500',
-  orange: '!text-orange-500',
-  amber: '!text-amber-500',
-  yellow: '!text-yellow-500',
-  cyan: '!text-cyan-500',
-  teal: '!text-teal-500',
-  violet: '!text-violet-500',
-  purple: '!text-purple-500',
-}
+// `parseColor` from the desk store, as espresso tokens rather than its
+// `!text-<color>-500` classes: those are Tailwind utilities nothing else in the
+// bundle uses, and this app sits outside the bench's content globs — so every
+// status drew in the inherited ink instead of its own colour.
+const INK_COLORS = [
+  'amber', 'blue', 'cyan', 'gray', 'green', 'orange',
+  'pink', 'purple', 'red', 'teal', 'violet', 'yellow',
+]
 
 function statusColor(color: string) {
-  return STATUS_COLORS[(color || 'gray').toLowerCase()] || STATUS_COLORS.gray
+  const name = (color || 'gray').toLowerCase()
+  // Espresso has no black ink; the desk maps it to the darkest gray too.
+  if (name === 'black') return 'var(--ink-gray-9)'
+  return `var(--ink-${INK_COLORS.includes(name) ? name : 'gray'}-6)`
 }
 
 function indicator(color: string) {
   return h(
     'svg',
-    { class: statusColor(color), width: 16, height: 16, viewBox: '0 0 16 16', fill: 'none' },
+    {
+      style: { color: statusColor(color) },
+      width: 16, height: 16, viewBox: '0 0 16 16', fill: 'none',
+    },
     [h('circle', { cx: 8, cy: 8, r: 3.5, fill: 'currentColor', stroke: 'currentColor', 'stroke-width': 1 })],
   )
 }
@@ -62,18 +57,39 @@ export function statusCell({ item }: any) {
   ])
 }
 
-// --- priority: the signal-bars icon + name introduced upstream in TicketPriority.vue.
-// Levels are read off the priority's name; HD Ticket Priority only grows its own
-// `level` field in a later upstream commit, and custom priorities fall to Medium
-// the same way the backfill patch resolves them.
-const LEVELS = ['Urgent', 'High', 'Medium', 'Low']
-const FADED_BARS: Record<string, number> = { High: 0, Medium: 1, Low: 2 }
+// --- priority: the signal-bars icon + name from TicketPriority.vue. The level is
+// the priority's own `level` field, read the way `useTicketPriorityStore` reads it,
+// so a custom priority draws the bars its level says rather than falling to Medium.
+const priorities = createListResource({
+  doctype: 'HD Ticket Priority',
+  cache: ['HD Ticket Priority', 'list'],
+  fields: ['name', 'level'],
+  pageLength: 1000,
+})
+
+/** Fetched when a ticket list actually mounts, not when this module loads: both read
+ *  through `frappe.client.get_list`, which a signed-out visitor cannot call — and this
+ *  module is bundled into every page, including the public ones. */
+export function loadTicketMeta() {
+  statuses.fetch()
+  priorities.fetch()
+}
+
+function getLevel(name: string) {
+  return (priorities.data || []).find((priority: any) => priority.name === name)?.level ?? 'Medium'
+}
+
+/** Tallest bars faded per level: High is fully solid, None is empty. */
+const FADED_BARS: Record<string, number> = { High: 0, Medium: 1, Low: 2, None: 3 }
 const BARS = [
   { x: 0, y: 8, height: 4 },
   { x: 4, y: 4, height: 8 },
   { x: 8, y: 0, height: 12 },
 ]
 
+// Fills are inline rather than `fill-ink-gray-6` classes: this app sits outside
+// the bench's Tailwind content globs, and a fill utility nothing else uses never
+// compiles — which drew the whole icon in transparent.
 function bar(index: number, level: string) {
   const faded = FADED_BARS[level] ?? 0
   // Bars are drawn shortest-first, so the "from the top" index counts down.
@@ -81,21 +97,22 @@ function bar(index: number, level: string) {
   const { x, y, height } = BARS[index]
   return h('rect', {
     x, y, width: 2.5, height, rx: 0.5,
-    class: fromTop < faded ? 'fill-ink-gray-3' : 'fill-ink-gray-6',
+    style: { fill: fromTop < faded ? 'var(--ink-gray-3)' : 'var(--ink-gray-6)' },
   })
 }
 
 function urgentIcon() {
+  const glyph = { fill: 'var(--surface-gray-1)' }
   return h('svg', { class: 'h-3.5 w-3.5', viewBox: '0 0 14 14', fill: 'none' }, [
-    h('rect', { width: 14, height: 14, rx: 4, class: 'fill-ink-gray-6' }),
-    h('rect', { x: 6.25, y: 3, width: 1.5, height: 4.75, rx: 0.75, class: 'fill-surface-gray-1' }),
-    h('circle', { cx: 7, cy: 10, r: 0.9, class: 'fill-surface-gray-1' }),
+    h('rect', { width: 14, height: 14, rx: 4, style: { fill: 'var(--ink-gray-6)' } }),
+    h('rect', { x: 6.25, y: 3, width: 1.5, height: 4.75, rx: 0.75, style: glyph }),
+    h('circle', { cx: 7, cy: 10, r: 0.9, style: glyph }),
   ])
 }
 
 export function priorityCell({ item }: any) {
   if (!item) return null
-  const level = LEVELS.includes(item) ? item : 'Medium'
+  const level = getLevel(item)
   const icon =
     level === 'Urgent'
       ? urgentIcon()
@@ -137,16 +154,41 @@ export function datetimeCell({ item }: any) {
   return item ? h('span', { class: 'text-base' }, dayjs(item).fromNow()) : null
 }
 
+// MultipleAvatar.vue: one assignee reads as an avatar plus a name, several stack
+// into overlapping discs. Names are derived from the email rather than looked up —
+// `helpdesk.api.session.get_users`, which the agent list resolves them through, is
+// agent-only.
 export function avatarCell({ item }: any) {
   const assignees = parseAssignees(item)
   if (!assignees.length) return null
-  const user = assignees[0]
-  return h(Tooltip, { text: user }, () =>
-    h('div', { class: 'flex min-w-0 items-center gap-2 text-base line-clamp-1' }, [
-      h(Avatar, { shape: 'circle', size: 'sm', label: user }),
-      h('div', { class: 'min-w-0 truncate' }, user),
-    ]),
+  if (assignees.length === 1) {
+    return h(Tooltip, { text: assignees[0].email }, () =>
+      h('div', { class: 'flex min-w-0 items-center gap-2 text-base line-clamp-1' }, [
+        h(Avatar, { shape: 'circle', size: 'sm', label: assignees[0].name }),
+        h('div', { class: 'min-w-0 truncate' }, assignees[0].name),
+      ]),
+    )
+  }
+  return h(
+    'div',
+    { class: 'me-1.5 flex min-w-0 items-center' },
+    assignees.map((assignee) =>
+      h(Tooltip, { text: assignee.email }, () =>
+        h(Avatar, {
+          class: 'user-avatar -mr-1.5 ring-2 ring-[var(--surface-base)] transition hover:z-20 hover:scale-110',
+          shape: 'circle',
+          size: 'sm',
+          label: assignee.name,
+        }),
+      ),
+    ),
   )
+}
+
+/** Subject carries the unread weight: bold until the reader has opened the ticket. */
+export function subjectCell({ row, item }: any, reader: string) {
+  const seen = parseJson(row._seen).includes(reader)
+  return h('span', { class: ['truncate flex-1', !seen && 'font-semibold'] }, item)
 }
 
 export function ratingCell({ item }: any) {
@@ -156,7 +198,7 @@ export function ratingCell({ item }: any) {
     { class: 'flex w-max flex-row-reverse gap-1' },
     [1, 0.8, 0.6, 0.4, 0.2].map((step) =>
       h('svg', {
-        class: step <= rating ? 'fill-ink-yellow-5' : 'fill-ink-gray-3',
+        style: { fill: step <= rating ? 'var(--ink-yellow-5)' : 'var(--ink-gray-3)' },
         height: '16px', width: '16px', viewBox: '0 0 47.94 47.94',
         innerHTML: STAR_PATH,
       }),
@@ -173,9 +215,22 @@ export function idCell({ row }: any) {
   return h('span', { class: 'truncate text-base text-ink-gray-6' }, row.name)
 }
 
+/** `formatFullName` from the desk's user store: the local part, capitalised. */
 function parseAssignees(raw: string) {
+  return parseJson(raw).map((email: string) => ({
+    email,
+    name: capitalize(String(email).split('@')[0]),
+  }))
+}
+
+function capitalize(value: string) {
+  return value.charAt(0).toUpperCase() + value.slice(1)
+}
+
+function parseJson(raw: string): any[] {
   try {
-    return JSON.parse(raw || '[]').map((entry: string) => String(entry).split('@')[0])
+    const parsed = JSON.parse(raw || '[]')
+    return Array.isArray(parsed) ? parsed : []
   } catch (error) {
     return []
   }

@@ -1,6 +1,7 @@
 import { ref, computed, reactive, watch } from 'vue'
 import { call, toast, FileUploadHandler, useTheme } from 'frappe-ui'
 import { usePreferences } from '@app/stores/preferences'
+import { useSession } from '@app/stores/session'
 
 // Shared state + actions for the portal settings dialog, used by every page script
 // via `useSettingsModal(context)`. The dialog itself is the `kb_settings` studio
@@ -25,9 +26,11 @@ const theme = computed({
   set: setTheme,
 })
 
+// Every page script goes through here, so the session store rides along rather than
+// being wired into each one: the topbar it feeds is on every page too.
 export function useSettingsModal(context) {
   if (context) store.bindRouter(context.router)
-  return { ...store, ...usePreferences(), theme }
+  return { ...store, ...usePreferences(), ...useSession(context), theme }
 }
 
 function createSettingsStore() {
@@ -84,7 +87,9 @@ function createSettingsStore() {
       settingsData.value = await call('helpdesk.api.organization.get_settings')
       profileFirstName.value = settingsUser.value.first_name || ''
       profileLastName.value = settingsUser.value.last_name || ''
-      usePreferences().loadPreferences(settingsUser.value.email)
+      // By docname, not email: they differ for Administrator, and keying by email
+      // loaded a different User doc — so language and timezone never took effect.
+      usePreferences().loadPreferences(settingsUser.value.name)
       if (selectedOrg.value) await loadOrganization(selectedOrg.value)
     } catch (error) {
       console.error(error)
@@ -119,6 +124,7 @@ function createSettingsStore() {
   function closeOrganization() {
     selectedOrg.value = null
     orgDetail.value = null
+    inviteOpen.value = false
   }
 
   function openSettings(tab) {
@@ -134,10 +140,13 @@ function createSettingsStore() {
     settingsOpen.value = false
   }
 
-  // The dialog lives in the URL hash (#settings/<tab>) so it layers over the page
-  // underneath and survives a refresh; the topbar menu opens it by pushing that hash.
-  // Bound once per app, through `afterEach` rather than a watcher on the route, because
-  // a page script's `route` is a snapshot taken when the script ran.
+  // The dialog lives in the URL hash (#settings/<tab>[/<organization>[/invite]]) so it
+  // layers over the page underneath and survives a refresh; the topbar menu opens it by
+  // pushing that hash. Every screen the dialog can show gets its own segment, which is
+  // what makes the device back button step back through them one at a time instead of
+  // dismissing the whole dialog. Bound once per app, through `afterEach` rather than a
+  // watcher on the route, because a page script's `route` is a snapshot taken when the
+  // script ran.
   let routerBound = false
 
   function bindRouter(router) {
@@ -145,7 +154,7 @@ function createSettingsStore() {
     routerBound = true
     applyHash(currentRoute(router).hash)
     router.afterEach((to) => applyHash(to.hash))
-    watch([settingsOpen, settingsTab], () => pushHash(router))
+    watch([settingsOpen, settingsTab, selectedOrg, inviteOpen], () => pushHash(router))
   }
 
   // The router reaches a page script through a reactive proxy, which unwraps refs — so
@@ -155,21 +164,68 @@ function createSettingsStore() {
   }
 
   function applyHash(hash) {
-    const [root, tab] = String(hash || '')
-      .replace(/^#/, '')
-      .split('/')
+    const [root, tab, ...rest] = readHash(hash).replace(/^#/, '').split('/')
     if (root !== HASH_ROOT) return closeSettings()
     if (settingsOpen.value) settingsTab.value = tab || 'profile'
     else openSettings(tab)
+    const invite = rest[rest.length - 1] === 'invite'
+    if (invite) rest.pop()
+    // An organization is named by whatever is left, slashes and all.
+    applyOrganizationHash(rest.join('/'), invite)
+  }
+
+  function applyOrganizationHash(org, invite) {
+    if (!org) return closeOrganization()
+    if (org !== selectedOrg.value) openOrganization(org)
+    inviteOpen.value = invite
+  }
+
+  function settingsHash() {
+    if (!settingsOpen.value) return ''
+    const parts = [HASH_ROOT, settingsTab.value]
+    if (selectedOrg.value) parts.push(selectedOrg.value)
+    if (selectedOrg.value && inviteOpen.value) parts.push('invite')
+    return `#${parts.join('/')}`
+  }
+
+  // Organization names carry spaces, which the router escapes on the way into the URL
+  // and hands back escaped after a popstate — so every hash is read decoded, and the
+  // ones we build stay unescaped and let the router do that job once.
+  function readHash(hash) {
+    try {
+      return decodeURIComponent(String(hash || ''))
+    } catch (error) {
+      return String(hash || '')
+    }
   }
 
   function pushHash(router) {
-    const hash = settingsOpen.value ? `#${HASH_ROOT}/${settingsTab.value}` : ''
+    const hash = settingsHash()
     const current = currentRoute(router)
-    if ((current.hash || '') !== hash) router.push({ query: current.query, hash })
+    if (readHash(current.hash) === hash) return
+    // Leaving a screen the way we came in unwinds history rather than growing it —
+    // pushing the parent again would leave the device back button pointing forward,
+    // into the very screen just closed.
+    const previous = previousHash(router)
+    if (previous !== null && readHash(previous) === hash) return router.back()
+    router.push({ query: current.query, hash })
   }
 
-  async function run(action, successMessage) {
+  // vue-router keeps the entry behind this one in history state, as a full path —
+  // query and all — so only the part before the query names the page.
+  function previousHash(router) {
+    const previous = router.options?.history?.state?.back
+    if (typeof previous !== 'string') return null
+    const index = previous.indexOf('#')
+    const [location, hash] = index === -1 ? [previous, ''] : [previous.slice(0, index), previous.slice(index)]
+    return location.split('?')[0] === currentRoute(router).path ? hash : null
+  }
+
+  /** `landed` is for actions that email as part of the same request: the notice is
+   *  sent synchronously, so a mail failure fails the whole request even though the
+   *  change is already saved. It re-checks the reloaded data and returns the wording
+   *  for that case, or nothing if the action really did fail. */
+  async function run(action, successMessage, landed) {
     if (settingsBusy.value) return
     settingsBusy.value = true
     try {
@@ -178,7 +234,10 @@ function createSettingsStore() {
       await loadSettings()
     } catch (error) {
       console.error(error)
-      toast.error(serverMessage(error) || 'Something went wrong')
+      await loadSettings()
+      const partial = landed?.()
+      if (partial) toast.warning(partial)
+      else toast.error(serverMessage(error) || 'Something went wrong')
     } finally {
       settingsBusy.value = false
     }
@@ -298,26 +357,57 @@ function createSettingsStore() {
       } else if (result.disabled_user_emails?.length) {
         toast.error('This user account is disabled')
       }
+    }, null, () => {
+      if (!emails.every(isPendingMember)) return null
+      inviteEmails.value = []
+      inviteOpen.value = false
+      return emails.length > 1
+        ? 'Invitations created, but the emails could not be sent'
+        : 'Invitation created, but the email could not be sent'
     })
   }
 
-  // People are shown as a tree: the organization's owner at the root, everyone else
-  // as their direct reports. Helpdesk records no reporting line, so ownership is the
-  // only hierarchy the data actually carries.
+  function isPendingMember(email) {
+    return orgMembers.value.some((member) => member.email === email && member.pending)
+  }
+
+  // People are shown as a tree, one level per role: the owner at the root, managers
+  // beneath them, everyone else beneath each manager. Helpdesk records no reporting
+  // line, but any manager can act on any member, so a manager carries the whole list
+  // rather than an invented share of it.
   const memberTree = computed(() => {
-    const people = orgMembers.value.map(toTreeNode)
-    const owner = people.find((person) => person.is_owner)
-    if (!owner) return people
-    owner.children = people.filter((person) => person !== owner)
-    return [owner]
+    const owner = orgMembers.value.find((member) => member.is_owner)
+    if (!owner) return orgMembers.value.map((member) => toTreeNode(member))
+    const managers = orgMembers.value.filter(isManagingMember)
+    const members = orgMembers.value.filter(
+      (member) => !member.is_owner && !isManagingMember(member)
+    )
+    const root = toTreeNode(owner)
+    root.children = managers.length
+      ? managers.map((manager) => toManagerNode(manager, members))
+      : members.map((member) => toTreeNode(member))
+    return [root]
   })
 
+  // A pending invite manages nobody yet, so it stays at the members level.
+  function isManagingMember(member) {
+    return Boolean(member.is_manager) && !member.is_owner && !member.pending
+  }
+
+  function toManagerNode(manager, members) {
+    const node = toTreeNode(manager)
+    node.children = members.map((member) => toTreeNode(member, node.key))
+    return node
+  }
+
   // reactive: Tree collapses a node by writing `expanded` onto it, and a plain copy
-  // would take the write without re-rendering.
-  function toTreeNode(member) {
+  // would take the write without re-rendering. Repeated members get their own copy,
+  // keyed by the manager they hang under, because the tree keys its rows globally.
+  function toTreeNode(member, parentKey) {
+    const key = member.email || member.contact || member.invitation
     return reactive({
       ...member,
-      key: member.email || member.contact || member.invitation,
+      key: parentKey ? `${parentKey}/${key}` : key,
       label: member.full_name,
     })
   }
@@ -388,7 +478,10 @@ function createSettingsStore() {
             customer: selectedOrg.value,
             invitation: member.invitation,
           }),
-          'Invitation cancelled'
+          'Invitation cancelled',
+          () =>
+            orgMembers.value.every((row) => row.invitation !== member.invitation) &&
+            'Invitation cancelled, but the notice could not be emailed'
         ),
     })
   }
@@ -451,29 +544,14 @@ function createSettingsStore() {
     }), 'Logo removed')
   }
 
-  function deleteOrganization() {
-    const org = settingsOrg.value
-    if (!org) return
-    askConfirm({
-      title: 'Delete organization',
-      message: `${org.customer_name} and all associated data will be removed. This cannot be undone.`,
-      label: 'Delete',
-      action: () =>
-        run(async () => {
-          await call('helpdesk.api.organization.delete_organization', {
-            customer: selectedOrg.value,
-          })
-          closeOrganization()
-        }, 'Organization deleted'),
-    })
-  }
-
   return {
     settingsOpen,
     settingsTab,
     settingsBusy,
     settingsUser,
     organizations,
+    // Pages that show organizations outside the dialog have to ask for them.
+    loadSettings,
     selectedOrg,
     settingsOrg,
     isOrgManager,
@@ -508,17 +586,16 @@ function createSettingsStore() {
     openInvite,
     closeInvite,
     sendInvite,
-    roleLabel,
-    memberOptions,
     setMemberRole,
     removeMember,
     cancelInvitation,
+    roleLabel,
+    memberOptions,
     saveOrganization,
     renameOrganization,
     editOrgEmail,
     saveOrgEmail,
     uploadOrgImage,
     removeOrgImage,
-    deleteOrganization,
   }
 }

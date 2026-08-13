@@ -4,7 +4,7 @@ import { useSettingsModal } from '@app/stores/settings'
 export default function setup(context) {
   // `article` is read through `?.` throughout: Studio only creates a Document
   // resource once its name resolves, so with no :name in the route (the builder
-  // canvas) it is absent, and a bare `article.doc` would throw and take the
+  // canvas) it is absent, and a bare `article.data` would throw and take the
   // whole script — sidebar, TOC, everything — down with it.
   const { categories, articles, article, articleSearch, route, router, call, toast } = context
 
@@ -19,7 +19,7 @@ export default function setup(context) {
   // Build the "On this page" TOC from the article's headings, and inject ids
   // into those headings so clicking a TOC entry can scroll to them.
   const parsed = computed(() => {
-    const html = article?.doc?.content || ''
+    const html = article?.data?.content || ''
     const dom = new DOMParser().parseFromString(html, 'text/html')
     const headings = Array.from(dom.querySelectorAll('h1, h2, h3'))
     const toc = headings.map((h, i) => {
@@ -74,7 +74,7 @@ export default function setup(context) {
   // name and picture, and is guest-readable like the page itself.
   const author = ref({ name: '', image: '' })
   watch(
-    () => article?.doc?.name,
+    () => article?.data?.name,
     async (name) => {
       if (!name) return
       try {
@@ -88,9 +88,9 @@ export default function setup(context) {
   )
 
   // Middle crumb for the header: the article's category, resolved to its display
-  // name because `article.doc.category` only holds the docname.
+  // name because `article.data.category` only holds the docname.
   const currentCategory = computed(() => {
-    const name = article?.doc?.category
+    const name = article?.data?.category
     if (!name) return null
     const category = (categories.data || []).find(c => c.name === name)
     return { label: category?.category_name || name, route: '/category/' + name }
@@ -98,7 +98,7 @@ export default function setup(context) {
 
   // Other published articles in the same category (for "Related articles").
   const relatedArticles = computed(() => {
-    const current = article?.doc
+    const current = article?.data
     if (!current) return []
     return (articles.data || [])
       .filter(a => a.category === current.category && a.name !== current.name)
@@ -130,10 +130,10 @@ export default function setup(context) {
       // guest / not permitted — leave unselected
     }
   }
-  watch(() => article?.doc?.name, loadFeedback, { immediate: true })
+  watch(() => article?.data?.name, loadFeedback, { immediate: true })
 
   async function submitFeedback(value) {
-    const articleName = article?.doc?.name
+    const articleName = article?.data?.name
     if (!articleName) return
     selectedFeedback.value = value
     try {

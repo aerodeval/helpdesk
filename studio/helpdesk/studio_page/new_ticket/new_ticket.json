@@ -16,14 +16,12 @@
      "baseStyles": {
       "alignItems": "center",
       "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
+      "borderBottom": "1px solid var(--outline-gray-2)",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
-      "height": "44px",
-      "padding": "0 16px",
+      "height": "52px",
+      "padding": "0 20px",
       "width": "100%"
      },
      "blockName": "topbar",
@@ -88,6 +86,66 @@
           "tag": "span",
           "text": "Create new ticket"
          }
+        },
+        {
+         "baseStyles": {
+          "display": "grid",
+          "gap": "20px",
+          "gridTemplateColumns": "repeat(2, minmax(200px, 1fr))",
+          "width": "100%"
+         },
+         "blockName": "f-requester",
+         "children": [
+          {
+           "baseStyles": {
+            "width": "100%"
+           },
+           "blockName": "c-guest-name",
+           "children": [],
+           "classes": [],
+           "componentId": "c-guest-name",
+           "componentName": "FormControl",
+           "componentProps": {
+            "label": "Name",
+            "modelValue": {
+             "$type": "variable",
+             "name": "guestName"
+            },
+            "placeholder": "Your name",
+            "required": false,
+            "size": "sm",
+            "type": "text",
+            "variant": "subtle"
+           }
+          },
+          {
+           "baseStyles": {
+            "width": "100%"
+           },
+           "blockName": "c-guest-email",
+           "children": [],
+           "classes": [],
+           "componentId": "c-guest-email",
+           "componentName": "FormControl",
+           "componentProps": {
+            "label": "Email",
+            "modelValue": {
+             "$type": "variable",
+             "name": "guestEmail"
+            },
+            "placeholder": "you@example.com",
+            "required": true,
+            "size": "sm",
+            "type": "email",
+            "variant": "subtle"
+           }
+          }
+         ],
+         "classes": [],
+         "componentId": "f-requester",
+         "componentName": "container",
+         "originalElement": "div",
+         "visibilityCondition": "{{ isGuest }}"
         },
         {
          "baseStyles": {
@@ -193,47 +251,6 @@
           "flexDirection": "column",
           "width": "100%"
          },
-         "blockName": "f-attach",
-         "children": [
-          {
-           "baseStyles": {
-            "color": "var(--ink-gray-5)",
-            "display": "block",
-            "marginBottom": "6px"
-           },
-           "blockName": "l-attach",
-           "children": [],
-           "classes": [],
-           "componentId": "l-attach",
-           "componentName": "TextBlock",
-           "componentProps": {
-            "fontSize": "text-p-sm",
-            "tag": "span",
-            "text": "Attachment"
-           }
-          },
-          {
-           "baseStyles": {
-            "width": "100%"
-           },
-           "children": [],
-           "classes": [],
-           "componentId": "KbFileAttachment-attach",
-           "componentName": "KbFileAttachment",
-           "isCustomVueComponent": true
-          }
-         ],
-         "classes": [],
-         "componentId": "f-attach",
-         "componentName": "container",
-         "originalElement": "div"
-        },
-        {
-         "baseStyles": {
-          "display": "flex",
-          "flexDirection": "column",
-          "width": "100%"
-         },
          "blockName": "f-desc",
          "children": [
           {
@@ -276,7 +293,7 @@
             "bubbleMenuOptions": {},
             "content": "{{ description }}",
             "editable": true,
-            "editorClass": "prose-sm min-h-[7rem] max-h-[16rem] overflow-y-auto p-2",
+            "editorClass": "prose-sm min-h-32 max-h-60 overflow-y-auto p-2",
             "extensions": [],
             "fixedMenu": true,
             "mentions": null,
@@ -289,12 +306,54 @@
          "componentId": "f-desc",
          "componentName": "container",
          "originalElement": "div"
+        },
+        {
+         "baseStyles": {
+          "display": "flex",
+          "flexDirection": "column",
+          "width": "100%"
+         },
+         "blockName": "f-attach",
+         "children": [
+          {
+           "baseStyles": {
+            "color": "var(--ink-gray-5)",
+            "display": "block",
+            "marginBottom": "6px"
+           },
+           "blockName": "l-attach",
+           "children": [],
+           "classes": [],
+           "componentId": "l-attach",
+           "componentName": "TextBlock",
+           "componentProps": {
+            "fontSize": "text-p-sm",
+            "tag": "span",
+            "text": "Attachment"
+           }
+          },
+          {
+           "baseStyles": {
+            "width": "100%"
+           },
+           "children": [],
+           "classes": [],
+           "componentId": "KbFileAttachment-attach",
+           "componentName": "KbFileAttachment",
+           "isCustomVueComponent": true
+          }
+         ],
+         "classes": [],
+         "componentId": "f-attach",
+         "componentName": "container",
+         "originalElement": "div"
         }
        ],
        "classes": [],
        "componentId": "stack",
        "componentName": "container",
-       "originalElement": "div"
+       "originalElement": "div",
+       "visibilityCondition": "{{ !submittedTicket }}"
       },
       {
        "baseStyles": {
@@ -357,7 +416,72 @@
        "classes": [],
        "componentId": "container-pp0kzmif9",
        "componentName": "container",
-       "originalElement": "div"
+       "originalElement": "div",
+       "visibilityCondition": "{{ !submittedTicket }}"
+      },
+      {
+       "baseStyles": {
+        "display": "flex",
+        "flexDirection": "column",
+        "gap": "8px",
+        "paddingTop": "50px",
+        "width": "100%"
+       },
+       "blockName": "submitted",
+       "children": [
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-8)",
+          "fontWeight": "600"
+         },
+         "blockName": "submitted-title",
+         "children": [],
+         "classes": [],
+         "componentId": "submitted-title",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-2xl",
+          "tag": "span",
+          "text": "{{ 'Ticket ' + (submittedTicket.name || '') + ' created' }}"
+         }
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-6)"
+         },
+         "blockName": "submitted-body",
+         "children": [],
+         "classes": [],
+         "componentId": "submitted-body",
+         "componentName": "TextBlock",
+         "componentProps": {
+          "fontSize": "text-base",
+          "tag": "span",
+          "text": "{{ \"We'll reply to \" + (submittedTicket.email || '') + '.' }}"
+         }
+        },
+        {
+         "baseStyles": {
+          "color": "var(--ink-gray-6)",
+          "paddingTop": "8px"
+         },
+         "blockName": "submitted-signup",
+         "children": [],
+         "classes": [
+          "text-base"
+         ],
+         "componentId": "submitted-signup",
+         "componentName": "HTML",
+         "componentProps": {
+          "html": "<a href=\"/login#signup\" class=\"text-ink-blue-5 underline\">Create an account</a> to track this ticket and everything you raise next."
+         }
+        }
+       ],
+       "classes": [],
+       "componentId": "submitted",
+       "componentName": "container",
+       "originalElement": "div",
+       "visibilityCondition": "{{ submittedTicket }}"
       }
      ],
      "classes": [],
@@ -401,21 +525,11 @@
  "published": 1,
  "resources": [
   {
-   "auto": 1,
-   "document_type": "HD Ticket Type",
-   "fields": "[\"name\"]",
-   "filters": "{}",
-   "method": "GET",
-   "resource_name": "ticketTypes",
-   "resource_type": "Document List"
-  },
-  {
-   "auto": 1,
-   "method": "GET",
-   "params": "{\"name\": \"Default\"}",
-   "resource_name": "template",
+   "method": "POST",
+   "params": "{}",
+   "resource_name": "guestTicket",
    "resource_type": "API Resource",
-   "url": "helpdesk.helpdesk.doctype.hd_ticket_template.api.get_one"
+   "url": "helpdesk.api.ticket.new_guest_ticket"
   },
   {
    "method": "POST",
@@ -423,6 +537,23 @@
    "resource_name": "newTicket",
    "resource_type": "API Resource",
    "url": "helpdesk.helpdesk.doctype.hd_ticket.api.new"
+  },
+  {
+   "auto": 0,
+   "method": "GET",
+   "params": "{\"name\": \"Default\"}",
+   "resource_name": "template",
+   "resource_type": "API Resource",
+   "url": "helpdesk.helpdesk.doctype.hd_ticket_template.api.get_one"
+  },
+  {
+   "auto": 0,
+   "document_type": "HD Ticket Type",
+   "fields": "[\"name\"]",
+   "filters": "{}",
+   "method": "GET",
+   "resource_name": "ticketTypes",
+   "resource_type": "Document List"
   }
  ],
  "route": "/new-ticket",
@@ -436,6 +567,16 @@
   {
    "initial_value": "\"\"",
    "variable_name": "description",
+   "variable_type": "String"
+  },
+  {
+   "initial_value": "\"\"",
+   "variable_name": "guestName",
+   "variable_type": "String"
+  },
+  {
+   "initial_value": "\"\"",
+   "variable_name": "guestEmail",
    "variable_type": "String"
   }
  ]

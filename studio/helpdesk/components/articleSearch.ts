@@ -11,24 +11,18 @@ export const MIN_QUERY = 3;
 const SNIPPET_LENGTH = 140;
 const SNIPPET_LEAD = 40;
 
+// Through the helpdesk's own endpoints, not `frappe.client.get_list`: that one is
+// closed to guests, so searching the public knowledge base failed for exactly the
+// people it is published for.
 const articles = createResource({
-  url: "frappe.client.get_list",
-  params: {
-    doctype: "HD Article",
-    filters: { status: "Published" },
-    fields: ["name", "title", "content", "category"],
-    limit_page_length: 0,
-  },
+  url: "helpdesk.api.knowledge_base.get_public_articles",
+  method: "GET",
   auto: true,
 });
 
 const categories = createResource({
-  url: "frappe.client.get_list",
-  params: {
-    doctype: "HD Article Category",
-    fields: ["name", "category_name"],
-    limit_page_length: 0,
-  },
+  url: "helpdesk.api.knowledge_base.get_public_categories",
+  method: "GET",
   auto: true,
 });
 
@@ -128,11 +122,9 @@ function highlight(text: string, query: string) {
   const needle = query.trim();
   if (needle.length < MIN_QUERY) return escaped;
   const pattern = new RegExp(escapeRegExp(escapeHtml(needle)), "gi");
-  return escaped.replace(
-    pattern,
-    (match) =>
-      `<mark class="bg-surface-amber-2 text-ink-gray-9 rounded-sm">${match}</mark>`,
-  );
+  // Styled in KbSearch.vue: weight and ink rather than a highlighter pill, which
+  // was the one splash of colour in an otherwise greyscale portal.
+  return escaped.replace(pattern, (match) => `<mark class="kb-mark">${match}</mark>`);
 }
 
 function escapeHtml(value: string) {

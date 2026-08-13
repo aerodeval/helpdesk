@@ -15,15 +15,13 @@
      "baseStyles": {
       "alignItems": "center",
       "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
+      "borderBottom": "1px solid var(--outline-gray-2)",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
-      "height": "48px",
+      "height": "52px",
       "justifyContent": "space-between",
-      "padding": "0 16px",
+      "padding": "0 20px",
       "width": "100%"
      },
      "blockName": "top-bar",
@@ -38,43 +36,6 @@
         "crumb": "{{ categoryName }}"
        },
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "gap": "12px"
-       },
-       "blockName": "right-cluster",
-       "children": [
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-5)",
-          "cursor": "pointer"
-         },
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
-          }
-         },
-         "componentId": "TextBlock-tuw3gfcun",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-sm",
-          "tag": "span",
-          "text": "Login"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-yz70dur6x",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -562,15 +523,13 @@
      "baseStyles": {
       "alignItems": "center",
       "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
+      "borderBottom": "1px solid var(--outline-gray-2)",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
-      "height": "48px",
+      "height": "52px",
       "justifyContent": "space-between",
-      "padding": "0 16px",
+      "padding": "0 20px",
       "width": "100%"
      },
      "blockName": "top-bar",
@@ -585,43 +544,6 @@
         "crumb": "{{ categoryName }}"
        },
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "gap": "12px"
-       },
-       "blockName": "right-cluster",
-       "children": [
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-5)",
-          "cursor": "pointer"
-         },
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
-          }
-         },
-         "componentId": "TextBlock-tuw3gfcun",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-sm",
-          "tag": "span",
-          "text": "Login"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-yz70dur6x",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -1104,25 +1026,19 @@
  "resources": [
   {
    "auto": 1,
-   "document_type": "HD Article",
-   "fields": "[\"name\",\"title\",\"category\",\"author\",\"owner\",\"published_on\",\"modified\",\"status\",\"content\"]",
-   "filters": "{\"category\": \"{{ route.params.category || 'do007rkqbf' }}\"}",
-   "limit": 50,
    "method": "GET",
+   "params": "{\"category\": \"{{ route.params.category }}\"}",
    "resource_name": "articles",
-   "resource_type": "Document List",
-   "sort_field": "published_on",
-   "sort_order": "DESC"
+   "resource_type": "API Resource",
+   "url": "helpdesk.api.knowledge_base.get_public_articles"
   },
   {
    "auto": 1,
-   "document_type": "HD Article Category",
-   "fetch_document_using_filters": 1,
-   "fields": "[\"name\",\"category_name\",\"description\",\"icon\"]",
-   "filters": "{\"name\": \"{{ route.params.category || 'do007rkqbf' }}\"}",
    "method": "GET",
+   "params": "{\"name\": \"{{ route.params.category }}\"}",
    "resource_name": "category",
-   "resource_type": "Document"
+   "resource_type": "API Resource",
+   "url": "helpdesk.api.knowledge_base.get_public_category"
   }
  ],
  "route": "/category/:category",

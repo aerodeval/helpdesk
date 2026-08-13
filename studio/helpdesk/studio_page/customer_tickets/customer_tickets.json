@@ -56,10 +56,27 @@
         "alignItems": "center",
         "display": "flex",
         "flex": "1",
+        "gap": "8px",
         "minWidth": "0"
        },
        "blockName": "toolbar-left",
        "children": [
+        {
+         "baseStyles": {
+          "flexShrink": "0"
+         },
+         "blockName": "tickets-org-switcher",
+         "children": [],
+         "classes": [],
+         "componentId": "KbOrgSwitcher-tickets",
+         "componentName": "KbOrgSwitcher",
+         "componentProps": {
+          "activeOrganization": "{{ activeOrganization }}",
+          "onSelect": "(customer) => selectOrganization(customer)",
+          "organizations": "{{ organizations }}"
+         },
+         "isCustomVueComponent": true
+        },
         {
          "blockName": "tickets-quickfilter",
          "children": [],
@@ -314,10 +331,27 @@
         "alignItems": "center",
         "display": "flex",
         "flex": "1",
+        "gap": "8px",
         "minWidth": "0"
        },
        "blockName": "toolbar-left",
        "children": [
+        {
+         "baseStyles": {
+          "flexShrink": "0"
+         },
+         "blockName": "tickets-org-switcher",
+         "children": [],
+         "classes": [],
+         "componentId": "KbOrgSwitcher-tickets",
+         "componentName": "KbOrgSwitcher",
+         "componentProps": {
+          "activeOrganization": "{{ activeOrganization }}",
+          "onSelect": "(customer) => selectOrganization(customer)",
+          "organizations": "{{ organizations }}"
+         },
+         "isCustomVueComponent": true
+        },
         {
          "blockName": "tickets-quickfilter",
          "children": [],

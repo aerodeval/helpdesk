@@ -15,15 +15,13 @@
      "baseStyles": {
       "alignItems": "center",
       "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
+      "borderBottom": "1px solid var(--outline-gray-2)",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
-      "height": "48px",
+      "height": "52px",
       "justifyContent": "space-between",
-      "padding": "0 16px",
+      "padding": "0 20px",
       "width": "100%"
      },
      "blockName": "top-bar",
@@ -35,48 +33,11 @@
        "componentId": "header-topbar",
        "componentName": "header",
        "componentProps": {
-        "crumb": "{{ article?.doc?.title }}",
+        "crumb": "{{ article?.data?.title }}",
         "parentCrumb": "{{ currentCategory?.label }}",
         "parentRoute": "{{ currentCategory?.route }}"
        },
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "gap": "12px"
-       },
-       "blockName": "right-cluster",
-       "children": [
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-5)",
-          "cursor": "pointer"
-         },
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
-          }
-         },
-         "componentId": "TextBlock-i9pms1kjp",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-sm",
-          "tag": "span",
-          "text": "Login"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-1cye4k5ga",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -282,7 +243,7 @@
                 {
                  "baseStyles": {
                   "alignItems": "center",
-                  "backgroundColor": "{{ dataItem.isActive ? 'var(--surface-base)' : 'transparent' }}",
+                  "backgroundColor": "{{ dataItem.isActive ? 'var(--surface-base)' : '' }}",
                   "borderRadius": "8px",
                   "boxShadow": "{{ dataItem.isActive ? 'var(--elevation-sm)' : 'none' }}",
                   "cursor": "pointer",
@@ -317,7 +278,9 @@
                    }
                   }
                  ],
-                 "classes": [],
+                 "classes": [
+                  "hover:bg-surface-gray-2"
+                 ],
                  "componentEvents": {
                   "click": {
                    "action": "Run Script",
@@ -475,7 +438,7 @@
              "componentProps": {
               "fontSize": "text-3xl",
               "tag": "h1",
-              "text": "{{ article.doc.title }}"
+              "text": "{{ article.data.title }}"
              }
             },
             {
@@ -495,7 +458,7 @@
                "componentName": "Avatar",
                "componentProps": {
                 "image": "{{ author.image }}",
-                "label": "{{ author.name || article.doc.author }}",
+                "label": "{{ author.name || article.data.author }}",
                 "shape": "circle",
                 "size": "md",
                 "theme": "gray"
@@ -512,7 +475,7 @@
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
-                "text": "{{ author.name || article.doc.author }}"
+                "text": "{{ author.name || article.data.author }}"
                }
               },
               {
@@ -540,7 +503,7 @@
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
-                "text": "{{ formatDate(article.doc.published_on) }}"
+                "text": "{{ formatDate(article.data.published_on) }}"
                }
               },
               {
@@ -554,6 +517,7 @@
                "componentId": "article-reading-dot",
                "componentName": "TextBlock",
                "componentProps": {
+                "fontSize": "text-sm",
                 "tag": "span",
                 "text": "\u00b7"
                },
@@ -570,11 +534,12 @@
                "children": [
                 {
                  "attributes": {},
-                 "baseStyles": {},
+                 "baseStyles": {
+                  "height": "14px",
+                  "width": "14px"
+                 },
                  "children": [],
-                 "classes": [
-                  "size-4"
-                 ],
+                 "classes": [],
                  "componentEvents": {},
                  "componentId": "article-reading-icon",
                  "componentName": "FeatherIcon",
@@ -631,6 +596,7 @@
                "componentId": "article-permalink-dot",
                "componentName": "TextBlock",
                "componentProps": {
+                "fontSize": "text-sm",
                 "tag": "span",
                 "text": "\u00b7"
                },
@@ -1064,15 +1030,13 @@
      "baseStyles": {
       "alignItems": "center",
       "backgroundColor": "var(--surface-base)",
-      "borderColor": "var(--outline-gray-2)",
-      "borderStyle": "solid",
-      "borderWidth": "0px 0px 1px 0px",
+      "borderBottom": "1px solid var(--outline-gray-2)",
       "display": "flex",
       "flexDirection": "row",
       "flexShrink": 0,
-      "height": "48px",
+      "height": "52px",
       "justifyContent": "space-between",
-      "padding": "0 16px",
+      "padding": "0 20px",
       "width": "100%"
      },
      "blockName": "top-bar",
@@ -1084,48 +1048,11 @@
        "componentId": "header-topbar",
        "componentName": "header",
        "componentProps": {
-        "crumb": "{{ article?.doc?.title }}",
+        "crumb": "{{ article?.data?.title }}",
         "parentCrumb": "{{ currentCategory?.label }}",
         "parentRoute": "{{ currentCategory?.route }}"
        },
        "isStudioComponent": true
-      },
-      {
-       "baseStyles": {
-        "alignItems": "center",
-        "display": "flex",
-        "flexDirection": "row",
-        "gap": "12px"
-       },
-       "blockName": "right-cluster",
-       "children": [
-        {
-         "baseStyles": {
-          "color": "var(--ink-gray-5)",
-          "cursor": "pointer"
-         },
-         "children": [],
-         "classes": [],
-         "componentEvents": {
-          "click": {
-           "action": "Run Script",
-           "event": "click",
-           "script": "window.location.href = \"/login?redirect-to=/helpdesk/home\""
-          }
-         },
-         "componentId": "TextBlock-i9pms1kjp",
-         "componentName": "TextBlock",
-         "componentProps": {
-          "fontSize": "text-sm",
-          "tag": "span",
-          "text": "Login"
-         }
-        }
-       ],
-       "classes": [],
-       "componentId": "container-1cye4k5ga",
-       "componentName": "container",
-       "originalElement": "div"
       }
      ],
      "classes": [],
@@ -1335,7 +1262,7 @@
                 {
                  "baseStyles": {
                   "alignItems": "center",
-                  "backgroundColor": "{{ dataItem.isActive ? 'var(--surface-base)' : 'transparent' }}",
+                  "backgroundColor": "{{ dataItem.isActive ? 'var(--surface-base)' : '' }}",
                   "borderRadius": "8px",
                   "boxShadow": "{{ dataItem.isActive ? 'var(--elevation-sm)' : 'none' }}",
                   "cursor": "pointer",
@@ -1370,7 +1297,9 @@
                    }
                   }
                  ],
-                 "classes": [],
+                 "classes": [
+                  "hover:bg-surface-gray-2"
+                 ],
                  "componentEvents": {
                   "click": {
                    "action": "Run Script",
@@ -1528,7 +1457,7 @@
              "componentProps": {
               "fontSize": "text-3xl",
               "tag": "h1",
-              "text": "{{ article.doc.title }}"
+              "text": "{{ article.data.title }}"
              }
             },
             {
@@ -1548,7 +1477,7 @@
                "componentName": "Avatar",
                "componentProps": {
                 "image": "{{ author.image }}",
-                "label": "{{ author.name || article.doc.author }}",
+                "label": "{{ author.name || article.data.author }}",
                 "shape": "circle",
                 "size": "md",
                 "theme": "gray"
@@ -1565,7 +1494,7 @@
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
-                "text": "{{ author.name || article.doc.author }}"
+                "text": "{{ author.name || article.data.author }}"
                }
               },
               {
@@ -1593,7 +1522,7 @@
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
-                "text": "{{ formatDate(article.doc.published_on) }}"
+                "text": "{{ formatDate(article.data.published_on) }}"
                }
               },
               {
@@ -2091,31 +2020,27 @@
  "resources": [
   {
    "auto": 1,
-   "document_type": "HD Article",
-   "fetch_document_using_filters": 1,
-   "filters": "{\"name\":\"{{ route.params.name || 'd0rtmfrd4h' }}\"}",
    "method": "GET",
+   "params": "{\"name\": \"{{ route.params.name }}\"}",
    "resource_name": "article",
-   "resource_type": "Document"
+   "resource_type": "API Resource",
+   "url": "helpdesk.api.knowledge_base.get_public_article"
   },
   {
    "auto": 1,
-   "document_type": "HD Article Category",
-   "fields": "[\"name\",\"category_name\",\"icon\"]",
-   "limit": 500,
    "method": "GET",
-   "resource_name": "categories",
-   "resource_type": "Document List"
-  },
-  {
-   "auto": 1,
-   "document_type": "HD Article",
-   "fields": "[\"name\",\"title\",\"category\",\"status\"]",
-   "filters": "{\"status\":\"Published\"}",
-   "limit": 1000,
-   "method": "GET",
+   "params": "{}",
    "resource_name": "articles",
-   "resource_type": "Document List"
+   "resource_type": "API Resource",
+   "url": "helpdesk.api.knowledge_base.get_public_articles"
+  },
+  {
+   "auto": 1,
+   "method": "GET",
+   "params": "{\"limit\": 500}",
+   "resource_name": "categories",
+   "resource_type": "API Resource",
+   "url": "helpdesk.api.knowledge_base.get_public_categories"
   }
  ],
  "route": "/articles/:name",

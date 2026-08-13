@@ -1,20 +1,20 @@
 <template>
   <FileUploader>
     <template #default="{ file, uploading, progress, openFileSelector }">
-      <div
-        class="flex h-[42px] items-center gap-2.5 rounded border border-outline-gray-2 bg-surface-white pl-3 pr-2"
+      <!-- Shaped as a TextInput sm/subtle, the size and variant every other
+           control on this form uses; the whole row opens the picker, so there is
+           no button competing with the field it sits in. -->
+      <button
+        type="button"
+        class="flex h-7 w-full items-center gap-2 rounded border border-[--surface-gray-2] bg-surface-gray-2 px-2 text-base hover:border-outline-elevation-2 hover:bg-surface-gray-3"
+        :class="file ? 'text-ink-gray-8' : 'text-ink-gray-4'"
+        @click="openFileSelector"
       >
         <FeatherIcon name="upload" class="size-4 shrink-0 text-ink-gray-5" />
-        <span
-          class="flex-1 truncate text-base"
-          :class="file ? 'text-ink-gray-8' : 'text-ink-gray-5'"
-        >
+        <span class="min-w-0 flex-1 truncate text-left">
           {{ statusLabel(file, uploading, progress) }}
         </span>
-        <Button size="sm" :loading="uploading" @click="openFileSelector">
-          Upload file
-        </Button>
-      </div>
+      </button>
     </template>
   </FileUploader>
 </template>
@@ -24,7 +24,7 @@
 // the designed row can use its slot props: Studio only forwards slot props to
 // *named* slots, so a plain block tree in the default slot could never reach
 // `openFileSelector` or the chosen `file`.
-import { Button, FeatherIcon, FileUploader } from "frappe-ui";
+import { FeatherIcon, FileUploader } from "frappe-ui";
 
 function statusLabel(
   file: { name?: string } | null,

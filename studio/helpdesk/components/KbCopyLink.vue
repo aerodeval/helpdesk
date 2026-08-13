@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="kb-copy-link" @click="copy">
-    <LucideCopy class="size-4" />
+    <LucideCopy />
     <span>Copy link</span>
   </button>
 </template>
@@ -47,19 +47,28 @@ function copyWithSelection(text: string) {
 
 <style scoped>
 /* Plain CSS because this app sits outside the bench's Tailwind content globs —
-   hover:text-ink-blue-7 never compiles here. */
+   hover:text-ink-gray-7 never compiles here. */
+/* text-sm and a 14px icon: the rest of the byline's type and its clock, so the whole
+   line sits on one scale. */
 .kb-copy-link {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ink-blue-link);
+  font-size: 13px;
+  line-height: 1.15;
+  /* Reads as part of the byline it sits in, not as a link out of the article. */
+  color: var(--ink-gray-5);
   cursor: pointer;
   transition: color 150ms ease;
 }
 
+.kb-copy-link svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
 .kb-copy-link:hover {
-  color: var(--ink-blue-7);
+  color: var(--ink-gray-7);
 }
 </style>

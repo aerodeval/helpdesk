@@ -55,9 +55,9 @@ export default function setup(context) {
     )
   })
 
-  const categoryName = computed(() => category.doc?.category_name || route.params.category || '')
+  const categoryName = computed(() => category.data?.category_name || route.params.category || '')
   const categoryDescription = computed(() => {
-    const desc = category.doc?.description
+    const desc = category.data?.description
     if (desc) return desc
     const name = categoryName.value
     return name ? `Find answers to common ${name} questions.` : ''

@@ -1,30 +1,13 @@
 <template>
   <div class="kb-org-list">
-    <div class="kb-org-list__toolbar">
-      <TextInput
-        v-model="search"
-        class="kb-org-list__search"
-        type="text"
-        placeholder="Search"
-      >
+    <!-- Wrapped rather than styled directly: scoped rules don't reach a child
+         component's own root, so the spacing lives on an element of ours. -->
+    <div class="kb-org-list__search">
+      <TextInput v-model="search" type="text" placeholder="Search">
         <template #prefix>
           <LucideSearch class="size-4 text-ink-gray-5" />
         </template>
       </TextInput>
-      <!-- Temporary: lets the two candidate layouts be compared side by side. -->
-      <div class="kb-org-list__toggle">
-        <button
-          v-for="option in layouts"
-          :key="option.value"
-          type="button"
-          class="kb-org-list__toggle-button"
-          :class="{ 'is-active': layout === option.value }"
-          :aria-label="option.label"
-          @click="layout = option.value"
-        >
-          <component :is="option.icon" class="size-4" />
-        </button>
-      </div>
     </div>
 
     <KbEmptyState
@@ -38,91 +21,54 @@
       "
     />
 
-    <template v-if="matches.length">
-      <div v-if="layout === 'grid'" class="kb-org-list__grid">
-        <div
-          v-for="organization in matches"
-          :key="organization.name"
-          class="kb-org-list__card"
-          role="button"
-          tabindex="0"
-          @click="onSelect?.(organization.name)"
-          @keydown.enter="onSelect?.(organization.name)"
-        >
-          <div class="kb-org-list__card-top">
-            <Avatar
-              shape="square"
-              size="3xl"
-              :image="organization.image"
-              :label="organization.customer_name"
-            />
-            <Badge
-              v-if="organization.role"
-              :label="organization.role"
-              :theme="roleTheme(organization.role)"
-              variant="outline"
-            />
-          </div>
-          <div class="kb-org-list__card-name">
-            {{ organization.customer_name }}
-          </div>
-          <div class="kb-org-list__domain">{{ organization.domain }}</div>
-          <div class="kb-org-list__card-meta">
-            <span class="kb-org-list__fact">
-              <LucideTicket class="kb-org-list__icon" />
-              {{ count(organization.open_ticket_count, "ticket") }}
-            </span>
-            <span class="kb-org-list__dot">·</span>
-            <span class="kb-org-list__fact">
-              <LucideSquareUser class="kb-org-list__icon" />
-              {{ count(organization.member_count, "member") }}
-            </span>
-          </div>
-        </div>
-      </div>
-
+    <div v-else class="kb-org-list__grid">
       <div
         v-for="organization in matches"
-        v-else
         :key="organization.name"
-        class="kb-org-list__row"
+        class="kb-org-list__card"
         role="button"
         tabindex="0"
         @click="onSelect?.(organization.name)"
         @keydown.enter="onSelect?.(organization.name)"
       >
-        <Avatar
-          shape="square"
-          size="xl"
-          :image="organization.image"
-          :label="organization.customer_name"
-        />
-        <div class="kb-org-list__text">
-          <div class="kb-org-list__name">{{ organization.customer_name }}</div>
-          <div class="kb-org-list__domain">{{ organization.domain }}</div>
+        <div class="kb-org-list__card-top">
+          <Avatar
+            shape="square"
+            size="3xl"
+            :image="organization.image"
+            :label="organization.customer_name"
+          />
+          <Badge
+            v-if="organization.role"
+            :label="organization.role"
+            :theme="roleTheme(organization.role)"
+            variant="outline"
+          />
         </div>
-        <Badge
-          v-if="organization.role"
-          :label="organization.role"
-          :theme="roleTheme(organization.role)"
-          variant="outline"
-        />
-        <FeatherIcon
-          name="chevron-right"
-          class="size-4 shrink-0 text-ink-gray-5"
-        />
+        <div class="kb-org-list__card-name">
+          {{ organization.customer_name }}
+        </div>
+        <div class="kb-org-list__domain">{{ organization.domain }}</div>
+        <div class="kb-org-list__card-meta">
+          <span class="kb-org-list__fact">
+            <LucideTicket class="kb-org-list__icon" />
+            {{ count(organization.open_ticket_count, "ticket") }}
+          </span>
+          <span class="kb-org-list__dot">·</span>
+          <span class="kb-org-list__fact">
+            <LucideSquareUser class="kb-org-list__icon" />
+            {{ count(organization.member_count, "member") }}
+          </span>
+        </div>
       </div>
-    </template>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-// Two candidate layouts behind a toggle: rows sized like the agent portal's
-// Settings > Agents panel, and a card grid. Either way each entry carries a role
-// badge — Owner, Manager or Member — rather than being sorted into sections.
-import { Avatar, Badge, FeatherIcon, TextInput } from "frappe-ui";
-import LucideLayoutGrid from "~icons/lucide/layout-grid";
-import LucideList from "~icons/lucide/list";
+// A card per organization, each carrying a role badge — Owner, Manager or
+// Member — rather than being sorted into sections.
+import { Avatar, Badge, TextInput } from "frappe-ui";
 import LucideSearch from "~icons/lucide/search";
 import LucideSquareUser from "~icons/lucide/square-user";
 import LucideTicket from "~icons/lucide/ticket";
@@ -148,11 +94,6 @@ const props = withDefaults(
   { organizations: () => [] }
 );
 
-const layouts = [
-  { value: "list", label: "List view", icon: LucideList },
-  { value: "grid", label: "Grid view", icon: LucideLayoutGrid },
-];
-const layout = ref("list");
 const search = ref("");
 
 const matches = computed(() => {
@@ -181,77 +122,15 @@ function count(total: number | undefined, noun: string) {
 <style scoped>
 /* Plain CSS: this app sits outside the bench's Tailwind content globs, so only
    utilities the rest of the bundle already uses are safe here. */
-.kb-org-list__toolbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.kb-org-list__search {
   margin-bottom: 24px;
 }
 
-.kb-org-list__search {
-  flex: 1;
-}
-
-.kb-org-list__toggle {
-  display: flex;
-  gap: 2px;
-  padding: 2px;
-  border-radius: 8px;
-  background: var(--surface-gray-2);
-}
-
-.kb-org-list__toggle-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  color: var(--ink-gray-5);
-  cursor: pointer;
-}
-
-.kb-org-list__toggle-button.is-active {
-  background: var(--surface-elevation-1);
-  box-shadow: var(--elevation-sm);
-  color: var(--ink-gray-8);
-}
-
-.kb-org-list__row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 56px;
-  padding: 0 8px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.kb-org-list__row + .kb-org-list__row {
-  border-top: 1px solid var(--outline-gray-1);
-}
-
-.kb-org-list__row:hover {
-  background: var(--surface-gray-2);
-}
-
-.kb-org-list__text {
-  flex: 1;
-  min-width: 0;
-}
-
-.kb-org-list__name,
 .kb-org-list__domain,
 .kb-org-list__card-name {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.kb-org-list__name {
-  font-size: 14px;
-  line-height: 20px;
-  color: var(--ink-gray-8);
 }
 
 .kb-org-list__domain {

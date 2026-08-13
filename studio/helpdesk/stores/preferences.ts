@@ -30,10 +30,11 @@ function createPreferencesStore() {
     )
   })
 
-  // Called from the settings store on load, so nothing is fetched until the dialog opens.
-  function loadPreferences(email) {
-    if (!email || user.value?.name === email) return
-    user.value = createDocumentResource({ doctype: 'User', name: email })
+  // Called from the settings store on load, so nothing is fetched until the dialog
+  // opens. Takes the User's docname — for Administrator that is not the email.
+  function loadPreferences(userName) {
+    if (!userName || user.value?.name === userName) return
+    user.value = createDocumentResource({ doctype: 'User', name: userName })
     if (!languageOptions.value.length) languages.fetch()
     if (!timezoneOptions.value.length) timezones.fetch()
   }
