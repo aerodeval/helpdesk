@@ -1,46 +1,46 @@
 {
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts": {
-    "file": "assets/article-UT2UHqxC.js",
+    "file": "assets/article-CpVlPYhq.js",
     "name": "article",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts": {
-    "file": "assets/category-CIoFicbm.js",
+    "file": "assets/category-BrSu2uJU.js",
     "name": "category",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
-    "file": "assets/customer_tickets--SRZfc1M.js",
+    "file": "assets/customer_tickets-DSpDf--F.js",
     "name": "customer_tickets",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/help/help.ts": {
-    "file": "assets/help-Bx47wE2H.js",
+    "file": "assets/help-DL4p87Z8.js",
     "name": "help",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/help/help.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts": {
-    "file": "assets/list-DLeNkseO.js",
+    "file": "assets/list-DRnxm_gF.js",
     "name": "list",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts",
     "isDynamicEntry": true,
@@ -49,23 +49,23 @@
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/new_ticket/new_ticket.ts": {
-    "file": "assets/new_ticket-D0cm3AXd.js",
+    "file": "assets/new_ticket-DURzB13N.js",
     "name": "new_ticket",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/new_ticket/new_ticket.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
-    "file": "assets/public_kb-BTRP45q8.js",
+    "file": "assets/public_kb-CTO6Wq1I.js",
     "name": "public_kb",
     "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-D1eMS7Xb.js"
+      "_settings-DTe8HUW2.js"
     ]
   },
   "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg": {
@@ -73,7 +73,7 @@
     "src": "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg"
   },
   "../../.temp-app-renderers/renderer-helpdesk.js": {
-    "file": "assets/studioRenderer-Di161pWZ.js",
+    "file": "assets/studioRenderer-CFs1GTdv.js",
     "name": "studioRenderer",
     "src": "../../.temp-app-renderers/renderer-helpdesk.js",
     "isEntry": true,
@@ -86,7 +86,7 @@
       "components/PropEditors/ListColumnsEditor.vue",
       "components/ProxyComponents/ProxySettingsDialog.vue",
       "components/PropEditors/SettingsTabsEditor.vue",
-      "_ProxyDialog-mmFwxoVl.js",
+      "_ProxyDialog-9p42aZGV.js",
       "../../.temp-app-renderers/renderer-helpdesk.js",
       "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts",
       "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts",
@@ -97,7 +97,7 @@
       "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts"
     ],
     "css": [
-      "assets/studioRenderer-DJt0joQQ.css"
+      "assets/studioRenderer-B6KqcXP9.css"
     ],
     "assets": [
       "assets/Inter.var-C9xDBOS3.woff2",
@@ -105,7 +105,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue": {
-    "file": "assets/FontColor-ByJJbojz.js",
+    "file": "assets/FontColor-CHic87y9.js",
     "name": "FontColor",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue",
     "isDynamicEntry": true,
@@ -114,7 +114,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertImage.vue": {
-    "file": "assets/InsertImage-enILe1SY.js",
+    "file": "assets/InsertImage-_CsvC9_z.js",
     "name": "InsertImage",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertImage.vue",
     "isDynamicEntry": true,
@@ -123,7 +123,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertLink.vue": {
-    "file": "assets/InsertLink-CHENpvZe.js",
+    "file": "assets/InsertLink-Kq7tSuTE.js",
     "name": "InsertLink",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertLink.vue",
     "isDynamicEntry": true,
@@ -132,7 +132,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertVideo.vue": {
-    "file": "assets/InsertVideo-OywJC356.js",
+    "file": "assets/InsertVideo-BLnwNQOL.js",
     "name": "InsertVideo",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertVideo.vue",
     "isDynamicEntry": true,
@@ -141,7 +141,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue": {
-    "file": "assets/InsertIframe-D4KeysCn.js",
+    "file": "assets/InsertIframe-COKMUiwg.js",
     "name": "InsertIframe",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue",
     "isDynamicEntry": true,
@@ -157,55 +157,55 @@
     "file": "assets/Inter.var-C9xDBOS3.woff2",
     "src": "../../node_modules/frappe-ui/src/fonts/Inter/Inter.var.woff2"
   },
-  "_InputLabel-CliCbjaN.js": {
-    "file": "assets/InputLabel-CliCbjaN.js",
+  "_InputLabel-DNicty9-.js": {
+    "file": "assets/InputLabel-DNicty9-.js",
     "name": "InputLabel",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "_ProxyDialog-mmFwxoVl.js": {
-    "file": "assets/ProxyDialog-mmFwxoVl.js",
+  "_ProxyDialog-9p42aZGV.js": {
+    "file": "assets/ProxyDialog-9p42aZGV.js",
     "name": "ProxyDialog",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "_settings-D1eMS7Xb.js": {
-    "file": "assets/settings-D1eMS7Xb.js",
+  "_settings-DTe8HUW2.js": {
+    "file": "assets/settings-DTe8HUW2.js",
     "name": "settings",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
   "components/PropEditors/ListColumnsEditor.vue": {
-    "file": "assets/ListColumnsEditor-DU0siwVV.js",
+    "file": "assets/ListColumnsEditor-BXFPTRle.js",
     "name": "ListColumnsEditor",
     "src": "components/PropEditors/ListColumnsEditor.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_InputLabel-CliCbjaN.js"
+      "_InputLabel-DNicty9-.js"
     ]
   },
   "components/PropEditors/SettingsTabsEditor.vue": {
-    "file": "assets/SettingsTabsEditor-D06yqN-f.js",
+    "file": "assets/SettingsTabsEditor-DsMv2eYw.js",
     "name": "SettingsTabsEditor",
     "src": "components/PropEditors/SettingsTabsEditor.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_InputLabel-CliCbjaN.js"
+      "_InputLabel-DNicty9-.js"
     ]
   },
   "components/ProxyComponents/ProxySettingsDialog.vue": {
-    "file": "assets/ProxySettingsDialog-DgEQppbf.js",
+    "file": "assets/ProxySettingsDialog-CW4fEF0g.js",
     "name": "ProxySettingsDialog",
     "src": "components/ProxyComponents/ProxySettingsDialog.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_ProxyDialog-mmFwxoVl.js"
+      "_ProxyDialog-9p42aZGV.js"
     ]
   }
 }
