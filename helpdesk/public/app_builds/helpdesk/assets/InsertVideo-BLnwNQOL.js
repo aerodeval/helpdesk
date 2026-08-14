@@ -1,2 +1,0 @@
-import{Gt as e,It as t,Lt as n,on as r}from"./studioRenderer-CFs1GTdv.js";var i=t({__name:`InsertVideo`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.chain().focus().selectAndUploadVideo().run()}return(t,i)=>e(t.$slots,`default`,r(n({onClick:a})))}});export{i as default};
-//# sourceMappingURL=InsertVideo-BLnwNQOL.js.map

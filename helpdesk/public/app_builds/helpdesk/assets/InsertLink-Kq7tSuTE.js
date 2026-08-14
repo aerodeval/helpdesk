@@ -1,2 +1,0 @@
-import{Gt as e,It as t,Lt as n,on as r}from"./studioRenderer-CFs1GTdv.js";var i=t({__name:`InsertLink`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.commands.openLinkEditor()}return(t,i)=>e(t.$slots,`default`,r(n({onClick:a})))}});export{i as default};
-//# sourceMappingURL=InsertLink-Kq7tSuTE.js.map

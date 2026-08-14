@@ -1,71 +1,81 @@
 {
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts": {
-    "file": "assets/article-CpVlPYhq.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/article/article.ts": {
+    "file": "assets/article-DBEuXyzo.js",
     "name": "article",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/article/article.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts": {
-    "file": "assets/category-BrSu2uJU.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/category/category.ts": {
+    "file": "assets/category-jhUat-Jm.js",
     "name": "category",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/category/category.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
-    "file": "assets/customer_tickets-DSpDf--F.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts": {
+    "file": "assets/customer_tickets-BBbCIuSy.js",
     "name": "customer_tickets",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/help/help.ts": {
-    "file": "assets/help-DL4p87Z8.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/help/help.ts": {
+    "file": "assets/help-CBxTqHtp.js",
     "name": "help",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/help/help.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/help/help.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts": {
-    "file": "assets/list-DRnxm_gF.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/list/list.ts": {
+    "file": "assets/list-2gVIHsoL.js",
     "name": "list",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/list/list.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/new_ticket/new_ticket.ts": {
-    "file": "assets/new_ticket-DURzB13N.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/new_ticket/new_ticket.ts": {
+    "file": "assets/new_ticket-DTKhoqLq.js",
     "name": "new_ticket",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/new_ticket/new_ticket.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/new_ticket/new_ticket.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
     ]
   },
-  "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
-    "file": "assets/public_kb-CTO6Wq1I.js",
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/public_kb/public_kb.ts": {
+    "file": "assets/public_kb-Bx5Z0TAt.js",
     "name": "public_kb",
-    "src": "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/public_kb/public_kb.ts",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_settings-DTe8HUW2.js"
+      "_settings-Doe21dUE.js"
+    ]
+  },
+  "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/ticket/ticket.ts": {
+    "file": "assets/ticket-DoI-5Lbn.js",
+    "name": "ticket",
+    "src": "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/ticket/ticket.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../.temp-app-renderers/renderer-helpdesk.js",
+      "_settings-Doe21dUE.js"
     ]
   },
   "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg": {
@@ -73,7 +83,7 @@
     "src": "../../../frappe/ui/node_modules/leaflet-draw/dist/images/spritesheet.svg"
   },
   "../../.temp-app-renderers/renderer-helpdesk.js": {
-    "file": "assets/studioRenderer-CFs1GTdv.js",
+    "file": "assets/studioRenderer-DYp7gHxi.js",
     "name": "studioRenderer",
     "src": "../../.temp-app-renderers/renderer-helpdesk.js",
     "isEntry": true,
@@ -86,18 +96,19 @@
       "components/PropEditors/ListColumnsEditor.vue",
       "components/ProxyComponents/ProxySettingsDialog.vue",
       "components/PropEditors/SettingsTabsEditor.vue",
-      "_ProxyDialog-9p42aZGV.js",
+      "_ProxyDialog-BZZUdMWB.js",
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/article/article.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/category/category.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/help/help.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/list/list.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/new_ticket/new_ticket.ts",
-      "../../../../.worktrees/studio/studio/helpdesk/studio_page/public_kb/public_kb.ts"
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/article/article.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/category/category.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/customer_tickets/customer_tickets.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/help/help.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/list/list.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/new_ticket/new_ticket.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/public_kb/public_kb.ts",
+      "../../../../.worktrees/kb-portal/studio/helpdesk/studio_page/ticket/ticket.ts"
     ],
     "css": [
-      "assets/studioRenderer-B6KqcXP9.css"
+      "assets/studioRenderer-XRmqEhuy.css"
     ],
     "assets": [
       "assets/Inter.var-C9xDBOS3.woff2",
@@ -105,7 +116,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue": {
-    "file": "assets/FontColor-CHic87y9.js",
+    "file": "assets/FontColor-CX3Ik8zL.js",
     "name": "FontColor",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/FontColor.vue",
     "isDynamicEntry": true,
@@ -114,7 +125,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertImage.vue": {
-    "file": "assets/InsertImage-_CsvC9_z.js",
+    "file": "assets/InsertImage-BjGxBDqQ.js",
     "name": "InsertImage",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertImage.vue",
     "isDynamicEntry": true,
@@ -123,7 +134,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertLink.vue": {
-    "file": "assets/InsertLink-Kq7tSuTE.js",
+    "file": "assets/InsertLink-CDzP9CEb.js",
     "name": "InsertLink",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertLink.vue",
     "isDynamicEntry": true,
@@ -132,7 +143,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertVideo.vue": {
-    "file": "assets/InsertVideo-BLnwNQOL.js",
+    "file": "assets/InsertVideo-SAJmbxSV.js",
     "name": "InsertVideo",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/components/InsertVideo.vue",
     "isDynamicEntry": true,
@@ -141,7 +152,7 @@
     ]
   },
   "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue": {
-    "file": "assets/InsertIframe-COKMUiwg.js",
+    "file": "assets/InsertIframe-T4By8Gku.js",
     "name": "InsertIframe",
     "src": "../../node_modules/frappe-ui/src/components/TextEditor/extensions/iframe/InsertIframe.vue",
     "isDynamicEntry": true,
@@ -157,55 +168,55 @@
     "file": "assets/Inter.var-C9xDBOS3.woff2",
     "src": "../../node_modules/frappe-ui/src/fonts/Inter/Inter.var.woff2"
   },
-  "_InputLabel-DNicty9-.js": {
-    "file": "assets/InputLabel-DNicty9-.js",
+  "_InputLabel-CUg9w2aB.js": {
+    "file": "assets/InputLabel-CUg9w2aB.js",
     "name": "InputLabel",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "_ProxyDialog-9p42aZGV.js": {
-    "file": "assets/ProxyDialog-9p42aZGV.js",
+  "_ProxyDialog-BZZUdMWB.js": {
+    "file": "assets/ProxyDialog-BZZUdMWB.js",
     "name": "ProxyDialog",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
-  "_settings-DTe8HUW2.js": {
-    "file": "assets/settings-DTe8HUW2.js",
+  "_settings-Doe21dUE.js": {
+    "file": "assets/settings-Doe21dUE.js",
     "name": "settings",
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js"
     ]
   },
   "components/PropEditors/ListColumnsEditor.vue": {
-    "file": "assets/ListColumnsEditor-BXFPTRle.js",
+    "file": "assets/ListColumnsEditor-CxVR0fWz.js",
     "name": "ListColumnsEditor",
     "src": "components/PropEditors/ListColumnsEditor.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_InputLabel-DNicty9-.js"
+      "_InputLabel-CUg9w2aB.js"
     ]
   },
   "components/PropEditors/SettingsTabsEditor.vue": {
-    "file": "assets/SettingsTabsEditor-DsMv2eYw.js",
+    "file": "assets/SettingsTabsEditor-DMdUFzwt.js",
     "name": "SettingsTabsEditor",
     "src": "components/PropEditors/SettingsTabsEditor.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_InputLabel-DNicty9-.js"
+      "_InputLabel-CUg9w2aB.js"
     ]
   },
   "components/ProxyComponents/ProxySettingsDialog.vue": {
-    "file": "assets/ProxySettingsDialog-CW4fEF0g.js",
+    "file": "assets/ProxySettingsDialog-BCZXRm7K.js",
     "name": "ProxySettingsDialog",
     "src": "components/ProxyComponents/ProxySettingsDialog.vue",
     "isDynamicEntry": true,
     "imports": [
       "../../.temp-app-renderers/renderer-helpdesk.js",
-      "_ProxyDialog-9p42aZGV.js"
+      "_ProxyDialog-BZZUdMWB.js"
     ]
   }
 }
