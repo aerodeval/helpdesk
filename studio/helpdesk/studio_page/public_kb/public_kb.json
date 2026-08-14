@@ -349,9 +349,10 @@
               "display": "flex",
               "flexDirection": "column",
               "gap": "10px",
+              "height": "132px",
               "justifyContent": "center",
-              "minHeight": "130px",
               "minWidth": "226px",
+              "overflow": "hidden",
               "paddingBottom": "16px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
@@ -404,7 +405,8 @@
                 "flexShrink": 1,
                 "gap": "4px",
                 "height": "fit-content",
-                "width": "fit-content"
+                "minWidth": "0",
+                "width": "100%"
                },
                "blockName": "container",
                "children": [
@@ -431,7 +433,9 @@
                  },
                  "blockName": "category-description",
                  "children": [],
-                 "classes": [],
+                 "classes": [
+                  "line-clamp-2"
+                 ],
                  "componentId": "TextBlock-2jee9t8sl",
                  "componentName": "TextBlock",
                  "componentProps": {
@@ -1150,9 +1154,10 @@
               "display": "flex",
               "flexDirection": "column",
               "gap": "10px",
+              "height": "132px",
               "justifyContent": "center",
-              "minHeight": "130px",
               "minWidth": "226px",
+              "overflow": "hidden",
               "paddingBottom": "16px",
               "paddingLeft": "20px",
               "paddingRight": "20px",
@@ -1205,7 +1210,8 @@
                 "flexShrink": 1,
                 "gap": "4px",
                 "height": "fit-content",
-                "width": "fit-content"
+                "minWidth": "0",
+                "width": "100%"
                },
                "blockName": "container",
                "children": [
@@ -1232,7 +1238,9 @@
                  },
                  "blockName": "category-description",
                  "children": [],
-                 "classes": [],
+                 "classes": [
+                  "line-clamp-2"
+                 ],
                  "componentId": "TextBlock-2jee9t8sl",
                  "componentName": "TextBlock",
                  "componentProps": {

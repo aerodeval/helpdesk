@@ -633,6 +633,7 @@
            "originalElement": "div"
           },
           {
+           "attributes": {},
            "baseStyles": {
             "borderBottom": "1px solid var(--outline-gray-1)",
             "paddingBottom": "8px"
@@ -643,11 +644,17 @@
             "prose-sm",
             "max-w-none"
            ],
-           "componentId": "HTML-at26u1wx4",
-           "componentName": "HTML",
+           "componentEvents": {},
+           "componentId": "article-content",
+           "componentName": "KbArticleContent",
            "componentProps": {
-            "html": "{{ articleHtml }}"
-           }
+            "content": "{{ articleHtml }}"
+           },
+           "componentSlots": {},
+           "isCustomVueComponent": true,
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
           },
           {
            "baseStyles": {
@@ -1629,6 +1636,7 @@
            "originalElement": "div"
           },
           {
+           "attributes": {},
            "baseStyles": {
             "borderBottom": "1px solid var(--outline-gray-1)",
             "paddingBottom": "8px"
@@ -1639,11 +1647,17 @@
             "prose-sm",
             "max-w-none"
            ],
-           "componentId": "HTML-at26u1wx4",
-           "componentName": "HTML",
+           "componentEvents": {},
+           "componentId": "article-content",
+           "componentName": "KbArticleContent",
            "componentProps": {
-            "html": "{{ articleHtml }}"
-           }
+            "content": "{{ articleHtml }}"
+           },
+           "componentSlots": {},
+           "isCustomVueComponent": true,
+           "mobileStyles": {},
+           "rawStyles": {},
+           "tabletStyles": {}
           },
           {
            "baseStyles": {
