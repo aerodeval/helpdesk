@@ -71,9 +71,9 @@
          "componentId": "KbOrgSwitcher-tickets",
          "componentName": "KbOrgSwitcher",
          "componentProps": {
-          "activeOrganization": "{{ activeOrganization }}",
-          "onSelect": "(customer) => selectOrganization(customer)",
-          "organizations": "{{ organizations }}"
+          "onSelect": "(customers) => selectOrganization(customers)",
+          "organizations": "{{ organizations }}",
+          "selectedOrganizations": "{{ selectedOrganizations }}"
          },
          "isCustomVueComponent": true
         },
@@ -346,9 +346,9 @@
          "componentId": "KbOrgSwitcher-tickets",
          "componentName": "KbOrgSwitcher",
          "componentProps": {
-          "activeOrganization": "{{ activeOrganization }}",
-          "onSelect": "(customer) => selectOrganization(customer)",
-          "organizations": "{{ organizations }}"
+          "onSelect": "(customers) => selectOrganization(customers)",
+          "organizations": "{{ organizations }}",
+          "selectedOrganizations": "{{ selectedOrganizations }}"
          },
          "isCustomVueComponent": true
         },

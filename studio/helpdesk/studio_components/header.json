@@ -115,6 +115,31 @@
        "text": "Login"
       },
       "visibilityCondition": "{{ isGuest }}"
+     },
+     {
+      "attributes": {},
+      "baseStyles": {},
+      "children": [],
+      "classes": [],
+      "componentEvents": {
+       "click": {
+        "action": "Run Script",
+        "event": "click",
+        "script": "onPageAction()"
+       }
+      },
+      "componentId": "Button-page-action",
+      "componentName": "Button",
+      "componentProps": {
+       "iconLeft": "{{ pageActionIcon }}",
+       "label": "{{ pageActionLabel }}",
+       "variant": "solid"
+      },
+      "componentSlots": {},
+      "mobileStyles": {},
+      "rawStyles": {},
+      "tabletStyles": {},
+      "visibilityCondition": "{{ pageActionLabel }}"
      }
     ],
     "classes": [],
@@ -136,7 +161,7 @@
  },
  "component_id": "header",
  "component_name": "Header",
- "creation": "2026-07-31 01:13:38.214908",
+ "creation": "2026-08-13 18:27:55.278065",
  "docstatus": 0,
  "doctype": "Studio Component",
  "idx": 0,

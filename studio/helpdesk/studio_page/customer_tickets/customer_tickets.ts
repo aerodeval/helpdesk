@@ -109,28 +109,36 @@ export default function setup(context) {
       : 'Tickets you raise will show up here.',
   }))
 
+  // Stays inside the portal now that it has a ticket page of its own; it used to
+  // hand the reader over to the desk SPA and its own chrome.
   function openTicket(row) {
-    window.location.href = '/helpdesk/my-tickets/' + row.name
+    context.router.push('/tickets/' + row.name)
   }
 
   // --- Organization switcher ---
 
   // The switcher is a view of the `customer` condition, not state beside it: clear
   // that condition from the Filter panel and the switcher follows.
-  const activeOrganization = computed(() => {
+  const selectedOrganizations = computed(() => {
     const condition = view.filters.conditions.value.find(isCustomerCondition)
-    return typeof condition?.value === 'string' ? condition.value : ''
+    if (!condition) return []
+    return Array.isArray(condition.value) ? condition.value : [condition.value]
   })
 
-  function selectOrganization(customer) {
+  function selectOrganization(customers) {
     const others = view.filters.conditions.value.filter((c) => !isCustomerCondition(c))
-    view.filters.conditions.value = customer
-      ? [...others, { fieldname: 'customer', operator: 'equals', value: customer }]
+    view.filters.conditions.value = customers?.length
+      ? [...others, { fieldname: 'customer', operator: 'in', value: customers }]
       : others
   }
 
+  // `equals` too, so a condition set from the Filter panel — or left by the
+  // single-select this replaced — is still the one the switcher reflects.
   function isCustomerCondition(condition) {
-    return condition.fieldname === 'customer' && condition.operator === 'equals'
+    return (
+      condition.fieldname === 'customer' &&
+      (condition.operator === 'in' || condition.operator === 'equals')
+    )
   }
 
   // Customer is in `in_standard_filter`, so it arrives as a quick filter — but the
@@ -144,7 +152,7 @@ export default function setup(context) {
     ...settings,
     navMenuOpen: ref(false),
     // toolbar control state
-    activeOrganization,
+    selectedOrganizations,
     selectOrganization,
     filters: view.filters.conditions,
     sort: view.sort.by,
