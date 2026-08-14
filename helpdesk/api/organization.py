@@ -8,7 +8,7 @@ here, scoped to the caller's own organization (HD Customer membership).
 import frappe
 from frappe import _
 from frappe.query_builder.functions import Count
-from frappe.utils import sbool, validate_email_address
+from frappe.utils import sbool
 
 from helpdesk.utils import get_customers, is_agent
 
@@ -143,6 +143,7 @@ def get_organization(customer: str) -> dict:
         "image": doc.image,
         "domain": doc.domain,
         "email": doc.email_id or doc.owner,
+        "country": doc.country,
         "is_manager": is_manager,
         # Anyone in the organization may see who else is in it; only a manager can
         # change it. Resolved here because portal users hold no Contact permissions.
@@ -186,9 +187,10 @@ def get_members(customer) -> list[dict]:
         rows = frappe.get_all(
             "Contact",
             filters={"name": ["in", contact_names]},
-            fields=["name", "full_name", "email_id", "image"],
+            fields=["name", "full_name", "email_id", "image", "user"],
         )
         details = {row.name: row for row in rows}
+    last_active = get_last_active(details.values())
 
     members = []
     for row in customer.contacts:
@@ -202,6 +204,7 @@ def get_members(customer) -> list[dict]:
                 "is_manager": bool(row.is_manager),
                 "is_owner": row.contact_name == customer.primary_contact,
                 "is_you": row.contact_name == you,
+                "last_seen": info and last_active.get(info.user),
                 "pending": False,
             }
         )
@@ -215,6 +218,20 @@ def get_members(customer) -> list[dict]:
     return members + get_pending_members(customer.name)
 
 
+def get_last_active(contacts) -> dict:
+    """`User.last_active` per linked user, the way `contact.get_contact_info` reads it.
+
+    A contact with no user has never signed in, so it never appears here.
+    """
+    users = [contact.user for contact in contacts if contact.user]
+    if not users:
+        return {}
+    rows = frappe.get_all(
+        "User", filters={"name": ["in", users]}, fields=["name", "last_active"]
+    )
+    return {row.name: row.last_active for row in rows}
+
+
 def get_pending_members(customer_name: str) -> list[dict]:
     invites = frappe.get_all(
         "User Invitation",
@@ -223,7 +240,7 @@ def get_pending_members(customer_name: str) -> list[dict]:
             "status": "Pending",
             "customer": customer_name,
         },
-        fields=["name", "email"],
+        fields=["name", "email", "creation"],
     )
     pending = []
     for invite in invites:
@@ -242,10 +259,44 @@ def get_pending_members(customer_name: str) -> list[dict]:
                 "is_manager": "HD Customer Manager" in roles,
                 "is_owner": False,
                 "is_you": False,
+                # Nobody has signed in on an invitation that is still pending.
+                "last_seen": None,
                 "pending": True,
             }
         )
     return pending
+
+
+@frappe.whitelist()
+def get_invitable_contacts(customer: str) -> list[dict]:
+    """Who this organization can still be asked to add, as the agent desk offers them.
+
+    The same set `InviteContactDialog.vue` builds: contacts that already have a user,
+    minus the agents (an agent is not somebody's customer contact), minus whoever is a
+    member or holds a pending invite here. It was scoped to the organization's own email
+    domain, which suggested nobody unless a customer's `domain` happened to match the
+    addresses its people actually use.
+    """
+    doc = get_managed_customer(customer)
+    members = {row.contact_name for row in doc.contacts}
+    invited = {member["email"] for member in get_pending_members(doc.name)}
+    invited.update(frappe.get_all("HD Agent", pluck="name"))
+    rows = frappe.get_all(
+        "Contact",
+        filters={"user": ["is", "set"]},
+        fields=["name", "full_name", "email_id", "image"],
+        order_by="full_name asc",
+    )
+    return [
+        {
+            "contact": row.name,
+            "full_name": row.full_name or row.email_id,
+            "email": row.email_id,
+            "image": row.image,
+        }
+        for row in rows
+        if row.name not in members and row.email_id not in invited
+    ]
 
 
 @frappe.whitelist()
@@ -328,40 +379,12 @@ def update_organization(
     customer: str,
     customer_name: str | None = None,
     image: str | None = None,
-    email: str | None = None,
 ) -> str:
-    """Update the name, logo or admin email of an organization you manage."""
+    """Update the name or logo of an organization you manage."""
     customer = get_managed_customer(customer)
     if image is not None:
         customer.image = image or None
-    if email:
-        validate_email_address(email, throw=True)
-        set_admin_email(customer, email)
     customer.save()
     if customer_name and customer_name != customer.name:
         return frappe.rename_doc("HD Customer", customer.name, customer_name)
     return customer.name
-
-
-def set_admin_email(customer, email: str) -> None:
-    """Point the organization's admin email at `email`.
-
-    `HD Customer.email_id` is read-only and fetched from `primary_contact.email_id`,
-    so assigning to it is discarded on save — the address that has to change is the
-    primary contact's primary one, which the field then re-derives.
-    """
-    if not customer.primary_contact:
-        frappe.throw(
-            _("{0} has no primary contact to hold the admin email").format(
-                customer.name
-            )
-        )
-    contact = frappe.get_doc("Contact", customer.primary_contact)
-    primary = next((row for row in contact.email_ids if row.is_primary), None)
-    if primary:
-        primary.email_id = email
-    else:
-        contact.append("email_ids", {"email_id": email, "is_primary": 1})
-    # Portal users hold no write permission on Contact; the caller's standing was
-    # already asserted by `get_managed_customer`.
-    contact.save(ignore_permissions=True)

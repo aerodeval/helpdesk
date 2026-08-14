@@ -91,5 +91,6 @@ function createSessionStore() {
     window.location.href = '/kb'
   }
 
-  return { isGuest, canCreateTicket, loginUrl, accountMenuOptions, loadSession, bindRouter }
+  /** `isFeedbackMandatory` is read straight off it, so the payload itself is exported. */
+  return { config, isGuest, canCreateTicket, loginUrl, accountMenuOptions, loadSession, bindRouter }
 }

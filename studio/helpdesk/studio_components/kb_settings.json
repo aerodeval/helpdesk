@@ -125,7 +125,7 @@
             "componentName": "TextBlock",
             "componentProps": {
              "tag": "span",
-             "text": "Manage organization"
+             "text": "{{ organizationScreenTitle }}"
             },
             "componentSlots": {},
             "mobileStyles": {},
@@ -207,30 +207,98 @@
         "children": [
          {
           "attributes": {},
-          "baseStyles": {},
-          "children": [],
+          "baseStyles": {
+           "flexShrink": "0",
+           "padding": "32px 40px"
+          },
+          "children": [
+           {
+            "attributes": {},
+            "baseStyles": {
+             "display": "flex",
+             "flexDirection": "column",
+             "gap": "4px",
+             "minWidth": "0"
+            },
+            "children": [
+             {
+              "attributes": {},
+              "baseStyles": {
+               "color": "var(--ink-gray-8)",
+               "fontWeight": "600"
+              },
+              "children": [],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-profile-header-title",
+              "componentName": "TextBlock",
+              "componentProps": {
+               "fontSize": "text-lg",
+               "tag": "h2",
+               "text": "Profile"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             },
+             {
+              "attributes": {},
+              "baseStyles": {
+               "color": "var(--ink-gray-6)",
+               "maxWidth": "28rem"
+              },
+              "children": [],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-profile-header-description",
+              "componentName": "TextBlock",
+              "componentProps": {
+               "fontSize": "text-base",
+               "tag": "p",
+               "text": "How you appear across the knowledge base."
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             }
+            ],
+            "classes": [],
+            "componentEvents": {},
+            "componentId": "kb_settings-profile-header-headings",
+            "componentName": "container",
+            "componentProps": {},
+            "componentSlots": {},
+            "mobileStyles": {},
+            "originalElement": "div",
+            "rawStyles": {},
+            "tabletStyles": {}
+           }
+          ],
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-profile-header",
-          "componentName": "SettingsHeader",
-          "componentProps": {
-           "description": "How you appear across the knowledge base.",
-           "title": "Profile"
-          },
+          "componentName": "container",
+          "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {}
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flex": "1",
+           "minHeight": "0",
+           "overflowY": "auto",
+           "padding": "0 40px 32px"
+          },
           "children": [
            {
             "attributes": {},
-            "baseStyles": {
-             "paddingTop": "32px"
-            },
+            "baseStyles": {},
             "children": [
              {
               "attributes": {},
@@ -644,10 +712,11 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-profile-body",
-          "componentName": "SettingsBody",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {}
          }
@@ -671,31 +740,99 @@
         "children": [
          {
           "attributes": {},
-          "baseStyles": {},
-          "children": [],
+          "baseStyles": {
+           "flexShrink": "0",
+           "padding": "32px 40px"
+          },
+          "children": [
+           {
+            "attributes": {},
+            "baseStyles": {
+             "display": "flex",
+             "flexDirection": "column",
+             "gap": "4px",
+             "minWidth": "0"
+            },
+            "children": [
+             {
+              "attributes": {},
+              "baseStyles": {
+               "color": "var(--ink-gray-8)",
+               "fontWeight": "600"
+              },
+              "children": [],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-organization-list-header-title",
+              "componentName": "TextBlock",
+              "componentProps": {
+               "fontSize": "text-lg",
+               "tag": "h2",
+               "text": "{{ organizationScreenTitle }}"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             },
+             {
+              "attributes": {},
+              "baseStyles": {
+               "color": "var(--ink-gray-6)",
+               "maxWidth": "28rem"
+              },
+              "children": [],
+              "classes": [],
+              "componentEvents": {},
+              "componentId": "kb_settings-organization-list-header-description",
+              "componentName": "TextBlock",
+              "componentProps": {
+               "fontSize": "text-base",
+               "tag": "p",
+               "text": "{{ organizationScreenDescription }}"
+              },
+              "componentSlots": {},
+              "mobileStyles": {},
+              "rawStyles": {},
+              "tabletStyles": {}
+             }
+            ],
+            "classes": [],
+            "componentEvents": {},
+            "componentId": "kb_settings-organization-list-header-headings",
+            "componentName": "container",
+            "componentProps": {},
+            "componentSlots": {},
+            "mobileStyles": {},
+            "originalElement": "div",
+            "rawStyles": {},
+            "tabletStyles": {}
+           }
+          ],
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-organization-list-header",
-          "componentName": "SettingsHeader",
-          "componentProps": {
-           "description": "Pick an organization to manage its people and settings.",
-           "title": "Manage organization"
-          },
+          "componentName": "container",
+          "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ !selectedOrg }}"
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flex": "1",
+           "minHeight": "0",
+           "overflowY": "auto",
+           "padding": "0 40px 32px"
+          },
           "children": [
            {
             "attributes": {},
-            "baseStyles": {
-             "paddingTop": "32px"
-            },
+            "baseStyles": {},
             "children": [],
             "classes": [],
             "componentEvents": {},
@@ -715,17 +852,21 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-organization-list-body",
-          "componentName": "SettingsBody",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ !selectedOrg }}"
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flexShrink": "0",
+           "padding": "32px 40px"
+          },
           "children": [
            {
             "attributes": {},
@@ -734,11 +875,58 @@
              {
               "attributes": {},
               "baseStyles": {
-               "marginLeft": "-8px"
+               "alignItems": "center",
+               "color": "var(--ink-gray-8)",
+               "display": "flex",
+               "gap": "8px",
+               "marginLeft": "-6px",
+               "minHeight": "32px",
+               "paddingRight": "8px"
               },
-              "children": [],
+              "children": [
+               {
+                "attributes": {},
+                "baseStyles": {},
+                "children": [],
+                "classes": [
+                 "size-4.5"
+                ],
+                "componentEvents": {},
+                "componentId": "kb_settings-organization-back-icon",
+                "componentName": "FeatherIcon",
+                "componentProps": {
+                 "name": "chevron-left"
+                },
+                "componentSlots": {},
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+               },
+               {
+                "attributes": {},
+                "baseStyles": {
+                 "fontWeight": "600"
+                },
+                "children": [],
+                "classes": [],
+                "componentEvents": {},
+                "componentId": "kb_settings-organization-back-label",
+                "componentName": "TextBlock",
+                "componentProps": {
+                 "fontSize": "text-lg",
+                 "tag": "h1",
+                 "text": "{{ settingsOrg.customer_name || selectedOrg }}"
+                },
+                "componentSlots": {},
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+               }
+              ],
               "classes": [
-               "hover:bg-transparent"
+               "cursor-pointer",
+               "select-none",
+               "hover:opacity-80"
               ],
               "componentEvents": {
                "click": {
@@ -748,14 +936,11 @@
                }
               },
               "componentId": "kb_settings-organization-back",
-              "componentName": "Button",
-              "componentProps": {
-               "iconLeft": "chevron-left",
-               "label": "{{ settingsOrg.customer_name || selectedOrg }}",
-               "variant": "ghost"
-              },
+              "componentName": "container",
+              "componentProps": {},
               "componentSlots": {},
               "mobileStyles": {},
+              "originalElement": "div",
               "rawStyles": {},
               "tabletStyles": {}
              },
@@ -805,23 +990,27 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-organization-detail-header",
-          "componentName": "SettingsHeader",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ selectedOrg && !inviteOpen }}"
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flex": "1",
+           "minHeight": "0",
+           "overflowY": "auto",
+           "padding": "0 40px 32px"
+          },
           "children": [
            {
             "attributes": {},
-            "baseStyles": {
-             "paddingTop": "32px"
-            },
+            "baseStyles": {},
             "children": [
              {
               "attributes": {},
@@ -976,6 +1165,87 @@
                   "rawStyles": {},
                   "tabletStyles": {},
                   "visibilityCondition": "{{ settingsOrg.domain }}"
+                 },
+                 {
+                  "attributes": {},
+                  "baseStyles": {},
+                  "children": [],
+                  "classes": [
+                   "text-ink-gray-4"
+                  ],
+                  "componentEvents": {},
+                  "componentId": "kb_settings-organization-meta-dot-country",
+                  "componentName": "TextBlock",
+                  "componentProps": {
+                   "tag": "span",
+                   "text": "\u2022"
+                  },
+                  "componentSlots": {},
+                  "mobileStyles": {},
+                  "rawStyles": {},
+                  "tabletStyles": {},
+                  "visibilityCondition": "{{ (settingsOrg.email || settingsOrg.domain) && settingsOrg.country }}"
+                 },
+                 {
+                  "attributes": {},
+                  "baseStyles": {
+                   "columnGap": "4px"
+                  },
+                  "children": [
+                   {
+                    "attributes": {},
+                    "baseStyles": {},
+                    "children": [],
+                    "classes": [
+                     "size-4",
+                     "text-ink-gray-6"
+                    ],
+                    "componentEvents": {},
+                    "componentId": "kb_settings-organization-fact-country-icon",
+                    "componentName": "FeatherIcon",
+                    "componentProps": {
+                     "name": "map-pin"
+                    },
+                    "componentSlots": {},
+                    "mobileStyles": {},
+                    "rawStyles": {},
+                    "tabletStyles": {}
+                   },
+                   {
+                    "attributes": {},
+                    "baseStyles": {},
+                    "children": [],
+                    "classes": [
+                     "text-sm",
+                     "text-ink-gray-8"
+                    ],
+                    "componentEvents": {},
+                    "componentId": "kb_settings-organization-fact-country-value",
+                    "componentName": "TextBlock",
+                    "componentProps": {
+                     "tag": "span",
+                     "text": "{{ settingsOrg.country }}"
+                    },
+                    "componentSlots": {},
+                    "mobileStyles": {},
+                    "rawStyles": {},
+                    "tabletStyles": {}
+                   }
+                  ],
+                  "classes": [
+                   "flex",
+                   "items-center"
+                  ],
+                  "componentEvents": {},
+                  "componentId": "kb_settings-organization-fact-country",
+                  "componentName": "container",
+                  "componentProps": {},
+                  "componentSlots": {},
+                  "mobileStyles": {},
+                  "originalElement": "div",
+                  "rawStyles": {},
+                  "tabletStyles": {},
+                  "visibilityCondition": "{{ settingsOrg.country }}"
                  }
                 ],
                 "classes": [
@@ -1034,215 +1304,6 @@
               "baseStyles": {
                "marginTop": "32px"
               },
-              "blockName": "Organization admin",
-              "children": [
-               {
-                "attributes": {},
-                "baseStyles": {},
-                "children": [],
-                "classes": [
-                 "text-base",
-                 "font-semibold",
-                 "text-ink-gray-9"
-                ],
-                "componentEvents": {},
-                "componentId": "kb_settings-organization-admin-title",
-                "componentName": "TextBlock",
-                "componentProps": {
-                 "tag": "span",
-                 "text": "Organization admin"
-                },
-                "componentSlots": {},
-                "mobileStyles": {},
-                "rawStyles": {},
-                "tabletStyles": {}
-               },
-               {
-                "attributes": {},
-                "baseStyles": {},
-                "children": [
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [],
-                    "classes": [],
-                    "componentEvents": {
-                     "click": {
-                      "action": "Run Script",
-                      "event": "click",
-                      "script": "editOrgEmail()"
-                     }
-                    },
-                    "componentId": "kb_settings-organization-email-change",
-                    "componentName": "Button",
-                    "componentProps": {
-                     "label": "Change email",
-                     "variant": "subtle"
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "classes": [],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-email-row",
-                  "componentName": "SettingsRow",
-                  "componentProps": {
-                   "description": "{{ settingsOrg.email }}",
-                   "title": "Email"
-                  },
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "rawStyles": {},
-                  "tabletStyles": {},
-                  "visibilityCondition": "{{ !orgEmailEditing }}"
-                 },
-                 {
-                  "attributes": {},
-                  "baseStyles": {},
-                  "children": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [
-                     {
-                      "attributes": {},
-                      "baseStyles": {},
-                      "children": [],
-                      "classes": [
-                       "flex-1"
-                      ],
-                      "componentEvents": {},
-                      "componentId": "kb_settings-organization-email",
-                      "componentName": "FormControl",
-                      "componentProps": {
-                       "label": "Admin email",
-                       "modelValue": {
-                        "$type": "variable",
-                        "name": "orgEmail"
-                       },
-                       "type": "email"
-                      },
-                      "componentSlots": {},
-                      "mobileStyles": {},
-                      "rawStyles": {},
-                      "tabletStyles": {}
-                     },
-                     {
-                      "attributes": {},
-                      "baseStyles": {},
-                      "children": [],
-                      "classes": [],
-                      "componentEvents": {
-                       "click": {
-                        "action": "Run Script",
-                        "event": "click",
-                        "script": "saveOrgEmail()"
-                       }
-                      },
-                      "componentId": "kb_settings-organization-email-save",
-                      "componentName": "Button",
-                      "componentProps": {
-                       "label": "Save",
-                       "loading": "{{ settingsBusy }}",
-                       "variant": "solid"
-                      },
-                      "componentSlots": {},
-                      "mobileStyles": {},
-                      "rawStyles": {},
-                      "tabletStyles": {},
-                      "visibilityCondition": "{{ orgEmailEditing }}"
-                     }
-                    ],
-                    "classes": [
-                     "flex",
-                     "items-end",
-                     "gap-2"
-                    ],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-organization-email-input-row",
-                    "componentName": "container",
-                    "componentProps": {},
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "originalElement": "div",
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   },
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "children": [],
-                    "classes": [
-                     "mt-1.5",
-                     "text-p-sm",
-                     "text-ink-gray-5"
-                    ],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-organization-email-hint",
-                    "componentName": "TextBlock",
-                    "componentProps": {
-                     "tag": "span",
-                     "text": "Where account and billing notices are sent."
-                    },
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "classes": [
-                   "max-w-md"
-                  ],
-                  "componentEvents": {},
-                  "componentId": "kb_settings-organization-email-field",
-                  "componentName": "container",
-                  "componentProps": {},
-                  "componentSlots": {},
-                  "mobileStyles": {},
-                  "originalElement": "div",
-                  "rawStyles": {},
-                  "tabletStyles": {},
-                  "visibilityCondition": "{{ orgEmailEditing }}"
-                 }
-                ],
-                "classes": [
-                 "mt-2"
-                ],
-                "componentEvents": {},
-                "componentId": "kb_settings-organization-admin-fields",
-                "componentName": "container",
-                "componentProps": {},
-                "componentSlots": {},
-                "mobileStyles": {},
-                "originalElement": "div",
-                "rawStyles": {},
-                "tabletStyles": {}
-               }
-              ],
-              "classes": [],
-              "componentEvents": {},
-              "componentId": "kb_settings-organization-admin",
-              "componentName": "container",
-              "componentProps": {},
-              "componentSlots": {},
-              "mobileStyles": {},
-              "originalElement": "div",
-              "rawStyles": {},
-              "tabletStyles": {},
-              "visibilityCondition": "{{ isOrgManager }}"
-             },
-             {
-              "attributes": {},
-              "baseStyles": {
-               "marginTop": "32px"
-              },
               "blockName": "Members",
               "children": [
                {
@@ -1259,7 +1320,7 @@
                 "componentName": "TextBlock",
                 "componentProps": {
                  "tag": "span",
-                 "text": "Members"
+                 "text": "Organization members"
                 },
                 "componentSlots": {},
                 "mobileStyles": {},
@@ -1269,371 +1330,21 @@
                {
                 "attributes": {},
                 "baseStyles": {
-                 "--tree-indent": "48px",
-                 "--tree-row-height": "52px",
-                 "marginTop": "8px"
+                 "marginTop": "12px"
                 },
-                "blockName": "Members",
                 "children": [],
                 "classes": [],
                 "componentEvents": {},
-                "componentId": "kb_settings-members-tree",
-                "componentName": "Tree",
+                "componentId": "kb_settings-members-list",
+                "componentName": "KbMemberList",
                 "componentProps": {
-                 "guides": "connectors",
-                 "nodeKey": "key",
-                 "nodes": "{{ memberTree }}"
+                 "canManage": "{{ isOrgManager }}",
+                 "members": "{{ orgMembers }}",
+                 "onRemove": "{{ removeMember }}",
+                 "onSetRole": "{{ setMemberRole }}"
                 },
-                "componentSlots": {
-                 "item": {
-                  "slotContent": [
-                   {
-                    "attributes": {},
-                    "baseStyles": {},
-                    "blockName": "Member row",
-                    "children": [
-                     {
-                      "attributes": {},
-                      "baseStyles": {
-                       "marginInlineStart": "8px"
-                      },
-                      "children": [
-                       {
-                        "attributes": {},
-                        "baseStyles": {},
-                        "children": [],
-                        "classes": [
-                         "size-3"
-                        ],
-                        "componentEvents": {},
-                        "componentId": "kb_settings-member-chevron-open",
-                        "componentName": "FeatherIcon",
-                        "componentProps": {
-                         "name": "chevron-down"
-                        },
-                        "componentSlots": {},
-                        "mobileStyles": {},
-                        "rawStyles": {},
-                        "tabletStyles": {},
-                        "visibilityCondition": "{{ expanded }}"
-                       },
-                       {
-                        "attributes": {},
-                        "baseStyles": {},
-                        "children": [],
-                        "classes": [
-                         "size-3"
-                        ],
-                        "componentEvents": {},
-                        "componentId": "kb_settings-member-chevron-closed",
-                        "componentName": "FeatherIcon",
-                        "componentProps": {
-                         "name": "chevron-right"
-                        },
-                        "componentSlots": {},
-                        "mobileStyles": {},
-                        "rawStyles": {},
-                        "tabletStyles": {},
-                        "visibilityCondition": "{{ !expanded }}"
-                       }
-                      ],
-                      "classes": [
-                       "relative",
-                       "z-10",
-                       "flex",
-                       "size-5",
-                       "shrink-0",
-                       "cursor-pointer",
-                       "items-center",
-                       "justify-center",
-                       "rounded-full",
-                       "border",
-                       "border-outline-gray-2",
-                       "bg-surface-base",
-                       "text-ink-gray-5",
-                       "hover:bg-surface-gray-2"
-                      ],
-                      "componentEvents": {},
-                      "componentId": "kb_settings-member-chevron",
-                      "componentName": "container",
-                      "componentProps": {},
-                      "componentSlots": {},
-                      "mobileStyles": {},
-                      "originalElement": "div",
-                      "rawStyles": {},
-                      "tabletStyles": {},
-                      "visibilityCondition": "{{ hasChildren }}"
-                     },
-                     {
-                      "attributes": {},
-                      "baseStyles": {
-                       "height": "44px"
-                      },
-                      "blockName": "Person card",
-                      "children": [
-                       {
-                        "attributes": {},
-                        "baseStyles": {},
-                        "children": [
-                         {
-                          "attributes": {},
-                          "baseStyles": {},
-                          "children": [],
-                          "classes": [],
-                          "componentEvents": {},
-                          "componentId": "kb_settings-member-avatar-initial",
-                          "componentName": "TextBlock",
-                          "componentProps": {
-                           "tag": "span",
-                           "text": "{{ node.full_name && node.full_name[0] }}"
-                          },
-                          "componentSlots": {},
-                          "mobileStyles": {},
-                          "rawStyles": {},
-                          "tabletStyles": {}
-                         }
-                        ],
-                        "classes": [],
-                        "componentEvents": {},
-                        "componentId": "kb_settings-member-avatar",
-                        "componentName": "Avatar",
-                        "componentProps": {
-                         "image": "{{ node.image }}",
-                         "label": "{{ node.full_name }}",
-                         "size": "lg"
-                        },
-                        "componentSlots": {},
-                        "mobileStyles": {},
-                        "rawStyles": {},
-                        "tabletStyles": {}
-                       },
-                       {
-                        "attributes": {},
-                        "baseStyles": {},
-                        "children": [
-                         {
-                          "attributes": {},
-                          "baseStyles": {},
-                          "children": [
-                           {
-                            "attributes": {},
-                            "baseStyles": {},
-                            "children": [],
-                            "classes": [
-                             "truncate",
-                             "text-base",
-                             "text-ink-gray-8"
-                            ],
-                            "componentEvents": {},
-                            "componentId": "kb_settings-member-name",
-                            "componentName": "TextBlock",
-                            "componentProps": {
-                             "tag": "span",
-                             "text": "{{ node.full_name }}"
-                            },
-                            "componentSlots": {},
-                            "mobileStyles": {},
-                            "rawStyles": {},
-                            "tabletStyles": {}
-                           },
-                           {
-                            "attributes": {},
-                            "baseStyles": {},
-                            "children": [],
-                            "classes": [
-                             "shrink-0",
-                             "text-sm",
-                             "text-ink-gray-4"
-                            ],
-                            "componentEvents": {},
-                            "componentId": "kb_settings-member-role",
-                            "componentName": "TextBlock",
-                            "componentProps": {
-                             "tag": "span",
-                             "text": "{{ roleLabel(node) }}"
-                            },
-                            "componentSlots": {},
-                            "mobileStyles": {},
-                            "rawStyles": {},
-                            "tabletStyles": {}
-                           },
-                           {
-                            "attributes": {},
-                            "baseStyles": {},
-                            "children": [],
-                            "classes": [],
-                            "componentEvents": {},
-                            "componentId": "kb_settings-member-pending",
-                            "componentName": "Badge",
-                            "componentProps": {
-                             "label": "Pending",
-                             "theme": "orange",
-                             "variant": "subtle"
-                            },
-                            "componentSlots": {},
-                            "mobileStyles": {},
-                            "rawStyles": {},
-                            "tabletStyles": {},
-                            "visibilityCondition": "{{ node.pending }}"
-                           }
-                          ],
-                          "classes": [
-                           "flex",
-                           "min-w-0",
-                           "items-center",
-                           "gap-2"
-                          ],
-                          "componentEvents": {},
-                          "componentId": "kb_settings-member-name-row",
-                          "componentName": "container",
-                          "componentProps": {},
-                          "componentSlots": {},
-                          "mobileStyles": {},
-                          "originalElement": "div",
-                          "rawStyles": {},
-                          "tabletStyles": {}
-                         },
-                         {
-                          "attributes": {},
-                          "baseStyles": {},
-                          "children": [],
-                          "classes": [
-                           "truncate",
-                           "text-sm",
-                           "text-ink-gray-5"
-                          ],
-                          "componentEvents": {},
-                          "componentId": "kb_settings-member-email",
-                          "componentName": "TextBlock",
-                          "componentProps": {
-                           "tag": "span",
-                           "text": "{{ node.email }}"
-                          },
-                          "componentSlots": {},
-                          "mobileStyles": {},
-                          "rawStyles": {},
-                          "tabletStyles": {}
-                         }
-                        ],
-                        "classes": [
-                         "flex",
-                         "min-w-0",
-                         "flex-1",
-                         "flex-col"
-                        ],
-                        "componentEvents": {},
-                        "componentId": "kb_settings-member-text",
-                        "componentName": "container",
-                        "componentProps": {},
-                        "componentSlots": {},
-                        "mobileStyles": {},
-                        "originalElement": "div",
-                        "rawStyles": {},
-                        "tabletStyles": {}
-                       },
-                       {
-                        "attributes": {},
-                        "baseStyles": {},
-                        "children": [
-                         {
-                          "attributes": {},
-                          "baseStyles": {},
-                          "children": [
-                           {
-                            "attributes": {},
-                            "baseStyles": {},
-                            "children": [],
-                            "classes": [],
-                            "componentEvents": {},
-                            "componentId": "kb_settings-member-menu-button",
-                            "componentName": "Button",
-                            "componentProps": {
-                             "icon": "more-horizontal",
-                             "variant": "ghost"
-                            },
-                            "componentSlots": {},
-                            "mobileStyles": {},
-                            "rawStyles": {},
-                            "tabletStyles": {}
-                           }
-                          ],
-                          "classes": [],
-                          "componentEvents": {},
-                          "componentId": "kb_settings-member-menu",
-                          "componentName": "Dropdown",
-                          "componentProps": {
-                           "options": "{{ memberOptions(node) }}",
-                           "placement": "right"
-                          },
-                          "componentSlots": {},
-                          "mobileStyles": {},
-                          "rawStyles": {},
-                          "tabletStyles": {}
-                         }
-                        ],
-                        "classes": [
-                         "ml-auto",
-                         "shrink-0",
-                         "opacity-0",
-                         "transition-opacity",
-                         "group-hover:opacity-100"
-                        ],
-                        "componentEvents": {},
-                        "componentId": "kb_settings-member-actions",
-                        "componentName": "container",
-                        "componentProps": {},
-                        "componentSlots": {},
-                        "mobileStyles": {},
-                        "originalElement": "div",
-                        "rawStyles": {},
-                        "tabletStyles": {},
-                        "visibilityCondition": "{{ !node.is_you && !node.is_owner && isOrgManager }}"
-                       }
-                      ],
-                      "classes": [
-                       "group",
-                       "flex",
-                       "min-w-0",
-                       "flex-1",
-                       "items-center",
-                       "gap-2",
-                       "rounded-md",
-                       "px-2",
-                       "hover:bg-surface-gray-1"
-                      ],
-                      "componentEvents": {},
-                      "componentId": "kb_settings-member-card",
-                      "componentName": "container",
-                      "componentProps": {},
-                      "componentSlots": {},
-                      "mobileStyles": {},
-                      "originalElement": "div",
-                      "rawStyles": {},
-                      "tabletStyles": {}
-                     }
-                    ],
-                    "classes": [
-                     "flex",
-                     "w-full",
-                     "min-w-0",
-                     "items-center",
-                     "gap-2"
-                    ],
-                    "componentEvents": {},
-                    "componentId": "kb_settings-member-row",
-                    "componentName": "container",
-                    "componentProps": {},
-                    "componentSlots": {},
-                    "mobileStyles": {},
-                    "originalElement": "div",
-                    "rawStyles": {},
-                    "tabletStyles": {}
-                   }
-                  ],
-                  "slotId": "kb_settings-slot-item",
-                  "slotName": "item"
-                 }
-                },
+                "componentSlots": {},
+                "isCustomVueComponent": true,
                 "mobileStyles": {},
                 "rawStyles": {},
                 "tabletStyles": {}
@@ -1667,17 +1378,21 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-organization-detail-body",
-          "componentName": "SettingsBody",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ selectedOrg && !inviteOpen }}"
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flexShrink": "0",
+           "padding": "32px 40px"
+          },
           "blockName": "Invite header",
           "children": [
            {
@@ -1687,11 +1402,58 @@
              {
               "attributes": {},
               "baseStyles": {
-               "marginLeft": "-8px"
+               "alignItems": "center",
+               "color": "var(--ink-gray-8)",
+               "display": "flex",
+               "gap": "8px",
+               "marginLeft": "-6px",
+               "minHeight": "32px",
+               "paddingRight": "8px"
               },
-              "children": [],
+              "children": [
+               {
+                "attributes": {},
+                "baseStyles": {},
+                "children": [],
+                "classes": [
+                 "size-4.5"
+                ],
+                "componentEvents": {},
+                "componentId": "kb_settings-invite-back-icon",
+                "componentName": "FeatherIcon",
+                "componentProps": {
+                 "name": "chevron-left"
+                },
+                "componentSlots": {},
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+               },
+               {
+                "attributes": {},
+                "baseStyles": {
+                 "fontWeight": "600"
+                },
+                "children": [],
+                "classes": [],
+                "componentEvents": {},
+                "componentId": "kb_settings-invite-back-label",
+                "componentName": "TextBlock",
+                "componentProps": {
+                 "fontSize": "text-lg",
+                 "tag": "h1",
+                 "text": "Invite people"
+                },
+                "componentSlots": {},
+                "mobileStyles": {},
+                "rawStyles": {},
+                "tabletStyles": {}
+               }
+              ],
               "classes": [
-               "hover:bg-transparent"
+               "cursor-pointer",
+               "select-none",
+               "hover:opacity-80"
               ],
               "componentEvents": {
                "click": {
@@ -1701,14 +1463,11 @@
                }
               },
               "componentId": "kb_settings-invite-back",
-              "componentName": "Button",
-              "componentProps": {
-               "iconLeft": "chevron-left",
-               "label": "Invite people",
-               "variant": "ghost"
-              },
+              "componentName": "container",
+              "componentProps": {},
               "componentSlots": {},
               "mobileStyles": {},
+              "originalElement": "div",
               "rawStyles": {},
               "tabletStyles": {}
              },
@@ -1757,17 +1516,23 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-invite-header",
-          "componentName": "SettingsHeader",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ inviteOpen }}"
          },
          {
           "attributes": {},
-          "baseStyles": {},
+          "baseStyles": {
+           "flex": "1",
+           "minHeight": "0",
+           "overflowY": "auto",
+           "padding": "0 40px 32px"
+          },
           "blockName": "Invite body",
           "children": [
            {
@@ -1775,8 +1540,7 @@
             "baseStyles": {
              "display": "flex",
              "flexDirection": "column",
-             "gap": "12px",
-             "paddingTop": "32px"
+             "gap": "12px"
             },
             "children": [
              {
@@ -1837,6 +1601,7 @@
               "componentId": "kb_settings-invite-emails",
               "componentName": "KbEmailInput",
               "componentProps": {
+               "contacts": "{{ inviteContacts }}",
                "modelValue": {
                 "$type": "variable",
                 "name": "inviteEmails"
@@ -1865,10 +1630,11 @@
           "classes": [],
           "componentEvents": {},
           "componentId": "kb_settings-invite-body",
-          "componentName": "SettingsBody",
+          "componentName": "container",
           "componentProps": {},
           "componentSlots": {},
           "mobileStyles": {},
+          "originalElement": "div",
           "rawStyles": {},
           "tabletStyles": {},
           "visibilityCondition": "{{ inviteOpen }}"
@@ -2003,7 +1769,7 @@
           "componentProps": {
            "label": "{{ confirmAction.label || 'Confirm' }}",
            "loading": "{{ settingsBusy }}",
-           "theme": "red",
+           "theme": "{{ confirmAction.theme || 'red' }}",
            "variant": "solid"
           },
           "componentSlots": {},
@@ -2246,7 +2012,7 @@
  },
  "component_id": "kb_settings",
  "component_name": "KB Settings",
- "creation": "2026-08-05 21:09:59.851896",
+ "creation": "2026-08-13 17:09:35.615875",
  "docstatus": 0,
  "doctype": "Studio Component",
  "idx": 0,

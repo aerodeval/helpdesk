@@ -1,4 +1,4 @@
-import { ref, computed, reactive, watch } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { call, toast, FileUploadHandler, useTheme } from 'frappe-ui'
 import { usePreferences } from '@app/stores/preferences'
 import { useSession } from '@app/stores/session'
@@ -51,15 +51,28 @@ function createSettingsStore() {
   const isAgentUser = computed(() => Boolean(settingsData.value?.is_agent))
   const orgMembers = computed(() => orgDetail.value?.members || [])
 
+  // A plain member of every organization they belong to can open one and read it, but
+  // change nothing in it — so the screen says what it will actually let them do.
+  const managesAnyOrg = computed(() =>
+    organizations.value.some((org) => org.role !== 'Member'),
+  )
+  const organizationScreenTitle = computed(() =>
+    managesAnyOrg.value ? 'Manage organization' : 'View organization',
+  )
+  const organizationScreenDescription = computed(() =>
+    managesAnyOrg.value
+      ? 'Pick an organization to manage its people and settings.'
+      : 'Pick an organization to see its people and settings.',
+  )
+
   // Form state, seeded from the server payload on every load
   const profileFirstName = ref('')
   const profileLastName = ref('')
   const orgName = ref('')
-  const orgEmail = ref('')
-  const orgEmailEditing = ref(false)
   const inviteOpen = ref(false)
   const inviteEmails = ref([])
   const inviteRole = ref('Member') // 'Member' | 'Manager'
+  const inviteContacts = ref([])
   const passwordOpen = ref(false)
   const currentPassword = ref('')
   const newPassword = ref('')
@@ -105,7 +118,6 @@ function createSettingsStore() {
         customer: name,
       })
       orgName.value = orgDetail.value.customer_name || ''
-      orgEmail.value = orgDetail.value.email || ''
     } catch (error) {
       console.error(error)
       toast.error(serverMessage(error) || 'Could not open organization')
@@ -116,7 +128,6 @@ function createSettingsStore() {
   function openOrganization(name) {
     selectedOrg.value = name
     orgDetail.value = null
-    orgEmailEditing.value = false
     inviteOpen.value = false
     return loadOrganization(name)
   }
@@ -130,7 +141,6 @@ function createSettingsStore() {
   function openSettings(tab) {
     settingsTab.value = tab || 'profile'
     settingsOpen.value = true
-    orgEmailEditing.value = false
     inviteOpen.value = false
     closeOrganization()
     loadSettings()
@@ -328,6 +338,24 @@ function createSettingsStore() {
     inviteOpen.value = true
   }
 
+  // Watched rather than fetched in `openInvite`: the screen is also reachable
+  // straight from the URL hash, which sets the flag without going through it.
+  watch(inviteOpen, (open) => open && loadInvitableContacts())
+
+  // Fetched once per visit rather than per keystroke: the list is only this
+  // organization's own domain, so the input filters it in place.
+  async function loadInvitableContacts() {
+    inviteContacts.value = []
+    try {
+      inviteContacts.value = await call(
+        'helpdesk.api.organization.get_invitable_contacts',
+        { customer: selectedOrg.value }
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   function closeInvite() {
     inviteOpen.value = false
   }
@@ -371,82 +399,31 @@ function createSettingsStore() {
     return orgMembers.value.some((member) => member.email === email && member.pending)
   }
 
-  // People are shown as a tree, one level per role: the owner at the root, managers
-  // beneath them, everyone else beneath each manager. Helpdesk records no reporting
-  // line, but any manager can act on any member, so a manager carries the whole list
-  // rather than an invented share of it.
-  const memberTree = computed(() => {
-    const owner = orgMembers.value.find((member) => member.is_owner)
-    if (!owner) return orgMembers.value.map((member) => toTreeNode(member))
-    const managers = orgMembers.value.filter(isManagingMember)
-    const members = orgMembers.value.filter(
-      (member) => !member.is_owner && !isManagingMember(member)
-    )
-    const root = toTreeNode(owner)
-    root.children = managers.length
-      ? managers.map((manager) => toManagerNode(manager, members))
-      : members.map((member) => toTreeNode(member))
-    return [root]
-  })
-
-  // A pending invite manages nobody yet, so it stays at the members level.
-  function isManagingMember(member) {
-    return Boolean(member.is_manager) && !member.is_owner && !member.pending
-  }
-
-  function toManagerNode(manager, members) {
-    const node = toTreeNode(manager)
-    node.children = members.map((member) => toTreeNode(member, node.key))
-    return node
-  }
-
-  // reactive: Tree collapses a node by writing `expanded` onto it, and a plain copy
-  // would take the write without re-rendering. Repeated members get their own copy,
-  // keyed by the manager they hang under, because the tree keys its rows globally.
-  function toTreeNode(member, parentKey) {
-    const key = member.email || member.contact || member.invitation
-    return reactive({
-      ...member,
-      key: parentKey ? `${parentKey}/${key}` : key,
-      label: member.full_name,
-    })
-  }
-
-  function roleLabel(member) {
-    if (member.is_owner) return 'Owner'
-    return member.is_manager ? 'Manager' : 'Member'
-  }
-
-  // Role and removal share one menu, and it only offers what changes something: the role
-  // the member does not hold, and — for a pending invite, which holds none yet — the
-  // cancellation on its own.
-  function memberOptions(member) {
-    if (member.pending) {
-      return [
-        { label: 'Cancel invitation', icon: 'x-circle', onClick: () => cancelInvitation(member) },
-      ]
-    }
-    const role = member.is_manager
-      ? { label: 'Make member', icon: 'user', onClick: () => setMemberRole(member, 'Member') }
-      : { label: 'Make manager', icon: 'shield', onClick: () => setMemberRole(member, 'Manager') }
-    return [
-      role,
-      { label: 'Remove from organization', icon: 'user-minus', onClick: () => removeMember(member) },
-    ]
-  }
-
+  // A manager reads every ticket the organization has raised, not just their own,
+  // so the change is spelled out before it is made — the same confirmation the agent
+  // desk shows in ContactCard.updateManagerRole, worded the same way.
   function setMemberRole(member, role) {
     if (member.is_owner || member.pending) return
     const isManager = role === 'Manager'
     if (isManager === Boolean(member.is_manager)) return
-    return run(
-      () => call('helpdesk.api.organization.update_member_role', {
-        customer: selectedOrg.value,
-        contact: member.contact,
-        is_manager: isManager,
-      }),
-      'Role updated'
-    )
+    askConfirm({
+      title: isManager ? 'Grant manager access' : 'Revoke manager access',
+      message: isManager
+        ? `${member.full_name} will get access to tickets raised by everyone in the organization.`
+        : `${member.full_name} will only see their own tickets going forward.`,
+      label: 'Confirm',
+      // Not destructive either way, so it does not take the dialog's red default.
+      theme: 'gray',
+      action: () =>
+        run(
+          () => call('helpdesk.api.organization.update_member_role', {
+            customer: selectedOrg.value,
+            contact: member.contact,
+            is_manager: isManager,
+          }),
+          'Role updated'
+        ),
+    })
   }
 
   function removeMember(member) {
@@ -514,20 +491,6 @@ function createSettingsStore() {
 
   // A Run Script handler calls functions rather than assigning to a binding, so the
   // fields the dialog toggles get one of these.
-  function editOrgEmail() {
-    orgEmailEditing.value = true
-  }
-
-  function saveOrgEmail() {
-    return run(async () => {
-      await call('helpdesk.api.organization.update_organization', {
-        customer: selectedOrg.value,
-        email: orgEmail.value.trim(),
-      })
-      orgEmailEditing.value = false
-    }, 'Admin email updated')
-  }
-
   function uploadOrgImage() {
     pickImage((fileUrl) =>
       run(() => call('helpdesk.api.organization.update_organization', {
@@ -557,15 +520,15 @@ function createSettingsStore() {
     isOrgManager,
     isAgentUser,
     orgMembers,
-    memberTree,
+    organizationScreenTitle,
+    organizationScreenDescription,
     profileFirstName,
     profileLastName,
     orgName,
-    orgEmail,
-    orgEmailEditing,
     inviteOpen,
     inviteEmails,
     inviteRole,
+    inviteContacts,
     passwordOpen,
     currentPassword,
     newPassword,
@@ -577,6 +540,7 @@ function createSettingsStore() {
     openOrganization,
     closeOrganization,
     confirmAction,
+    askConfirm,
     cancelConfirm,
     acceptConfirm,
     saveProfile,
@@ -589,12 +553,8 @@ function createSettingsStore() {
     setMemberRole,
     removeMember,
     cancelInvitation,
-    roleLabel,
-    memberOptions,
     saveOrganization,
     renameOrganization,
-    editOrgEmail,
-    saveOrgEmail,
     uploadOrgImage,
     removeOrgImage,
   }

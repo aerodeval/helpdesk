@@ -2,9 +2,11 @@
   <div ref="root" @keydown.capture="onKeydown">
     <MultiEmailInput
       :modelValue="modelValue"
+      :options="options"
       :placeholder="placeholder"
       size="md"
       @update:modelValue="$emit('update:modelValue', $event)"
+      @update:query="query = $event"
     />
   </div>
 </template>
@@ -14,20 +16,45 @@
 // component palette, so it reaches the block tree through this wrapper. The
 // package only exports the barrel — deep paths aren't in its export map.
 import { MultiEmailInput } from "frappe-ui/experimental";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = withDefaults(
   defineProps<{
     /** The addresses entered so far. */
     modelValue?: string[];
+    /** People who may be invited, offered as suggestions while typing. */
+    contacts?: {
+      contact: string;
+      full_name: string;
+      email: string;
+      image?: string;
+    }[];
     placeholder?: string;
   }>(),
-  { modelValue: () => [], placeholder: "Add email…" }
+  { modelValue: () => [], contacts: () => [], placeholder: "Add email…" }
 );
 
 const emit = defineEmits<{ "update:modelValue": [value: string[]] }>();
 
 const root = ref<HTMLElement | null>(null);
+const query = ref("");
+
+// MultiEmailInput leaves the matching to its host and only drops what is already
+// selected, so an unfiltered list would offer every colleague on every keystroke.
+const options = computed(() => {
+  const needle = query.value.trim().toLowerCase();
+  return props.contacts
+    .filter(
+      (contact) =>
+        !needle ||
+        `${contact.full_name} ${contact.email}`.toLowerCase().includes(needle)
+    )
+    .map((contact) => ({
+      label: contact.full_name,
+      value: contact.email,
+      avatar: contact.image,
+    }));
+});
 
 // MultiEmailInput only splits on paste; Enter commits one address at a time. The
 // placeholder promises commas, so commit the typed address on one here too.

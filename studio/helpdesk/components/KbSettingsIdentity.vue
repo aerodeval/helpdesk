@@ -6,12 +6,18 @@
     <div class="group relative shrink-0" :style="avatarBox">
       <!-- Avatar's size enum stops at 46px, so both scales set it directly. -->
       <Avatar :style="avatarBox" :image="image" :label="name" :shape="shape" />
-      <div
+      <Tooltip
         v-if="editable"
-        class="absolute inset-0 cursor-pointer"
-        :class="shape === 'square' ? 'rounded-md' : 'rounded-full'"
-        @click="$emit('upload')"
-      />
+        :hover-delay="0"
+        placement="bottom"
+        :text="uploadLabel"
+      >
+        <div
+          class="absolute inset-0 cursor-pointer"
+          :class="shape === 'square' ? 'rounded-md' : 'rounded-full'"
+          @click="$emit('upload')"
+        />
+      </Tooltip>
       <div
         v-if="image && editable"
         class="absolute -right-1 -top-1 flex size-4 cursor-pointer items-center justify-center rounded-full bg-surface-base opacity-0 outline duration-300 ease-in-out group-hover:opacity-100 hover:bg-surface-gray-2"
@@ -61,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { Avatar, Button, FeatherIcon, TextInput } from "frappe-ui";
+import { Avatar, Button, FeatherIcon, TextInput, Tooltip } from "frappe-ui";
 import { computed, nextTick, ref } from "vue";
 // The agent portal draws its icons from lucide; feather's pencil is a different glyph.
 import LucideSquarePen from "~icons/lucide/square-pen";
@@ -89,6 +95,11 @@ const avatarBox = computed(() => {
 
 const titleClass = computed(() =>
   props.scale === "page" ? "text-2xl font-medium" : "text-md font-semibold"
+);
+
+/** Same wording the agent portal's profile shows on the avatar. */
+const uploadLabel = computed(() =>
+  props.image ? "Change Photo" : "Upload Photo"
 );
 
 const emit = defineEmits<{
