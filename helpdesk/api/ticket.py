@@ -1,6 +1,7 @@
 import frappe
 from frappe import _
 from frappe.contacts.doctype.contact.contact import get_contact_name
+from frappe.core.api.user_invitation import invite_by_email
 from frappe.rate_limiter import rate_limit
 from frappe.utils import strip_html_tags, validate_email_address
 
@@ -104,7 +105,59 @@ def new_guest_ticket(
     )
     # The visitor holds no role that can insert; the setting above is the permission.
     ticket.insert(ignore_permissions=True)
-    return {"name": ticket.name, "email": email}
+    return {"name": ticket.name, "email": email, "invite": invite_requester(ticket)}
+
+
+def invite_requester(ticket) -> str:
+    """Ask the requester to claim the ticket by taking an account.
+
+    A signed-out visitor cannot come back to what they raised: `get_one` matches the
+    reader against `raised_by`, so the ticket is theirs the moment a User exists for
+    that address. Returns what the confirmation screen should say — "has_account",
+    "pending" or "invited".
+    """
+    email = ticket.raised_by
+    # `invite_by_email` only skips an address that accepted an invitation, so an account
+    # made any other way would be invited again — and accepting adds HD Customer to it,
+    # which is wrong for an agent raising a ticket from the public form.
+    if frappe.db.exists("User", {"name": email, "enabled": 1}):
+        return "has_account"
+    if frappe.db.exists(
+        "User Invitation", {"email": email, "app_name": "helpdesk", "status": "Pending"}
+    ):
+        return "pending"
+
+    # Queued rather than sent inline. `send_invitation_mail` runs from `after_insert`
+    # with `now=True`, which flushes the mail during the request's own `db.commit()` —
+    # so on a site whose outgoing server is unreachable the submission 500s *after* the
+    # ticket is written, and no `except` around this call can catch it, because the
+    # failure happens once this function has already returned.
+    frappe.enqueue(
+        send_requester_invite,
+        queue="short",
+        now=frappe.flags.in_test,
+        ticket_name=ticket.name,
+        email=email,
+        contact=ticket.contact,
+    )
+    return "invited"
+
+
+def send_requester_invite(ticket_name: str, email: str, contact: str | None) -> None:
+    """Invite the requester to claim one ticket. Runs in a worker.
+
+    Issued by the server on the visitor's behalf, not by the visitor: `validate_role`
+    admits only agent and customer-manager roles, and running as a system user also
+    satisfies the `validate_customer_scope` hook on User Invitation.
+    """
+    frappe.set_user("Administrator")
+    invite_by_email(
+        emails=email,
+        roles=["HD Customer"],
+        redirect_to_path=f"/kb/tickets/{ticket_name}",
+        app_name="helpdesk",
+        contact=contact,
+    )
 
 
 def get_or_create_contact(email: str, first_name: str | None) -> str:

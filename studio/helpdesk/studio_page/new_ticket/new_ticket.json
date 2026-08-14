@@ -457,24 +457,31 @@
          "componentProps": {
           "fontSize": "text-base",
           "tag": "span",
-          "text": "{{ \"We'll reply to \" + (submittedTicket.email || '') + '.' }}"
+          "text": "{{ submittedMessage }}"
          }
         },
         {
          "baseStyles": {
-          "color": "var(--ink-gray-6)",
-          "paddingTop": "8px"
+          "marginTop": "8px",
+          "width": "fit-content"
          },
          "blockName": "submitted-signup",
          "children": [],
-         "classes": [
-          "text-base"
-         ],
+         "classes": [],
+         "componentEvents": {
+          "click": {
+           "action": "Run Script",
+           "event": "click",
+           "script": "goToSignIn()"
+          }
+         },
          "componentId": "submitted-signup",
-         "componentName": "HTML",
+         "componentName": "Button",
          "componentProps": {
-          "html": "<a href=\"/login#signup\" class=\"text-ink-blue-5 underline\">Create an account</a> to track this ticket and everything you raise next."
-         }
+          "label": "Sign in",
+          "variant": "subtle"
+         },
+         "visibilityCondition": "{{ submittedSignInUrl }}"
         }
        ],
        "classes": [],

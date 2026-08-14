@@ -84,6 +84,30 @@ export default function setup(context) {
   // Set once the ticket exists, which is also what swaps the form for the receipt.
   const submittedTicket = ref(null)
 
+  // What to say about getting back to it. A visitor has no account, so the way back is
+  // the invitation the server just sent — unless the address already had one.
+  const submittedMessage = computed(() => {
+    const ticket = submittedTicket.value
+    if (!ticket) return ''
+    const email = ticket.email || ''
+    if (ticket.invite === 'has_account')
+      return `We'll reply to ${email}. Sign in to follow it.`
+    if (ticket.invite === 'pending')
+      return `We'll reply to ${email}. Open the invitation already sent there to follow it.`
+    return `We've emailed ${email} — open it to set a password and follow this ticket.`
+  })
+
+  // Only somebody who can already sign in is offered the sign-in.
+  const submittedSignInUrl = computed(() =>
+    submittedTicket.value?.invite === 'has_account'
+      ? `/login?redirect-to=/kb/tickets/${submittedTicket.value.name}`
+      : '',
+  )
+
+  function goToSignIn() {
+    if (submittedSignInUrl.value) window.location.href = submittedSignInUrl.value
+  }
+
   function createTicket() {
     if (!canSubmit.value) return
     const request = session.isGuest.value ? raiseAsGuest() : raiseAsCustomer()
@@ -115,6 +139,6 @@ export default function setup(context) {
   return {
     ...session,
     fields, getField, setField, setDescription, controlType, optionsFor, canSubmit,
-    createTicket, submittedTicket,
+    createTicket, submittedTicket, submittedMessage, submittedSignInUrl, goToSignIn,
   }
 }
