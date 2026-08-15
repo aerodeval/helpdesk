@@ -88,7 +88,7 @@ def move_to_category(category: str, articles: list[str]):
 
 @frappe.whitelist()
 def get_categories():
-    categories = frappe.get_all(
+    categories = frappe.get_list(
         "HD Article Category",
         fields=["name", "category_name", "modified"],
     )
@@ -206,7 +206,7 @@ def get_public_category(name: str) -> dict:
 
 @frappe.whitelist()
 def get_category_articles(category: str):
-    articles = frappe.get_all(
+    articles = frappe.get_list(
         "HD Article",
         filters={"category": category, "status": "Published"},
         fields=["name", "title", "published_on", "modified", "author", "content"],

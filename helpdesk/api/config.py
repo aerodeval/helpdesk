@@ -17,6 +17,7 @@ def get_config():
         "disable_saved_replies_global_scope",
         "enable_comment_reactions",
         "allow_anyone_to_create_tickets",
+        "show_customer_portal_permission_notice",
     ]
     # A Single stores only the fields that have been set, so one never touched comes
     # back missing rather than empty — and the portal reads a missing key as undefined
