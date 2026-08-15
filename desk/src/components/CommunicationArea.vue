@@ -1,28 +1,120 @@
 <template>
-  <div class="comm-area p-4" resizable="true">
-    <EmailComposerBox
-      ref="emailEditorRef"
-      :ticketId="ticketId"
-      :doctype="doctype"
-      :to-emails="toEmails"
-      :cc-emails="ccEmails"
-      :bcc-emails="bccEmails"
-      :label="
-        isMobileView ? 'Send' : isMac ? 'Send (⌘ + ⏎)' : 'Send (Ctrl + ⏎)'
-      "
-      @submit="emit('update')"
-    />
+  <div class="comm-area" resizable="true">
+    <div
+      class="flex justify-between gap-3 border-t px-6 md:px-5 py-4 md:py-2.5"
+    >
+      <div class="flex gap-1.5 items-center">
+        <Button
+          ref="sendEmailRef"
+          variant="ghost"
+          label="Reply"
+          :class="[
+            showEmailBox ? '!bg-surface-gray-4 hover:!bg-surface-gray-3' : '',
+          ]"
+          @click="toggleEmailBox()"
+        >
+          <template #prefix>
+            <EmailIcon class="h-4" />
+          </template>
+        </Button>
+        <Button
+          variant="ghost"
+          label="Comment"
+          :class="[
+            showCommentBox ? '!bg-surface-gray-4 hover:!bg-surface-gray-3' : '',
+          ]"
+          @click="toggleCommentBox()"
+        >
+          <template #prefix>
+            <CommentIcon class="h-4" />
+          </template>
+        </Button>
+        <TypingIndicator :ticketId="ticketId" />
+      </div>
+    </div>
+    <Transition name="slide">
+      <div
+        v-show="showEmailBox"
+        ref="emailBoxRef"
+        @keydown.ctrl.enter.capture.stop="submitEmail"
+        @keydown.meta.enter.capture.stop="submitEmail"
+        @keydown.esc.capture.stop="showEmailBox = false"
+      >
+        <div class="overflow-hidden">
+          <EmailEditor
+            ref="emailEditorRef"
+            :label="
+              isMobileView ? 'Send' : isMac ? 'Send (⌘ + ⏎)' : 'Send (Ctrl + ⏎)'
+            "
+            placeholder="Hi John, we are looking into this issue."
+            :ticketId="ticketId"
+            :to-emails="toEmails"
+            :cc-emails="ccEmails"
+            :bcc-emails="bccEmails"
+            @submit="
+              () => {
+                showEmailBox = false;
+                emit('update');
+              }
+            "
+            @discard="
+              () => {
+                showEmailBox = false;
+              }
+            "
+          />
+        </div>
+      </div>
+    </Transition>
+    <Transition name="slide">
+      <div
+        v-show="showCommentBox"
+        ref="commentBoxRef"
+        @keydown.ctrl.enter.capture.stop="submitComment"
+        @keydown.meta.enter.capture.stop="submitComment"
+        @keydown.esc.capture.stop="showCommentBox = false"
+      >
+        <div class="overflow-hidden">
+          <CommentTextEditor
+            ref="commentTextEditorRef"
+            :label="
+              isMobileView
+                ? 'Comment'
+                : isMac
+                ? 'Comment (⌘ + ⏎)'
+                : 'Comment (Ctrl + ⏎)'
+            "
+            :ticketId="ticketId"
+            :editable="showCommentBox"
+            :doctype="doctype"
+            placeholder="@John could you please look into this?"
+            @submit="
+              () => {
+                showCommentBox = false;
+                emit('update');
+              }
+            "
+            @discard="
+              () => {
+                showCommentBox = false;
+              }
+            "
+          />
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <script setup lang="ts">
+import { CommentTextEditor, EmailEditor, TypingIndicator } from "@/components";
+import { CommentIcon, EmailIcon } from "@/components/icons/";
 import { useDevice } from "@/composables";
 import { useScreenSize } from "@/composables/screen";
 import { useShortcut } from "@/composables/shortcuts";
 import { showCommentBox, showEmailBox } from "@/pages/ticket/modalStates";
 import { onClickOutside } from "@vueuse/core";
 import { ref, watch } from "vue";
-import EmailComposerBox from "./EmailComposerBox.vue";
 
 const emit = defineEmits(["update"]);
 const content = defineModel("content");

@@ -13,10 +13,23 @@ interface DocType {
     idx?: number;
   }
   
-// Last updated: 2026-06-26 18:18:39.871707
+// Last updated: 2026-03-24 10:41:46.489051
 export interface HDTicketStatus extends DocType {
   /** Color: Select */
-  color?: 'Black' | 'Gray' | 'Blue' | 'Green' | 'Red' | 'Pink' | 'Orange' | 'Amber' | 'Yellow' | 'Cyan' | 'Teal' | 'Violet' | 'Purple';
+  color?:
+    | "Black"
+    | "Gray"
+    | "Blue"
+    | "Green"
+    | "Red"
+    | "Pink"
+    | "Orange"
+    | "Amber"
+    | "Yellow"
+    | "Cyan"
+    | "Teal"
+    | "Violet"
+    | "purple";
   /** Label: Data */
   label_agent: string;
   /** Show end users a different view: Check */
@@ -24,14 +37,14 @@ export interface HDTicketStatus extends DocType {
   /** Label (customer view): Data */
   label_customer?: string;
   /** Category: Select */
-  category: 'Open' | 'Paused' | 'Resolved';
+  category: "Open" | "Paused" | "Resolved";
   /** Order: Int */
   order?: number;
   /** Enabled: Check */
   enabled: 0 | 1;
 }
 
-// Last updated: 2026-06-28 13:51:31.692161
+// Last updated: 2026-05-11 18:25:54.352721
 export interface HDTicket extends DocType {
   /** Subject: Data */
   subject: string;
@@ -56,7 +69,13 @@ export interface HDTicket extends DocType {
   /** Response By: Datetime */
   response_by?: string;
   /** SLA Status: Select */
-  agreement_status?: '' | 'First Response Due' | 'Resolution Due' | 'Failed' | 'Fulfilled' | 'Paused';
+  agreement_status?:
+    | ""
+    | "First Response Due"
+    | "Resolution Due"
+    | "Failed"
+    | "Fulfilled"
+    | "Paused";
   /** Resolution By: Datetime */
   resolution_by?: string;
   /** SLA Creation: Datetime */
@@ -118,9 +137,11 @@ export interface HDTicket extends DocType {
   /** Ticket raised outside working hours: Check */
   raised_outside_working_hours: 0 | 1;
   /** First Response Failed By: Duration */
-  first_response_failed_by?: any;
+  first_response_failed_by?: number;
   /** Resolution Failed By: Duration */
-  resolution_failed_by?: any;
+  resolution_failed_by?: number;
+  /** Assignees: JSON */
+  _assign: string;
 }
 
 // Last updated: 2026-03-03 12:30:01.394107
@@ -287,7 +308,7 @@ export interface HDServiceLevelAgreement extends DocType {
   default_ticket_status?: string;
 }
 
-// Last updated: 2026-07-27 16:57:56.129699
+// Last updated: 2026-06-02 01:18:56.023594
 export interface HDAgent extends DocType {
   /** User: Link (User) */
   user: string;

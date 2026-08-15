@@ -13,7 +13,7 @@
         :class="[isMobileView && 'flex-1 items-center justify-center']"
       >
         <div class="flex gap-2 items-center">
-          <p class="text-ink-gray-8 text-md-medium">
+          <p class="font-medium text-ink-gray-8 text-xl">
             {{ avatar.label }}
           </p>
           <Tooltip v-if="badge" :text="badge.tooltip ?? ''">

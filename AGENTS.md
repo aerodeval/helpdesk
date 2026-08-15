@@ -76,13 +76,13 @@ Frappe Helpdesk is an open-source ticket management tool built on the [Frappe Fr
 - Always prefer Tailwind CSS for styling
 - Use utility classes for layout and spacing
 - Use semantic class names wherever possible:
-  - Background colors: `bg-surface-base`, `bg-surface-gray-1` through `bg-surface-gray-9`, `bg-surface-black`
-  - Text colors: `text-ink-base`, `text-ink-gray-1` through `text-ink-gray-9`, `text-ink-black`
+  - Background colors: `bg-surface-white`, `bg-surface-gray-1` through `bg-surface-gray-9`, `bg-surface-black`
+  - Text colors: `text-ink-white`, `text-ink-gray-1` through `text-ink-gray-9`, `text-ink-black`
   - Fill colors: `fill-ink-*`
   - Placeholder colors: `placeholder-ink-*`
-  - Border colors: `border-outline-base`, `border-outline-gray-1` through `border-outline-gray-7`, `border-outline-black`
-  - Font sizes: `text-xs`, `text-sm`, `text-base`, `text-md`, `text-md`, `text-md`, `text-md`
-  - Multiline text: `text-p-xs`, `text-p-sm`, `text-p-base`, `text-p-md`, `text-p-md`, `text-p-md`
+  - Border colors: `border-outline-white`, `border-outline-gray-1` through `border-outline-gray-5`, `border-outline-black`
+  - Font sizes: `text-xs`, `text-sm`, `text-base`, `text-lg`, `text-xl`, `text-2xl`, `text-3xl`
+  - Multiline text: `text-p-xs`, `text-p-sm`, `text-p-base`, `text-p-lg`, `text-p-xl`, `text-p-2xl`
 - Always use gray shades for everything, never use color shades even for primary states
 - Implement mobile-first, responsive design with CSS Grid and Flexbox
 - Ensure styles are accessible (contrast, focus states)
@@ -320,8 +320,8 @@ Take inspiration from "helpdesk.doctype.hd_team.hd_team.HDTeam" for examples of 
 
 ```vue
 <template>
-  <div class="bg-surface-base border border-outline-gray-2 rounded-lg p-4">
-    <h2 class="text-md-semibold text-ink-gray-9 mb-2">Ticket Details</h2>
+  <div class="bg-surface-white border border-outline-gray-2 rounded-lg p-4">
+    <h2 class="text-lg text-ink-gray-9 font-semibold mb-2">Ticket Details</h2>
     <p class="text-p-sm text-ink-gray-7">{{ ticket.doc.subject }}</p>
     <LucideTicket class="size-4 text-ink-gray-6" />
   </div>

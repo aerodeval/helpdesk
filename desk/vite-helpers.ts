@@ -30,15 +30,12 @@ export function getLocalFrappeUIDevConfig({
   mode,
   rootDir,
 }: LocalFrappeUIDevConfigParams): LocalFrappeUIDevConfig {
-  // Use the local frappe-ui clone in every mode when it's installed — it
-  // carries experimental exports (FloatingWindow) the npm package doesn't,
-  // so production builds need it as much as dev does.
+  const isDev = mode === "development";
   const localFrappeUIPath = path.resolve(rootDir, "../frappe-ui");
-  const useLocalFrappeUI = existsSync(
-    path.join(localFrappeUIPath, "node_modules")
-  );
+  const useLocalFrappeUI =
+    isDev && existsSync(path.join(localFrappeUIPath, "node_modules"));
 
-  if (existsSync(localFrappeUIPath) && !useLocalFrappeUI) {
+  if (isDev && existsSync(localFrappeUIPath) && !useLocalFrappeUI) {
     console.warn("⚠️  Local frappe-ui found but dependencies not installed.");
     console.warn("   Run: cd ../frappe-ui && yarn install");
   }
@@ -50,29 +47,9 @@ export function getLocalFrappeUIDevConfig({
           "src",
           "style.css"
         ),
-        // Subpath exports whose physical path differs from the bare-name alias
-        // (the alias resolves "frappe-ui/x" as a filesystem path, bypassing the
-        // package's exports map). "./editor" maps to src/molecules/editor, so it
-        // needs its own alias — and must come before the generic "frappe-ui".
-        "frappe-ui/editor": path.resolve(
-          localFrappeUIPath,
-          "src",
-          "molecules",
-          "editor"
-        ),
         "frappe-ui": localFrappeUIPath,
       }
     : {};
-
-  // @framework/ui lives in the local frappe app (apps/frappe/ui) and isn't
-  // published to npm, so resolve it to source in every mode (unlike frappe-ui
-  // there is no npm fallback for production builds). Its package exports map
-  // "./*" → "src/*", so aliasing the bare name to src/ makes
-  // "@framework/ui/components/Composer" resolve too.
-  const frameworkUIPath = path.resolve(rootDir, "../../frappe/ui/src");
-  if (existsSync(frameworkUIPath)) {
-    localFrappeUIAliases["@framework/ui"] = frameworkUIPath;
-  }
 
   return {
     useLocalFrappeUI,

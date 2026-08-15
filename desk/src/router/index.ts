@@ -128,17 +128,6 @@ const routes = [
     name: "CallLogs",
     component: () => import("@/pages/call-logs/CallLogs.vue"),
   },
-  // Composer API playground — dev builds only, so it never ships to a
-  // customer's production helpdesk.
-  ...(import.meta.env.DEV
-    ? [
-        {
-          path: "/playground",
-          name: "Playground",
-          component: () => import("@/pages/Playground.vue"),
-        },
-      ]
-    : []),
 
   // Customer Portal Routes
   {

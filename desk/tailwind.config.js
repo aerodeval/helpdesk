@@ -10,13 +10,7 @@ export default {
     "./node_modules/frappe-ui/frappe/**/*.{vue,js,ts,jsx,tsx}",
     "../node_modules/frappe-ui/frappe/**/*.{vue,js,ts,jsx,tsx}",
   ],
-  safelist: [
-    { pattern: /!(text|bg)-/, variants: ["hover", "active"] },
-    "cursor-ns-resize",
-    "cursor-ew-resize",
-    "cursor-nwse-resize",
-    "cursor-nesw-resize",
-  ],
+  safelist: [{ pattern: /!(text|bg)-/, variants: ["hover", "active"] }],
   theme: {
     extend: {
       height: {
