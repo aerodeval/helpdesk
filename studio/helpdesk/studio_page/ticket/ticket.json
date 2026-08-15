@@ -401,7 +401,7 @@
              "componentId": "container-ticket-prompt",
              "componentName": "container",
              "originalElement": "div",
-             "visibilityCondition": "{{ !composerOpen }}"
+             "visibilityCondition": "{{ canReply && !composerOpen }}"
             },
             {
              "baseStyles": {
@@ -594,7 +594,7 @@
              "componentId": "container-ticket-editor",
              "componentName": "container",
              "originalElement": "div",
-             "visibilityCondition": "{{ composerOpen }}"
+             "visibilityCondition": "{{ canReply && composerOpen }}"
             }
            ],
            "classes": [],
@@ -1768,7 +1768,7 @@
              "componentId": "container-ticket-prompt",
              "componentName": "container",
              "originalElement": "div",
-             "visibilityCondition": "{{ !composerOpen }}"
+             "visibilityCondition": "{{ canReply && !composerOpen }}"
             },
             {
              "baseStyles": {
@@ -1968,7 +1968,7 @@
              "componentId": "container-ticket-editor",
              "componentName": "container",
              "originalElement": "div",
-             "visibilityCondition": "{{ composerOpen }}"
+             "visibilityCondition": "{{ canReply && composerOpen }}"
             }
            ],
            "classes": [],

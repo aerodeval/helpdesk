@@ -125,6 +125,11 @@ function useReplyComposer(ticket) {
   const attachments = ref<any[]>([])
   const sending = ref(false)
 
+  // Only a closed ticket refuses replies — `TicketCustomer.vue`'s `showEditor`.
+  // Resolved is not closed: replying to it reopens the ticket, which is what
+  // `create_communication_via_contact` does with `ticket_reopen_status`.
+  const canReply = computed(() => ticket.data?.status !== 'Closed')
+
   // Tags alone are not a message: an empty editor still reports `<p></p>`.
   const canSend = computed(
     () => reply.value.replace(/<[^>]*>/g, '').trim().length > 0,
@@ -176,6 +181,7 @@ function useReplyComposer(ticket) {
   }
 
   return {
+    canReply,
     composerOpen,
     openComposer,
     reply,

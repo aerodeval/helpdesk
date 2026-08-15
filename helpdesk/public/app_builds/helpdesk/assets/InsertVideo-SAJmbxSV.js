@@ -1,2 +1,0 @@
-import{Rt as e,cn as t,qt as n,zt as r}from"./studioRenderer-DYp7gHxi.js";var i=e({__name:`InsertVideo`,props:{editor:{}},setup(e){let i=e;function a(){i.editor.chain().focus().selectAndUploadVideo().run()}return(e,i)=>n(e.$slots,`default`,t(r({onClick:a})))}});export{i as default};
-//# sourceMappingURL=InsertVideo-SAJmbxSV.js.map
