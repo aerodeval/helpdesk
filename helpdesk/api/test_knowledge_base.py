@@ -9,6 +9,15 @@ from helpdesk.api.knowledge_base import (
     get_public_articles,
     get_public_categories,
     get_public_category,
+    vote_on_article,
+)
+
+# Every endpoint an anonymous reader can reach, with arguments that do not matter to
+# the access check itself.
+PUBLIC_ENDPOINTS = (
+    (get_public_articles, {}),
+    (get_public_categories, {}),
+    (get_popular_categories, {}),
 )
 
 # The site's real articles carry real view counts, so fixtures use totals far
@@ -99,6 +108,7 @@ class TestPublicReads(IntegrationTestCase):
     """
 
     def setUp(self) -> None:
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 1)
         self.category = frappe.get_doc(
             {
                 "doctype": "HD Article Category",
@@ -136,8 +146,56 @@ class TestPublicReads(IntegrationTestCase):
             get_public_article,
             get_public_categories,
             get_public_category,
+            vote_on_article,
         ):
             self.assertIn(endpoint, frappe.guest_methods)
+
+    def test_a_private_knowledge_base_refuses_every_anonymous_read(self) -> None:
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 0)
+        frappe.set_user("Guest")
+
+        for endpoint, kwargs in PUBLIC_ENDPOINTS:
+            with self.subTest(endpoint=endpoint.__name__):
+                self.assertRaises(frappe.PermissionError, endpoint, **kwargs)
+
+        self.assertRaises(frappe.PermissionError, get_public_article, self.published)
+        self.assertRaises(
+            frappe.PermissionError, get_public_category, self.category.name
+        )
+
+    def test_a_public_knowledge_base_answers_a_guest(self) -> None:
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 1)
+        frappe.set_user("Guest")
+
+        self.assertEqual(get_public_article(self.published)["name"], self.published)
+
+    def test_a_signed_in_reader_is_unaffected(self) -> None:
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 0)
+
+        self.assertEqual(get_public_article(self.published)["name"], self.published)
+
+    def test_a_private_knowledge_base_refuses_anonymous_votes(self) -> None:
+        # Even with anonymous voting on: it cannot be read, so it cannot be rated.
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 0)
+        frappe.db.set_single_value("HD Settings", "allow_anonymous_article_voting", 1)
+        frappe.set_user("Guest")
+
+        self.assertRaises(frappe.PermissionError, vote_on_article, self.published, 1)
+
+    def test_an_article_carries_the_reader_s_own_vote(self) -> None:
+        self.assertEqual(get_public_article(self.published)["feedback"], "0")
+
+        frappe.get_doc("HD Article", self.published).set_feedback(1)
+
+        self.assertEqual(get_public_article(self.published)["feedback"], "1")
+
+    def test_a_cookieless_guest_is_shown_no_vote(self) -> None:
+        # Filtering on an empty visitor id would otherwise match the rows of every
+        # signed-in reader and hand a guest somebody else's vote.
+        frappe.get_doc("HD Article", self.published).set_feedback(1)
+        frappe.set_user("Guest")
+
+        self.assertEqual(get_public_article(self.published)["feedback"], "0")
 
     def test_lists_only_published_articles(self) -> None:
         titles = self.titles(category=self.category.name)

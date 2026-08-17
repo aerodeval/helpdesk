@@ -105,52 +105,31 @@ export default function setup(context) {
       .slice(0, 6)
   })
 
-  // Feedback: reflect the current user's saved rating on load, upsert on click.
+  // Feedback: `get_public_article` already answers with the reader's own vote, so
+  // showing it needs no second call and no guess about who is reading.
   const selectedFeedback = ref(null)   // '1' like / '2' dislike
-  const feedbackName = ref(null)       // existing HD Article Feedback doc name
-  const currentUser = ref(null)
+  watch(
+    () => article?.data?.feedback,
+    (vote) => (selectedFeedback.value = vote && vote !== '0' ? vote : null),
+    { immediate: true },
+  )
 
-  async function loadFeedback(articleName) {
-    selectedFeedback.value = null
-    feedbackName.value = null
-    if (!articleName) return
-    try {
-      currentUser.value = await call('frappe.auth.get_logged_user')
-      const rows = await call('frappe.client.get_list', {
-        doctype: 'HD Article Feedback',
-        filters: { article: articleName, user: currentUser.value },
-        fields: ['name', 'feedback'],
-        limit_page_length: 1,
-      })
-      if (rows && rows.length) {
-        selectedFeedback.value = rows[0].feedback
-        feedbackName.value = rows[0].name
-      }
-    } catch (e) {
-      // guest / not permitted — leave unselected
-    }
-  }
-  watch(() => article?.data?.name, loadFeedback, { immediate: true })
-
+  // One endpoint for both readers: it resolves a signed-in user itself, and hands a
+  // signed-out one the cookie that keeps their vote apart from every other guest's.
   async function submitFeedback(value) {
     const articleName = article?.data?.name
     if (!articleName) return
+    const previous = selectedFeedback.value
     selectedFeedback.value = value
     try {
-      const user = currentUser.value || (currentUser.value = await call('frappe.auth.get_logged_user'))
-      if (feedbackName.value) {
-        await call('frappe.client.set_value', {
-          doctype: 'HD Article Feedback', name: feedbackName.value, fieldname: 'feedback', value,
-        })
-      } else {
-        const doc = await call('frappe.client.insert', {
-          doc: { doctype: 'HD Article Feedback', article: articleName, user, feedback: value },
-        })
-        feedbackName.value = doc.name
-      }
+      await call('helpdesk.api.knowledge_base.vote_on_article', {
+        article: articleName,
+        value,
+      })
       toast.success('Thanks for your feedback!')
     } catch (e) {
-      toast.error('Could not submit feedback')
+      selectedFeedback.value = previous
+      toast.error(e?.messages?.[0] || 'Could not submit feedback')
     }
   }
 

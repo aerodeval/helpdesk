@@ -7,8 +7,23 @@ from frappe.utils import get_user_info_for_avatar
 from helpdesk.utils import is_agent
 
 
+def validate_public_access():
+    """Anonymous readers only while the knowledge base is public.
+
+    The portal sends a signed-out visitor to the login page before it asks for
+    anything, but that is a courtesy — this is the boundary.
+    """
+    if frappe.session.user != "Guest":
+        return
+    if not frappe.db.get_single_value("HD Settings", "public_knowledge_base"):
+        frappe.throw(
+            _("Please sign in to read the knowledge base"), frappe.PermissionError
+        )
+
+
 @frappe.whitelist(allow_guest=True)
 def get_article(name: str):
+    validate_public_access()
     article = frappe.get_doc("HD Article", name).as_dict()
 
     if not is_agent() and article["status"] != "Published":
@@ -109,6 +124,7 @@ def get_popular_categories(limit: int = 3) -> list[dict]:
     Backs the portal's "Popular searches" chips, so they track real traffic
     instead of being hand-maintained. Categories with no views are left out.
     """
+    validate_public_access()
     views = {}
     for article in frappe.get_all(
         "HD Article", filters={"status": "Published"}, fields=["category", "views"]
@@ -155,12 +171,16 @@ PUBLIC_ARTICLE_FIELDS = [
 ]
 PUBLIC_CATEGORY_FIELDS = ["name", "category_name", "description", "icon"]
 
+VISITOR_COOKIE = "hd_visitor"
+VISITOR_COOKIE_MAX_AGE = 365 * 24 * 60 * 60
+
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_public_articles(
     category: str | None = None, limit: int | None = None
 ) -> list[dict]:
     """Published articles, newest first, optionally within one category."""
+    validate_public_access()
     filters = {"status": "Published"}
     if category:
         filters["category"] = category
@@ -176,16 +196,21 @@ def get_public_articles(
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_public_article(name: str) -> dict:
     """One article, published — or any article to an agent previewing a draft."""
+    validate_public_access()
     article = frappe.db.get_value(
         "HD Article", name, PUBLIC_ARTICLE_FIELDS, as_dict=True
     )
     if not article or (article.status != "Published" and not is_agent()):
         frappe.throw(_("Article not found"), frappe.DoesNotExistError)
+    # The reader's own vote rides along, so the page can show it filled in without
+    # a second call. Named as `get_article` names it.
+    article.feedback = get_own_vote(name)
     return article
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_public_categories(limit: int | None = None) -> list[dict]:
+    validate_public_access()
     return frappe.get_all(
         "HD Article Category",
         fields=PUBLIC_CATEGORY_FIELDS,
@@ -196,12 +221,82 @@ def get_public_categories(limit: int | None = None) -> list[dict]:
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 def get_public_category(name: str) -> dict:
+    validate_public_access()
     category = frappe.db.get_value(
         "HD Article Category", name, PUBLIC_CATEGORY_FIELDS, as_dict=True
     )
     if not category:
         frappe.throw(_("Category not found"), frappe.DoesNotExistError)
     return category
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="article", limit=5, seconds=60 * 60)
+def vote_on_article(article: str, value: int) -> dict:
+    """Vote on a published article, signed in or not.
+
+    Not `HD Article.set_feedback` over `run_doc_method`: a signed-out reader holds no
+    read permission on the doctype, which is why every public read here is an
+    allow-listed endpoint too.
+    """
+    validate_public_access()
+    doc = frappe.get_doc("HD Article", article)
+    if doc.status != "Published" and not is_agent():
+        frappe.throw(_("Article not found"), frappe.DoesNotExistError)
+
+    doc.set_feedback(int(value), visitor_id=get_visitor_id(create=True))
+    return get_article_votes(article)
+
+
+def get_visitor_id(create: bool = False) -> str | None:
+    """Tell one signed-out reader from another.
+
+    Frappe answers every anonymous request as the same `Guest` user — and their
+    session id is the literal string "Guest" — so without this all their votes would
+    land on one row and overwrite each other. Reading never mints a cookie: only
+    casting a vote does.
+    """
+    if frappe.session.user != "Guest":
+        return None
+
+    key = frappe.request.cookies.get(VISITOR_COOKIE) if frappe.request else None
+    if key or not create:
+        return key
+
+    key = frappe.generate_hash(length=32)
+    frappe.local.cookie_manager.set_cookie(
+        VISITOR_COOKIE, key, max_age=VISITOR_COOKIE_MAX_AGE, httponly=True
+    )
+    return key
+
+
+def get_own_vote(article: str) -> str:
+    """The caller's own vote on an article — "0" when they have not cast one."""
+    if frappe.session.user != "Guest":
+        voter = {"user": frappe.session.user}
+    elif visitor_id := get_visitor_id():
+        voter = {"visitor_id": visitor_id}
+    else:
+        # No cookie yet, so no vote. Filtering on a null visitor would otherwise
+        # match every signed-in reader's row.
+        return "0"
+
+    vote = frappe.db.get_value(
+        "HD Article Feedback", {**voter, "article": article}, "feedback"
+    )
+    return str(vote or "0")
+
+
+def get_article_votes(article: str) -> dict:
+    # `get_all` rather than `db.count`: the latter checks read permission, which a
+    # signed-out voter does not have on this doctype.
+    votes = [
+        str(vote)
+        for vote in frappe.get_all(
+            "HD Article Feedback", filters={"article": article}, pluck="feedback"
+        )
+    ]
+    return {"likes": votes.count("1"), "dislikes": votes.count("2")}
 
 
 @frappe.whitelist()

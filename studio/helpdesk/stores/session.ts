@@ -28,6 +28,14 @@ function createSessionStore() {
     () => !isGuest.value || Boolean(config.value?.allow_anyone_to_create_tickets)
   )
 
+  const isPublicKnowledgeBase = computed(
+    () => Boolean(config.value?.public_knowledge_base)
+  )
+
+  // The form for raising one lives inside the portal, so a private knowledge base
+  // would take anonymous tickets down with it — the two settings are separate.
+  const TICKET_FORM_PATH = '/new-ticket'
+
   // Back to the page they were reading, not to the agent desk.
   const loginUrl = computed(
     () =>
@@ -59,8 +67,17 @@ function createSessionStore() {
     if (loading) return loading
     loading = call('helpdesk.api.config.get_config')
       .then((data) => (config.value = data))
+      .then(sendGuestToLogin)
       .catch((error) => console.error(error))
     return loading
+  }
+
+  // A private knowledge base answers a signed-out reader with a permission error on
+  // every call, so send them to sign in rather than render a shell that cannot fill.
+  function sendGuestToLogin() {
+    if (!isGuest.value || isPublicKnowledgeBase.value) return
+    if (window.location.pathname.endsWith(TICKET_FORM_PATH) && canCreateTicket.value) return
+    signIn()
   }
 
   function bindRouter(value) {
@@ -92,5 +109,14 @@ function createSessionStore() {
   }
 
   /** `isFeedbackMandatory` is read straight off it, so the payload itself is exported. */
-  return { config, isGuest, canCreateTicket, loginUrl, accountMenuOptions, loadSession, bindRouter }
+  return {
+    config,
+    isGuest,
+    canCreateTicket,
+    isPublicKnowledgeBase,
+    loginUrl,
+    accountMenuOptions,
+    loadSession,
+    bindRouter,
+  }
 }

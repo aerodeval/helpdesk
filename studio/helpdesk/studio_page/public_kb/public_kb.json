@@ -80,14 +80,14 @@
          "componentId": "ImageView-j56brvccc",
          "componentName": "ImageView",
          "componentProps": {
-          "image": "{{ config.data.banner_image }}",
+          "image": "{{ config.banner_image }}",
           "shape": "square",
           "size": "xs"
          },
          "rawStyles": {
           "background": "rgba(0, 0, 0, 0.3)"
          },
-         "visibilityCondition": "{{ config.data.banner_image }}"
+         "visibilityCondition": "{{ config.banner_image }}"
         },
         {
          "baseStyles": {
@@ -109,7 +109,7 @@
          "rawStyles": {
           "background": "rgba(0, 0, 0, 0.3)"
          },
-         "visibilityCondition": "{{ config.data.banner_image }}"
+         "visibilityCondition": "{{ config.banner_image }}"
         },
         {
          "baseStyles": {
@@ -131,7 +131,7 @@
            "children": [
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
               "fontWeight": "600",
               "textAlign": "center"
              },
@@ -147,7 +147,7 @@
             },
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
               "textAlign": "center"
              },
              "children": [],
@@ -212,7 +212,7 @@
            "children": [
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
              },
              "children": [],
              "classes": [],
@@ -770,7 +770,7 @@
           "title": "No articles yet"
          },
          "isCustomVueComponent": true,
-         "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
+         "visibilityCondition": "{{ !articles.data || articles.data.length === 0 }}"
         }
        ],
        "classes": [],
@@ -802,7 +802,7 @@
    "originalElement": "body"
   }
  ],
- "creation": "2026-07-05 12:13:54.982393",
+ "creation": "2026-08-14 15:33:32.267745",
  "doctype": "Studio Page",
  "draft_blocks": [
   {
@@ -885,14 +885,14 @@
          "componentId": "ImageView-j56brvccc",
          "componentName": "ImageView",
          "componentProps": {
-          "image": "{{ config.data.banner_image }}",
+          "image": "{{ config.banner_image }}",
           "shape": "square",
           "size": "xs"
          },
          "rawStyles": {
           "background": "rgba(0, 0, 0, 0.3)"
          },
-         "visibilityCondition": "{{ config.data.banner_image }}"
+         "visibilityCondition": "{{ config.banner_image }}"
         },
         {
          "baseStyles": {
@@ -914,7 +914,7 @@
          "rawStyles": {
           "background": "rgba(0, 0, 0, 0.3)"
          },
-         "visibilityCondition": "{{ config.data.banner_image }}"
+         "visibilityCondition": "{{ config.banner_image }}"
         },
         {
          "baseStyles": {
@@ -936,7 +936,7 @@
            "children": [
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
               "fontWeight": "600",
               "textAlign": "center"
              },
@@ -952,7 +952,7 @@
             },
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}",
               "textAlign": "center"
              },
              "children": [],
@@ -1017,7 +1017,7 @@
            "children": [
             {
              "baseStyles": {
-              "color": "{{ config.data.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
+              "color": "{{ config.banner_image ? \"var(--ink-base)\" : \"var(--ink-gray-8)\" }}"
              },
              "children": [],
              "classes": [],
@@ -1575,7 +1575,7 @@
           "title": "No articles yet"
          },
          "isCustomVueComponent": true,
-         "visibilityCondition": "{{ !HD_Article.data || HD_Article.data.length === 0 }}"
+         "visibilityCondition": "{{ !articles.data || articles.data.length === 0 }}"
         }
        ],
        "classes": [],
@@ -1598,7 +1598,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-08-06 13:06:40.027111",
+ "modified": "2026-08-17 00:22:58.442815",
  "modified_by": "Administrator",
  "name": "public_kb",
  "owner": "Administrator",
@@ -1621,13 +1621,6 @@
    "resource_name": "articles",
    "resource_type": "API Resource",
    "url": "helpdesk.api.knowledge_base.get_public_articles"
-  },
-  {
-   "auto": 1,
-   "method": "GET",
-   "resource_name": "config",
-   "resource_type": "API Resource",
-   "url": "helpdesk.api.config.get_config"
   },
   {
    "auto": 1,
