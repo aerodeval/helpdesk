@@ -6,7 +6,7 @@
     size="sm"
     variant="subtle"
     align="start"
-    :placeholder="ALL_LABEL"
+    :placeholder="PLACEHOLDER"
     :options="options"
     :model-value="selectedOrganizations"
     @update:model-value="(value) => onSelect?.(value)"
@@ -24,13 +24,35 @@
       <LucideBuilding2 v-else class="size-4 text-ink-gray-5" />
     </template>
 
-    <template #item-prefix="{ item }">
-      <Avatar
-        size="sm"
-        shape="square"
-        :image="item.image"
-        :label="item.label"
-      />
+    <!-- Full-row takeover, so the tick sits after the name instead of before it.
+         MultiSelect hard-codes its checkbox into the row's prefix, but it also
+         documents `#item` for exactly this — so the row is still built from
+         frappe-ui's own ItemListRow and Checkbox rather than moved with CSS. -->
+    <template #item="{ item, selected }">
+      <ItemListRow size="sm" :selected="selected" :disabled="item.disabled">
+        <template #prefix>
+          <Avatar
+            size="sm"
+            shape="square"
+            :image="item.image"
+            :label="item.label"
+          />
+        </template>
+        <template #label>
+          <div class="truncate">{{ item.label }}</div>
+        </template>
+        <template #suffix>
+          <!-- Presentational: the row itself owns the click and the focus ring. -->
+          <Checkbox
+            :model-value="selected"
+            :disabled="item.disabled"
+            size="sm"
+            tabindex="-1"
+            aria-hidden="true"
+            class="pointer-events-none"
+          />
+        </template>
+      </ItemListRow>
     </template>
   </MultiSelect>
 </template>
@@ -40,13 +62,16 @@
 // any number of them at once, narrowing the list to those customers. Its value
 // lives in the list's own filter conditions rather than beside them, so the
 // Filter and QuickFilter controls and this switcher can never disagree.
-import { Avatar, MultiSelect } from "frappe-ui";
+import { Avatar, Checkbox, ItemListRow, MultiSelect } from "frappe-ui";
 import LucideBuilding2 from "~icons/lucide/building-2";
 import { computed } from "vue";
 
 type Organization = { name: string; customer_name?: string; image?: string };
 
-const ALL_LABEL = "All organizations";
+// MultiSelect drives both the empty trigger and the menu's search field from this one
+// prop, so it reads as an invitation to pick rather than "All organizations" repeated
+// back inside its own dropdown.
+const PLACEHOLDER = "Select organizations";
 
 const props = withDefaults(
   defineProps<{

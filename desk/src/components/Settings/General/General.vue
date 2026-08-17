@@ -35,7 +35,7 @@
         <hr class="my-8" />
         <TicketSettings />
         <hr class="my-8" />
-        <WorkflowKnowledgebaseSettings />
+        <WorkflowSettings />
         <hr class="my-8" />
         <div>
           <div class="text-base-semibold text-ink-gray-9">
@@ -77,7 +77,7 @@ import { computed, provide, ref, watch } from "vue";
 import { disableSettingModalOutsideClick } from "../settingsModal";
 import Branding from "./components/Branding.vue";
 import TicketSettings from "./components/TicketSettings.vue";
-import WorkflowKnowledgebaseSettings from "./components/WorkflowKnowledgebaseSettings.vue";
+import WorkflowSettings from "./components/WorkflowSettings.vue";
 
 const configStore = useConfigStore();
 
@@ -97,9 +97,7 @@ const settingsData = ref({
   autoUpdateStatus: false,
   isFeedbackMandatory: false,
   enableCommentReactions: false,
-  allowAnyoneToCreateTickets: false,
   defaultTicketType: "",
-  preferKnowledgeBase: false,
   skipEmailWorkflow: false,
   disableSavedRepliesGlobalScope: false,
   enableOutsideHoursBanner: false,
@@ -149,10 +147,7 @@ const saveSettingsResource = createResource({
         auto_update_status: settingsData.value.autoUpdateStatus,
         is_feedback_mandatory: settingsData.value.isFeedbackMandatory,
         enable_comment_reactions: settingsData.value.enableCommentReactions,
-        allow_anyone_to_create_tickets:
-          settingsData.value.allowAnyoneToCreateTickets,
         default_ticket_type: settingsData.value.defaultTicketType,
-        prefer_knowledge_base: settingsData.value.preferKnowledgeBase,
         skip_email_workflow: settingsData.value.skipEmailWorkflow,
         disable_saved_replies_global_scope:
           settingsData.value.disableSavedRepliesGlobalScope,
@@ -188,9 +183,7 @@ const transformData = (data: any) => {
     autoUpdateStatus: data.auto_update_status,
     isFeedbackMandatory: Boolean(data.is_feedback_mandatory),
     enableCommentReactions: Boolean(data.enable_comment_reactions),
-    allowAnyoneToCreateTickets: Boolean(data.allow_anyone_to_create_tickets),
     defaultTicketType: data.default_ticket_type,
-    preferKnowledgeBase: Boolean(data.prefer_knowledge_base),
     skipEmailWorkflow: Boolean(data.skip_email_workflow),
     disableSavedRepliesGlobalScope: Boolean(
       data.disable_saved_replies_global_scope
@@ -258,8 +251,6 @@ const toggleFields = [
   "isFeedbackMandatory",
   "enableCommentReactions",
   "disableSavedRepliesGlobalScope",
-  "allowAnyoneToCreateTickets",
-  "preferKnowledgeBase",
   "skipEmailWorkflow",
 ] as const;
 

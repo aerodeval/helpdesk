@@ -645,9 +645,7 @@ export interface HDSettings {
   updateStatusTo: string;
   autoUpdateStatus: boolean;
   isFeedbackMandatory: boolean;
-  allowAnyoneToCreateTickets: boolean;
   defaultTicketType: string;
-  preferKnowledgeBase: boolean;
   skipEmailWorkflow: boolean;
   disableSavedRepliesGlobalScope: boolean;
   enableOutsideHoursBanner: boolean;

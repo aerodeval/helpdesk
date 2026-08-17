@@ -65,6 +65,21 @@ function createSettingsStore() {
       : 'Pick an organization to see its people and settings.',
   )
 
+  // Managing an organization takes two yeses: you manage *this* one, and the helpdesk
+  // allows customer-side self-service at all (HD Settings, off by default — most
+  // helpdesks keep user administration agent-side). The server enforces both
+  // independently; these only decide whether the controls are worth drawing.
+  const portalConfig = computed(() => useSession().config.value || {})
+  const canManageMembers = computed(() =>
+    Boolean(isOrgManager.value && portalConfig.value.allow_customer_managers_to_invite),
+  )
+  const canEditOrganization = computed(() =>
+    Boolean(
+      isOrgManager.value &&
+        portalConfig.value.allow_customer_managers_to_edit_organization,
+    ),
+  )
+
   // Form state, seeded from the server payload on every load
   const profileFirstName = ref('')
   const profileLastName = ref('')
@@ -518,6 +533,8 @@ function createSettingsStore() {
     selectedOrg,
     settingsOrg,
     isOrgManager,
+    canManageMembers,
+    canEditOrganization,
     isAgentUser,
     orgMembers,
     organizationScreenTitle,

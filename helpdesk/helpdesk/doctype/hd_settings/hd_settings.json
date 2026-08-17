@@ -18,7 +18,9 @@
   "assignment_rules_section",
   "base_support_rotation",
   "knowledge_base_section",
+  "public_knowledge_base",
   "prefer_knowledge_base",
+  "allow_anonymous_article_voting",
   "banner_image",
   "ticket_tab",
   "ticket_type_section",
@@ -83,7 +85,9 @@
   "reply_email_to_agent_content",
   "reply_from_agent_section",
   "enable_reply_email_via_agent",
-  "reply_via_agent_email_content"
+  "reply_via_agent_email_content",
+  "allow_customer_managers_to_invite",
+  "allow_customer_managers_to_edit_organization"
  ],
  "fields": [
   {
@@ -227,9 +231,23 @@
   },
   {
    "default": "0",
+   "description": "Anyone can read articles without signing in.",
+   "fieldname": "public_knowledge_base",
+   "fieldtype": "Check",
+   "label": "Public knowledge base"
+  },
+  {
+   "default": "0",
    "fieldname": "prefer_knowledge_base",
    "fieldtype": "Check",
    "label": "Prefer knowledge base"
+  },
+  {
+   "default": "0",
+   "description": "Allow anonymous users to vote on articles.",
+   "fieldname": "allow_anonymous_article_voting",
+   "fieldtype": "Check",
+   "label": "Anonymous voting on articles"
   },
   {
    "description": "Banner image shown at the top of the Knowledge Base portal",
@@ -543,6 +561,20 @@
    "fieldname": "auto_set_customer_from_contact",
    "fieldtype": "Check",
    "label": "Auto-set customer from contact"
+  },
+  {
+   "fieldname": "allow_customer_managers_to_invite",
+   "fieldtype": "Check",
+   "default": "0",
+   "label": "Allow customer managers to invite members",
+   "description": "Lets a customer manager invite people into their own organization from the portal. This creates logins for your helpdesk."
+  },
+  {
+   "fieldname": "allow_customer_managers_to_edit_organization",
+   "fieldtype": "Check",
+   "default": "0",
+   "label": "Allow customer managers to edit organization details",
+   "description": "Lets a customer manager change their organization's logo from the portal."
   }
  ],
  "grid_page_length": 50,

@@ -33,6 +33,9 @@ export const useConfigStore = defineStore("config", () => {
   const isFeedbackMandatory = computed(
     () => !!parseInt(config.value.is_feedback_mandatory)
   );
+  const allowAnonymousArticleVoting = computed(
+    () => !!parseInt(config.value.allow_anonymous_article_voting)
+  );
   const enableCommentReactions = computed(
     () => !!parseInt(config.value.enable_comment_reactions)
   );
@@ -51,6 +54,7 @@ export const useConfigStore = defineStore("config", () => {
     preferKnowledgeBase,
     skipEmailWorkflow,
     isFeedbackMandatory,
+    allowAnonymousArticleVoting,
     teamRestrictionApplied,
     assignWithinTeam,
     disableGlobalScopeForSavedReplies,

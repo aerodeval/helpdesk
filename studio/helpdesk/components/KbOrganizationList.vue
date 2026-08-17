@@ -160,7 +160,7 @@ function count(total: number | undefined, noun: string) {
 .kb-org-list__card:hover {
   border-color: transparent;
   background: var(--surface-elevation-1);
-  box-shadow: var(--elevation-md);
+  box-shadow: var(--elevation-sm);
 }
 
 .kb-org-list__card-top {

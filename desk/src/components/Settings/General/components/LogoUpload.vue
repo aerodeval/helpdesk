@@ -3,12 +3,16 @@
     class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4 w-full"
   >
     <div class="flex flex-col sm:flex-row items-center gap-3.5">
+      <!-- Square and full-bleed: these are banners, logos and favicons, not people,
+           and a circular crop of a 1440x240 banner shows almost none of it. `size-16`
+           overrides Avatar's own size enum so the image fills the frame. -->
       <div
         class="flex items-center justify-center min-w-16 min-h-16 rounded-lg overflow-hidden border border-outline-gray-1"
       >
         <Avatar
           v-if="props.image"
-          size="3xl"
+          shape="square"
+          class="size-16"
           :image="props.image"
           :label="props.title"
         />
@@ -22,6 +26,7 @@
     <div>
       <FileUploader
         :fileTypes="['image/*']"
+        :upload-args="{ private: false }"
         @success="
           (file) => {
             emit('onUpload', file.file_url);

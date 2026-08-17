@@ -173,6 +173,16 @@ def get_managed_customer(customer: str):
     return frappe.get_doc("HD Customer", customer)
 
 
+def assert_portal_allows(setting: str) -> None:
+    """Manager standing is necessary but not sufficient — the helpdesk must also allow it.
+
+    Paired with `get_managed_customer`: that answers "may this caller act on this
+    organization", this answers "is customer-side self-service switched on at all".
+    """
+    if not frappe.db.get_single_value("HD Settings", setting):
+        frappe.throw(_("Your helpdesk does not allow this"), frappe.PermissionError)
+
+
 def own_contact() -> str | None:
     """The session user's own Contact — the membership they must not act on."""
     return frappe.db.get_value("Contact", {"user": frappe.session.user})
@@ -333,6 +343,7 @@ def sync_contact(user) -> None:
 @frappe.whitelist()
 def update_member_role(customer: str, contact: str, is_manager: bool) -> None:
     """Toggle a member between manager and member in an organization you manage."""
+    assert_portal_allows("allow_customer_managers_to_invite")
     customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner's role cannot be changed"))
@@ -349,6 +360,7 @@ def update_member_role(customer: str, contact: str, is_manager: bool) -> None:
 @frappe.whitelist()
 def remove_member(customer: str, contact: str) -> None:
     """Remove a member from an organization you manage."""
+    assert_portal_allows("allow_customer_managers_to_invite")
     customer = get_managed_customer(customer)
     if contact == customer.primary_contact:
         frappe.throw(_("The owner cannot be removed"))
@@ -363,6 +375,7 @@ def remove_member(customer: str, contact: str) -> None:
 @frappe.whitelist()
 def cancel_invitation(customer: str, invitation: str) -> None:
     """Cancel a pending invitation belonging to an organization you manage."""
+    assert_portal_allows("allow_customer_managers_to_invite")
     customer = get_managed_customer(customer)
     invitation_doc = frappe.get_doc("User Invitation", invitation)
     if invitation_doc.customer != customer.name:
@@ -381,6 +394,7 @@ def update_organization(
     image: str | None = None,
 ) -> str:
     """Update the name or logo of an organization you manage."""
+    assert_portal_allows("allow_customer_managers_to_edit_organization")
     customer = get_managed_customer(customer)
     if image is not None:
         customer.image = image or None
