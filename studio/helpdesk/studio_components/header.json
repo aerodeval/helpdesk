@@ -35,7 +35,6 @@
       "componentSlots": {},
       "isStudioComponent": true,
       "mobileStyles": {},
-      "rawStyles": {},
       "tabletStyles": {}
      },
      {
@@ -47,12 +46,32 @@
       "componentId": "Breadcrumbs-header",
       "componentName": "Breadcrumbs",
       "componentProps": {
-       "items": "{{ [{ label: 'Knowledge base', route: '/' }].concat(inputs.parentCrumb ? [{ label: inputs.parentCrumb, route: inputs.parentRoute }] : []).concat(route.path === '/' ? [] : [{ label: inputs.crumb || route.name }]) }}"
+       "items": "{{ (inputs.hideRoot ? [] : [{ label: 'Knowledge base', route: '/' }]).concat(inputs.parentCrumb ? [{ label: inputs.parentCrumb, route: inputs.parentRoute }] : []).concat(route.path === '/' ? [] : [{ label: inputs.crumb || route.name }]) }}"
       },
       "componentSlots": {},
       "mobileStyles": {},
-      "rawStyles": {},
-      "tabletStyles": {}
+      "tabletStyles": {},
+      "visibilityCondition": "{{ !inputs.currentView }}"
+     },
+     {
+      "attributes": {},
+      "baseStyles": {},
+      "children": [],
+      "classes": [],
+      "componentEvents": {},
+      "componentId": "KbViewBreadcrumbs-header",
+      "componentName": "KbViewBreadcrumbs",
+      "componentProps": {
+       "currentView": "{{ inputs.currentView }}",
+       "label": "{{ inputs.viewLabel || 'Tickets' }}",
+       "options": "{{ inputs.viewOptions }}",
+       "viewActions": "{{ inputs.viewActions }}"
+      },
+      "componentSlots": {},
+      "isCustomVueComponent": true,
+      "mobileStyles": {},
+      "tabletStyles": {},
+      "visibilityCondition": "{{ inputs.currentView }}"
      }
     ],
     "classes": [],
@@ -63,7 +82,6 @@
     "componentSlots": {},
     "mobileStyles": {},
     "originalElement": "div",
-    "rawStyles": {},
     "tabletStyles": {}
    },
    {
@@ -137,7 +155,6 @@
       },
       "componentSlots": {},
       "mobileStyles": {},
-      "rawStyles": {},
       "tabletStyles": {},
       "visibilityCondition": "{{ pageActionLabel }}"
      }
@@ -156,7 +173,6 @@
   "componentSlots": {},
   "mobileStyles": {},
   "originalElement": "div",
-  "rawStyles": {},
   "tabletStyles": {}
  },
  "component_id": "header",
@@ -183,10 +199,35 @@
    "input_name": "parentRoute",
    "required": 0,
    "type": "Data"
+  },
+  {
+   "input_name": "currentView",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "input_name": "viewOptions",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "input_name": "viewActions",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "input_name": "viewLabel",
+   "required": 0,
+   "type": "Data"
+  },
+  {
+   "input_name": "hideRoot",
+   "required": 0,
+   "type": "Data"
   }
  ],
  "is_disabled": 0,
- "modified": "2026-07-30 10:57:16.919505",
+ "modified": "2026-08-17 00:15:25.651951",
  "modified_by": "Administrator",
  "name": "header",
  "owner": "Administrator"

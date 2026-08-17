@@ -175,7 +175,10 @@ export function avatarCell({ item }: any) {
     assignees.map((assignee) =>
       h(Tooltip, { text: assignee.email }, () =>
         h(Avatar, {
-          class: 'user-avatar -mr-1.5 ring-2 ring-[var(--surface-base)] transition hover:z-20 hover:scale-110',
+          // my-1: the ring paints outside the border box, so it adds no height — and the
+          // list cell's `overflow-x-hidden` forces overflow-y to `auto`, clipping it top
+          // and bottom. The margin gives the cell room to contain its own ring.
+          class: 'user-avatar -mr-1.5 my-1 ring-2 ring-[var(--surface-base)] transition hover:z-20 hover:scale-110',
           shape: 'circle',
           size: 'sm',
           label: assignee.name,

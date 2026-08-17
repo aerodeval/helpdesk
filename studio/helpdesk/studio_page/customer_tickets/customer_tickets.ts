@@ -5,6 +5,7 @@ import {
   resolutionCell, responseCell, statusCell, subjectCell, textCell,
 } from '@app/components/ticketCells'
 import { useSettingsModal } from '@app/stores/settings'
+import { useViews } from '@app/stores/views'
 
 // Customer-portal Tickets list. Filters, sort, columns and the fetch come from
 // @framework/ui's list composables; the columns and cells mirror the agent
@@ -90,6 +91,10 @@ export default function setup(context) {
   }
   const data = useListData(DOCTYPE, fetchView)
 
+  // Saved views. Bound after the view exists so it can restore into it; the store reads
+  // `?view=` off the route, so a shared URL opens the same layout.
+  const views = useViews(context, view)
+
   const listColumns = computed(() =>
     view.columns.wire.value.map((column) => ({ ...column, cell: cellFor(column) })),
   )
@@ -150,6 +155,7 @@ export default function setup(context) {
 
   return {
     ...settings,
+    ...views,
     navMenuOpen: ref(false),
     // toolbar control state
     selectedOrganizations,
