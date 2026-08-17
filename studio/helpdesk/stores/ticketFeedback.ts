@@ -8,6 +8,9 @@ import { call, createListResource, toast } from 'frappe-ui'
 
 export function useTicketFeedback(ticket) {
   const feedbackOpen = ref(false)
+  // What the rating is saved alongside: the status the caller is heading for, plus
+  // anything else that belongs to the same transition.
+  const transition = ref<Record<string, string>>({})
   // In stars, the way the Rating component counts; HD Ticket stores a fraction.
   const feedbackStars = ref(0)
   const feedbackOption = ref<string | null>(null)
@@ -42,7 +45,12 @@ export function useTicketFeedback(ticket) {
     feedbackText.value = ''
   })
 
-  function openFeedback() {
+  // The status the caller is heading for, and any fields that go with it.
+  // `validate_feedback` refuses to let a non-agent enter the Resolved category without a
+  // rating, so on a helpdesk that requires feedback the dialog's single save is the only
+  // way in — it carries the whole transition.
+  function openFeedback(status = 'Closed', fields: Record<string, string> = {}) {
+    transition.value = { status, ...fields }
     feedbackOpen.value = true
   }
 
@@ -54,8 +62,13 @@ export function useTicketFeedback(ticket) {
     feedbackOption.value = name
   }
 
-  // One write, exactly as the desk does it: the status rides along with the
-  // feedback, so a ticket is never closed without the rating that was asked for.
+  // One write, so the rating and the transition can never disagree — and so a helpdesk that
+  // requires feedback can reach a settled status at all.
+  //
+  // The status written is the one the opener asked for, never the one the ticket is already
+  // in: that is what keeps a rating from closing a ticket by itself. "Yes, it's fixed" asks
+  // for Resolved and gets Resolved even on a ticket support already resolved; the topbar's
+  // Close asks for Closed, and a Resolved ticket closes.
   async function submitFeedback() {
     if (!feedbackOption.value || feedbackSaving.value) return
     feedbackSaving.value = true
@@ -64,7 +77,7 @@ export function useTicketFeedback(ticket) {
         doctype: 'HD Ticket',
         name: ticket.data.name,
         fieldname: {
-          status: 'Closed',
+          ...transition.value,
           feedback: feedbackOption.value,
           feedback_extra: feedbackText.value,
         },
