@@ -39,7 +39,11 @@
      },
      {
       "attributes": {},
-      "baseStyles": {},
+      "baseStyles": {
+       "alignItems": "center",
+       "display": "flex",
+       "height": "28px"
+      },
       "children": [],
       "classes": [],
       "componentEvents": {},
@@ -55,7 +59,11 @@
      },
      {
       "attributes": {},
-      "baseStyles": {},
+      "baseStyles": {
+       "alignItems": "center",
+       "display": "flex",
+       "height": "28px"
+      },
       "children": [],
       "classes": [],
       "componentEvents": {},
@@ -110,7 +118,7 @@
        "label": "Raise a ticket",
        "variant": "subtle"
       },
-      "visibilityCondition": "{{ canCreateTicket && route.path !== '/new-ticket' }}"
+      "visibilityCondition": "{{ canCreateTicket && !['/', '/new-ticket'].includes(route.path) }}"
      },
      {
       "baseStyles": {
@@ -227,7 +235,7 @@
   }
  ],
  "is_disabled": 0,
- "modified": "2026-08-17 00:15:25.651951",
+ "modified": "2026-08-19 13:04:36.826122",
  "modified_by": "Administrator",
  "name": "header",
  "owner": "Administrator"

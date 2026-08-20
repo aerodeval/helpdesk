@@ -17,11 +17,9 @@
         <!-- Default Buttons -->
         <div class="flex gap-2" v-if="!editable && !article.loading">
           <Button
-            :label="
-              article.data?.status === 'Draft' ? __('Publish') : __('Unpublish')
-            "
-            :iconLeft="article.data?.status !== 'Published' && 'lucide-globe'"
-            @click="toggleStatus()"
+            :label="isPublished ? __('Unpublish') : __('Publish')"
+            :iconLeft="isPublished ? undefined : 'lucide-globe'"
+            @click="togglePublished()"
           />
         </div>
       </template>
@@ -240,6 +238,14 @@
       v-model="showCategoryModal"
       @create="handleCategoryCreate"
     />
+    <ArticleSharingModal
+      v-if="article.data"
+      v-model="showSharingModal"
+      :article-id="articleId"
+      :title="article.data.title"
+      :visibility="article.data.visibility"
+      @update:visibility="setVisibility"
+    />
   </div>
 </template>
 
@@ -254,6 +260,7 @@ import {
   ThumbsUpIcon,
 } from "@/components/icons";
 import ArticleFeedback from "@/components/knowledge-base/ArticleFeedback.vue";
+import ArticleSharingModal from "@/components/knowledge-base/ArticleSharingModal.vue";
 import CategoryModal from "@/components/knowledge-base/CategoryModal.vue";
 import MoveToCategoryModal from "@/components/knowledge-base/MoveToCategoryModal.vue";
 import { useScreenSize } from "@/composables/screen";
@@ -268,12 +275,7 @@ import {
 import { capture } from "@/telemetry";
 import { __ } from "@/translation";
 import { Article, Breadcrumb, Error, FeedbackAction, Resource } from "@/types";
-import {
-  ConfirmDelete,
-  copyToClipboard,
-  isCustomerPortal,
-  uploadFunction,
-} from "@/utils";
+import { ConfirmDelete, isCustomerPortal, uploadFunction } from "@/utils";
 import {
   Avatar,
   Badge,
@@ -430,25 +432,41 @@ function incrementArticleViews(articleId: string) {
   );
 }
 
-const toggleStatus = debounce(() => {
-  const status = article.data?.status === "Published" ? "Draft" : "Published";
+const isPublished = computed(() => article.data?.status === "Published");
+
+/** Publishing decides whether an article is live; who may read it is a separate
+ *  question, asked in the sharing dialog. */
+const togglePublished = debounce(
+  () =>
+    isPublished.value
+      ? save({ status: "Draft" }, __("Article unpublished."))
+      : save({ status: "Published" }, __("Article published.")),
+  300
+);
+
+const showSharingModal = ref(false);
+
+function setVisibility(value: string) {
+  save({ visibility: value }, __("Access updated."));
+}
+
+/** `set_value` takes a fieldname map, so status and visibility travel in one write —
+ *  publishing is a single change, not an article that is briefly public. */
+function save(fieldname: Record<string, string>, message: string) {
   updateArticle.submit(
     {
       doctype: "HD Article",
       name: article.data.name,
-      fieldname: "status",
-      value: status,
+      fieldname,
     },
     {
       onSuccess: () => {
-        if (status === "Published")
-          toast.success("Article published successfully.");
-        else toast.success("Article unpublished successfully.");
+        toast.success(message);
         article.reload();
       },
     }
   );
-}, 300);
+}
 const isDirty = ref(false);
 
 const moveToModal = ref(false);
@@ -642,12 +660,8 @@ const articleActions = computed(() => [
       ]),
   {
     label: __("Share"),
-    icon: "lucide-link",
-    onClick: () => {
-      const url = new URL(window.location.href);
-      url.pathname = `/helpdesk/kb-public/articles/${props.articleId}`;
-      copyToClipboard(url.toString(), __("Article link copied to clipboard"));
-    },
+    icon: "lucide-share-2",
+    onClick: () => (showSharingModal.value = true),
   },
   {
     group: __("Danger"),

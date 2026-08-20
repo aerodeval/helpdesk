@@ -4,6 +4,8 @@ from frappe.tests import IntegrationTestCase
 from helpdesk.api.knowledge_base import (
     PUBLIC_ARTICLE_FIELDS,
     PUBLIC_CATEGORY_FIELDS,
+    get_article,
+    get_categories,
     get_popular_categories,
     get_public_article,
     get_public_articles,
@@ -19,6 +21,13 @@ PUBLIC_ENDPOINTS = (
     (get_public_categories, {}),
     (get_popular_categories, {}),
 )
+
+# A signed-in reader who is not an agent. The tests themselves run as Administrator, who
+# is one, so the customer's view has to be borrowed — and borrowing it needs no User row:
+# what the rule reads is the session's name, its roles, and the agent register, and an
+# unknown name answers all three as a customer would.
+CUSTOMER = "fixture.customer@example.com"
+
 
 # The site's real articles carry real view counts, so fixtures use totals far
 # above anything present to keep the ranking assertions deterministic.
@@ -239,7 +248,8 @@ class TestPublicReads(IntegrationTestCase):
         article = get_public_article(self.published)
 
         self.assertEqual(article.title, "Fixture published")
-        self.assertEqual(set(article), set(PUBLIC_ARTICLE_FIELDS))
+        # The list's fields, plus the reader's own vote, which only a single read carries.
+        self.assertEqual(set(article), {*PUBLIC_ARTICLE_FIELDS, "feedback"})
 
     def test_a_guest_cannot_read_a_draft(self) -> None:
         frappe.set_user("Guest")
@@ -271,3 +281,149 @@ class TestPublicReads(IntegrationTestCase):
     def test_an_unknown_category_is_not_found(self) -> None:
         with self.assertRaises(frappe.DoesNotExistError):
             get_public_category("no-such-category")
+
+
+class TestCustomersOnlyArticles(IntegrationTestCase):
+    """An article written for people with an account.
+
+    `Customers only` is a second gate behind `Published`: the article is live, but
+    every anonymous read has to miss it — the lists, the tallies, a direct link, and
+    the vote endpoint alike. A signed-in reader sees it as they see any other.
+    """
+
+    def setUp(self) -> None:
+        frappe.db.set_single_value("HD Settings", "public_knowledge_base", 1)
+        self.category = frappe.get_doc(
+            {"doctype": "HD Article Category", "category_name": "Fixture Visibility"}
+        ).insert()
+        self.public = self.make_article("Fixture open", "Public")
+        self.private = self.make_article("Fixture members", "Customers only")
+
+    def tearDown(self) -> None:
+        frappe.set_user("Administrator")
+
+    def as_customer(self) -> None:
+        frappe.session.user = CUSTOMER
+
+    def make_article(self, title: str, visibility: str) -> str:
+        return (
+            frappe.get_doc(
+                {
+                    "doctype": "HD Article",
+                    "title": title,
+                    "content": "<p>content</p>",
+                    "status": "Published",
+                    "visibility": visibility,
+                    "category": self.category.name,
+                    "views": BASE_VIEWS,
+                }
+            )
+            .insert()
+            .name
+        )
+
+    def titles(self) -> list[str]:
+        return [
+            row["title"] for row in get_public_articles(category=self.category.name)
+        ]
+
+    def test_defaults_to_public(self) -> None:
+        # Every article that existed before the field did is public, and so is every
+        # one written without a choice being made.
+        article = frappe.get_doc(
+            {
+                "doctype": "HD Article",
+                "title": "Fixture default",
+                "content": "<p>content</p>",
+                "category": self.category.name,
+            }
+        ).insert()
+
+        self.assertEqual(article.visibility, "Public")
+
+    def test_a_guest_is_shown_only_public_articles(self) -> None:
+        frappe.set_user("Guest")
+
+        self.assertEqual(self.titles(), ["Fixture open"])
+
+    def test_a_signed_in_reader_is_shown_both(self) -> None:
+        self.assertEqual(sorted(self.titles()), ["Fixture members", "Fixture open"])
+
+    def test_an_agents_only_article_is_shown_to_neither(self) -> None:
+        # The third audience: notes an agent keeps for themselves, live but internal.
+        # `frappe.session.user` is an agent here, so the customer stands in for "not one".
+        self.make_article("Fixture internal", "Agents only")
+
+        self.assertIn("Fixture internal", self.titles())
+
+        self.as_customer()
+
+        self.assertNotIn("Fixture internal", self.titles())
+
+        frappe.set_user("Guest")
+
+        self.assertNotIn("Fixture internal", self.titles())
+
+    def test_a_customer_cannot_open_an_agents_only_article(self) -> None:
+        internal = self.make_article("Fixture internal link", "Agents only")
+
+        self.as_customer()
+
+        self.assertRaises(frappe.DoesNotExistError, get_public_article, internal)
+        self.assertRaises(frappe.PermissionError, get_article, internal)
+
+    def test_a_guest_cannot_open_one_by_name(self) -> None:
+        frappe.set_user("Guest")
+
+        self.assertRaises(frappe.DoesNotExistError, get_public_article, self.private)
+        self.assertEqual(get_public_article(self.public)["name"], self.public)
+
+    def test_a_guest_cannot_open_one_through_the_desk_endpoint(self) -> None:
+        frappe.set_user("Guest")
+
+        self.assertRaises(frappe.PermissionError, get_article, self.private)
+
+    def test_a_guest_cannot_vote_on_one(self) -> None:
+        frappe.set_user("Guest")
+
+        self.assertRaises(frappe.DoesNotExistError, vote_on_article, self.private, 1)
+
+    def test_its_views_do_not_rank_a_category_for_a_guest(self) -> None:
+        # The chips are drawn for whoever is reading; counting views a guest cannot
+        # reach would point them at a category that looks empty when they open it.
+        members_only = frappe.get_doc(
+            {"doctype": "HD Article Category", "category_name": "Fixture Members Only"}
+        ).insert()
+        frappe.get_doc(
+            {
+                "doctype": "HD Article",
+                "title": "Fixture members elsewhere",
+                "content": "<p>content</p>",
+                "status": "Published",
+                "visibility": "Customers only",
+                "category": members_only.name,
+                "views": BASE_VIEWS,
+            }
+        ).insert()
+
+        self.assertIn(
+            members_only.name,
+            [row["name"] for row in get_popular_categories(limit=ALL)],
+        )
+
+        frappe.set_user("Guest")
+
+        self.assertNotIn(
+            members_only.name,
+            [row["name"] for row in get_popular_categories(limit=ALL)],
+        )
+
+    def test_articles_still_carry_a_fixed_shape(self) -> None:
+        [article] = [
+            row
+            for row in get_public_articles(category=self.category.name)
+            if row["name"] == self.public
+        ]
+
+        self.assertEqual(set(article), set(PUBLIC_ARTICLE_FIELDS))
+        self.assertEqual(article["visibility"], "Public")

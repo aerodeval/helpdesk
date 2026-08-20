@@ -2,6 +2,7 @@ import { ref, computed, watch, nextTick } from 'vue'
 import { call, toast, FileUploadHandler, useTheme } from 'frappe-ui'
 import { usePreferences } from '@app/stores/preferences'
 import { useSession } from '@app/stores/session'
+import { t } from '@app/stores/translations'
 
 // Shared state + actions for the portal settings dialog, used by every page script
 // via `useSettingsModal(context)`. The dialog itself is the `kb_settings` studio
@@ -57,12 +58,14 @@ function createSettingsStore() {
     organizations.value.some((org) => org.role !== 'Member'),
   )
   const organizationScreenTitle = computed(() =>
-    managesAnyOrg.value ? 'Manage organization' : 'View organization',
+    t(managesAnyOrg.value ? 'Manage organization' : 'View organization'),
   )
   const organizationScreenDescription = computed(() =>
-    managesAnyOrg.value
-      ? 'Pick an organization to manage its people and settings.'
-      : 'Pick an organization to see its people and settings.',
+    t(
+      managesAnyOrg.value
+        ? 'Pick an organization to manage its people and settings.'
+        : 'Pick an organization to see its people and settings.',
+    ),
   )
 
   // Managing an organization takes two yeses: you manage *this* one, and the helpdesk
@@ -128,6 +131,7 @@ function createSettingsStore() {
   // --- Organizations: list -> detail ---
 
   async function loadOrganization(name) {
+    orgTab.value = 'members'
     try {
       orgDetail.value = await call('helpdesk.api.organization.get_organization', {
         customer: name,
@@ -146,6 +150,18 @@ function createSettingsStore() {
     inviteOpen.value = false
     return loadOrganization(name)
   }
+
+  // A list of one is not a choice. Whoever belongs to a single organization lands straight
+  // in it, however they reached the screen — the nav item, a restored hash, or the list
+  // arriving after the tab was already open.
+  watch(
+    [settingsTab, organizations],
+    () => {
+      if (settingsTab.value !== 'members' || selectedOrg.value) return
+      if (organizations.value.length === 1) openOrganization(organizations.value[0].name)
+    },
+    { immediate: true },
+  )
 
   function closeOrganization() {
     selectedOrg.value = null
@@ -173,19 +189,25 @@ function createSettingsStore() {
   // watcher on the route, because a page script's `route` is a snapshot taken when the
   // script ran.
   let routerBound = false
+  // Held here rather than captured in the watch: every page hands over its own router
+  // proxy, and the one the first page gave is tied to a component that has since gone —
+  // writing the hash through it did nothing, so the URL stopped following the dialog.
+  let router = null
 
-  function bindRouter(router) {
-    if (routerBound || !router) return
+  function bindRouter(value) {
+    if (!value) return
+    router = value
+    if (routerBound) return
     routerBound = true
-    applyHash(currentRoute(router).hash)
+    applyHash(currentRoute().hash)
     router.afterEach((to) => applyHash(to.hash))
-    watch([settingsOpen, settingsTab, selectedOrg, inviteOpen], () => pushHash(router))
+    watch([settingsOpen, settingsTab, selectedOrg, inviteOpen], () => pushHash())
   }
 
   // The router reaches a page script through a reactive proxy, which unwraps refs — so
   // `currentRoute` is the route itself there, and the ref only outside that proxy.
-  function currentRoute(router) {
-    return router.currentRoute?.value || router.currentRoute || {}
+  function currentRoute() {
+    return router?.currentRoute?.value || router?.currentRoute || {}
   }
 
   function applyHash(hash) {
@@ -224,26 +246,29 @@ function createSettingsStore() {
     }
   }
 
-  function pushHash(router) {
+  function pushHash() {
+    if (!router) return
     const hash = settingsHash()
-    const current = currentRoute(router)
+    const current = currentRoute()
     if (readHash(current.hash) === hash) return
     // Leaving a screen the way we came in unwinds history rather than growing it —
     // pushing the parent again would leave the device back button pointing forward,
     // into the very screen just closed.
-    const previous = previousHash(router)
+    const previous = previousHash()
     if (previous !== null && readHash(previous) === hash) return router.back()
-    router.push({ query: current.query, hash })
+    // The path travels with it: a bare `{ hash }` resolves against whatever the router
+    // thinks is current, which is not always the page the dialog is layered over.
+    router.push({ path: current.path, query: current.query, hash })
   }
 
   // vue-router keeps the entry behind this one in history state, as a full path —
   // query and all — so only the part before the query names the page.
-  function previousHash(router) {
-    const previous = router.options?.history?.state?.back
+  function previousHash() {
+    const previous = router?.options?.history?.state?.back
     if (typeof previous !== 'string') return null
     const index = previous.indexOf('#')
     const [location, hash] = index === -1 ? [previous, ''] : [previous.slice(0, index), previous.slice(index)]
-    return location.split('?')[0] === currentRoute(router).path ? hash : null
+    return location.split('?')[0] === currentRoute().path ? hash : null
   }
 
   /** `landed` is for actions that email as part of the same request: the notice is
@@ -522,7 +547,43 @@ function createSettingsStore() {
     }), 'Logo removed')
   }
 
+  // The portal's own furniture, in the reader's language. Here rather than on a page
+  // because every page spreads this store, and the header is shared between them.
+  // The theme picker's own options. In the block until now, which put three English
+  // words inside a dialog that translates everything around them.
+  // The organization panel has two things to say about a customer: who belongs to it, and
+  // what they have raised lately. Tabs rather than one long scroll, since the second is a
+  // list that grows.
+  const orgTab = ref('members')
+  const orgTabOptions = computed(() => [
+    { label: t('Members'), value: 'members' },
+    { label: t('Tickets'), value: 'tickets' },
+  ])
+
+  const themeOptions = computed(() => [
+    { label: t('Light'), value: 'light' },
+    { label: t('Dark'), value: 'dark' },
+    { label: t('System'), value: 'system' },
+  ])
+
+  const words = computed(() => ({
+    raiseTicket: t('Raise a ticket'),
+    status: t('Status'),
+    composerPrompt: t('Type a message'),
+    solveAsk: t('Did this solve your issue?'),
+    solveYes: t("Yes, it's fixed"),
+    solveNo: t('No, still an issue'),
+    feedbackTitle: t('Feedback Rating'),
+  }))
+
   return {
+    words,
+    orgTab,
+    orgTabOptions,
+    themeOptions,
+    // The settings dialog's own wording is bound through this rather than written into
+    // the blocks, so the panel a reader opens to change their language is itself in it.
+    t,
     settingsOpen,
     settingsTab,
     settingsBusy,

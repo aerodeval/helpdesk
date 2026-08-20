@@ -6,10 +6,19 @@
       class="kb-timeline__row"
     >
       <div class="kb-timeline__rail">
-        <span
-          class="kb-timeline__dot"
-          :class="`kb-timeline__dot--${step.state}`"
-        />
+        <!-- The moment hangs off the marker it belongs to: the dot is the milestone, the
+             line beside it is only how long it took to get there. -->
+        <Tooltip
+          :text="step.fullDate"
+          :disabled="!step.fullDate"
+          :hover-delay="0.2"
+          placement="left"
+        >
+          <span
+            class="kb-timeline__dot"
+            :class="`kb-timeline__dot--${step.state}`"
+          />
+        </Tooltip>
         <span
           v-if="index < steps.length - 1"
           class="kb-timeline__line"
@@ -17,8 +26,15 @@
         />
       </div>
       <div class="kb-timeline__body">
-        <div class="kb-timeline__title">{{ step.title }}</div>
-        <div class="kb-timeline__meta">{{ step.subtitle }}</div>
+        <div
+          class="kb-timeline__title"
+          :class="`kb-timeline__title--${step.state}`"
+        >
+          {{ step.title }}
+        </div>
+        <div v-if="step.subtitle" class="kb-timeline__meta">
+          {{ step.subtitle }}
+        </div>
       </div>
     </div>
   </div>
@@ -33,11 +49,15 @@
 // A segment is the interval *leading to* the next milestone, so it takes that step's
 // state: solid once reached, dashed while still owed.
 
+import { Tooltip } from "frappe-ui";
+
 export interface TimelineStep {
   title: string;
   subtitle: string;
   /** `next` is the nearest unmet milestone; `pending` is anything behind it. */
   state: "done" | "closed" | "next" | "pending" | "breach";
+  /** The exact moment, shown on hover — the line itself reads as elapsed time. */
+  fullDate?: string;
 }
 
 withDefaults(defineProps<{ steps?: TimelineStep[] }>(), {
@@ -66,10 +86,21 @@ withDefaults(defineProps<{ steps?: TimelineStep[] }>(), {
 }
 
 .kb-timeline__dot {
+  position: relative;
   flex-shrink: 0;
   margin-top: 6px;
   width: 8px;
   height: 8px;
+  border-radius: 9999px;
+}
+
+/* An 8px dot is a deliberate aim. This pads the target out to 24px without moving or
+   resizing the mark itself — the pseudo-element hit-tests as part of the dot, so the
+   tooltip catches a pointer passing nearby. */
+.kb-timeline__dot::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
   border-radius: 9999px;
 }
 
@@ -150,6 +181,12 @@ withDefaults(defineProps<{ steps?: TimelineStep[] }>(), {
   line-height: 20px;
   font-weight: 500;
   color: var(--ink-gray-8);
+}
+
+/* Milestones queued behind the one being waited on: present, so the reader can see where
+   this is going, but not competing with the step that is actually live. */
+.kb-timeline__title--pending {
+  color: var(--ink-gray-4);
 }
 
 .kb-timeline__meta {

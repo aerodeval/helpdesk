@@ -1,2 +1,0 @@
-import{$t as e,Ut as t,Wt as n,hn as r}from"./studioRenderer-PLIyE2Ag.js";var i=t({__name:`InsertLink`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.commands.openLinkEditor()}return(t,i)=>e(t.$slots,`default`,r(n({onClick:a})))}});export{i as default};
-//# sourceMappingURL=InsertLink-BbhCx9wb.js.map

@@ -3,7 +3,7 @@
     <!-- Wrapped rather than styled directly: scoped rules don't reach a child
          component's own root, so the spacing lives on an element of ours. -->
     <div class="kb-org-list__search">
-      <TextInput v-model="search" type="text" placeholder="Search">
+      <TextInput v-model="search" type="text" :placeholder="t('Search')">
         <template #prefix>
           <LucideSearch class="size-4 text-ink-gray-5" />
         </template>
@@ -66,6 +66,7 @@
 </template>
 
 <script setup lang="ts">
+import { t } from "@app/stores/translations";
 // A card per organization, each carrying a role badge — Owner, Manager or
 // Member — rather than being sorted into sections.
 import { Avatar, Badge, TextInput } from "frappe-ui";

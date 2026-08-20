@@ -32,6 +32,11 @@ export default function setup(context) {
   // Values for the template-driven fields, keyed by fieldname.
   const model = reactive({})
 
+  // File docs the attachment field has already uploaded. They ride along with the insert,
+  // which is what `hd_ticket.api.new` does with its `attachments` argument.
+  const attachments = ref([])
+  const setAttachments = (files) => (attachments.value = files || [])
+
   const fields = computed(() =>
     (template.data?.fields || []).filter((f) => !f.hide_from_customer)
   )
@@ -131,7 +136,7 @@ export default function setup(context) {
     return newTicket
       .submit({
         doc: { subject: subject.value, description: description.value, template: 'Default', ...model },
-        attachments: [],
+        attachments: attachments.value,
       })
       .then(() => router.push('/customer-tickets'))
   }
@@ -139,6 +144,7 @@ export default function setup(context) {
   return {
     ...session,
     fields, getField, setField, setDescription, controlType, optionsFor, canSubmit,
+    attachments, setAttachments,
     createTicket, submittedTicket, submittedMessage, submittedSignInUrl, goToSignIn,
   }
 }

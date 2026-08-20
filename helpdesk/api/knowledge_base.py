@@ -6,6 +6,12 @@ from frappe.utils import get_user_info_for_avatar
 
 from helpdesk.utils import is_agent
 
+# Who a published article is written for, widest first. `Public` is the knowledge base as
+# it has always been; the other two are gates behind `Published`.
+PUBLIC = "Public"
+CUSTOMERS_ONLY = "Customers only"
+AGENTS_ONLY = "Agents only"
+
 
 def validate_public_access():
     """Anonymous readers only while the knowledge base is public.
@@ -21,12 +27,49 @@ def validate_public_access():
         )
 
 
+def readable_audiences() -> list[str] | None:
+    """Which audiences the caller belongs to — `None` where every one of them is theirs.
+
+    An agent reads the whole knowledge base. Everyone else is held to what was written
+    for them: a signed-in customer to the public and customer articles, and an anonymous
+    reader to the public ones alone.
+    """
+    if is_agent():
+        return None
+    if frappe.session.user == "Guest":
+        return [PUBLIC]
+    return [PUBLIC, CUSTOMERS_ONLY]
+
+
+def readable_filters(**extra) -> dict:
+    """What a reader is allowed to see, as filters.
+
+    Published, always — plus the audiences that are theirs, so an article written for
+    someone else stays out of their lists, out of the popular-category tallies, and out
+    of search.
+    """
+    filters = {"status": "Published", **extra}
+    audiences = readable_audiences()
+    if audiences is not None:
+        filters["visibility"] = ["in", audiences]
+    return filters
+
+
+def is_readable(article) -> bool:
+    """The same rule for one article already fetched."""
+    if is_agent():
+        return True
+    if article.get("status") != "Published":
+        return False
+    return article.get("visibility") in readable_audiences()
+
+
 @frappe.whitelist(allow_guest=True)
 def get_article(name: str):
     validate_public_access()
     article = frappe.get_doc("HD Article", name).as_dict()
 
-    if not is_agent() and article["status"] != "Published":
+    if not is_readable(article):
         frappe.throw(_("Access denied"), frappe.PermissionError)
 
     author = get_user_info_for_avatar(article["author"])
@@ -52,6 +95,7 @@ def get_article(name: str):
             "HD Article Category", article.category, "category_name"
         ),
         "category_id": article.category,
+        "visibility": article.visibility,
         "feedback": int(feedback),
     }
 
@@ -109,7 +153,7 @@ def get_categories():
     )
     for c in categories:
         c["article_count"] = frappe.db.count(
-            "HD Article", filters={"category": c.name, "status": "Published"}
+            "HD Article", filters=readable_filters(category=c.name)
         )
 
     categories.sort(key=lambda c: c["article_count"], reverse=True)
@@ -127,7 +171,7 @@ def get_popular_categories(limit: int = 3) -> list[dict]:
     validate_public_access()
     views = {}
     for article in frappe.get_all(
-        "HD Article", filters={"status": "Published"}, fields=["category", "views"]
+        "HD Article", filters=readable_filters(), fields=["category", "views"]
     ):
         # category is optional on HD Article; an uncategorised one has no chip.
         if not article.category:
@@ -165,6 +209,7 @@ PUBLIC_ARTICLE_FIELDS = [
     "owner",
     "category",
     "status",
+    "visibility",
     "published_on",
     "modified",
     "views",
@@ -181,7 +226,7 @@ def get_public_articles(
 ) -> list[dict]:
     """Published articles, newest first, optionally within one category."""
     validate_public_access()
-    filters = {"status": "Published"}
+    filters = readable_filters()
     if category:
         filters["category"] = category
     return frappe.get_all(
@@ -200,7 +245,7 @@ def get_public_article(name: str) -> dict:
     article = frappe.db.get_value(
         "HD Article", name, PUBLIC_ARTICLE_FIELDS, as_dict=True
     )
-    if not article or (article.status != "Published" and not is_agent()):
+    if not article or not is_readable(article):
         frappe.throw(_("Article not found"), frappe.DoesNotExistError)
     # The reader's own vote rides along, so the page can show it filled in without
     # a second call. Named as `get_article` names it.
@@ -241,7 +286,7 @@ def vote_on_article(article: str, value: int) -> dict:
     """
     validate_public_access()
     doc = frappe.get_doc("HD Article", article)
-    if doc.status != "Published" and not is_agent():
+    if not is_readable(doc):
         frappe.throw(_("Article not found"), frappe.DoesNotExistError)
 
     doc.set_feedback(int(value), visitor_id=get_visitor_id(create=True))
@@ -303,7 +348,7 @@ def get_article_votes(article: str) -> dict:
 def get_category_articles(category: str):
     articles = frappe.get_list(
         "HD Article",
-        filters={"category": category, "status": "Published"},
+        filters=readable_filters(category=category),
         fields=["name", "title", "published_on", "modified", "author", "content"],
     )
     for article in articles:

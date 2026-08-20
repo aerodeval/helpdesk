@@ -1,23 +1,39 @@
 <template>
   <div v-if="organizations.length" class="kb-org-avatars">
-    <span v-for="org in visible" :key="org.name" class="kb-org-avatars__item">
-      <Tooltip :text="org.customer_name">
-        <Avatar
-          class="kb-org-avatars__avatar"
-          shape="circle"
-          :size="size"
-          :image="org.image"
-          :label="org.customer_name"
-        />
-      </Tooltip>
+    <!-- One organization has room for its name, so it gets one: a lone avatar with a
+         tooltip asks the reader to hover to find out where they belong. -->
+    <span v-if="alone" class="kb-org-avatars__item kb-org-avatars__solo">
+      <Avatar
+        class="kb-org-avatars__avatar"
+        shape="circle"
+        :size="size"
+        :image="organizations[0].image"
+        :label="organizations[0].customer_name"
+      />
+      <span class="kb-org-avatars__name">{{
+        organizations[0].customer_name
+      }}</span>
     </span>
-    <span v-if="hidden.length" class="kb-org-avatars__item">
-      <Tooltip :text="hiddenNames">
-        <div class="kb-org-avatars__avatar kb-org-avatars__overflow">
-          +{{ hidden.length }}
-        </div>
-      </Tooltip>
-    </span>
+    <template v-else>
+      <span v-for="org in visible" :key="org.name" class="kb-org-avatars__item">
+        <Tooltip :text="org.customer_name">
+          <Avatar
+            class="kb-org-avatars__avatar"
+            shape="circle"
+            :size="size"
+            :image="org.image"
+            :label="org.customer_name"
+          />
+        </Tooltip>
+      </span>
+      <span v-if="hidden.length" class="kb-org-avatars__item">
+        <Tooltip :text="hiddenNames">
+          <div class="kb-org-avatars__avatar kb-org-avatars__overflow">
+            +{{ hidden.length }}
+          </div>
+        </Tooltip>
+      </span>
+    </template>
   </div>
 </template>
 
@@ -38,6 +54,7 @@ const props = withDefaults(
   { organizations: () => [], max: 3, size: "md" }
 );
 
+const alone = computed(() => props.organizations.length === 1);
 const visible = computed(() => props.organizations.slice(0, props.max));
 const hidden = computed(() => props.organizations.slice(props.max));
 const hiddenNames = computed(() =>
@@ -58,6 +75,18 @@ const hiddenNames = computed(() =>
   transition: margin-left 150ms ease;
 }
 
+/* Nothing to spread or scale when there is one — the name is already on screen. */
+.kb-org-avatars__solo {
+  align-items: center;
+  gap: 8px;
+}
+
+.kb-org-avatars__name {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ink-gray-7);
+}
+
 /* Open the stack up so every organization is legible before it is hovered. */
 .kb-org-avatars:hover .kb-org-avatars__item + .kb-org-avatars__item {
   margin-left: 4px;
@@ -72,7 +101,7 @@ const hiddenNames = computed(() =>
   transition: transform 150ms ease;
 }
 
-.kb-org-avatars__item:hover .kb-org-avatars__avatar {
+.kb-org-avatars__item:not(.kb-org-avatars__solo):hover .kb-org-avatars__avatar {
   transform: scale(1.1);
 }
 

@@ -1,0 +1,2 @@
+import{Sn as e,Xt as t,Zt as n,on as r}from"./studioRenderer-Cjh-VE3-.js";var i=t({__name:`InsertLink`,props:{editor:{}},setup(t){let i=t;function a(){i.editor.commands.openLinkEditor()}return(t,i)=>r(t.$slots,`default`,e(n({onClick:a})))}});export{i as default};
+//# sourceMappingURL=InsertLink-hj8hDyJy.js.map

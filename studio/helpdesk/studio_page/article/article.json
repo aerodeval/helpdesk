@@ -92,7 +92,6 @@
           "placeholder": "Search articles",
           "shortcutVariant": "keys"
          },
-         "componentSlots": {},
          "isCustomVueComponent": true
         },
         {
@@ -326,7 +325,6 @@
          "visibilityCondition": "{{ categoryTrees && categoryTrees.length }}"
         },
         {
-         "attributes": {},
          "baseStyles": {
           "alignItems": "center",
           "display": "flex",
@@ -338,12 +336,9 @@
          "blockName": "No search results",
          "children": [
           {
-           "attributes": {},
-           "baseStyles": {},
            "blockName": "No search results",
            "children": [],
            "classes": [],
-           "componentEvents": {},
            "componentId": "article-sidebar-empty",
            "componentName": "KbEmptyState",
            "componentProps": {
@@ -351,23 +346,13 @@
             "icon": "search",
             "title": "No matching articles"
            },
-           "componentSlots": {},
-           "isCustomVueComponent": true,
-           "mobileStyles": {},
-           "rawStyles": {},
-           "tabletStyles": {}
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
-         "componentEvents": {},
          "componentId": "article-sidebar-empty-wrap",
          "componentName": "container",
-         "componentProps": {},
-         "componentSlots": {},
-         "mobileStyles": {},
          "originalElement": "div",
-         "rawStyles": {},
-         "tabletStyles": {},
          "visibilityCondition": "{{ !categoryTrees || !categoryTrees.length }}"
         }
        ],
@@ -507,67 +492,47 @@
                }
               },
               {
-               "attributes": {},
                "baseStyles": {
                 "color": "var(--ink-gray-4)"
                },
                "children": [],
                "classes": [],
-               "componentEvents": {},
                "componentId": "article-reading-dot",
                "componentName": "TextBlock",
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
                 "text": "\u00b7"
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "rawStyles": {},
-               "tabletStyles": {}
+               }
               },
               {
-               "attributes": {},
                "baseStyles": {
                 "color": "var(--ink-gray-5)"
                },
                "children": [
                 {
-                 "attributes": {},
                  "baseStyles": {
                   "height": "14px",
                   "width": "14px"
                  },
                  "children": [],
                  "classes": [],
-                 "componentEvents": {},
                  "componentId": "article-reading-icon",
                  "componentName": "FeatherIcon",
                  "componentProps": {
                   "name": "clock"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
+                 }
                 },
                 {
-                 "attributes": {},
-                 "baseStyles": {},
                  "children": [],
                  "classes": [],
-                 "componentEvents": {},
                  "componentId": "article-reading-label",
                  "componentName": "TextBlock",
                  "componentProps": {
                   "fontSize": "text-sm",
                   "tag": "span",
                   "text": "{{ readingTime }}"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
+                 }
                 }
                ],
                "classes": [
@@ -575,50 +540,30 @@
                 "items-center",
                 "gap-1"
                ],
-               "componentEvents": {},
                "componentId": "article-reading-time",
                "componentName": "container",
-               "componentProps": {},
-               "componentSlots": {},
-               "mobileStyles": {},
-               "originalElement": "div",
-               "rawStyles": {},
-               "tabletStyles": {}
+               "originalElement": "div"
               },
               {
-               "attributes": {},
                "baseStyles": {
                 "color": "var(--ink-gray-4)"
                },
                "children": [],
                "classes": [],
-               "componentEvents": {},
                "componentId": "article-permalink-dot",
                "componentName": "TextBlock",
                "componentProps": {
                 "fontSize": "text-sm",
                 "tag": "span",
                 "text": "\u00b7"
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "rawStyles": {},
-               "tabletStyles": {}
+               }
               },
               {
-               "attributes": {},
-               "baseStyles": {},
                "children": [],
                "classes": [],
-               "componentEvents": {},
                "componentId": "article-permalink",
                "componentName": "KbCopyLink",
-               "componentProps": {},
-               "componentSlots": {},
-               "isCustomVueComponent": true,
-               "mobileStyles": {},
-               "rawStyles": {},
-               "tabletStyles": {}
+               "isCustomVueComponent": true
               }
              ],
              "classes": [],
@@ -633,10 +578,9 @@
            "originalElement": "div"
           },
           {
-           "attributes": {},
            "baseStyles": {
             "borderBottom": "1px solid var(--outline-gray-1)",
-            "paddingBottom": "8px"
+            "paddingBottom": "16px"
            },
            "children": [],
            "classes": [
@@ -644,17 +588,12 @@
             "prose-sm",
             "max-w-none"
            ],
-           "componentEvents": {},
            "componentId": "article-content",
            "componentName": "KbArticleContent",
            "componentProps": {
             "content": "{{ articleHtml }}"
            },
-           "componentSlots": {},
-           "isCustomVueComponent": true,
-           "mobileStyles": {},
-           "rawStyles": {},
-           "tabletStyles": {}
+           "isCustomVueComponent": true
           },
           {
            "baseStyles": {
@@ -831,7 +770,7 @@
               "display": "flex",
               "flexDirection": "row",
               "flexShrink": "0",
-              "gap": "8px"
+              "gap": "0px"
              },
              "blockName": "fb-actions",
              "children": [
@@ -997,20 +936,12 @@
      "originalElement": "div"
     },
     {
-     "attributes": {},
-     "baseStyles": {},
      "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentEvents": {},
      "componentId": "kb_settings-ref",
      "componentName": "kb_settings",
-     "componentProps": {},
-     "componentSlots": {},
-     "isStudioComponent": true,
-     "mobileStyles": {},
-     "rawStyles": {},
-     "tabletStyles": {}
+     "isStudioComponent": true
     }
    ],
    "classes": [],
@@ -1114,7 +1045,6 @@
           "placeholder": "Search articles",
           "shortcutVariant": "keys"
          },
-         "componentSlots": {},
          "isCustomVueComponent": true
         },
         {
@@ -1352,7 +1282,6 @@
          "visibilityCondition": "{{ categoryTrees && categoryTrees.length }}"
         },
         {
-         "attributes": {},
          "baseStyles": {
           "alignItems": "center",
           "display": "flex",
@@ -1364,12 +1293,9 @@
          "blockName": "No search results",
          "children": [
           {
-           "attributes": {},
-           "baseStyles": {},
            "blockName": "No search results",
            "children": [],
            "classes": [],
-           "componentEvents": {},
            "componentId": "article-sidebar-empty",
            "componentName": "KbEmptyState",
            "componentProps": {
@@ -1377,23 +1303,13 @@
             "icon": "search",
             "title": "No matching articles"
            },
-           "componentSlots": {},
-           "isCustomVueComponent": true,
-           "mobileStyles": {},
-           "rawStyles": {},
-           "tabletStyles": {}
+           "isCustomVueComponent": true
           }
          ],
          "classes": [],
-         "componentEvents": {},
          "componentId": "article-sidebar-empty-wrap",
          "componentName": "container",
-         "componentProps": {},
-         "componentSlots": {},
-         "mobileStyles": {},
          "originalElement": "div",
-         "rawStyles": {},
-         "tabletStyles": {},
          "visibilityCondition": "{{ !categoryTrees || !categoryTrees.length }}"
         }
        ],
@@ -1533,23 +1449,17 @@
                }
               },
               {
-               "attributes": {},
                "baseStyles": {
                 "color": "var(--ink-gray-4)"
                },
                "children": [],
                "classes": [],
-               "componentEvents": {},
                "componentId": "article-permalink-dot",
                "componentName": "TextBlock",
                "componentProps": {
                 "tag": "span",
                 "text": "\u00b7"
-               },
-               "componentSlots": {},
-               "mobileStyles": {},
-               "rawStyles": {},
-               "tabletStyles": {}
+               }
               },
               {
                "attributes": {
@@ -1561,39 +1471,25 @@
                },
                "children": [
                 {
-                 "attributes": {},
-                 "baseStyles": {},
                  "children": [],
                  "classes": [
                   "size-4"
                  ],
-                 "componentEvents": {},
                  "componentId": "article-permalink-icon",
                  "componentName": "FeatherIcon",
                  "componentProps": {
                   "name": "link"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
+                 }
                 },
                 {
-                 "attributes": {},
-                 "baseStyles": {},
                  "children": [],
                  "classes": [],
-                 "componentEvents": {},
                  "componentId": "article-permalink-label",
                  "componentName": "TextBlock",
                  "componentProps": {
                   "tag": "span",
                   "text": "Copy Permalink"
-                 },
-                 "componentSlots": {},
-                 "mobileStyles": {},
-                 "rawStyles": {},
-                 "tabletStyles": {}
+                 }
                 }
                ],
                "classes": [
@@ -1616,12 +1512,7 @@
                },
                "componentId": "article-permalink",
                "componentName": "container",
-               "componentProps": {},
-               "componentSlots": {},
-               "mobileStyles": {},
-               "originalElement": "div",
-               "rawStyles": {},
-               "tabletStyles": {}
+               "originalElement": "div"
               }
              ],
              "classes": [],
@@ -1636,10 +1527,9 @@
            "originalElement": "div"
           },
           {
-           "attributes": {},
            "baseStyles": {
             "borderBottom": "1px solid var(--outline-gray-1)",
-            "paddingBottom": "8px"
+            "paddingBottom": "16px"
            },
            "children": [],
            "classes": [
@@ -1647,17 +1537,12 @@
             "prose-sm",
             "max-w-none"
            ],
-           "componentEvents": {},
            "componentId": "article-content",
            "componentName": "KbArticleContent",
            "componentProps": {
             "content": "{{ articleHtml }}"
            },
-           "componentSlots": {},
-           "isCustomVueComponent": true,
-           "mobileStyles": {},
-           "rawStyles": {},
-           "tabletStyles": {}
+           "isCustomVueComponent": true
           },
           {
            "baseStyles": {
@@ -1834,7 +1719,7 @@
               "display": "flex",
               "flexDirection": "row",
               "flexShrink": "0",
-              "gap": "8px"
+              "gap": "0px"
              },
              "blockName": "fb-actions",
              "children": [
@@ -2000,20 +1885,12 @@
      "originalElement": "div"
     },
     {
-     "attributes": {},
-     "baseStyles": {},
      "blockName": "KB Settings",
      "children": [],
      "classes": [],
-     "componentEvents": {},
      "componentId": "kb_settings-ref",
      "componentName": "kb_settings",
-     "componentProps": {},
-     "componentSlots": {},
-     "isStudioComponent": true,
-     "mobileStyles": {},
-     "rawStyles": {},
-     "tabletStyles": {}
+     "isStudioComponent": true
     }
    ],
    "classes": [],
@@ -2024,7 +1901,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-31 11:57:12.937062",
+ "modified": "2026-08-20 12:11:17.039432",
  "modified_by": "Administrator",
  "name": "article",
  "owner": "Administrator",

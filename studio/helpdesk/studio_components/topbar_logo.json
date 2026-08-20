@@ -2,122 +2,22 @@
  "block": {
   "attributes": {},
   "baseStyles": {
-   "alignItems": "center",
    "display": "flex",
-   "flexDirection": "row",
-   "gap": "8px",
    "height": "fit-content",
    "width": "fit-content"
   },
   "blockName": "topbar-left",
-  "children": [
-   {
-    "attributes": {},
-    "baseStyles": {
-     "display": "flex"
-    },
-    "blockName": "nav-dropdown",
-    "children": [
-     {
-      "attributes": {},
-      "baseStyles": {
-       "alignItems": "center",
-       "borderRadius": "6px",
-       "cursor": "pointer",
-       "display": "flex",
-       "flexDirection": "row",
-       "gap": "2px",
-       "height": "fit-content",
-       "width": "fit-content"
-      },
-      "blockName": "kb-trigger",
-      "children": [
-       {
-        "attributes": {},
-        "baseStyles": {
-         "backgroundImage": "url(\"data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAxMTggMTE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik05My45Mjc4IDBIMjMuMTAxM0MxMC4zNDI4IDAgMCAxMC4zNDI4IDAgMjMuMTAxM1Y5My45Mjc4QzAgMTA2LjY4NiAxMC4zNDI4IDExNy4wMjkgMjMuMTAxMyAxMTcuMDI5SDkzLjkyNzhDMTA2LjY4NiAxMTcuMDI5IDExNy4wMjkgMTA2LjY4NiAxMTcuMDI5IDkzLjkyNzhWMjMuMTAxM0MxMTcuMDI5IDEwLjM0MjggMTA2LjY4NiAwIDkzLjkyNzggMFoiIGZpbGw9IiM3RDQyRkIiLz48cGF0aCBkPSJNOTUuOTc1OSA1MC44NzUzVjI3LjgyNjVMMjEgMjcuODI2NVYzOC4zMjcxSDg1LjUyNzhWNDguMzAyN0M4MS4zMjc1IDQ5LjUxMDMgNzguMjgyNCA1My4zOTU1IDc4LjI4MjQgNTcuOTYzMkM3OC4yODI0IDYyLjUzMSA4MS4zMjc1IDY2LjM2MzcgODUuNTI3OCA2Ny41NzEzVjc3LjU0NjhIMzEuNTAwNlY1MC4xNDAzSDIxVjg4LjA0NzRIOTYuMDI4NFY2NC45OTg2TDg5Ljc4MDUgNjAuNTM1OVY1NS4zOTA2TDk2LjAyODQgNTAuOTI3OEw5NS45NzU5IDUwLjg3NTNaIiBmaWxsPSIjRURGN0ZGIi8+PC9zdmc+\")",
-         "backgroundPosition": "center",
-         "backgroundRepeat": "no-repeat",
-         "backgroundSize": "contain",
-         "height": "32px",
-         "width": "32px"
-        },
-        "blockName": "hd-logo",
-        "children": [],
-        "classes": [],
-        "componentEvents": {},
-        "componentId": "container-3d8eadbcd",
-        "componentName": "container",
-        "componentProps": {},
-        "componentSlots": {},
-        "mobileStyles": {},
-        "originalElement": "div",
-        "rawStyles": {},
-        "tabletStyles": {}
-       },
-       {
-        "attributes": {},
-        "baseStyles": {
-         "color": "var(--ink-gray-7, oklch(0.341 0 0))",
-         "height": "16px",
-         "width": "16px"
-        },
-        "blockName": "chevron",
-        "children": [],
-        "classes": [],
-        "componentEvents": {},
-        "componentId": "FeatherIcon-927017604",
-        "componentName": "FeatherIcon",
-        "componentProps": {
-         "class": "h-5 w-5",
-         "color": null,
-         "name": "chevron-down",
-         "strokeWidth": 1.5
-        },
-        "componentSlots": {},
-        "mobileStyles": {},
-        "rawStyles": {},
-        "tabletStyles": {}
-       }
-      ],
-      "classes": [],
-      "componentEvents": {},
-      "componentId": "container-6dd7c54ae",
-      "componentName": "container",
-      "componentProps": {},
-      "componentSlots": {},
-      "mobileStyles": {},
-      "originalElement": "div",
-      "rawStyles": {},
-      "tabletStyles": {}
-     }
-    ],
-    "classes": [],
-    "componentEvents": {},
-    "componentId": "Dropdown-08c2d7ff6",
-    "componentName": "Dropdown",
-    "componentProps": {
-     "offset": 4,
-     "open": false,
-     "options": "{{ accountMenuOptions }}",
-     "portalTo": "body",
-     "side": "bottom"
-    },
-    "componentSlots": {},
-    "mobileStyles": {},
-    "rawStyles": {},
-    "tabletStyles": {}
-   }
-  ],
+  "children": [],
   "classes": [],
   "componentEvents": {},
-  "componentId": "container-tmhzlx2bq",
-  "componentName": "container",
-  "componentProps": {},
+  "componentId": "KbNavMenu-topbar",
+  "componentName": "KbNavMenu",
+  "componentProps": {
+   "options": "{{ accountMenuOptions }}"
+  },
   "componentSlots": {},
+  "isCustomVueComponent": true,
   "mobileStyles": {},
-  "originalElement": "div",
-  "rawStyles": {},
   "tabletStyles": {}
  },
  "component_id": "topbar_logo",

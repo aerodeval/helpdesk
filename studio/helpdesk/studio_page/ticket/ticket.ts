@@ -1,20 +1,28 @@
 import { computed, watch } from 'vue'
-import { call, createResource, toast } from 'frappe-ui'
+import { call, createResource, dayjs, toast } from 'frappe-ui'
 import { useSettingsModal } from '@app/stores/settings'
-import { SETTLED, useTicketThread } from '@app/stores/ticketThread'
+import { useTicketThread } from '@app/stores/ticketThread'
 import { useTicketDetails } from '@app/stores/ticketDetails'
 import { useTicketFeedback } from '@app/stores/ticketFeedback'
+import { loadTicketMeta } from '@app/components/ticketCells'
 
 // One ticket, read and replied to from the portal — the customer half of the agent
 // portal's `desk/src/pages/ticket/TicketCustomer.vue`. The page is drawn entirely
 // from Studio blocks, so this returns display-ready state and named actions: the
 // blocks bind, they never compute.
+// How long a resolution stands before the portal asks the requester to confirm it, when
+// the helpdesk has not said. HD Settings owns the real value — see `confirm_resolution_after_days`.
+const RESOLVED_PROMPT_DAYS = 5
+
 export default function setup(context) {
   const { route } = context
   const settings = useSettingsModal(context)
   const { config } = settings
   // The composer shows the reader's own avatar, which rides on the settings payload.
   settings.loadSettings()
+  // Status labels and colours for the summary's pill — the same list the ticket list reads,
+  // fetched on mount rather than at import because a signed-out visitor cannot call it.
+  loadTicketMeta()
 
   const ticketId = computed(() => String(route?.params?.name || ''))
 
@@ -36,41 +44,50 @@ export default function setup(context) {
   // button on an empty label.
   //
   // Resolved keeps its Close: support believing a ticket is fixed is not the same as the
-  // customer being done with it. It goes only where the customer can no longer act — a
-  // ticket already Closed, or one they have rated, since `check_update_perms` refuses
-  // non-agent writes after either.
-  const pageActionLabel = computed(() => {
-    const data = ticket.data
-    if (!data || data.status === 'Closed' || data.feedback) return ''
-    return 'Close'
-  })
+  // customer being done with it. Only a closed ticket has nowhere left to go — the same
+  // line `check_update_perms` draws.
+  const pageActionLabel = computed(() =>
+    ticket.data && ticket.data.status !== 'Closed' ? 'Close' : '',
+  )
 
-  // Nothing to rate on a ticket nobody answered, so the dialog waits on a reply from
-  // the other side — the same test as TicketCustomer's `showFeedback`.
+  // The topbar's "Raise a ticket", narrowed for this page only — the shared header reads
+  // whatever `canCreateTicket` the page hands it. A ticket still in flight already has a
+  // place to say more, and it is this thread; once it is closed that door is shut, so
+  // starting a new one becomes the thing to offer.
+  const canCreateTicket = computed(
+    () => settings.canCreateTicket.value && ticket.data?.status === 'Closed',
+  )
+
+  // Whether there is still a rating to ask for. Nothing to rate on a ticket nobody
+  // answered — the same test as TicketCustomer's `showFeedback` — and nobody is asked
+  // twice: a rating already given stands, and reopening a ticket does not clear it, so a
+  // ticket that comes back and is fixed again settles without another dialog.
+  const canRate = computed(
+    () => Boolean(thread.lastAgentReply.value) && !ticket.data?.feedback,
+  )
+
+  // And whether the rating has to come first: where the helpdesk requires one, the status
+  // cannot be written without it, so the dialog's save is the only way through.
   const wantsFeedback = computed(
-    () =>
-      Boolean(thread.lastAgentReply.value) &&
-      Boolean(config.value?.is_feedback_mandatory),
+    () => canRate.value && Boolean(config.value?.is_feedback_mandatory),
   )
 
   // "Did this solve it?", asked inline under the newest agent reply.
   //
-  // Hung off the *latest* reply rather than repeated under every one: the question is
-  // always about where the conversation currently stands, and one live ask reads as a
-  // conversation while N stacked ones read as nagging. It moves down as the agent
-  // replies again.
+  // Asked late, and only once: support marks the ticket Resolved, and if the requester has
+  // not come back within five days the portal asks whether that was true. Before that the
+  // ticket is either still moving or freshly answered, and asking then is nagging — the
+  // reader can already say either thing by replying.
   //
-  // Renders nothing once the ticket is settled, or for anyone who is not the person who
-  // raised it. Resolved counts as settled: the thread already carries a card saying so,
-  // and asking "did this solve your issue?" beside it reads as the portal not knowing its
-  // own state. The question belongs to a ticket still in flight — an agent replies, the
-  // ticket sits at Replied, and answering is what moves it on.
+  // Hung off the *latest* reply rather than repeated under every one: the question is about
+  // where the conversation currently stands, and one live ask reads as a conversation while
+  // N stacked ones read as nagging.
   //
-  // Keyed on status alone, which is also all the confirmation writes — so a reopened
-  // ticket asks again, as it should.
+  // Nobody but the person who raised it is asked, and a closed ticket is past asking.
   const solvePromptAt = computed(() => {
     const data = ticket.data
-    if (!data || SETTLED.includes(data.status)) return null
+    if (!data || data.status !== 'Resolved') return null
+    if (!settledFor(promptAfterDays.value)) return null
     const viewer = config.value?.session_user
     if (viewer && data.raised_by && viewer !== data.raised_by) return null
     // Which message is support's is the thread store's business — it owns the row shape
@@ -78,37 +95,27 @@ export default function setup(context) {
     return thread.lastAgentReply.value?.name || null
   })
 
-  // Calling a reply the fix is also saying what the fix was, so the confirmation records
-  // that reply as the ticket's resolution — the agent's own words promoted, not a
-  // paraphrase, and the same text the desk's Resolution Details field would hold. Never
-  // over an account an agent wrote themselves: theirs is the fuller story.
-  function resolutionFields() {
-    const reply = thread.lastAgentReply.value
-    if (!reply || ticket.data?.resolution_details) return {}
-    return { resolution_details: reply.content }
+  /** A helpdesk that wants to ask sooner, later, or straight away says so in HD Settings;
+   *  a Single leaves a field it has never been given out of the payload entirely, so a
+   *  missing key falls back rather than reading as zero. */
+  const promptAfterDays = computed(() => {
+    const days = config.value?.confirm_resolution_after_days
+    return days === undefined || days === null ? RESOLVED_PROMPT_DAYS : Number(days)
+  })
+
+  /** Whether the resolution has stood unchallenged this long. `resolution_date` is stamped
+   *  on entering the resolved category, so it is the moment the clock starts from. */
+  function settledFor(days: number) {
+    const on = ticket.data?.resolution_date
+    return Boolean(on) && dayjs().diff(dayjs(on), 'day') >= days
   }
 
-  // Yes marks the ticket resolved, records what resolved it, and asks for the rating.
-  //
-  // When the helpdesk requires feedback, the status cannot be written first —
-  // `validate_feedback` refuses to let a non-agent enter the Resolved category without a
-  // rating — so the dialog's single save carries the lot. Where feedback is optional the
-  // status goes in straight away, because the reader may dismiss the dialog and their
-  // confirmation should survive that.
+  // Yes ends the ticket: it has been resolved for days and the requester has now said so.
+  // Where a rating is still owed the dialog carries the close, since its single save is the
+  // only way past `validate_feedback` on a helpdesk that requires one.
   async function confirmSolved() {
-    if (wantsFeedback.value)
-      return feedback.openFeedback('Resolved', resolutionFields())
-    try {
-      await call('frappe.client.set_value', {
-        doctype: 'HD Ticket',
-        name: ticketId.value,
-        fieldname: { status: 'Resolved', ...resolutionFields() },
-      })
-      ticket.fetch()
-      feedback.openFeedback('Resolved')
-    } catch (error) {
-      toast.error(error?.messages?.[0] || 'Could not mark this as resolved')
-    }
+    if (canRate.value) return feedback.openFeedback('Closed')
+    return closeTicket()
   }
 
   // No is never a dead end: an agent reply usually leaves the ticket "Replied", so this
@@ -153,12 +160,14 @@ export default function setup(context) {
   }
 
   return {
+
     ...settings,
     ...thread,
     ...useTicketDetails(ticket, thread),
     ...feedback,
     ticketId,
     ticket,
+    canCreateTicket,
     pageActionLabel,
     pageActionIcon: 'check',
     onPageAction,

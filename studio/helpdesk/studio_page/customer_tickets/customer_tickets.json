@@ -84,26 +84,39 @@
          "isCustomVueComponent": true
         },
         {
-         "blockName": "tickets-quickfilter",
-         "children": [],
-         "classes": [],
-         "componentId": "QuickFilter-tickets-quickfilter",
-         "componentName": "QuickFilter",
-         "componentProps": {
-          "customizing": {
-           "$type": "variable",
-           "name": "quickFilterCustomizing"
-          },
-          "doctype": "HD Ticket",
-          "fields": {
-           "$type": "variable",
-           "name": "quickFilterFields"
-          },
-          "filters": {
-           "$type": "variable",
-           "name": "filters"
+         "baseStyles": {
+          "display": "block",
+          "flex": "1",
+          "minWidth": "0"
+         },
+         "children": [
+          {
+           "blockName": "tickets-quickfilter",
+           "children": [],
+           "classes": [],
+           "componentId": "QuickFilter-tickets-quickfilter",
+           "componentName": "QuickFilter",
+           "componentProps": {
+            "customizing": {
+             "$type": "variable",
+             "name": "quickFilterCustomizing"
+            },
+            "doctype": "HD Ticket",
+            "fields": {
+             "$type": "variable",
+             "name": "quickFilterFields"
+            },
+            "filters": {
+             "$type": "variable",
+             "name": "filters"
+            }
+           }
           }
-         }
+         ],
+         "classes": [],
+         "componentId": "container-toolbar-quickfilter",
+         "componentName": "container",
+         "originalElement": "div"
         }
        ],
        "classes": [],
@@ -154,18 +167,21 @@
          }
         },
         {
-         "blockName": "tickets-filter",
          "children": [],
          "classes": [],
-         "componentId": "Filter-tickets-filter",
-         "componentName": "Filter",
-         "componentProps": {
-          "doctype": "HD Ticket",
-          "modelValue": {
-           "$type": "variable",
-           "name": "filters"
+         "componentEvents": {
+          "update:conditions": {
+           "action": "Run Script",
+           "script": "setFilterConditions(eventArgs[0])"
           }
-         }
+         },
+         "componentId": "KbFilter-tickets-filter",
+         "componentName": "KbFilter",
+         "componentProps": {
+          "conditions": "{{ filterConditions }}",
+          "fields": "{{ filterFields }}"
+         },
+         "isCustomVueComponent": true
         },
         {
          "blockName": "tickets-sort",
@@ -377,26 +393,39 @@
          "isCustomVueComponent": true
         },
         {
-         "blockName": "tickets-quickfilter",
-         "children": [],
-         "classes": [],
-         "componentId": "QuickFilter-tickets-quickfilter",
-         "componentName": "QuickFilter",
-         "componentProps": {
-          "customizing": {
-           "$type": "variable",
-           "name": "quickFilterCustomizing"
-          },
-          "doctype": "HD Ticket",
-          "fields": {
-           "$type": "variable",
-           "name": "quickFilterFields"
-          },
-          "filters": {
-           "$type": "variable",
-           "name": "filters"
+         "baseStyles": {
+          "display": "block",
+          "flex": "1",
+          "minWidth": "0"
+         },
+         "children": [
+          {
+           "blockName": "tickets-quickfilter",
+           "children": [],
+           "classes": [],
+           "componentId": "QuickFilter-tickets-quickfilter",
+           "componentName": "QuickFilter",
+           "componentProps": {
+            "customizing": {
+             "$type": "variable",
+             "name": "quickFilterCustomizing"
+            },
+            "doctype": "HD Ticket",
+            "fields": {
+             "$type": "variable",
+             "name": "quickFilterFields"
+            },
+            "filters": {
+             "$type": "variable",
+             "name": "filters"
+            }
+           }
           }
-         }
+         ],
+         "classes": [],
+         "componentId": "container-toolbar-quickfilter",
+         "componentName": "container",
+         "originalElement": "div"
         }
        ],
        "classes": [],
@@ -447,18 +476,21 @@
          }
         },
         {
-         "blockName": "tickets-filter",
          "children": [],
          "classes": [],
-         "componentId": "Filter-tickets-filter",
-         "componentName": "Filter",
-         "componentProps": {
-          "doctype": "HD Ticket",
-          "modelValue": {
-           "$type": "variable",
-           "name": "filters"
+         "componentEvents": {
+          "update:conditions": {
+           "action": "Run Script",
+           "script": "setFilterConditions(eventArgs[0])"
           }
-         }
+         },
+         "componentId": "KbFilter-tickets-filter",
+         "componentName": "KbFilter",
+         "componentProps": {
+          "conditions": "{{ filterConditions }}",
+          "fields": "{{ filterFields }}"
+         },
+         "isCustomVueComponent": true
         },
         {
          "blockName": "tickets-sort",
@@ -585,7 +617,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-08-16 21:18:39.674610",
+ "modified": "2026-08-18 03:56:32.338222",
  "modified_by": "Administrator",
  "name": "customer_tickets",
  "owner": "Administrator",

@@ -3,8 +3,8 @@
 // so both list views draw a ticket the same way. The desk components they mirror
 // (IndicatorIcon, TicketPriority, StarRating, MultipleAvatar) live under `@/` in
 // the desk SPA, which the Studio build cannot resolve — hence the local ports.
-import { Avatar, Badge, Tooltip, createListResource, dayjs } from 'frappe-ui'
-import { h } from 'vue'
+import { Avatar, Badge, Tooltip, call, createListResource, dayjs } from 'frappe-ui'
+import { h, reactive } from 'vue'
 
 // Status colour and portal-facing label come from HD Ticket Status, exactly as
 // `useTicketStatusStore` supplies them to the agent list.
@@ -57,6 +57,12 @@ export function statusCell({ item }: any) {
   ])
 }
 
+/** The same status, for anywhere that draws its own pill rather than a list cell. */
+export function statusMeta(label: string) {
+  const status = getStatus(label)
+  return { label: status?.label_customer || label || '', color: statusColor(status?.color) }
+}
+
 // --- priority: the signal-bars icon + name from TicketPriority.vue. The level is
 // the priority's own `level` field, read the way `useTicketPriorityStore` reads it,
 // so a custom priority draws the bars its level says rather than falling to Medium.
@@ -73,6 +79,27 @@ const priorities = createListResource({
 export function loadTicketMeta() {
   statuses.fetch()
   priorities.fetch()
+}
+
+// Who an assignee is, by user id. `_assign` carries bare ids, so without this the list
+// draws an initial and a name guessed from the email — while the ticket's own thread
+// shows the same agent with their real name and face.
+const agents = reactive<Record<string, { name: string; image?: string }>>({})
+
+/** Look up the assignees on a page of rows, once per agent. */
+export function loadAssignees(rows: any[]) {
+  const wanted = new Set<string>()
+  for (const row of rows || []) {
+    for (const email of parseJson(row?._assign)) {
+      if (email && !(email in agents)) wanted.add(email)
+    }
+  }
+  if (!wanted.size) return
+  // Claimed before the answer lands, so a second page does not ask again.
+  wanted.forEach((email) => (agents[email] = { name: guessName(email) }))
+  call('helpdesk.api.session.get_agent_avatars', { agents: [...wanted] })
+    .then((found) => Object.assign(agents, found || {}))
+    .catch(() => {})
 }
 
 function getLevel(name: string) {
@@ -164,7 +191,12 @@ export function avatarCell({ item }: any) {
   if (assignees.length === 1) {
     return h(Tooltip, { text: assignees[0].email }, () =>
       h('div', { class: 'flex min-w-0 items-center gap-2 text-base line-clamp-1' }, [
-        h(Avatar, { shape: 'circle', size: 'sm', label: assignees[0].name }),
+        h(Avatar, {
+          shape: 'circle',
+          size: 'sm',
+          label: assignees[0].name,
+          image: assignees[0].image,
+        }),
         h('div', { class: 'min-w-0 truncate' }, assignees[0].name),
       ]),
     )
@@ -182,6 +214,7 @@ export function avatarCell({ item }: any) {
           shape: 'circle',
           size: 'sm',
           label: assignee.name,
+          image: assignee.image,
         }),
       ),
     ),
@@ -222,8 +255,14 @@ export function idCell({ row }: any) {
 function parseAssignees(raw: string) {
   return parseJson(raw).map((email: string) => ({
     email,
-    name: capitalize(String(email).split('@')[0]),
+    name: agents[email]?.name || guessName(email),
+    image: agents[email]?.image,
   }))
+}
+
+/** Until the lookup answers: the local part, capitalised. */
+function guessName(email: string) {
+  return capitalize(String(email).split('@')[0])
 }
 
 function capitalize(value: string) {

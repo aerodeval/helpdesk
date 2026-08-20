@@ -1,10 +1,14 @@
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { createResource } from 'frappe-ui'
 import { useListData, useListView } from '@framework/ui/ListView'
+import { parseFilters, serializeFilters } from '@framework/ui/Filter'
 import {
+  loadAssignees,
   avatarCell, datetimeCell, idCell, priorityCell, ratingCell,
   resolutionCell, responseCell, statusCell, subjectCell, textCell,
 } from '@app/components/ticketCells'
 import { useSettingsModal } from '@app/stores/settings'
+import { language, t } from '@app/stores/translations'
 import { useViews } from '@app/stores/views'
 
 // Customer-portal Tickets list. Filters, sort, columns and the fetch come from
@@ -19,27 +23,45 @@ const PAGE_LENGTHS = [20, 50, 100]
 
 // HD Ticket's own `default_list_data` (helpdesk/doctype/hd_ticket.py), which is
 // what the agent portal's ticket list shows — labels, order and widths alike.
+// Kept in English and translated on the way out, so a column's heading can be re-worded
+// when the reader changes language without losing the name it is keyed by.
+const COLUMN_LABELS = {
+  name: 'ID',
+  subject: 'Subject',
+  status: 'Status',
+  response_by: 'First Response',
+  resolution_by: 'Resolution',
+  _assign: 'Assigned To',
+  customer: 'Customer',
+  priority: 'Priority',
+  ticket_type: 'Type',
+  agent_group: 'Team',
+  contact: 'Contact',
+  feedback_rating: 'Rating',
+  creation: 'Created',
+}
+
 const DEFAULT_COLUMNS = [
-  { fieldname: 'name', label: 'ID', width: 'auto' },
-  { fieldname: 'subject', label: 'Subject', width: '25rem' },
-  { fieldname: 'status', label: 'Status', width: '8rem' },
-  { fieldname: 'response_by', label: 'First Response', width: '8rem' },
-  { fieldname: 'resolution_by', label: 'Resolution', width: '8rem' },
-  { fieldname: '_assign', label: 'Assigned To', width: '8rem' },
-  { fieldname: 'customer', label: 'Customer', width: '8rem' },
-  { fieldname: 'priority', label: 'Priority', width: '10rem' },
-  { fieldname: 'ticket_type', label: 'Type', width: '11rem' },
-  { fieldname: 'agent_group', label: 'Team', width: '10rem' },
-  { fieldname: 'contact', label: 'Contact', width: '8rem' },
-  { fieldname: 'feedback_rating', label: 'Rating', width: '10rem' },
-  { fieldname: 'creation', label: 'Created', width: '8rem' },
-]
+  { fieldname: 'name', width: 'auto' },
+  { fieldname: 'subject', width: '25rem' },
+  { fieldname: 'status', width: '8rem' },
+  { fieldname: 'response_by', width: '8rem' },
+  { fieldname: 'resolution_by', width: '8rem' },
+  { fieldname: '_assign', width: '8rem' },
+  { fieldname: 'customer', width: '8rem' },
+  { fieldname: 'priority', width: '10rem' },
+  { fieldname: 'ticket_type', width: '11rem' },
+  { fieldname: 'agent_group', width: '10rem' },
+  { fieldname: 'contact', width: '8rem' },
+  { fieldname: 'feedback_rating', width: '10rem' },
+  { fieldname: 'creation', width: '8rem' },
+].map((column) => ({ ...column, label: t(COLUMN_LABELS[column.fieldname]) }))
 
 // Assignee reads `_assign`, a standard field rather than a docfield. The column
 // layer reserves `_`-prefixed keys for host-drawn ("synthetic") columns and drops
 // any it has no declaration for, so it is declared here — see `fetchView` below
 // for how its data still gets fetched.
-const SYNTHETIC_COLUMNS = [{ key: '_assign', label: 'Assigned To', width: '8rem' }]
+const SYNTHETIC_COLUMNS = [{ key: '_assign', label: t('Assigned To'), width: '8rem' }]
 
 // Fields no column shows: whether a first response landed and when the ticket was
 // resolved (the SLA badges), plus who has opened it (the subject's unread weight).
@@ -73,6 +95,18 @@ export default function setup(context) {
   // Seeded before the data layer: `useListData` fetches off the wire columns the
   // moment it is created, so seeding after would spend a request on the defaults.
   view.columns.shown.value = DEFAULT_COLUMNS
+  // Headings follow the reader's language, whichever columns they are looking at — the
+  // saved view's own picks included, since the label is re-derived rather than restored.
+  watch(language, () => {
+    view.columns.shown.value = view.columns.shown.value.map((column) => {
+      const english = COLUMN_LABELS[column.fieldname || column.key]
+      return english ? { ...column, label: t(english) } : column
+    })
+  })
+  // Newest first. Left unset, the list falls back to the server's own order (`modified
+  // desc`), which shuffles a ticket to the top whenever anything touches it — including
+  // an agent's own edit — so a requester's list never settles.
+  view.sort.by.value = [{ fieldname: 'creation', direction: 'desc' }]
 
   // The fetch skips a synthetic column's key, since normally the host fetches that
   // data itself. `_assign` needs no such help — it is a real column to `get_list` —
@@ -90,6 +124,10 @@ export default function setup(context) {
     },
   }
   const data = useListData(DOCTYPE, fetchView)
+
+  // Who the assignees are, fetched as rows arrive: `_assign` is only user ids, and the
+  // Assigned To column draws a face and a name from them.
+  watch(data.rows, (rows) => loadAssignees(rows), { immediate: true })
 
   // Saved views. Bound after the view exists so it can restore into it; the store reads
   // `?view=` off the route, so a shared URL opens the same layout.
@@ -146,6 +184,42 @@ export default function setup(context) {
     )
   }
 
+  // --- Filter ---
+
+  // The agent portal's own filter control, ported into this app (KbFilter.vue). It speaks
+  // Frappe wire conditions, so the page translates on both sides: `serializeFilters` down
+  // to tuples for the control, `parseFilters` back up to the condition objects the list
+  // data layer and the QuickFilter share.
+  //
+  // Fields come from the same endpoint the agent list uses, asked with the customer-portal
+  // flag so it offers only what a requester may filter on.
+  const filterFields = createResource({
+    url: 'helpdesk.api.doc.get_filterable_fields',
+    cache: ['HD Ticket', 'customer-portal-filter-fields'],
+    params: { doctype: DOCTYPE, show_customer_portal_fields: true },
+    auto: true,
+  })
+
+  const filterConditions = computed({
+    get: () => serializeFilters(view.filters.conditions.value),
+    set: (wire) => {
+      view.filters.conditions.value = parseFilters(filterFields.data || [], wire)
+    },
+  })
+
+  // One organization is not a choice. Scope the list to it as soon as it is known, rather
+  // than showing an empty switcher the reader has to operate to name the only place they
+  // belong. Skipped when a condition is already there — a remembered search, or their own
+  // pick — so this never overrides what they chose.
+  watch(
+    settings.organizations,
+    (orgs) => {
+      if (orgs.length !== 1 || selectedOrganizations.value.length) return
+      selectOrganization([orgs[0].name])
+    },
+    { immediate: true },
+  )
+
   // Customer is in `in_standard_filter`, so it arrives as a quick filter — but the
   // switcher is that filter here. Writable so customize mode still writes back.
   const quickFilterFields = computed({
@@ -167,6 +241,10 @@ export default function setup(context) {
     syntheticColumns: SYNTHETIC_COLUMNS,
     quickFilterFields,
     quickFilterCustomizing: view.quickFilter.customizing,
+    // the ported filter control
+    filterFields: computed(() => filterFields.data || []),
+    filterConditions,
+    setFilterConditions: (wire) => (filterConditions.value = wire),
     // table + footer
     listColumns,
     emptyState,

@@ -4,7 +4,7 @@ import { useSettingsModal } from '@app/stores/settings'
 export default function setup(context) {
   const { articles, HD_Article_Category } = context
 
-  const activeTab = ref('All')
+  const activeTab = ref('Latest')
   const searchQuery = ref('')
 
   const filteredArticles = computed(() => {
@@ -17,8 +17,9 @@ export default function setup(context) {
       list = list.filter(a => a.title && a.title.toLowerCase().includes(q))
     }
 
-    // Filter by tab
-    if (activeTab.value === 'New') {
+    // Sort by tab. Two ways in: what is newest, and what most people read — an
+    // unsorted "All" said nothing about which article to open first.
+    if (activeTab.value === 'Latest') {
       list = [...list].sort((a, b) => {
         const da = a.published_on ? new Date(a.published_on) : new Date(0)
         const db = b.published_on ? new Date(b.published_on) : new Date(0)

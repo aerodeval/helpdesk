@@ -235,11 +235,6 @@
              },
              "children": [
               {
-               "baseStyles": {
-                "backgroundColor": "var(--surface-violet-2, oklch(0.943 0.031 297.722))",
-                "borderRadius": "6px",
-                "cursor": "pointer"
-               },
                "children": [],
                "classes": [],
                "componentEvents": {
@@ -249,14 +244,12 @@
                  "script": "router.push({ path: `/category/${dataItem.name}` })"
                 }
                },
-               "componentId": "Badge-popular-tag",
-               "componentName": "Badge",
+               "componentId": "KbTag-popular",
+               "componentName": "KbTag",
                "componentProps": {
-                "label": "{{ dataItem.label }}",
-                "size": "md",
-                "theme": "violet",
-                "variant": "outline"
-               }
+                "label": "{{ dataItem.label }}"
+               },
+               "isCustomVueComponent": true
               }
              ],
              "classes": [],
@@ -297,7 +290,7 @@
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
-        "paddingTop": "20px",
+        "paddingTop": "41px",
         "width": "100%"
        },
        "blockName": "categories-section",
@@ -452,7 +445,8 @@
               }
              ],
              "classes": [
-              "hover:bg-surface-gray-2"
+              "transition",
+              "hover:bg-surface-gray-1"
              ],
              "componentEvents": {
               "click": {
@@ -568,12 +562,8 @@
             "modelValue": "{{ activeTab }}",
             "options": [
              {
-              "label": "All",
-              "value": "All"
-             },
-             {
-              "label": "New",
-              "value": "New"
+              "label": "Latest",
+              "value": "Latest"
              },
              {
               "label": "Popular",
@@ -718,7 +708,10 @@
                "originalElement": "div"
               }
              ],
-             "classes": [],
+             "classes": [
+              "transition",
+              "hover:bg-surface-gray-1"
+             ],
              "componentEvents": {
               "click": {
                "action": "Run Script",
@@ -1040,11 +1033,6 @@
              },
              "children": [
               {
-               "baseStyles": {
-                "backgroundColor": "var(--surface-violet-2, oklch(0.943 0.031 297.722))",
-                "borderRadius": "6px",
-                "cursor": "pointer"
-               },
                "children": [],
                "classes": [],
                "componentEvents": {
@@ -1054,14 +1042,12 @@
                  "script": "router.push({ path: `/category/${dataItem.name}` })"
                 }
                },
-               "componentId": "Badge-popular-tag",
-               "componentName": "Badge",
+               "componentId": "KbTag-popular",
+               "componentName": "KbTag",
                "componentProps": {
-                "label": "{{ dataItem.label }}",
-                "size": "md",
-                "theme": "violet",
-                "variant": "outline"
-               }
+                "label": "{{ dataItem.label }}"
+               },
+               "isCustomVueComponent": true
               }
              ],
              "classes": [],
@@ -1102,7 +1088,7 @@
         "paddingBottom": "0px",
         "paddingLeft": "0px",
         "paddingRight": "0px",
-        "paddingTop": "20px",
+        "paddingTop": "41px",
         "width": "100%"
        },
        "blockName": "categories-section",
@@ -1257,7 +1243,8 @@
               }
              ],
              "classes": [
-              "hover:bg-surface-gray-2"
+              "transition",
+              "hover:bg-surface-gray-1"
              ],
              "componentEvents": {
               "click": {
@@ -1373,12 +1360,8 @@
             "modelValue": "{{ activeTab }}",
             "options": [
              {
-              "label": "All",
-              "value": "All"
-             },
-             {
-              "label": "New",
-              "value": "New"
+              "label": "Latest",
+              "value": "Latest"
              },
              {
               "label": "Popular",
@@ -1523,7 +1506,10 @@
                "originalElement": "div"
               }
              ],
-             "classes": [],
+             "classes": [
+              "transition",
+              "hover:bg-surface-gray-1"
+             ],
              "componentEvents": {
               "click": {
                "action": "Run Script",
@@ -1598,7 +1584,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-08-17 00:22:58.442815",
+ "modified": "2026-08-20 11:20:52.204107",
  "modified_by": "Administrator",
  "name": "public_kb",
  "owner": "Administrator",

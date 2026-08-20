@@ -6,7 +6,7 @@
       <TextInput
         v-model="search"
         type="text"
-        placeholder="Search"
+        :placeholder="t('Search')"
         :style="{ flex: 1, minWidth: 0 }"
       >
         <template #prefix>
@@ -25,9 +25,9 @@
 
     <div class="kb-members__table">
       <div class="kb-members__row kb-members__head">
-        <span>Member</span>
-        <span>Last seen</span>
-        <span>Role</span>
+        <span>{{ t("Members") }}</span>
+        <span>{{ t("Last seen") }}</span>
+        <span>{{ t("Role") }}</span>
         <span />
       </div>
 
@@ -81,13 +81,14 @@
       </div>
 
       <div v-if="!matches.length" class="kb-members__empty">
-        No members match this filter.
+        {{ t("No members match this filter.") }}
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { t } from "@app/stores/translations";
 // The organization's people, one row each. Was a tree keyed on role, which implied
 // a reporting line helpdesk does not record — any manager can act on any member.
 import {
@@ -135,16 +136,17 @@ const ROLE_ICONS = {
   Manager: LucideBriefcase,
   Member: LucideUser,
 };
+// Owner is left out: there is exactly one per organization and the list already puts
+// them first, so filtering to them narrows a list of four to a list of one.
+const FILTERABLE_ROLES = ["Manager", "Member"];
 const ROLE_FILTERS = [
   { label: "All", value: "All", icon: LucideUsers },
-  ...Object.entries(ROLE_ICONS).map(([label, icon]) => ({
+  ...FILTERABLE_ROLES.map((label) => ({
     label,
     value: label,
-    icon,
+    icon: ROLE_ICONS[label],
   })),
 ];
-
-const EMPTY = "—";
 
 const role = ref("All");
 const search = ref("");
@@ -174,10 +176,11 @@ function roleIcon(member: Member) {
   return ROLE_ICONS[roleLabel(member)];
 }
 
-/** `User.last_active`, worded as the agent portal's contact page words it. Someone
- *  who has never signed in — anyone still holding an invitation — has none. */
+/** `User.last_active`, worded as the agent portal's contact page words it. Someone who
+ *  has never signed in — anyone still holding an invitation — is said so in words: a dash
+ *  reads as missing data where the absence is the fact. */
 function lastSeen(member: Member) {
-  return member.last_seen ? dayjs(member.last_seen).fromNow() : EMPTY;
+  return member.last_seen ? dayjs(member.last_seen).fromNow() : t("Never");
 }
 
 /** The owner's role is fixed, and demoting yourself revokes the rights the call
@@ -243,6 +246,11 @@ function keyOf(member: Member) {
   gap: 12px;
   padding: 8px 0;
   border-bottom: 1px solid var(--outline-gray-1);
+}
+
+/* A hairline separates two rows; under the last one it is a line under nothing. */
+.kb-members__row:last-child {
+  border-bottom: 0;
 }
 
 .kb-members__head {

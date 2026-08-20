@@ -28,6 +28,7 @@
   "column_break_zxek",
   "feedback_section",
   "is_feedback_mandatory",
+  "confirm_resolution_after_days",
   "column_break_kegb",
   "comments_section",
   "enable_comment_reactions",
@@ -332,6 +333,13 @@
    "fieldname": "is_feedback_mandatory",
    "fieldtype": "Check",
    "label": "Enable feedback for Customer Portal"
+  },
+  {
+   "default": "5",
+   "description": "How long a resolution stands before the customer portal asks the requester to confirm it. Set 0 to ask as soon as a ticket is resolved.",
+   "fieldname": "confirm_resolution_after_days",
+   "fieldtype": "Int",
+   "label": "Ask to confirm resolution after (Days)"
   },
   {
    "fieldname": "column_break_iarl",

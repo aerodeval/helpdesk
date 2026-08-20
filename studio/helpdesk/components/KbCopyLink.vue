@@ -1,5 +1,17 @@
 <template>
-  <button type="button" class="kb-copy-link" @click="copy">
+  <!-- Two shapes, one behaviour: a labelled control for a byline, and a bordered icon
+       button for a header that has no room for words. -->
+  <Tooltip v-if="variant === 'button'" text="Copy link">
+    <button
+      type="button"
+      class="kb-copy-link kb-copy-link--button"
+      aria-label="Copy link"
+      @click="copy"
+    >
+      <LucideLink />
+    </button>
+  </Tooltip>
+  <button v-else type="button" class="kb-copy-link" @click="copy">
     <LucideCopy />
     <span>Copy link</span>
   </button>
@@ -9,8 +21,13 @@
 // A block carries only inline styles, so a :hover shade is impossible in the
 // tree — hence a component, which also keeps the copy behaviour next to the
 // control that triggers it.
-import { toast } from "frappe-ui";
+import { Tooltip, toast } from "frappe-ui";
 import LucideCopy from "~icons/lucide/copy";
+import LucideLink from "~icons/lucide/link";
+
+withDefaults(defineProps<{ variant?: "inline" | "button" }>(), {
+  variant: "inline",
+});
 
 async function copy() {
   // The address bar already holds the article's permalink.
@@ -70,5 +87,22 @@ function copyWithSelection(text: string) {
 
 .kb-copy-link:hover {
   color: var(--ink-gray-7);
+}
+
+/* Square, bordered, icon only — sized to sit beside a two-line identity block without
+   pulling the eye off the name. */
+.kb-copy-link--button {
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--outline-gray-2);
+  border-radius: 8px;
+  color: var(--ink-gray-6);
+}
+
+.kb-copy-link--button:hover {
+  background: var(--surface-gray-2);
+  color: var(--ink-gray-8);
 }
 </style>

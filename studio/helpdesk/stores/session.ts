@@ -58,7 +58,6 @@ function createSessionStore() {
           { icon: 'lucide-inbox', label: 'My tickets', onClick: () => go('/customer-tickets') },
           knowledgeBase,
           { icon: 'lucide-user', label: 'My account', onClick: openSettings },
-          { icon: 'lucide-settings', label: 'Settings', onClick: openSettings },
           { icon: 'lucide-log-out', label: 'Log out', onClick: signOut },
         ]
   )

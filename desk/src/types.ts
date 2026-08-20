@@ -368,6 +368,8 @@ export interface Article {
   article_image: string | null;
   _user_tags: string | null;
   status: string;
+  /** "Public" or "Customers only" — who a published article is written for. */
+  visibility: string;
   creation: string;
   content: string;
   modified: string;

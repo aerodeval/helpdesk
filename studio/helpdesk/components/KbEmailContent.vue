@@ -8,10 +8,11 @@
 // own markup and styles from reaching the portal around it, and it is why the desk
 // can show the HTML as sent rather than as some editor re-parsed it.
 //
-// The desk links its built stylesheet into the frame; this app has no such bundle,
-// so the handful of rules that matter are inlined below — same 14/21 type, same 8px
-// paragraph rhythm, same collapsed quoted replies.
-import { computed, ref, watch } from "vue";
+// The frame gets this app's own built stylesheet, the way the desk gives its frame the
+// desk bundle: a message written in the editor is prose markup — aligned images, sized
+// video, headings, lists, code — and only those rules render it as it was written.
+// Inlining a handful of substitutes is what lost the formatting.
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 
 const props = withDefaults(defineProps<{ content?: string }>(), {
   content: "",
@@ -26,7 +27,28 @@ const QUOTE_SELECTORS = [
   "p.reply-to-content",
 ];
 
-const body = computed(() => collapseQuotes(props.content || ""));
+const body = computed(() => collapseQuotes(asHtml(props.content || "")));
+
+/** Plain-text mail arrives as text with newlines and no markup — rendered as HTML its
+ *  line breaks collapse into one paragraph, so it keeps them itself. */
+function asHtml(content: string) {
+  const doc = new DOMParser().parseFromString(content, "text/html");
+  if (doc.body.children.length) return content;
+  return `<div style="white-space: pre-wrap">${doc.body.innerHTML}</div>`;
+}
+
+/** This app's stylesheet, as the page itself loaded it — hashed at build time, so it is
+ *  read off the document rather than named here. */
+const stylesheet = computed(() => {
+  const links = Array.from(
+    document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]')
+  );
+  const found = links.find((link) => {
+    const href = link.getAttribute("href") || "";
+    return href.includes("/assets/helpdesk/") && href.endsWith(".css");
+  });
+  return found?.getAttribute("href") || "";
+});
 
 // Everything below the first quote marker is folded behind a "..." toggle, so a long
 // chain does not bury the message that was actually written.
@@ -90,27 +112,17 @@ function hash(value: string) {
 }
 
 const srcdoc = computed(
-  () => `<!DOCTYPE html><html><head><base target="_blank" /><style>
+  () => `<!DOCTYPE html><html><head><base target="_blank" />
+  ${
+    stylesheet.value
+      ? `<link rel="stylesheet" href="${stylesheet.value}" />`
+      : ""
+  }
+  <style>
     body { margin: 0; }
-    .email-content {
-      font-family: InterVar, ui-sans-serif, system-ui, sans-serif;
-      font-size: 14px;
-      line-height: 21px;
-      color: #383838;
-      word-break: break-word;
-    }
-    .email-content p { margin: 8px 0; }
-    .email-content img { margin: 0; border-width: 0; max-width: 100%; }
-    .email-content blockquote {
-      margin: 8px 0;
-      padding-left: 12px;
-      border-left: 2px solid #e2e2e2;
-      color: #6b6b6b;
-    }
-    .email-content blockquote p:first-of-type::before,
-    .email-content blockquote p:last-of-type::after { content: none; }
-    .email-content a { color: #2376f1; }
-    .email-content table { border-collapse: collapse; }
+    /* Tailwind's prose caps itself at 65ch; a message uses the width it is given. */
+    .email-content { max-width: none; word-break: break-word; }
+    .email-content img { margin: 0; border-width: 0; }
     .replied-content .collapse {
       margin: 10px 0;
       cursor: pointer;
@@ -129,19 +141,37 @@ const srcdoc = computed(
     .replied-content .collapse + input { display: none; }
     .replied-content .collapse + input + div { display: none; }
     .replied-content .collapse + input:checked + div { display: block; }
-  </style></head><body><div class="email-content">${body.value}</div></body></html>`
+  </style></head><body><div class="email-content prose prose-sm">${
+    body.value
+  }</div></body></html>`
 );
 
 // The frame has no layout of its own, so its height is set from its content — and
 // set again when a quote is unfolded.
+let observer: ResizeObserver | null = null;
+let lastWidth = 0;
+
 watch(
   frame,
   (element) => {
     if (!element) return;
     element.onload = () => resize(element);
+    // Text re-wraps whenever the frame changes width — the chat layout gives a message
+    // three quarters of the column where the timeline gives it all of one — and a height
+    // measured at the old width clips the line that wrapping added.
+    observer?.disconnect();
+    observer = new ResizeObserver(([entry]) => {
+      const width = entry.contentRect.width;
+      if (width === lastWidth) return;
+      lastWidth = width;
+      resize(element);
+    });
+    observer.observe(element);
   },
   { immediate: true }
 );
+
+onBeforeUnmount(() => observer?.disconnect());
 
 watch(
   srcdoc,
@@ -151,14 +181,44 @@ watch(
 function resize(element: HTMLIFrameElement) {
   const root = element.contentDocument?.documentElement;
   if (!root) return;
-  element.style.height = `${root.offsetHeight + 1}px`;
+  const fit = () => {
+    hug(element);
+    element.style.height = `${root.offsetHeight + 1}px`;
+  };
+  fit();
   element.contentDocument
     ?.querySelectorAll('input[type="checkbox"]')
-    .forEach((toggle) =>
-      toggle.addEventListener("change", () => {
-        element.style.height = `${root.offsetHeight + 1}px`;
-      })
-    );
+    .forEach((toggle) => toggle.addEventListener("change", fit));
+  // A picture or a recording reserves no space until it has arrived, so the frame is
+  // measured again as each one does — otherwise the first frame of a video is all a
+  // reader ever sees of it.
+  element.contentDocument?.querySelectorAll("img").forEach((image) => {
+    if (!image.complete) image.addEventListener("load", fit);
+  });
+  element.contentDocument
+    ?.querySelectorAll("video")
+    .forEach((video) => video.addEventListener("loadedmetadata", fit));
+}
+
+/** Narrow the frame to what the message actually needs.
+ *
+ *  A bubble should be as wide as its sentence, and an iframe has no opinion about that —
+ *  it fills whatever it is given, which is what made a four-word message as wide as a
+ *  paragraph. The content's `max-content` width is that opinion: the width it would take
+ *  if nothing wrapped it, measured with nothing wrapping it.
+ *
+ *  That width is stated in pixels and the cap is left to CSS — the frame's own
+ *  `max-width: 100%` inside a card that shrinks to fit and stops at three quarters of the
+ *  column. Asking for `min(100%, …)` here instead put the percentage inside the box being
+ *  sized from it, and every bubble came out at the same wrong width. */
+function hug(element: HTMLIFrameElement) {
+  const content =
+    element.contentDocument?.querySelector<HTMLElement>(".email-content");
+  if (!content) return;
+  content.style.width = "max-content";
+  const natural = Math.ceil(content.getBoundingClientRect().width);
+  content.style.width = "";
+  if (natural) element.style.width = `${natural}px`;
 }
 </script>
 
@@ -166,6 +226,7 @@ function resize(element: HTMLIFrameElement) {
 .kb-email {
   display: block;
   width: 100%;
+  max-width: 100%;
   height: 40px;
   max-height: 500px;
   border: 0;
