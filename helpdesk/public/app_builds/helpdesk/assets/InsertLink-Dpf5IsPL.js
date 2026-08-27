@@ -1,0 +1,2 @@
+import{Jt as e,Yt as t,in as n,yn as r}from"./studioRenderer-zojTHvcY.js";var i=e({__name:`InsertLink`,props:{editor:{}},setup(e){let i=e;function a(){i.editor.commands.openLinkEditor()}return(e,i)=>n(e.$slots,`default`,r(t({onClick:a})))}});export{i as default};
+//# sourceMappingURL=InsertLink-Dpf5IsPL.js.map
