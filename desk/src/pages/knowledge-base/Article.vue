@@ -241,10 +241,9 @@
     <ArticleSharingModal
       v-if="article.data"
       v-model="showSharingModal"
-      :article-id="articleId"
       :title="article.data.title"
       :visibility="article.data.visibility"
-      @update:visibility="setVisibility"
+      @publish="publishArticle"
     />
   </div>
 </template>
@@ -446,8 +445,14 @@ const togglePublished = debounce(
 
 const showSharingModal = ref(false);
 
-function setVisibility(value: string) {
-  save({ visibility: value }, __("Access updated."));
+/** The sharing dialog's own action: it settles the audience and publishes in one go.
+ *  On an article that is already live only the audience actually moves, so the wording
+ *  follows what changed. */
+function publishArticle(visibility: string) {
+  save(
+    { status: "Published", visibility },
+    isPublished.value ? __("Access updated.") : __("Article published.")
+  );
 }
 
 /** `set_value` takes a fieldname map, so status and visibility travel in one write —

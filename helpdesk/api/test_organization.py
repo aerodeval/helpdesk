@@ -7,9 +7,15 @@ from frappe.tests import IntegrationTestCase
 from helpdesk.api.organization import (
     get_invitable_contacts,
     get_organization,
+    get_organizations,
     update_member_role,
 )
-from helpdesk.test_utils import create_agent, create_contact, create_customer
+from helpdesk.test_utils import (
+    create_agent,
+    create_contact,
+    create_customer,
+    make_ticket,
+)
 
 
 class TestOrganizationMembers(IntegrationTestCase):
@@ -32,6 +38,11 @@ class TestOrganizationMembers(IntegrationTestCase):
         )
         cls.customer.primary_contact = cls.owner["contact"]
         cls.customer.save()
+        # `update_member_role` is gated on this being on. Set here rather than left to
+        # whatever the site happens to carry, so these pass on a fresh site too.
+        frappe.db.set_single_value(
+            "HD Settings", "allow_customer_managers_to_invite", 1
+        )
 
     def setUp(self) -> None:
         frappe.set_user(self.manager["user"])
@@ -130,3 +141,43 @@ class TestInvitableContacts(IntegrationTestCase):
         frappe.set_user(self.colleague["user"])
         with self.assertRaises(frappe.PermissionError):
             get_invitable_contacts(self.customer.name)
+
+
+class TestOrganizationCards(IntegrationTestCase):
+    """The counts each organization card carries."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        super().setUpClass()
+        frappe.set_user("Administrator")
+        cls.member = create_contact("Card Member", "member@cards.test")
+        cls.customer = create_customer(
+            "Test Org Cards", [{"contact_name": cls.member["contact"]}]
+        )
+        for status in ("Open", "Closed"):
+            ticket = make_ticket(
+                subject=f"{status} card ticket",
+                raised_by=cls.member["user"],
+                customer=cls.customer.name,
+            )
+            ticket.db_set("status", status, update_modified=False)
+            ticket.db_set("customer", cls.customer.name, update_modified=False)
+
+    def setUp(self) -> None:
+        frappe.set_user(self.member["user"])
+
+    def tearDown(self) -> None:
+        frappe.set_user("Administrator")
+
+    def card(self) -> dict:
+        return next(
+            org for org in get_organizations() if org["name"] == self.customer.name
+        )
+
+    def test_the_ticket_count_includes_settled_tickets(self) -> None:
+        # Was open-only, which read as "nothing on file" for an organization whose
+        # tickets had all been answered.
+        self.assertEqual(self.card()["ticket_count"], 2)
+
+    def test_members_are_counted(self) -> None:
+        self.assertEqual(self.card()["member_count"], 1)

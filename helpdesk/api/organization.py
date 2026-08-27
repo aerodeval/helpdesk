@@ -62,9 +62,10 @@ def get_organizations() -> list[dict]:
     members = count_by(
         "HD Customer Member", "parent", list(by_name), parenttype="HD Customer"
     )
-    open_tickets = count_by(
-        "HD Ticket", "customer", list(by_name), status_category="Open"
-    )
+    # Every ticket the organization has raised, not only the ones still open: the card
+    # says how much history there is with them, and an organization whose tickets are all
+    # answered is not one with nothing on file.
+    tickets = count_by("HD Ticket", "customer", list(by_name))
 
     organizations = []
     for membership in memberships:
@@ -81,7 +82,7 @@ def get_organizations() -> list[dict]:
                 "is_manager": bool(membership.get("is_manager")),
                 "role": describe_role(row, membership, you),
                 "member_count": members.get(row.name, 0),
-                "open_ticket_count": open_tickets.get(row.name, 0),
+                "ticket_count": tickets.get(row.name, 0),
             }
         )
     organizations.sort(

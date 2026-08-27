@@ -14,13 +14,10 @@
         </template>
       </TextInput>
       <!-- Each option carries its icon, so the trigger shows the role you filtered
-           to rather than one generic glyph. -->
-      <Select
-        v-model="role"
-        :options="ROLE_FILTERS"
-        size="sm"
-        variant="outline"
-      />
+           to rather than one generic glyph. Subtle, not outline: it sits beside the
+           search and the pair reads as one strip — the outline variant's white fill and
+           border made the filter the louder of the two. Both lighten on focus. -->
+      <Select v-model="role" :options="ROLE_FILTERS" size="sm" />
     </div>
 
     <div class="kb-members__table">

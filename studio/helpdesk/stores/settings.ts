@@ -98,19 +98,24 @@ function createSettingsStore() {
   // Destructive actions route through one dialog rather than window.confirm, the
   // way the agent portal's ConfirmDialog does.
   const confirmAction = ref(null)
+  // Open state kept apart from the options, so what is on the dialog survives its own
+  // closing animation. Clearing the options to close it meant every binding fell back to
+  // its default on the way out — a role change, which asks in grey, turned red for the
+  // length of the fade.
+  const confirmOpen = ref(false)
 
   function askConfirm(options) {
     confirmAction.value = options
+    confirmOpen.value = true
   }
 
   function cancelConfirm() {
-    confirmAction.value = null
+    confirmOpen.value = false
   }
 
   function acceptConfirm() {
-    const pending = confirmAction.value
-    confirmAction.value = null
-    return pending?.action?.()
+    confirmOpen.value = false
+    return confirmAction.value?.action?.()
   }
 
   async function loadSettings() {
@@ -618,6 +623,7 @@ function createSettingsStore() {
     openOrganization,
     closeOrganization,
     confirmAction,
+    confirmOpen,
     askConfirm,
     cancelConfirm,
     acceptConfirm,

@@ -52,7 +52,7 @@
         <div class="kb-org-list__card-meta">
           <span class="kb-org-list__fact">
             <LucideTicket class="kb-org-list__icon" />
-            {{ count(organization.open_ticket_count, "ticket") }}
+            {{ count(organization.ticket_count, "ticket") }}
           </span>
           <span class="kb-org-list__dot">·</span>
           <span class="kb-org-list__fact">
@@ -83,7 +83,7 @@ type Organization = {
   image?: string;
   role?: string;
   member_count?: number;
-  open_ticket_count?: number;
+  ticket_count?: number;
 };
 
 const props = withDefaults(

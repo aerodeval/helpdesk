@@ -141,12 +141,34 @@ watch(search, () => searchLater());
   text-decoration: none;
 }
 
-.kb-org-tickets__row:hover {
-  background: var(--surface-gray-1);
-}
-
 .kb-org-tickets__row:last-child {
   border-bottom: 0;
+}
+
+/* The fill is a pseudo rather than the row's own background. It can then reach past the
+   text on both sides without widening the row — and stop a pixel short top and bottom, so
+   a hovered row still reads as separated from the ones around it instead of swallowing
+   the hairlines into one grey band. */
+.kb-org-tickets__body-row {
+  position: relative;
+}
+
+.kb-org-tickets__body-row::before {
+  content: "";
+  position: absolute;
+  inset: 1px -8px;
+  z-index: -1;
+  border-radius: 6px;
+}
+
+.kb-org-tickets__body-row:hover::before {
+  background: var(--surface-gray-2);
+}
+
+/* Keeps the hover fill's `z-index: -1` inside the table rather than letting it slip
+   behind the panel. */
+.kb-org-tickets__table {
+  isolation: isolate;
 }
 
 /* The column names, in the same quiet type the members table sets them in. */
@@ -156,10 +178,6 @@ watch(search, () => searchLater());
   font-size: 12px;
   line-height: 16px;
   color: var(--ink-gray-5);
-}
-
-.kb-org-tickets__head:hover {
-  background: none;
 }
 
 .kb-org-tickets__id {
