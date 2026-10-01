@@ -8,8 +8,8 @@
         aria-label="Menu"
       >
         <span class="kb-nav__logo" />
-        <FeatherIcon
-          :name="open ? 'chevron-up' : 'chevron-down'"
+        <Icon
+          :name="open ? 'lucide-chevron-up' : 'lucide-chevron-down'"
           class="kb-nav__chevron"
         />
       </button>
@@ -26,7 +26,7 @@
 // The chevron alone answers: it darkens under the pointer and flips while the menu is
 // open. No fill behind the mark — the logo is the brand, and a grey slab around it every
 // time the pointer passes reads as a button the mark was never meant to be.
-import { Dropdown, FeatherIcon } from "frappe-ui";
+import { Dropdown, Icon } from "frappe-ui";
 
 defineProps<{ options?: unknown[] }>();
 </script>

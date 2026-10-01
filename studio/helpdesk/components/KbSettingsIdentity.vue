@@ -24,7 +24,7 @@
         style="outline-color: rgb(0 0 0 / 0.05)"
         @click.stop="$emit('remove')"
       >
-        <FeatherIcon name="x" class="size-3.5 text-ink-gray-4" />
+        <Icon name="lucide-x" class="size-3.5 text-ink-gray-4" />
       </div>
     </div>
 
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { Avatar, Button, FeatherIcon, TextInput, Tooltip } from "frappe-ui";
+import { Avatar, Button, Icon, TextInput, Tooltip } from "frappe-ui";
 import { computed, nextTick, ref } from "vue";
 // The agent portal draws its icons from lucide; feather's pencil is a different glyph.
 import LucideSquarePen from "~icons/lucide/square-pen";

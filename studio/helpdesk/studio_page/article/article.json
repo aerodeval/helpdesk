@@ -1,4 +1,5 @@
 {
+ "allow_guest": 1,
  "blocks": [
   {
    "baseStyles": {
@@ -146,10 +147,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "tree-cat-chevron",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-3 w-3",
-                  "name": "chevron-right"
+                  "name": "lucide-chevron-right"
                  }
                 }
                ],
@@ -180,10 +181,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "tree-cat-icon",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "{{ dataItem.icon || 'folder' }}"
+                  "name": "lucide-folder"
                  }
                 },
                 {
@@ -518,9 +519,9 @@
                  "children": [],
                  "classes": [],
                  "componentId": "article-reading-icon",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
-                  "name": "clock"
+                  "name": "lucide-clock"
                  }
                 },
                 {
@@ -699,10 +700,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-jw3vlcl1y",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "chevron-right"
+                  "name": "lucide-chevron-right"
                  }
                 }
                ],
@@ -797,10 +798,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-fb-1",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "thumbs-up"
+                  "name": "lucide-thumbs-up"
                  }
                 }
                ],
@@ -844,10 +845,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-fb-2",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "thumbs-down"
+                  "name": "lucide-thumbs-down"
                  }
                 }
                ],
@@ -1099,12 +1100,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "tree-cat-chevron",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-3 w-3",
-                  "color": null,
-                  "name": "chevron-right",
-                  "strokeWidth": 1.5
+                  "name": "lucide-chevron-right"
                  }
                 }
                ],
@@ -1135,12 +1134,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "tree-cat-icon",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "color": null,
-                  "name": "{{ dataItem.icon || 'folder' }}",
-                  "strokeWidth": 1.5
+                  "name": "lucide-folder"
                  }
                 },
                 {
@@ -1476,9 +1473,9 @@
                   "size-4"
                  ],
                  "componentId": "article-permalink-icon",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
-                  "name": "link"
+                  "name": "lucide-link"
                  }
                 },
                 {
@@ -1648,10 +1645,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-jw3vlcl1y",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "chevron-right"
+                  "name": "lucide-chevron-right"
                  }
                 }
                ],
@@ -1746,10 +1743,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-fb-1",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "thumbs-up"
+                  "name": "lucide-thumbs-up"
                  }
                 }
                ],
@@ -1793,10 +1790,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-fb-2",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "thumbs-down"
+                  "name": "lucide-thumbs-down"
                  }
                 }
                ],
@@ -1901,7 +1898,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-08-20 12:11:17.039432",
+ "modified": "2026-10-01 14:30:00.000000",
  "modified_by": "Administrator",
  "name": "article",
  "owner": "Administrator",

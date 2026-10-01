@@ -15,7 +15,7 @@
     <template #prefix>
       <!-- Nudged so this icon shares a vertical axis with the centre of a result
            row's 36px thumbnail; the trigger's own px-3 lands it 9px short. -->
-      <FeatherIcon name="search" class="ml-[9px] size-4 text-ink-gray-4" />
+      <Icon name="lucide-search" class="ml-[9px] size-4 text-ink-gray-4" />
     </template>
 
     <!-- Replaces the default chevron so the trigger reads as a search box. -->
@@ -32,7 +32,7 @@
         <div
           class="flex size-9 shrink-0 items-center justify-center rounded-md bg-surface-gray-2 text-ink-gray-6"
         >
-          <FeatherIcon name="search" class="size-4" />
+          <Icon name="lucide-search" class="size-4" />
         </div>
         <span class="min-w-0 truncate text-base text-ink-gray-8">
           Search for “{{ query.trim() }}”
@@ -57,7 +57,7 @@
       <div
         class="flex flex-col items-center justify-center gap-2 py-8 text-center"
       >
-        <FeatherIcon name="search" class="size-8 text-ink-gray-3" />
+        <Icon name="lucide-search" class="size-8 text-ink-gray-3" />
         <p class="text-base text-ink-gray-6">
           {{
             query.trim().length < MIN_QUERY
@@ -79,7 +79,7 @@
 // highlighting are shared with the help page via `articleSearch`.
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
-import { Combobox, FeatherIcon } from "frappe-ui";
+import { Combobox, Icon } from "frappe-ui";
 import { MIN_QUERY, useArticleSearch } from "@app/components/articleSearch";
 import KbArticleThumbnail from "@app/components/KbArticleThumbnail.vue";
 

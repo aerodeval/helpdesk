@@ -1,4 +1,5 @@
 {
+ "allow_guest": 1,
  "blocks": [
   {
    "baseStyles": {
@@ -362,12 +363,10 @@
                "children": [],
                "classes": [],
                "componentId": "FeatherIcon-x3ezapeha",
-               "componentName": "FeatherIcon",
+               "componentName": "Icon",
                "componentProps": {
                 "class": "h-4 w-4",
-                "color": null,
-                "name": "{{ dataItem.icon || 'folder' }}",
-                "strokeWidth": 1.5
+                "name": "lucide-folder"
                },
                "rawStyles": {
                 "color": "var(--ink-gray-5)"
@@ -690,12 +689,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-nmxpb4soy",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-3.5 w-3.5",
-                  "color": null,
-                  "name": "chevron-right",
-                  "strokeWidth": 1.5
+                  "name": "lucide-chevron-right"
                  },
                  "rawStyles": {
                   "color": "var(--ink-gray-4)"
@@ -1160,12 +1157,10 @@
                "children": [],
                "classes": [],
                "componentId": "FeatherIcon-x3ezapeha",
-               "componentName": "FeatherIcon",
+               "componentName": "Icon",
                "componentProps": {
                 "class": "h-4 w-4",
-                "color": null,
-                "name": "{{ dataItem.icon || 'folder' }}",
-                "strokeWidth": 1.5
+                "name": "lucide-folder"
                },
                "rawStyles": {
                 "color": "var(--ink-gray-5)"
@@ -1488,12 +1483,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-nmxpb4soy",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-3.5 w-3.5",
-                  "color": null,
-                  "name": "chevron-right",
-                  "strokeWidth": 1.5
+                  "name": "lucide-chevron-right"
                  },
                  "rawStyles": {
                   "color": "var(--ink-gray-4)"
@@ -1584,7 +1577,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-08-20 11:20:52.204107",
+ "modified": "2026-10-01 14:30:00.000000",
  "modified_by": "Administrator",
  "name": "public_kb",
  "owner": "Administrator",

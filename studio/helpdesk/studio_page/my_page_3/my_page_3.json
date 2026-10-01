@@ -139,10 +139,10 @@
              "children": [],
              "classes": [],
              "componentId": "FeatherIcon-u490d4i9p",
-             "componentName": "FeatherIcon",
+             "componentName": "Icon",
              "componentProps": {
               "class": "h-4 w-4",
-              "name": "search"
+              "name": "lucide-search"
              }
             },
             {
@@ -385,10 +385,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-stuwdva6e",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "life-buoy"
+                  "name": "lucide-life-buoy"
                  }
                 }
                ],
@@ -476,10 +476,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-u6uuhmpl4",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "shopping-bag"
+                  "name": "lucide-shopping-bag"
                  }
                 }
                ],
@@ -567,10 +567,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-aisnqkoh4",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "file-text"
+                  "name": "lucide-file-text"
                  }
                 }
                ],
@@ -658,10 +658,10 @@
                  "children": [],
                  "classes": [],
                  "componentId": "FeatherIcon-20dppvc8r",
-                 "componentName": "FeatherIcon",
+                 "componentName": "Icon",
                  "componentProps": {
                   "class": "h-4 w-4",
-                  "name": "award"
+                  "name": "lucide-award"
                  }
                 }
                ],
@@ -1189,10 +1189,10 @@
                    "children": [],
                    "classes": [],
                    "componentId": "FeatherIcon-mje8oclgi",
-                   "componentName": "FeatherIcon",
+                   "componentName": "Icon",
                    "componentProps": {
                     "class": "h-4 w-4",
-                    "name": "credit-card"
+                    "name": "lucide-credit-card"
                    }
                   },
                   {
@@ -1318,7 +1318,7 @@
  ],
  "frappe_app": "helpdesk",
  "is_standard": 1,
- "modified": "2026-07-05 12:18:02.215768",
+ "modified": "2026-10-01 14:30:00.000000",
  "modified_by": "Administrator",
  "name": "my_page_3",
  "owner": "Administrator",

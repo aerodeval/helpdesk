@@ -10,7 +10,7 @@
       @dragleave.prevent="isOver = false"
       @drop.prevent="onDrop"
     >
-      <FeatherIcon name="upload" class="size-4 shrink-0 text-ink-gray-5" />
+      <Icon name="lucide-upload" class="size-4 shrink-0 text-ink-gray-5" />
       <span class="kb-attach__hint">
         {{
           uploading
@@ -30,8 +30,8 @@
 
     <ul v-if="files.length" class="kb-attach__list">
       <li v-for="file in files" :key="file.name" class="kb-attach__file">
-        <FeatherIcon
-          name="paperclip"
+        <Icon
+          name="lucide-paperclip"
           class="size-3.5 shrink-0 text-ink-gray-5"
         />
         <span class="kb-attach__name">{{ file.file_name || file.name }}</span>
@@ -41,7 +41,7 @@
           :aria-label="`Remove ${file.file_name || file.name}`"
           @click.stop="remove(file)"
         >
-          <FeatherIcon name="x" class="size-3.5" />
+          <Icon name="lucide-x" class="size-3.5" />
         </button>
       </li>
     </ul>
@@ -59,7 +59,7 @@
 // again. This drives the same `FileUploadHandler` it uses, once per file.
 
 import { computed, ref } from "vue";
-import { FeatherIcon, FileUploadHandler } from "frappe-ui";
+import { Icon, FileUploadHandler } from "frappe-ui";
 
 // Private, and in the folder the ticket thread's own uploads go to — an attachment on a
 // support ticket is not public content.

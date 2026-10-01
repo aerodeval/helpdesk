@@ -14,7 +14,7 @@
       autofocus
     >
       <template #prefix>
-        <FeatherIcon name="search" class="size-4 text-ink-gray-4" />
+        <Icon name="lucide-search" class="size-4 text-ink-gray-4" />
       </template>
     </TextInput>
 
@@ -51,7 +51,7 @@
         <span
           class="mt-px flex size-9 shrink-0 items-center justify-center rounded-md bg-surface-gray-2 text-ink-gray-6"
         >
-          <FeatherIcon name="plus" class="size-4" />
+          <Icon name="lucide-plus" class="size-4" />
         </span>
         <span class="flex min-w-0 flex-col gap-0.5">
           <span class="text-base font-medium text-ink-gray-8">
@@ -71,7 +71,7 @@
       v-else-if="searched"
       class="flex flex-1 flex-col items-center justify-center gap-1 pb-16 text-center"
     >
-      <FeatherIcon name="search" class="size-6 text-ink-gray-4" />
+      <Icon name="lucide-search" class="size-6 text-ink-gray-4" />
       <span class="mt-2 text-base font-medium text-ink-gray-8">
         No articles found
       </span>
@@ -94,7 +94,7 @@
 // Deflection step in front of the ticket form: search first, and only offer a
 // ticket once the knowledge base comes up empty. Matching, snippets and
 // highlighting are shared with the header search box via `articleSearch`.
-import { Button, FeatherIcon, TextInput } from "frappe-ui";
+import { Button, Icon, TextInput } from "frappe-ui";
 import { computed, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { MIN_QUERY, useArticleSearch } from "@app/components/articleSearch";
