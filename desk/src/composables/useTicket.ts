@@ -1,10 +1,10 @@
 import type { TicketAnalytics } from "@/components/ticket-agent/analytics/types";
+import type { CommentExtras } from "@/components/ticket-agent/timeline/TimelineCommentRow.vue";
 import { __ } from "@/translation";
 import type {
   DocumentResource,
   RecentSimilarTicket,
   Resource,
-  TicketActivities,
   TicketAssignee,
   TicketContact,
 } from "@/types";
@@ -17,8 +17,23 @@ interface MapValue {
   assignees: Resource<TicketAssignee[]>;
   contact: Resource<TicketContact>;
   recentSimilarTickets: Resource<RecentSimilarTicket>;
-  activities: Resource<TicketActivities>;
   analytics: Resource<TicketAnalytics>;
+  // shared by every timeline tab instance, fetched once per ticket
+  calls: Resource<Record<string, any>[]>;
+  commentExtras: Resource<TicketCommentExtras>;
+  // lent by the mounted timeline; see registerTicketFeed
+  reloadFeed?: () => void;
+}
+
+export interface TicketCommentExtras {
+  comments: Record<string, CommentExtras>;
+  // oldest first, so a pin's position is its "N:" in the pinned bar
+  pinned_comments: string[];
+}
+
+export interface PinnedComment {
+  name: string;
+  content: string;
 }
 
 const ticketMap: Record<string, MapValue> = reactive({});
@@ -59,16 +74,21 @@ export const useTicket = (ticketId: string): MapValue => {
         params: { ticket: ticketId },
         auto: true,
       }),
-      activities: createResource({
-        url: "helpdesk.helpdesk.doctype.hd_ticket.api.get_ticket_activities",
-        params: { ticket: ticketId },
-        auto: true,
-      }),
       // fetched by the analytics tab, not on ticket open
       analytics: createResource({
         url: "helpdesk.api.ticket_analytics.get_ticket_analytics",
         params: { ticket: ticketId },
         cache: ["Ticket", ticketId, "analytics"],
+      }),
+      calls: createResource({
+        url: "helpdesk.api.timeline.get_ticket_calls",
+        params: { ticket: ticketId },
+        auto: true,
+      }),
+      commentExtras: createResource({
+        url: "helpdesk.api.timeline.get_comment_extras",
+        params: { ticket: ticketId },
+        auto: true,
       }),
     };
   }
@@ -81,7 +101,22 @@ export function reloadTicket(ticketId: string) {
   if (!ticketData) return;
   ticketData.ticket.reload();
   ticketData.assignees.reload();
-  ticketData.activities.reload();
+}
+
+// The timeline owns its feed through useActivityTimeline, so anything outside it
+// (a saved reply applying actions, say) reloads through the mounted component.
+export function registerTicketFeed(ticketId: string, reload: () => void) {
+  const ticketData = ticketMap[ticketId];
+  if (!ticketData) return () => {};
+  ticketData.reloadFeed = reload;
+  // identity check: on ticket switch the new instance mounts before the old unmounts
+  return () => {
+    if (ticketData.reloadFeed === reload) delete ticketData.reloadFeed;
+  };
+}
+
+export function reloadTicketFeed(ticketId: string) {
+  ticketMap[ticketId]?.reloadFeed?.();
 }
 
 // Refresh a ticket that may have gone stale

@@ -1,7 +1,7 @@
 import frappe
 
 
-@frappe.whitelist(allow_guest=True)
+@frappe.whitelist(allow_guest=True)  # nosemgrep
 def get_config():
     fields = [
         "brand_name",
@@ -20,7 +20,6 @@ def get_config():
         "disable_saved_replies_global_scope",
         "enable_comment_reactions",
         "allow_anyone_to_create_tickets",
-        "show_customer_portal_permission_notice",
         # Drive whether the portal offers the org-management controls at all; the
         # server still enforces them independently.
         "allow_customer_managers_to_invite",

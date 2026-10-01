@@ -206,8 +206,8 @@ class HDServiceLevelAgreement(Document):
         if not doc.is_valid_status_transition():
             return
         self.set_first_response_time(doc)
-        self.set_resolution_time(doc)
         self.set_hold_time(doc)
+        self.set_resolution_time(doc)
 
     def set_first_response_time(self, doc: Document):
         start_at = doc.service_level_agreement_creation
@@ -249,7 +249,10 @@ class HDServiceLevelAgreement(Document):
         next_state = doc.get("status")
         was_paused = prev_state in paused_statuses
         is_paused = next_state in paused_statuses
-        paused_since = doc.on_hold_since or doc_old.get("resolution_date")
+        paused_since = doc.on_hold_since
+        if not paused_since and doc.status_category != "Resolved":
+            # time spent resolved counts as hold only when the ticket is reopened
+            paused_since = doc_old.get("resolution_date")
         if is_paused and not was_paused:
             doc.response_by = doc.resolution_by if doc.first_responded_on else None
             doc.resolution_date = None
@@ -305,15 +308,20 @@ class HDServiceLevelAgreement(Document):
 
     def is_first_response_failed(self, doc: Document):
         if not doc.first_responded_on:
-            return get_datetime(doc.response_by) < now_datetime()
+            return get_datetime(doc.response_by) < self.get_active_ticket_time(doc)
         return get_datetime(doc.response_by) < get_datetime(doc.first_responded_on)
 
     def is_resolution_failed(self, doc: Document):
         if not self.apply_sla_for_resolution or not doc.resolution_by:
             return
         if not doc.resolution_date:
-            return get_datetime(doc.resolution_by) < now_datetime()
+            return get_datetime(doc.resolution_by) < self.get_active_ticket_time(doc)
         return get_datetime(doc.resolution_by) < get_datetime(doc.resolution_date)
+
+    def get_active_ticket_time(self, doc: Document):
+        """Hold time is credited only on resume, so an on-hold ticket is measured
+        against when it went on hold."""
+        return get_datetime(doc.on_hold_since) if doc.on_hold_since else now_datetime()
 
     def calc_time(
         self,
@@ -402,7 +410,10 @@ class HDServiceLevelAgreement(Document):
 
     def is_working_time(self, date_time, working_hours):
         day_of_week = get_weekdays()[date_time.weekday()]
-        start_time, end_time = working_hours.get(day_of_week, (0, 0))
+        # empty window on non-working days
+        start_time, end_time = working_hours.get(
+            day_of_week, (timedelta(), timedelta())
+        )
         date_time = timedelta(
             hours=date_time.hour, minutes=date_time.minute, seconds=date_time.second
         )
@@ -468,6 +479,18 @@ class HDServiceLevelAgreement(Document):
             current_date = add_to_date(current_date, days=1)
 
         return total_seconds
+
+    def get_next_working_day_start(self, from_date):
+        """Start of the first working day after from_date, skipping holidays."""
+        working_hours = self.get_working_hours()
+        holidays = set(self.get_holidays())
+        # a year of lookahead is plenty; None means the calendar has no working day
+        for offset in range(1, 366):
+            next_date = getdate(add_to_date(from_date, days=offset, as_datetime=True))
+            day_name = next_date.strftime("%A")
+            if day_name in working_hours and next_date not in holidays:
+                return get_datetime(next_date) + working_hours[day_name][0]
+        return None
 
     def get_holidays(self):
         res = []

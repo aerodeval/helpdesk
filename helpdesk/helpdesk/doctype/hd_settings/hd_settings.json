@@ -9,6 +9,8 @@
   "priority_section",
   "default_priority",
   "column_break_nvbf",
+  "agent_status_section",
+  "default_agent_status",
   "agent_groups_section",
   "restrict_tickets_by_agent_group",
   "do_not_restrict_tickets_without_an_agent_group",
@@ -65,6 +67,7 @@
   "setup_complete",
   "initial_helpdesk_name_setup_skipped",
   "show_customer_portal_permission_notice",
+  "show_ticket_field_permission_notice",
   "persona_captured",
   "column_break_hjfh",
   "search_tab",
@@ -163,6 +166,13 @@
   },
   {
    "default": "0",
+   "fieldname": "show_ticket_field_permission_notice",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Show Ticket Field Permission Notice"
+  },
+  {
+   "default": "0",
    "description": "Set once an admin completes the onboarding persona questionnaire",
    "fieldname": "persona_captured",
    "fieldtype": "Check",
@@ -255,6 +265,20 @@
    "fieldname": "banner_image",
    "fieldtype": "Attach Image",
    "label": "Banner Image"
+  },
+  {
+   "fieldname": "agent_status_section",
+   "fieldtype": "Section Break",
+   "label": "Agent Status"
+  },
+  {
+   "description": "New agents start on this status, and agents are moved here when the status they are on is disabled.",
+   "fieldname": "default_agent_status",
+   "fieldtype": "Link",
+   "label": "Default agent status",
+   "link_filters": "[[\"HD Agent Status\",\"enabled\",\"=\",1]]",
+   "options": "HD Agent Status",
+   "reqd": 1
   },
   {
    "fieldname": "priority_section",
@@ -588,7 +612,7 @@
  "grid_page_length": 50,
  "issingle": 1,
  "links": [],
- "modified": "2026-07-10 14:58:15.922364",
+ "modified": "2026-09-30 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "Helpdesk",
  "name": "HD Settings",

@@ -28,6 +28,10 @@
         <div>
           <CompactEditor
             v-model="user.doc.email_signature"
+            :upload-fn="
+              (file: any, options: any) =>
+                uploadFunction(file, 'User', userId, false, options)
+            "
             :placeholder="__('Write your email signature here.')"
           />
         </div>
@@ -48,7 +52,7 @@
         <div>
           <div
             v-if="user.doc.user_emails?.length"
-            class="w-full border rounded-md mb-2 border-outline-elevation-2"
+            class="w-full border rounded-5 mb-2 border-outline-elevation-2"
           >
             <div
               class="grid grid-cols-[4fr_4fr_0.3fr] gap-2 px-4 py-3 text-sm-medium text-ink-gray-5 border-b border-outline-elevation-2"
@@ -66,40 +70,42 @@
                 {{ e.email_account }}
               </span>
               <span class="text-ink-gray-6 truncate">{{ e.email_id }}</span>
-              <div class="group-hover:opacity-100 opacity-0 transition-opacity">
+              <div
+                class="group-hover:opacity-100 opacity-0 transition-opacity [@media(hover:none)]:opacity-100"
+              >
                 <Button
                   class="w-10"
                   variant="ghost"
                   :tooltip="__('Remove')"
+                  :aria-label="__('Remove')"
                   icon="lucide-x"
                   @click.prevent="removeEmail(e)"
                 />
               </div>
             </div>
           </div>
-          <Autocomplete
-            value=""
+          <Combobox
+            :model-value="null"
             :options="filteredEmails"
-            @change="(e) => addEmail(e)"
+            @update:selected-option="(option) => option && addEmail(option)"
           >
-            <template #target="{ togglePopover }">
+            <template #trigger>
               <Button
                 class="!bg-surface-elevation-2"
                 variant="outline"
                 :label="__('Add Email')"
                 iconLeft="lucide-plus"
-                @click="togglePopover()"
               />
             </template>
-            <template #item-label="{ option }">
+            <template #item-label="{ item }">
               <div class="flex flex-col gap-1 text-ink-gray-9">
-                <div>{{ option.label }}</div>
+                <div>{{ item.label }}</div>
                 <div class="text-ink-gray-4 text-sm">
-                  {{ option.email }}
+                  {{ item.email }}
                 </div>
               </div>
             </template>
-          </Autocomplete>
+          </Combobox>
         </div>
       </div>
     </template>
@@ -123,13 +129,12 @@
 <script setup>
 import CompactEditor from "@/components/CompactEditor.vue";
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import Autocomplete from "@/components/frappe-ui/Autocomplete.vue";
 import SettingsLayoutBase from "@/components/layouts/SettingsLayoutBase.vue";
 import { getUserEmailInfo } from "@/composables/useUserEmailInfo";
 import { useAuthStore } from "@/stores/auth";
 import { __ } from "@/translation";
-import { normalize } from "@/utils";
-import { Button, createDocumentResource, toast } from "frappe-ui";
+import { normalize, uploadFunction } from "@/utils";
+import { Button, Combobox, createDocumentResource, toast } from "frappe-ui";
 import { computed, ref, watch } from "vue";
 import { disableSettingModalOutsideClick } from "../settingsModal";
 
