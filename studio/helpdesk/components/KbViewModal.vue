@@ -59,7 +59,7 @@
 import { Dialog, FormControl } from "frappe-ui";
 // Reads the lucide sprite the studio renderer's `spritePlugin` injects — verified to
 // carry the full set (1713 symbols), not just icons the bundle happens to reference.
-import { IconPicker } from "frappe-ui/icons";
+import { IconPicker } from "frappe-ui/experimental";
 import { computed } from "vue";
 
 const props = defineProps<{ modelValue: any }>();

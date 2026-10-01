@@ -4,7 +4,7 @@
       v-if="loading && !rows.length"
       class="flex h-full w-full items-center justify-center"
     >
-      <LoadingIndicator :scale="8" />
+      <LoadingIndicator class="size-6 text-ink-gray-4" />
     </div>
 
     <ListView
@@ -74,6 +74,7 @@
 // ListViewBuilder defers to `listCell`.
 import KbEmptyState from "@app/components/KbEmptyState.vue";
 import { loadTicketMeta } from "@app/components/ticketCells";
+import { LoadingIndicator } from "frappe-ui";
 import {
   ListFooter,
   ListHeader,
@@ -83,8 +84,7 @@ import {
   ListRows,
   ListSelectBanner,
   ListView,
-  LoadingIndicator,
-} from "frappe-ui";
+} from "frappe-ui/experimental";
 
 // The status colours and priority levels the cells draw with. Asked for here
 // rather than at module load: this file ships in every page bundle, including the

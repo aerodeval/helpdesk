@@ -15,7 +15,7 @@
 // image and table treatment, and code blocks — a plain HTML block only ever
 // inherited whatever the page happened to style.
 import { Extension } from "@tiptap/core";
-import { TextEditor } from "frappe-ui";
+import { TextEditor } from "frappe-ui/experimental";
 
 withDefaults(defineProps<{ content?: string }>(), { content: "" });
 

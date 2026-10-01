@@ -1,0 +1,2 @@
+import{Rn as e,bn as t,ln as n,sn as r}from"./studioRenderer-vECFfhon.js";var i=r({__name:`InsertLink`,props:{editor:{}},setup(r){let i=r;function a(){i.editor.commands.openLinkEditor()}return(r,i)=>t(r.$slots,`default`,e(n({onClick:a})))}});export{i as default};
+//# sourceMappingURL=InsertLink-B_1rM4CI.js.map

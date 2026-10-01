@@ -1,5 +1,5 @@
 import { ref, computed, watch, nextTick } from 'vue'
-import { call, toast, FileUploadHandler, useTheme } from 'frappe-ui'
+import { call, toast, FileUploadHandler, useColorScheme } from 'frappe-ui'
 import { usePreferences } from '@app/stores/preferences'
 import { useSession } from '@app/stores/session'
 import { t } from '@app/stores/translations'
@@ -19,7 +19,7 @@ const store = createSettingsStore()
 
 // Every page script imports this module, so calling it here applies the saved theme on
 // load rather than only once the settings dialog renders the picker.
-const { currentTheme, setTheme } = useTheme()
+const { colorScheme: currentTheme, setColorScheme: setTheme } = useColorScheme()
 
 // Writable so the theme Select can bind to it two-way; frappe-ui persists the choice.
 const theme = computed({
