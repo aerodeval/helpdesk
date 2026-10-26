@@ -11,7 +11,7 @@
         <GettingStartedBanner
           v-if="showOnboardingBanner"
           :isSidebarCollapsed="isCollapsed"
-          appName="helpdesk"
+          :appName="onboardingApp"
         />
         <CustomerPortalPermissionBanner
           v-if="isBannerVisible('customer_portal_permission')"
@@ -23,7 +23,7 @@
         />
       </div>
       <SidebarItem
-        v-if="isOnboardingStepsCompleted"
+        v-if="isOnboardingStepsCompleted && !isDemo()"
         :label="__('Help')"
         :icon="HelpIcon"
         :on-click="
@@ -39,7 +39,7 @@
   <SettingsModal v-model="showSettingsModal" />
   <ShortcutsModal v-model="showShortcutsModal" />
   <HelpModal
-    v-if="showHelpModal"
+    v-if="showHelpModal && !isDemo()"
     v-model="showHelpModal"
     v-model:articles="articles"
     appName="helpdesk"
@@ -98,6 +98,7 @@ import { useRouter } from "vue-router";
 import AppSidebar from "./AppSidebar.vue";
 import { showShortcutsModal } from "./layoutSettings";
 
+import { CHECKLIST, isDemo } from "@helpdesk/shared/demo";
 import { useShortcut } from "@helpdesk/shared/shortcuts";
 import { __ } from "@/translation";
 import Globe from "~icons/lucide/globe";
@@ -189,7 +190,9 @@ const logo = h(
 );
 
 const showOnboardingBanner = computed(() => {
-  return !isOnboardingStepsCompleted?.value && authStore.isManager;
+  return (
+    !isOnboardingStepsCompleted?.value && (isDemo() || authStore.isManager)
+  );
 });
 
 const steps = [
@@ -404,8 +407,10 @@ const articles = ref([
 const showIntermediateModal = ref(false);
 const currentStep = ref({});
 
-const { isOnboardingStepsCompleted, setUp, updateOnboardingStep } =
-  useOnboarding("helpdesk") ?? {};
+const { setUp, updateOnboardingStep } = useOnboarding("helpdesk") ?? {};
+// In the demo, the Try-it Checklist takes the place of Getting started
+const onboardingApp = isDemo() ? CHECKLIST : "helpdesk";
+const { isOnboardingStepsCompleted } = useOnboarding(onboardingApp) ?? {};
 
 async function handleFirstTicketNavigation() {
   const ticket = await getFirstTicket();
@@ -453,6 +458,11 @@ async function getGeneralCategory() {
 function setUpOnboarding() {
   if (!authStore.isManager) return;
   setUp?.(steps);
+  // the editors still tick the stock steps, but the demo never opens them
+  if (isDemo()) {
+    showHelpModal.value = false;
+    return;
+  }
   useShortcut({ key: "h", meta: true }, () => {
     showHelpModal.value = !showHelpModal.value;
   });
