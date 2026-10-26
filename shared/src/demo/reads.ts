@@ -116,10 +116,12 @@ async function groupedList(groups: Doc[], params: Doc) {
 async function mergeRows(doctype: string, rows: Doc[], filters: Filters, fields: string[]) {
   const user = sessionUser().email;
   const pick = (doc: Doc, keys: string[]) => Object.fromEntries(keys.map((key) => [key, doc[key] ?? null]));
-  // the server already matched these, so an operator we cannot evaluate keeps them
+  // The server already matched these, so only a loaded field can unmatch them: a filter on a
+  // column the view hides, or an operator we cannot evaluate, keeps the row.
+  const stillMatches = (doc: Doc) => matches(doc, conditions(filters).filter(([field]) => field in doc), user, true);
   const kept = rows
-    .map((row) => (overlay.touched(doctype, row.name) ? pick(overlay.merge(doctype, row), Object.keys(row)) : row))
-    .filter((row) => !overlay.touched(doctype, row.name) || matches(row, filters, user, true));
+    .filter((row) => !overlay.touched(doctype, row.name) || stillMatches(overlay.merge(doctype, row)))
+    .map((row) => (overlay.touched(doctype, row.name) ? pick(overlay.merge(doctype, row), Object.keys(row)) : row));
   const changes = await outside(doctype, rows.map((row) => String(row.name)), fields, filters);
   const added = changes
     .filter(({ doc }) => matches(doc, filters, user))
