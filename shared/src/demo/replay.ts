@@ -87,6 +87,25 @@ export function slaTargets(priorities: Doc[], priority: string, start: number) {
   return { response_by: at(row?.response_time), resolution_by: at(row?.resolution_time) };
 }
 
+// What the server stamps when a save moves the status category: HDTicket.set_resolution_date, and
+// the SLA's set_hold_time and agreement status. Hold time and the targets are not recomputed (#55).
+export function categoryFields(doc: Doc, category: string, now: Date): Doc {
+  if (category === doc.status_category) return {};
+  const stamp = now.toISOString();
+  const derived: Doc = {
+    status_category: category,
+    resolution_date: category === "Resolved" ? stamp : null,
+    on_hold_since: category === "Paused" ? stamp : null,
+  };
+  const resumed = doc.first_responded_on ? "Resolution Due" : "First Response Due";
+  const due = doc.agreement_status === "Paused" ? resumed : doc.agreement_status;
+  if (category === "Paused" && due?.endsWith("Due")) derived.agreement_status = "Paused";
+  else if (category === "Resolved" && due === "Resolution Due") {
+    derived.agreement_status = doc.resolution_by && new Date(doc.resolution_by) < now ? "Failed" : "Fulfilled";
+  } else if (due !== doc.agreement_status) derived.agreement_status = due;
+  return derived;
+}
+
 const APPLY: Record<ActionType, (p: Projection, a: Action) => void> = {
   insert(p, { at, payload }) {
     const { doctype, doc, email } = payload;

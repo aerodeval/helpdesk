@@ -1,7 +1,7 @@
 // Self-check for the filter evaluator and replay: `node shared/src/demo/check.ts`
 import assert from "node:assert/strict";
 import { matches } from "./filters.ts";
-import { docKey, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
+import { categoryFields, docKey, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
 
 const me = "jamie@fernbill.example";
 const ticket = { name: "12", status: "Open", priority: "High", agent_group: "", _assign: `["${me}"]` };
@@ -50,5 +50,16 @@ assert.deepEqual(slaTargets(priorities, "Urgent", Date.parse(at(0))), {
   resolution_by: "2026-10-26T18:00:00.000Z",
 });
 assert.deepEqual(slaTargets(priorities, "Low", Date.parse(at(0))), { response_by: null, resolution_by: null }, "no row for the priority");
+
+const now = new Date(at(0));
+const due = { status_category: "Open", agreement_status: "Resolution Due", first_responded_on: at(0) };
+const held = categoryFields(due, "Paused", now);
+assert.equal(held.on_hold_since, now.toISOString(), "a reply puts the ticket on hold");
+assert.equal(held.agreement_status, "Paused");
+const resumed = categoryFields({ ...due, ...held }, "Open", now);
+assert.equal(resumed.on_hold_since, null);
+assert.equal(resumed.agreement_status, "Resolution Due");
+assert.equal(categoryFields({ ...due, agreement_status: "Failed" }, "Paused", now).agreement_status, undefined, "failed stays failed");
+assert.deepEqual(categoryFields(due, "Open", now), {}, "same category");
 
 console.log("demo check passed");

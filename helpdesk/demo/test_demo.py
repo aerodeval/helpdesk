@@ -195,6 +195,8 @@ class TestDemo(IntegrationTestCase):
         self.assertFalse(
             frappe.db.exists("HD Ticket", {"description": ["is", "not set"]})
         )
+        on_hold = {"status_category": "Paused", "on_hold_since": ["is", "not set"]}
+        self.assertFalse(frappe.db.exists("HD Ticket", on_hold))
 
     def assertArticlesKeepCategoryAndAuthor(self):
         kb = json.loads((FIXTURE_DIR / "kb.json").read_text())

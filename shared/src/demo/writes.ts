@@ -2,7 +2,7 @@
 // envelope the real endpoint returns: `{message}`, or `{message, docs}` for `run_doc_method`.
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
-import { siteTime, slaTargets } from "./replay";
+import { categoryFields, siteTime, slaTargets } from "./replay";
 import { agents, callServer, jsonParam, statusCategories } from "./server";
 import { demoBoot, emitLocal, randomName, sessionUser, siteTimezone } from "./session";
 
@@ -137,18 +137,10 @@ async function setFields(doctype: string, doc: Doc, fields: Doc) {
   return overlay.record("set", { doctype, name: String(doc.name), fields, derived, from, by: sessionUser() });
 }
 
-// What the server stamps on save when the status category changes (HDTicket.set_resolution_date,
-// the SLA's agreement status). Kept out of `fields`, which become the activity's change rows.
+// Kept out of `fields`, which become the activity's change rows.
 async function statusFields(doc: Doc, status: string): Promise<Doc> {
   const category = (await statusCategories())[status];
-  if (!category || category === doc.status_category) return {};
-  if (category !== "Resolved") return { status_category: category, resolution_date: null };
-  const now = new Date();
-  const derived: Doc = { status_category: category, resolution_date: now.toISOString() };
-  if (doc.agreement_status === "Resolution Due") {
-    derived.agreement_status = doc.resolution_by && new Date(doc.resolution_by) < now ? "Failed" : "Fulfilled";
-  }
-  return derived;
+  return category ? categoryFields(doc, category, new Date()) : {};
 }
 
 async function bulkUpdate({ doctype, docnames, action, data, task_id }: Doc): Promise<Body> {
