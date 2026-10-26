@@ -2,7 +2,7 @@
 // envelope the real endpoint returns: `{message}`, or `{message, docs}` for `run_doc_method`.
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
-import { siteTime } from "./replay";
+import { siteTime, slaTargets } from "./replay";
 import { agents, callServer, jsonParam, settings } from "./server";
 import { emitLocal, randomName, sessionUser, siteTimezone } from "./session";
 
@@ -182,38 +182,39 @@ async function insertArticle({ doc }: Doc): Promise<Body> {
   return { message: await overlay.doc("HD Article", name) };
 }
 
-// The SLA, team and contact come from the customer's latest ticket: SLA conditions are Python and
-// customers cannot read SLAs. The due dates keep that ticket's offsets from its SLA start.
+// The customer's plan sets the SLA of every ticket they raise, so their latest ticket names it:
+// SLA conditions are Python. The team and contact come from there too.
 async function newTicket({ doc, attachments }: Doc): Promise<Body> {
   const fields = jsonParam(doc);
   const user = sessionUser();
   const [[latest], s] = await Promise.all([
     callServer("frappe.client.get_list", {
       doctype: TICKET,
-      fields: ["customer", "contact", "agent_group", "sla", "response_by", "resolution_by", "service_level_agreement_creation"],
+      fields: ["customer", "contact", "agent_group", "sla"],
       order_by: "creation desc",
       limit_page_length: 1,
     }).catch(() => [{}]),
     settings(),
   ]);
+  const sla = latest?.sla
+    ? await callServer("frappe.client.get", { doctype: "HD Service Level Agreement", name: latest.sla }).catch(() => null)
+    : null;
+  const priority = fields.priority || s.default_priority || "Medium";
   const now = Date.now();
-  const due = (field: string) =>
-    latest?.sla && latest[field] ? new Date(now + localMs(latest[field]) - localMs(latest.service_level_agreement_creation)).toISOString() : null;
   const name = overlay.nextTicketName();
   const ticket = {
     ...fields,
     doctype: TICKET,
     name,
     status: s.default_ticket_status || "Open",
-    priority: fields.priority || s.default_priority || "Medium",
+    priority,
     agent_group: fields.agent_group || latest?.agent_group || null,
     customer: fields.customer || latest?.customer || null,
     contact: latest?.contact || null,
     sla: latest?.sla || null,
     agreement_status: latest?.sla ? "First Response Due" : null,
     service_level_agreement_creation: new Date(now).toISOString(),
-    response_by: due("response_by"),
-    resolution_by: due("resolution_by"),
+    ...slaTargets(sla?.priorities ?? [], priority, now),
     raised_by: user.email,
     owner: user.email,
     via_customer_portal: 1,
@@ -236,9 +237,4 @@ function emailOf(ticket: Doc, content: string, attachments: string[] = [], direc
     attachments,
     by,
   };
-}
-
-// Both stamps are in the site timezone, so their difference holds without knowing it.
-function localMs(stamp: string) {
-  return Date.parse(`${stamp.replace(" ", "T").slice(0, 23)}Z`);
 }

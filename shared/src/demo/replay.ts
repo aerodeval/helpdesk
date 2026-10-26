@@ -79,6 +79,14 @@ export function siteTime(iso: string, timezone: string): string {
   return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute}:${parts.second}.${micro}`;
 }
 
+// Now plus the SLA's times for the priority, as UTC ISO. Working hours and holidays are left out:
+// #55 rules out a full SLA recompute.
+export function slaTargets(priorities: Doc[], priority: string, start: number) {
+  const row = priorities.find((p) => p.priority === priority);
+  const at = (seconds: number | undefined) => (seconds ? new Date(start + seconds * 1000).toISOString() : null);
+  return { response_by: at(row?.response_time), resolution_by: at(row?.resolution_time) };
+}
+
 const APPLY: Record<ActionType, (p: Projection, a: Action) => void> = {
   insert(p, { at, payload }) {
     const { doctype, doc, email } = payload;

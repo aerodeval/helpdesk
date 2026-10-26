@@ -1,7 +1,7 @@
 // Self-check for the filter evaluator and replay: `node shared/src/demo/check.ts`
 import assert from "node:assert/strict";
 import { matches } from "./filters.ts";
-import { docKey, patched, replay, siteTime, type Action } from "./replay.ts";
+import { docKey, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
 
 const me = "jamie@fernbill.example";
 const ticket = { name: "12", status: "Open", priority: "High", agent_group: "", _assign: `["${me}"]` };
@@ -43,5 +43,12 @@ assert.deepEqual(
 );
 assert.equal(p.timeline.get("12")?.at(-1)?.data.attachments[0].file_name, "a.txt");
 assert.equal(p.timeline.get("201")?.[0]?.key, "email:c1");
+
+const priorities = [{ priority: "Urgent", response_time: 3600, resolution_time: 28800 }];
+assert.deepEqual(slaTargets(priorities, "Urgent", Date.parse(at(0))), {
+  response_by: "2026-10-26T11:00:00.000Z",
+  resolution_by: "2026-10-26T18:00:00.000Z",
+});
+assert.deepEqual(slaTargets(priorities, "Low", Date.parse(at(0))), { response_by: null, resolution_by: null }, "no row for the priority");
 
 console.log("demo check passed");
