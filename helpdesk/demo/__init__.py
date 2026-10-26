@@ -7,6 +7,8 @@ Seed state lives in site defaults (`frappe.db.set_default`), so it survives cach
 import frappe
 from frappe import _
 
+from helpdesk.setup.welcome_ticket import AUTHOR_EMAIl
+
 # Doctypes whose datetime columns are re-stamped by the replay and moved by the date-shift
 TIMED_DOCTYPES = (
     "HD Ticket",
@@ -42,13 +44,20 @@ def set_state(key: str, value) -> None:
 
 def assert_seedable() -> None:
     """Replay and date-shift rewrite every ticket, so they run only on a site that is
-    flagged as a demo and holds no tickets other than seeded ones."""
+    flagged as a demo and holds no tickets other than seeded ones or the install's
+    welcome ticket."""
     if not is_enabled():
         frappe.throw(_("Not a demo site: site_config has no `helpdesk_demo: 1`."))
-    if not get_state("seed_version") and frappe.db.count("HD Ticket"):
+    if not get_state("seed_version") and has_real_tickets():
         frappe.throw(
             _("Refusing to touch a site that has tickets but was never seeded.")
         )
+
+
+def has_real_tickets() -> bool:
+    # the ticket install creates (helpdesk/setup/welcome_ticket.py)
+    welcome = {"subject": "Welcome to Helpdesk", "raised_by": AUTHOR_EMAIl}
+    return frappe.db.count("HD Ticket") > frappe.db.count("HD Ticket", welcome)
 
 
 def datetime_columns(doctype: str) -> list[str]:
