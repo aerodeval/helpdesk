@@ -1,0 +1,7 @@
+{
+	"seed_version": "fernbill-1",
+	"personas": {
+		"agent": "jamie@fernbill.example",
+		"customer": "priya@greenleaf-studio.example"
+	}
+}

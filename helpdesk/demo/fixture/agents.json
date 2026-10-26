@@ -1,0 +1,173 @@
+[
+	{
+		"doctype": "User",
+		"email": "jamie@fernbill.example",
+		"first_name": "Jamie",
+		"last_name": "Rivera",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/jamie-rivera.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			},
+			{
+				"role": "Agent Manager"
+			}
+		]
+	},
+	{
+		"doctype": "User",
+		"email": "ananya@fernbill.example",
+		"first_name": "Ananya",
+		"last_name": "Iyer",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/ananya-iyer.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			}
+		]
+	},
+	{
+		"doctype": "User",
+		"email": "tomas@fernbill.example",
+		"first_name": "Tomás",
+		"last_name": "Herrera",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/tomas-herrera.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			}
+		]
+	},
+	{
+		"doctype": "User",
+		"email": "kwame@fernbill.example",
+		"first_name": "Kwame",
+		"last_name": "Mensah",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/kwame-mensah.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			}
+		]
+	},
+	{
+		"doctype": "User",
+		"email": "yuki@fernbill.example",
+		"first_name": "Yuki",
+		"last_name": "Tanaka",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/yuki-tanaka.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			}
+		]
+	},
+	{
+		"doctype": "User",
+		"email": "sofia@fernbill.example",
+		"first_name": "Sofia",
+		"last_name": "Lindqvist",
+		"user_type": "System User",
+		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/sofia-lindqvist.jpg",
+		"roles": [
+			{
+				"role": "Agent"
+			}
+		]
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "jamie@fernbill.example",
+		"agent_name": "Jamie Rivera",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/jamie-rivera.jpg"
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "ananya@fernbill.example",
+		"agent_name": "Ananya Iyer",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/ananya-iyer.jpg"
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "tomas@fernbill.example",
+		"agent_name": "Tomás Herrera",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/tomas-herrera.jpg"
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "kwame@fernbill.example",
+		"agent_name": "Kwame Mensah",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/kwame-mensah.jpg"
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "yuki@fernbill.example",
+		"agent_name": "Yuki Tanaka",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/yuki-tanaka.jpg"
+	},
+	{
+		"doctype": "HD Agent",
+		"user": "sofia@fernbill.example",
+		"agent_name": "Sofia Lindqvist",
+		"is_active": 1,
+		"user_image": "/assets/helpdesk/demo/sofia-lindqvist.jpg"
+	},
+	{
+		"doctype": "HD Team",
+		"team_name": "Billing & Payments",
+		"users": [
+			{
+				"user": "jamie@fernbill.example"
+			},
+			{
+				"user": "ananya@fernbill.example"
+			},
+			{
+				"user": "tomas@fernbill.example"
+			}
+		]
+	},
+	{
+		"doctype": "HD Team",
+		"team_name": "Technical Support",
+		"users": [
+			{
+				"user": "jamie@fernbill.example"
+			},
+			{
+				"user": "kwame@fernbill.example"
+			},
+			{
+				"user": "yuki@fernbill.example"
+			}
+		]
+	},
+	{
+		"doctype": "HD Team",
+		"team_name": "Customer Success",
+		"users": [
+			{
+				"user": "jamie@fernbill.example"
+			},
+			{
+				"user": "sofia@fernbill.example"
+			}
+		]
+	}
+]
