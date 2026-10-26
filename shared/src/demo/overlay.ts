@@ -6,6 +6,7 @@ import type { Doc } from "./filters";
 import { docKey, patched, replay, type Action, type ActionType } from "./replay";
 import { callServer } from "./server";
 import { demoBoot, isDemo, randomName, siteTimezone } from "./session";
+import type { TourState } from "./tourScript";
 
 // Bump when the action shapes change; a mismatch wipes the overlay instead of migrating it.
 const SCHEMA = 1;
@@ -15,7 +16,10 @@ class Overlay {
   log: Action[] = [];
   projection = replay([], "UTC");
   refreshed = false;
+  // Saved with the log, so Restart Demo and a reseed reset the tour too
+  tour: TourState | null = null;
   private loading: Promise<void> | null = null;
+  private listeners = new Set<(action: Action) => void>();
 
   load() {
     return (this.loading ??= this.restore());
@@ -25,8 +29,19 @@ class Overlay {
     const action = { id: randomName(), type, at: new Date().toISOString(), payload };
     this.log.push(action);
     this.projection = replay(this.log, siteTimezone());
-    await set(KEY, { schema: SCHEMA, seed_version: demoBoot()?.seed_version, log: this.log });
+    await this.save();
+    this.listeners.forEach((listener) => listener(action));
     return action;
+  }
+
+  // The tour learns that the visitor did a step from here.
+  onRecord(listener: (action: Action) => void) {
+    this.listeners.add(listener);
+  }
+
+  saveTour(tour: TourState) {
+    this.tour = tour;
+    return this.save();
   }
 
   isNew(doctype: string, name: unknown) {
@@ -66,8 +81,14 @@ class Overlay {
       this.refreshed = true;
     } else {
       this.log = stored?.log ?? [];
+      this.tour = stored?.tour ?? null;
     }
     this.projection = replay(this.log, siteTimezone());
+  }
+
+  private save() {
+    const { log, tour } = this;
+    return set(KEY, { schema: SCHEMA, seed_version: demoBoot()?.seed_version, log, tour });
   }
 }
 
@@ -80,8 +101,10 @@ export async function showRefreshNotice() {
   if (overlay.refreshed) toast(__("The demo was refreshed"));
 }
 
-// Clears the overlay and frappe-ui's `keyval-store`, which share idb-keyval's default store.
+// Clears the overlay and frappe-ui's `keyval-store`, which share idb-keyval's default store, and
+// localStorage, where the checklist keeps its ticks.
 export async function restartDemo() {
   await clear();
+  localStorage.clear();
   location.href = /^\/help(\/|$)/.test(location.pathname) ? "/help" : "/helpdesk";
 }
