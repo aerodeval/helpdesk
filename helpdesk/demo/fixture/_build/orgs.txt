@@ -1,0 +1,41 @@
+// plan | customer name | industry | country | contacts as 'First Last:Title[:m]' separated by ';' (m = manager)
+Enterprise|Northpeak Logistics|Freight and logistics|Canada|Daniel Brooks:Finance Systems Lead:m;Marta Kowalski:Accounts Receivable Manager;Liam Chen:IT Director;Rosa Delgado:Controller
+Enterprise|Brightwater Dental Group|Dental clinics|United States|Helen Park:Revenue Cycle Manager:m;Marcus Bell:IT Manager;Grace Achterberg:Billing Coordinator
+Enterprise|Castellan Hotels|Hospitality|United States|Elena Varga:Finance Director:m;Owen Fitzgerald:Systems Analyst;Nadia Rahman:AR Specialist
+Enterprise|Ostara Learning|Education|United Kingdom|Charlotte Hughes:Head of Finance Operations:m;Ravi Menon:Integrations Engineer;Tom Whitaker:Billing Analyst
+Enterprise|Kitewing Media|Media|Australia|Isla Robertson:Commercial Finance Manager:m;Ben Nguyen:Platform Engineer;Chloe Martin:Accounts Officer
+Growth|Greenleaf Studio|Design studio|United States|Priya Nair:Ops Manager:m;Leo Fischer:Founder
+Growth|Copperline Electric|Electrical contractor|United States|Darnell Hayes:Office Manager:m;Sue Anderson:Bookkeeper
+Growth|Juniper & Vale Architects|Architecture|Ireland|Aoife Brennan:Practice Manager:m;Conor Walsh:Partner
+Growth|Bluefin Analytics|Data startup|United States|Maya Goldberg:COO:m;Arjun Patel:Software Engineer
+Growth|Oakridge Physical Therapy|Physical therapy clinic|United States|Linda Carver:Front Desk Lead;James Whitfield:Owner:m
+Growth|Saltmarsh Coffee Roasters|Coffee roastery and wholesale|United States|Hannah Moreau:Wholesale Manager:m;Eli Ross:Operations
+Growth|Lantern Legal|Law firm|United States|Victoria Ames:Office Administrator:m;Samuel Osei:Paralegal
+Growth|Trailhead Outfitters|Outdoor retail|United States|Jake Morrison:Store Operations Manager:m;Fatima Zahra:Accounts Assistant
+Growth|Vireo Labs|Software startup|United States|Noah Kim:CTO:m;Leah Silverstein:Finance Lead
+Growth|Harbor Street Veterinary|Veterinary clinic|United States|Ana Sousa:Owner:m;Kelly Tran:Practice Manager
+Growth|Mosaic Events|Event agency|United Kingdom|Olivia Grant:Director:m;Harry Duncan:Producer
+Growth|Pinecrest Property Management|Property management|United States|Greg Polanski:Controller:m;Monique Dubois:Leasing Coordinator
+Growth|Redwood Pediatrics|Pediatric clinic|United States|Karen Liu:Billing Lead:m;Paul Adler:Physician
+Growth|Fieldnote Research|Research consultancy|United States|Ines Carvalho:Operations Lead:m;Ethan Wright:Partner
+Growth|Tandem Courier|Courier and delivery|United States|Andre Jackson:Operations Manager:m;Mei Lin:Bookkeeper
+Starter|Little Fig Bakery|Bakery|United States|Giulia Bianchi:Owner:m
+Starter|Dovetail Carpentry|Carpentry|United States|Mike Sullivan:Owner:m
+Starter|Marigold Yoga|Yoga studio|United States|Anjali Rao:Owner:m
+Starter|Studio Adeyemi|Photography|United States|Tunde Adeyemi:Photographer:m
+Starter|Ember & Ash Pottery|Ceramics studio|United States|Freya Holm:Owner:m
+Starter|Quillwork Translations|Translation services|United States|Mateo Ruiz:Founder:m;Claire Laurent:Project Manager
+Starter|Brightpath Tutoring|Tutoring|United States|Sam Whitmore:Owner:m
+Starter|Cobalt Cleaning Co.|Commercial cleaning|United States|Yolanda Price:Owner:m;Luis Ortega:Scheduler
+Starter|Hollow Pine Cabins|Vacation rentals|United States|Erik Lund:Owner:m
+Starter|Sundial Bookkeeping|Bookkeeping|United States|Deborah Klein:Bookkeeper:m
+Starter|Riverbend Florist|Florist|United States|Lily Huang:Owner:m
+Starter|Two Owls Consulting|Management consulting|United States|Rachel Stein:Partner:m;Omar Haddad:Partner
+Starter|Kinfolk Coffee Cart|Mobile cafe|United States|Jesse Alvarez:Owner:m
+Starter|Nimbus Drone Survey|Aerial surveying|Canada|Callum Reid:Founder:m
+Starter|Larkspur Massage|Massage therapy|United States|Nina Petrova:Owner:m
+Starter|Patchwork Kids Club|After-school childcare|United States|Beatriz Santos:Director:m
+Starter|Ironleaf Fitness|Gym|United States|Dwayne Carter:Owner:m
+Starter|Wren Web Design|Web design|United States|Hazel Morgan:Designer:m
+Starter|Tidewater Kayak Tours|Outdoor tours|United States|Kai Nakamura:Owner:m
+Starter|Arbor Lane Optometry|Optometry clinic|United States|Ruth Feldman:Optometrist:m;Joy Mbeki:Receptionist

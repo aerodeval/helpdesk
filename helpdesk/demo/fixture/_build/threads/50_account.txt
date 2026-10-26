@@ -1,0 +1,204 @@
+// Account and SSO: logins, 2FA, users and roles, Okta and Google SSO, SCIM.
+
+== account | larkspur-massage/nina | High | Done
+# Locked out, lost my phone with the 2FA app
+C: My phone was stolen and the authenticator app was on it. I can't log in. I have clients paying through Fernbill this week. Please help.
+A sofia: Hi Nina,
+
+I'm sorry about your phone. To reset two-factor authentication I need to confirm it's you. Could you reply from the email address on the account and tell me the amount and date of your last Fernbill subscription charge? You'll find it on your bank statement.
+C: $29 on the 9th
+A sofia: Thank you, that matches. I've turned off two-factor authentication on your account. You can log in with your password now. Please set it up again on your new phone under Settings > Security, and save the backup codes somewhere safe this time.
+
+Sofia
+C: Logged in. Thank you so much, I was panicking.
+
+== account | ostara-learning/ravi | High | Done
+# Set up Okta SSO
+C: Hi,
+
+We'd like to set up SAML SSO with Okta for all staff. Is there a guide, and can we enforce SSO so nobody can log in with a password?
+
+Ravi Menon
+A sofia: Hi Ravi,
+
+Yes to both. The steps are:
+1. In Okta, add Fernbill from the app catalog (search "Fernbill"). It fills in the SAML settings for you.
+2. In Fernbill, go to Settings > Security > Single sign-on, choose Okta, and paste the metadata URL from Okta.
+3. Test with your own account using Test sign-in.
+4. Once it works, turn on Require SSO. Password login is then disabled for everyone except the account owner, who keeps a password as a fallback.
+
+If you also want users created and removed automatically, Okta can provision through SCIM. The token is on the same page.
+
+Sofia
+C: All set up and enforced. SCIM is working too. Very smooth, thank you.
+
+== account | vireo-labs/leah | Medium | Done
+# Remove an employee who left
+C: Someone left the company yesterday. How do I remove their access and does it lower our bill?
+A sofia: Hi Leah,
+
+Go to Settings > Team, click their name and choose Remove user. Their access ends right away. Anything they created stays in the account.
+
+Your seat count drops from the next billing period, so the bill goes down from your next invoice.
+
+Sofia
+C: Done. Thanks.
+
+== account | kitewing-media/isla | Medium | Done
+# Change the account owner
+C: Hi Sofia, our CFO, Isla Robertson, should be the account owner. Currently it's our former IT manager who left in June. He can't log in anymore so he can't transfer it. What do you need from us?
+A sofia: Hi Isla,
+
+Since the current owner can't do it, I'll need a short request on company letterhead, signed by a director, naming you as the new owner. Scan or photo is fine. Once I have it, I'll make the change the same day.
+
+Sofia
+C: Attached, signed by our managing director.
+A sofia +3h: Thank you. You're now the account owner. The previous owner's account has also been deactivated.
+
+== account | copperline-electric/darnell | Medium | Done
+# Limit what techs can see
+C: I want our field techs to create invoices but not see other jobs' invoices or our revenue. Possible?
+A sofia: Hi Darnell,
+
+Yes. Give them the Field staff role under Settings > Team. They can create and send invoices and see only the ones they created. Reports, payouts and settings are hidden from them.
+
+Sofia
+C: Perfect.
+
+== account | brightwater-dental-group/marcus | High | Replied | to=sofia
+# SSO users getting "Account not found"
+C: Hi,
+
+Some staff at our two newest locations get "Account not found" when they sign in with SSO. They're assigned to the Fernbill app in Azure AD and other staff sign in fine.
+
+Marcus Bell
+A sofia +1h: Hi Marcus,
+
+Thanks for the details. I've checked a few of the failed sign-ins, and the email Azure sends for these users is their alias, for example dr.lee@brightwater-dental-group.example, while their Fernbill user has their primary email.
+
+There are two ways to fix it:
+- In Azure AD, set the Fernbill app's NameID claim to user.mail (their primary email) instead of user.userprincipalname.
+- Or turn on Just-in-time provisioning in Fernbill under Settings > Security > Single sign-on, so a user is created the first time someone signs in.
+
+The first is cleaner if your aliases differ from primary emails across the company. Could you let me know which you'd prefer? I'm happy to walk your team through the Azure change on a call.
+
+Sofia
+
+== account | studio-adeyemi/tunde | Low | Done | rate=5
+# Forgot password, reset email not arriving
+C: Reset email isn't coming. Checked spam.
+A sofia: Hi Tunde,
+
+Your account is under tunde.adeyemi@studio-adeyemi.example, not tunde@. That's likely why the reset email didn't arrive. Try the reset again with that address.
+C: Oh wow. That's it. Thanks!
+
+== account | lantern-legal/victoria | Medium | Done | rate=5
+# Two-factor for all users
+C: Good morning,
+
+Our malpractice insurer requires two-factor authentication for all systems that hold client data. Can we require it for everyone in our Fernbill account?
+
+Victoria Ames
+A sofia: Hi Victoria,
+
+Yes. Go to Settings > Security and turn on Require two-factor authentication. Users who haven't set it up will be asked to the next time they log in. You can see who has it turned on in Settings > Team, under the 2FA column.
+
+If your insurer needs evidence, you can export that list as a CSV from the same page.
+
+Sofia
+C: Done, and the export is just what the insurer asked for. Thank you.
+
+== account | castellan-hotels/owen | Medium | Done | rate=4
+# Audit log for user changes
+C: Our auditors want a list of every user added, removed or changed role in Fernbill over the last year. Where can I get that?
+A sofia: Hi Owen,
+
+Settings > Audit log, filter by Event type: User and team. Set the date range and choose Export CSV. It lists each change, who made it, and when. Enterprise accounts keep the audit log for 3 years.
+C: Got it. Thanks.
+
+== account | two-owls-consulting/rachel | Low | Done
+# Can two people share one login?
+C: Omar and I sometimes share a login to save on the second seat. Is that allowed?
+A sofia: Hi Rachel,
+
+It's against our terms, and it's also risky for you, because you can't tell who did what in the activity log, and two-factor gets complicated with two phones. A second seat on Starter is $29 a month, and each of you gets your own login.
+
+I understand it's a cost decision, so I'll leave it with you.
+
+Sofia
+C: Fair enough. We'll add a seat.
+
+== account | tandem-courier/andre | Medium | Done | rate=5
+# Google sign-in
+C: Can our team log in with their Google work accounts instead of passwords?
+A sofia: Hi Andre,
+
+Yes. Under Settings > Security > Single sign-on, choose Google Workspace and enter your domain, tandem-courier.example. Everyone with an email on that domain can then click Sign in with Google. You can also make it required.
+
+Sofia
+C: Done. Team loves it.
+
+== account | northpeak-logistics/liam | High | Open | to=sofia
+# SCIM deprovisioning not removing users
+C: Hi,
+
+We removed four leavers from the Fernbill app in Okta on Monday. SCIM shows the push as successful in Okta, but the users still show as active in Fernbill's Team page and one of them still has an active session. For our SOX controls, access has to be removed within 24 hours.
+
+Can you check urgently?
+
+Liam Chen
+IT Director
+
+== account | mosaic-events/harry | Low | Done | rate=4
+# Notifications going to my personal email
+C: I get Fernbill notifications at my personal email, even though I log in with my work one.
+A sofia: Hi Harry,
+
+Notifications go to the email in your notification settings, which can be separate from your login. Click your initials > Notifications, and change Send to. It's still set to your personal address from when you first signed up.
+C: Changed. Thanks.
+
+== account | sundial-bookkeeping/deborah | Medium | Replied | to=sofia
+# Managing several client accounts from one login
+C: Hi,
+
+I do bookkeeping for six small businesses that each have their own Fernbill account. Right now I have six logins. Is there an accountant or partner access where I can switch between them?
+
+Deborah Klein
+A sofia: Hi Deborah,
+
+Yes, there's Accountant access. Each client invites you as an Accountant from their Settings > Team, using your one email address. Once you accept, you'll see a switcher at the top left to move between accounts. Accountant seats are free and don't count against their plan.
+
+If you'd like, I can send you a short email you can forward to your clients with the steps.
+
+Sofia
+
+== account | wren-web-design/hazel | Low | Done
+# Delete my account and data
+C: I'm closing my business and moving abroad. I'd like my Fernbill account and all data deleted, not just cancelled.
+A sofia: Hi Hazel,
+
+Sorry to see you go, and good luck with the move. Before I delete it, please make sure you've exported anything you need (Settings > Data > Export). Deletion is permanent and removes all invoices, clients and payment records. We keep only what we must by law, such as records of your subscription payments.
+
+Reply "confirm delete" from this email address and I'll go ahead.
+C: Export done. confirm delete
+A sofia: Your account and data have been deleted. You'll get a final confirmation email. All the best, Hazel.
+
+== account | bluefin-analytics/maya | Medium | Open
+# Session timeout too short
+C: We all get logged out after 30 minutes of inactivity. Is that something we can change? It's annoying when I'm halfway through a big invoice and come back from a meeting.
+
+== account | juniper-vale-architects/conor | Medium | Done | rate=5
+# Invite not received by new partner
+C: I invited our new partner, Sinead, three times. She says she hasn't received any invite.
+A sofia: Hi Conor,
+
+I can see the invites went to sinead@juniper-vale-architects.example and were delivered, but your company's email filter moved them to quarantine. Could your IT person release them, or allow emails from fernbill.example? I've resent one more just now.
+C: IT released it. She's in. Thanks.
+
+== account | fieldnote-research/ines | Low | Done | rate=4
+# Which users haven't logged in?
+C: We pay for 9 seats. I suspect some people never log in. Can I see last login?
+A sofia: Hi Ines,
+
+Yes, Settings > Team shows a Last active column. You can sort by it. Anyone you remove stops counting from the next billing period.
+C: Found two who haven't logged in since spring. Removed. Thanks.

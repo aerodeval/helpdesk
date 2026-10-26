@@ -1,0 +1,193 @@
+// Scene Tickets. The guided tour depends on these subjects and states. Edit with care.
+
+== bugs | northpeak-logistics/daniel | Urgent | Open | at=T-30m | to=jamie | type=Incident | scene=sla-breach | response_by=T+30m
+# Card payments failing for all our customers since this morning
+C: Hi team,
+
+Since about 7am Eastern, every card payment on our invoices is failing. Customers click Pay on the invoice, enter their card, and get "Payment could not be processed. Please try again later." We have had at least 40 of these so far, from different customers and different card brands, so it isn't one bad card.
+
+ACH payments still seem to go through. Nothing has changed on our side as far as I know. We did not touch the payment settings.
+
+This is month end for a lot of our shippers and we are losing collections every hour this stays broken. Please call me if that is faster: our AR team is standing by.
+
+Daniel Brooks
+Finance Systems Lead, Northpeak Logistics
+N kwame +6m: Pulled the gateway logs for Northpeak. All declines since 11:02 UTC come back with the same processor error, not a card decline. Their merchant account shows a pending verification flag that appeared overnight. @Jamie this needs someone to reach their account rep, I don't have access to the merchant review queue.
+C marta +12m: Adding to Daniel's note: two of our largest customers just emailed us screenshots of the same error. One of them is trying to pay a $38,000 invoice before their own cutoff at 5pm today. Is there an ETA?
+
+Marta Kowalski, AR Manager
+
+== howto | sundial-bookkeeping/deborah | Medium | Open | at=T-2h10m | to=jamie | scene=saved-reply | portal
+# How do I download past invoices?
+C: Hello,
+
+I do the books for a few small clients and one of them needs every invoice she sent last year for her tax filing. I can open them one at a time but there are about 180 of them. Is there a way to download them all at once, ideally as PDFs?
+
+Thanks,
+Deborah Klein
+
+== billing | mosaic-events/olivia | Medium | Replied | at=T-1d2h | scene=refund-approval
+# Refund for a double charge
+C: Hi,
+
+We were charged twice for our subscription this month. Two payments of $240 went out on the 3rd, a few minutes apart, and our bank shows both as settled. We only have the one Growth account with 10 seats.
+
+Could you refund the second one, please? Our accountant flagged it this morning and I'd like to have it sorted before we close the month.
+
+Olivia Grant
+Director, Mosaic Events
+@ ananya +4m
+A ananya +38m: Hi Olivia,
+
+Thank you for flagging this, and sorry for the trouble. I can see both charges on your account: one at 09:14 and a second at 09:17 on the 3rd, each for $240. The second one came from a retry that should not have fired after the first payment succeeded.
+
+I've asked for the refund on the second charge now. Once it is approved you'll get a confirmation email, and the money usually lands back on the card in 5 to 10 business days.
+
+Best,
+Ananya
+N ananya +6m: @Jamie this one is over my $150 refund limit. Mosaic Events was charged $240 twice on the 3rd by the renewal retry (payment IDs ending 4471 and 4478). Second charge is clearly a duplicate. Can you approve a $240 refund so I can issue it today?
+@ jamie +2m
+
+== howto | quillwork-translations/mateo | Low | Open | at=T-5h20m | to=jamie | scene=kb-gap
+# Can I invoice in euros?
+C: Hi there,
+
+Most of our clients are in the US, but we just signed two agencies in Spain and they've asked to be invoiced in euros. I looked through the help center and the settings and couldn't find anything about currencies.
+
+Is this something Fernbill can do? If so, does the payment link also take euros, or would they still pay in dollars?
+
+Thanks,
+Mateo Ruiz
+Quillwork Translations
+
+== billing | greenleaf-studio/priya | Medium | Open | at=T-1d5h | to=ananya | scene=portal-awaiting | portal
+# Late fee added to an invoice with late fees turned off
+C: Hi,
+
+Our client Harlow & Finch got a reminder this morning for invoice GS-1042 with a $35 late fee on it. We turned off late fees for that client months ago because they are on net 60 terms with us. The fee also shows on the invoice in their portal now.
+
+Can you remove it and tell me why it was added? I don't want this happening to our other net 60 clients.
+
+Priya
+A ananya +1h50m: Hi Priya,
+
+Sorry about that. I've removed the $35 fee from GS-1042, and the invoice in Harlow & Finch's portal now shows the original total.
+
+To find the cause: did anyone change that client's payment terms or reminder settings recently? I can see the late fee rule at the account level is still on, so if the client-level override was cleared, the account rule would have applied.
+
+Ananya
+C +22h: Nobody on our side touched it, I checked with Leo. The client still shows "Late fees: off" when I open their profile. That's why I'm confused. We have six other clients set up the same way, so I'd like to know this won't hit them on the next reminder run.
+
+== howto | greenleaf-studio/priya | Medium | Replied | at=T-6h15m | to=sofia | scene=portal-replied | portal
+# Client portal shows our old logo
+C: Hello,
+
+We updated our logo in Settings > Branding last week. The invoice PDFs have the new one, but when clients open their portal they still see the old logo in the top corner. I've tried uploading it again.
+
+Is there a cache we need to clear?
+
+Priya Nair
+Ops Manager, Greenleaf Studio
+A sofia +5h50m: Hi Priya,
+
+Thanks for the screenshots, they made this quick to track down. The portal uses its own logo, separate from the one on PDFs, because some teams want a wider version for the web. It lives under Settings > Branding > Client portal, just below the PDF logo.
+
+I've cleared the cached portal image on our side as well, so once you upload the new logo there, your clients should see it the next time they open the portal. Let me know if it still shows the old one after that and I'll look again.
+
+Sofia
+
+== account | greenleaf-studio/priya | Low | Done | at=T-8d3h | to=sofia | scene=portal-resolved | portal | rate=5 | note="Sofia explained exactly what each role can see. Very helpful."
+# Adding a second admin to our account
+C: Hi, Leo (our founder) needs admin access so he can see billing and change our plan if I'm away. Right now he's a regular user. How do I make him an admin, and will that change what we pay?
+A sofia +1h10m: Hi Priya,
+
+Go to Settings > Team, click Leo's name, and change his role from Member to Admin. He'll get an email letting him know.
+
+It won't change your bill. On Growth you pay per seat, and Leo already has one, so his role doesn't affect the price.
+
+One thing to know: Admins can see and change billing details, export all data, and remove other users. If you'd rather he only sees billing, the Billing Manager role covers invoices and plan changes without the user and data settings.
+
+Sofia
+C +3h: Admin is right for him. Done, thanks Sofia.
+
+== integrations | brightwater-dental-group/marcus | High | Replied | to=jamie
+# API rate limit errors during the nightly invoice sync
+C: Hi,
+
+Our nightly job that pushes patient invoices from our practice management system into Fernbill has started failing partway through. We get HTTP 429 responses after roughly 600 requests. It used to run without errors. We send about 2,400 invoices a night across our 31 locations.
+
+Has the rate limit changed? We are on the Enterprise plan and I thought we had a higher limit.
+
+Marcus Bell
+IT Manager, Brightwater Dental Group
+A yuki: Hi Marcus,
+
+Thanks for the request IDs. You're right that the limit changed: with v3, the API moved from a per-day quota to a per-minute limit of 600 requests per account, and Enterprise accounts can have it raised. Your sync sends everything in one burst, which is why it stops at about the same point each night.
+
+Two options while we sort out the higher limit:
+- Use the batch endpoint, POST /v3/invoices/batch, which takes up to 100 invoices per request. That brings your 2,400 invoices down to 24 calls.
+- Respect the Retry-After header on a 429 and resume after the wait.
+
+I've passed this to Jamie, who handles limit increases for Enterprise accounts.
+
+Yuki
+@ jamie +20m
+A jamie +3h: Hi Marcus,
+
+Jamie here, I lead the support team. I've requested a raise to 3,000 requests per minute for Brightwater, and engineering usually applies these within one business day. I'll confirm here once it's live.
+
+That said, the batch endpoint Yuki mentioned is the better long-term fix, since it also makes your sync finish much faster. If your developer wants a quick call to walk through it, I'm happy to set one up.
+
+Jamie
+
+== account | castellan-hotels/elena | Medium | Replied | to=jamie
+# SOC 2 report for our vendor review
+C: Good morning,
+
+Our annual vendor risk review is due at the end of the month and our audit team needs Fernbill's most recent SOC 2 Type II report, plus your bridge letter if the report period ended more than three months ago.
+
+Who should I speak to about this, and is there an NDA we need to sign first?
+
+Elena Varga
+Finance Director, Castellan Hotels
+A jamie: Hi Elena,
+
+Happy to help with this. Our latest SOC 2 Type II report covers January through June of this year, and the bridge letter takes it through the end of September.
+
+Both are shared under our standard mutual NDA. I've sent the NDA to you for e-signature from our trust portal; once it's signed, the portal opens access to the report and the bridge letter straight away, and your audit team can download them from there.
+
+If your auditors also need our completed security questionnaire (we have the SIG Lite and CAIQ on file), let me know and I'll add them.
+
+Jamie Rivera
+Support Lead, Fernbill
+
+== billing | ostara-learning/charlotte | Medium | Open | at=T-1h50m | to=jamie
+# Renewal quote for 2027 with extra seats
+C: Hi Jamie,
+
+Our contract renews on 1 January. We're planning to add our two new campuses, which is about 35 more users on top of the 120 we have now. Could you send a renewal quote that covers 155 seats, and let me know if the per-seat price changes at that size?
+
+We'd also like to move from annual invoicing to quarterly if that's possible.
+
+Kind regards,
+Charlotte Hughes
+Head of Finance Operations, Ostara Learning
+
+== bugs | kitewing-media/chloe | High | Open | v3 | to=jamie
+# Tax line off by a cent on some invoices since v3
+C: Hi,
+
+Since the v3 update, some of our invoices show a GST amount that's a cent different from what our accounting system calculates. Example: invoice KW-88213, subtotal $1,234.45, GST at 10% should be $123.45 but Fernbill shows $123.44. The total is then a cent short too.
+
+It's happening on maybe 1 in 20 invoices. Our auditors reconcile every cent, so we have to fix each one by hand right now. This didn't happen before v3.
+
+Chloe Martin
+Accounts Officer, Kitewing Media
+A kwame: Hi Chloe,
+
+Thanks for the clear example, it made this easy to reproduce. In v3 the invoice editor started rounding tax per line item and then adding the lines together, where before it rounded the total once. On invoices with many lines, those small differences add up to a cent.
+
+I've raised this with engineering as a bug. There is a setting that restores the old behaviour, Settings > Taxes > Rounding > "Round tax on invoice total", but it only affects new invoices. I'll check whether we can recalculate the ones already sent.
+
+Kwame
+C +1d2h: We've switched the setting, thank you. What do we do about the 40 or so invoices already sent with the wrong amount? Some have been paid already, short by a cent. Our auditors will want a single explanation for all of them.

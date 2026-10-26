@@ -1,0 +1,325 @@
+// Bugs and incidents. Many arrive after the v3 release at T-7d.
+
+== bugs | greenleaf-studio/leo | Medium | Done | v3 | rate=5
+# Logo blurry on PDFs since the update
+C: Hey, since the update our logo on invoice PDFs looks blurry, like it was upscaled from a thumbnail. It was crisp before. Same file, we didn't change it.
+A kwame +1h10m: Hi Leo,
+
+Thanks for the report. The new v3 PDF templates were using a resized copy of the logo instead of the original upload. A fix went out this morning, and PDFs generated from now on use the full-resolution logo.
+
+Invoices already sent will look the same if a client opens the old PDF, but if they open the invoice link, it regenerates with the sharp logo.
+
+Kwame
+C: Looks sharp again. Thanks for the quick fix.
+
+== bugs | sundial-bookkeeping/deborah | High | Done | v3 | rate=3
+# Recurring invoices sent twice this morning
+C: Hello,
+
+Three of my clients have called because their customers received the same monthly invoice twice this morning, about 10 minutes apart. Both copies have different invoice numbers. This has never happened before.
+
+Deborah Klein
+A yuki +25m: Hi Deborah,
+
+I'm sorry, this was a problem on our side. During this morning's recurring run, a server restart caused part of the queue to run twice between 06:00 and 06:20 UTC. It affected recurring invoices on about 3% of accounts, including your three clients.
+
+We've voided the second copy of every duplicated invoice and emailed the recipients a short note saying the second one can be ignored. No one was charged twice: where auto-charge was on, we only charged the first copy.
+
+Again, I'm sorry for the calls you had to take.
+
+Yuki
+C: Thank you for the explanation and for voiding them. Two of my clients would like to know it won't happen again.
+A yuki: Understood. The recurring run now checks for an invoice already created for the same schedule and period before creating one, so a repeat run can't create a second copy. That change went live this afternoon.
+
+== bugs | copperline-electric/darnell | Medium | Done | v3
+# Line items lose their order when saved
+C: In the new invoice editor I drag line items into the order I want (labor first, then materials). When I save and reopen, they're back in the order I added them. Customers see the wrong order on the PDF too.
+A kwame: Hi Darnell,
+
+Confirmed, this was a bug in the v3 editor: the new order was shown on screen but not saved. It's fixed as of this morning. Reorder once more and save, and the order will stick, including on the PDF.
+
+Kwame
+C: Working now. Thanks.
+
+== bugs | lantern-legal/samuel | Medium | Done | rate=5
+# Search doesn't find invoices by client reference
+C: We put our matter number in the invoice reference field. Searching for a matter number in the invoice list returns nothing, even though I can see the invoice right there.
+A yuki: Hi Samuel,
+
+Thanks for the details. Search was only looking at invoice number, client name and amount. I've confirmed it should include the reference field, and our team has added it. It's live now, so searching for a matter number will find the invoice.
+
+Yuki
+C: Works. Saves us a lot of scrolling.
+
+== bugs | vireo-labs/leah | High | Done | v3 | rate=3
+# Dashboard revenue numbers wrong after update
+C: The revenue chart on the dashboard shows $0 for the last 5 days. We definitely got paid. Payments page shows them.
+A kwame: Hi Leah,
+
+You're right, and it's not just your account. The v3 dashboard was reading payments in UTC midnight buckets, and a change on Thursday broke that query for accounts with a time zone set west of UTC. Payments are fine, only the chart was wrong.
+
+A fix is rolling out now and the chart should show the right numbers within the hour.
+C: Numbers are back. Gave our CEO a scare though.
+A kwame: Sorry about that. Glad it's showing correctly now.
+
+== bugs | ostara-learning/tom | Medium | Replied | to=kwame | v3
+# Dates show as MM/DD on our UK invoices
+C: Hello,
+
+Since the v3 update, the dates on our invoice PDFs show as 10/03/2025 for the 3rd of October. Our account is set to UK date format and the app itself shows dates correctly. It's only the PDFs. Parents are understandably confused about when fees are due.
+
+Tom Whitaker
+A kwame: Hi Tom,
+
+Thanks for the clear report. I've reproduced it: the new v3 PDF templates use the date format of the person who created the template rather than the account setting. Your template was created by a US-based colleague of ours during your onboarding, which is why it's MM/DD.
+
+A fix is in testing and should go out tomorrow. Until then, you can open Settings > PDF templates, edit your template, and set Date format to DD/MM/YYYY directly. New PDFs will then use it.
+
+Kwame
+
+== bugs | castellan-hotels/owen | High | Done | rate=5
+# Invoices CSV export times out
+C: Exporting all invoices for the year as CSV times out after about a minute with "Request failed". We have roughly 48,000 invoices this year. Smaller date ranges work.
+A yuki: Hi Owen,
+
+Thanks for narrowing it down. Large exports were being built while the page waited, which fails past about 30,000 rows. We've changed exports over 10,000 rows to run in the background: you'll now see "We'll email you when it's ready", and the file arrives as a download link.
+
+I've run your yearly export manually in the meantime and sent the link to your email.
+
+Yuki
+C: Got the file, and the background export worked when I tried it myself. Thank you.
+
+== bugs | trailhead-outfitters/fatima | Medium | Done | v3 | rate=4
+# Discount line shows as positive on PDF
+C: We give 10% off to schools. On the new PDF the discount line shows "$120.00" instead of "-$120.00". The total is right but schools are asking why we added $120.
+A kwame: Hi Fatima,
+
+Thanks for catching that. The v3 template dropped the minus sign on discount lines. The total was always calculated correctly. A fix went out at 2pm today, so new PDFs show "-$120.00" again, and clicking the invoice link regenerates the PDF for existing invoices.
+
+Kwame
+C: Fixed on our end. Thanks.
+
+== bugs | harbor-street-veterinary/ana | Medium | Done
+# Can't log in on the iPad at reception
+C: The front desk iPad shows a blank white page after logging in. Phones and laptops are fine.
+A yuki: Hi Dr. Sousa,
+
+Could you tell me which iOS version the iPad is on? You'll find it under Settings > General > About.
+C: 15.4
+A yuki: Thank you. Fernbill needs iOS 16 or later since our last update, and older Safari versions can't load the new app. If the iPad can update to iOS 16 or 17, that will fix it. If it can't, the front desk can use Chrome on it, which still works for now.
+
+I'll ask the team to show a clear message on old browsers instead of a blank page.
+C kelly: Kelly here, we updated the iPad overnight and it works now. Thanks.
+
+== bugs | bluefin-analytics/arjun | Medium | Done | rate=5
+# API returns 500 for invoices with emoji in description
+C: POST /v3/invoices returns 500 when a line item description contains an emoji. Without the emoji it works. Request ID req_8f2a91c. Not a big deal for us, just letting you know.
+A yuki: Hi Arjun,
+
+Thanks for the request ID, that made it quick to find. Descriptions with some 4-byte characters were failing to save. It's fixed now and your request should work if you try it again.
+
+Yuki
+C: Confirmed. Thanks.
+
+== bugs | redwood-pediatrics/karen | High | Done | v3 | rate=5
+# Reminder emails going out for paid invoices
+C: Hi,
+
+Families are getting overdue reminders for invoices they paid days ago. This started after your update last week. I've had about a dozen calls and some parents are quite upset.
+
+Karen Liu
+A kwame +30m: Hi Karen,
+
+I'm sorry for the calls. This was a bug in the new reminders engine that shipped in v3. Invoices paid through a payment plan installment were still treated as overdue for their original due date. It affected about 200 accounts.
+
+The fix went out an hour ago, and no further reminders will go out for paid invoices. Would it help if we sent the affected families a short note from Redwood Pediatrics saying the reminder was sent in error? I can prepare the list of the 31 families who got one.
+C: Yes, please send the note. Thank you for owning it.
+A kwame +3h: Done. The note went to all 31 families this afternoon from your account's email address. I've attached the list for your records.
+
+== bugs | mosaic-events/harry | Low | Done
+# Time zone wrong on due date
+C: Due dates show a day earlier for our US clients. Invoice says due 15th, client sees 14th. We're in London.
+A yuki: Hi Harry,
+
+The client portal was showing due dates in the viewer's local time, which can push a date back for clients behind UK time. Due dates are calendar dates, so they shouldn't shift. This has been fixed, and clients will now see the 15th.
+
+Yuki
+C: Brilliant, thanks.
+
+== bugs | pinecrest-property-management/greg | High | Replied | to=yuki | v3
+# Recurring rent invoices skipped November
+C: About 20 of our recurring rent invoices didn't generate on the 1st. The schedules show "Next invoice: December 1". Tenants are asking where their invoice is. We need these out today.
+
+Greg Polanski
+A yuki +40m: Hi Greg,
+
+I've found the cause: the schedules that skipped were edited in the new v3 editor in the last week of October, and the edit moved their next date forward by one period. That's a bug, and I've passed it to the team as a priority.
+
+For today, I've created the 21 missing November invoices from those schedules and sent them to tenants, with the original due date of November 5th. I've also set each schedule's next date back to December 1st, which is correct.
+
+Could you have a look and confirm the 21 look right?
+
+Yuki
+
+== bugs | brightpath-tutoring/sam | Low | Done
+# Client name cut off on invoice
+C: one of my students' parents has a long name and it's cut off on the PDF. "Alexandra Montgomery-Fairweather" shows as "Alexandra Montgomery-Fairwe"
+A kwame: Hi Sam,
+
+Thanks for letting us know. Long client names now wrap onto a second line instead of being cut off. Opening the invoice link will show the full name.
+
+Kwame
+C: thanks
+
+== bugs | kitewing-media/ben | High | Done | rate=5
+# 502 errors from the API for about 10 minutes
+C: Between 03:10 and 03:22 UTC our sync got 502 Bad Gateway from api.fernbill.example on every request. Is there an incident? Status page showed all green.
+A yuki: Hi Ben,
+
+Yes, there was a short outage of the API in our Sydney region from 03:09 to 03:23 UTC, caused by a failed load balancer update. The status page was updated late, which shouldn't have happened, and we're fixing that too.
+
+Requests during that window weren't processed, so your sync should retry them. Nothing was partially created.
+
+Yuki
+C: Retried fine. Thanks for the honest answer about the status page.
+
+== bugs | quillwork-translations/mateo | Medium | Done | v3 | rate=4
+# Accented characters broken in PDF
+C: Since the update, client names with accents print wrong on PDFs. "José Muñoz" shows as "JosÃ© MuÃ±oz". In the app it looks fine.
+A kwame: Hi Mateo,
+
+Sorry about that. The new PDF fonts were missing some characters and falling back badly. A fix went out this afternoon and PDFs now show accents correctly. Clicking the invoice link regenerates the PDF with the fix.
+
+Kwame
+C: Fixed. Thank you, our Spanish clients noticed.
+
+== bugs | tandem-courier/mei | Medium | Open | to=kwame
+# Credit notes not reducing the client balance
+C: Hi,
+
+I issued a credit note for $180 to one of our customers (CN-0031) against invoice TC-1204. The invoice still shows the full balance due, and the customer's statement doesn't show the credit. I thought credit notes were supposed to reduce what they owe.
+
+Mei Lin
+
+== bugs | juniper-vale-architects/aoife | Medium | Done | rate=5
+# Attachments not included in invoice email
+C: I attached drawings to an invoice and ticked "Include attachments in email". The client says the email only had the invoice PDF.
+A yuki: Hi Aoife,
+
+Thanks. Attachments over 10 MB in total aren't added to the email, and instead the email links to them in the client portal. Your drawings came to 14 MB. The email should have said so, but the note was missing from the email template. I've had that fixed, so clients will now see "Attachments are available in your portal".
+
+Yuki
+C: That makes sense. Thanks.
+
+== bugs | arbor-lane-optometry/joy | Low | Done
+# Printing invoices prints two blank pages
+C: When I print an invoice from the browser, it prints the invoice and then 2 blank pages. Wasting paper.
+A kwame: Hi Joy,
+
+Could you try printing from the PDF instead (Download PDF, then print)? That's the most reliable. Printing the web page directly was adding blank pages in Chrome, and we've now fixed the print layout, so either way should work.
+
+Kwame
+C: Printing fine now. Thank you.
+
+== bugs | saltmarsh-coffee-roasters/eli | High | Replied | to=kwame | v3
+# Can't send invoices, Send button greyed out
+C: The Send button is greyed out on all our invoices. Can still save as draft. We have 30 wholesale invoices that need to go out today.
+A kwame +20m: Hi Eli,
+
+I've looked into it. The Send button is disabled because the v3 editor requires a sender email that's verified, and your account's sender email, orders@saltmarsh-coffee-roasters.example, wasn't verified when the account was moved to v3.
+
+I've resent the verification email to that address. Once someone clicks the link, the Send button will work again. If the email doesn't arrive in a few minutes, check spam, or let me know and I'll switch the sender to your login email for today.
+
+Kwame
+
+== bugs | ember-ash-pottery/freya | Low | Done | v3
+# Item photos missing on invoices
+C: I used to have little photos of each pot on my invoices, people liked seeing what they bought. Since the new version they're gone.
+A yuki: Hi Freya,
+
+The new templates had item images turned off by default. You can turn them back on under Settings > PDF templates > your template > Show item images. Sorry for the surprise.
+
+Yuki
+C: Back on, they look lovely. Thank you.
+
+== bugs | castellan-hotels/elena | Urgent | Done | rate=3 | note="Good updates during the outage. The outage itself was a problem."
+# Client portal down for our guests
+C: Our guests can't open their invoices. The portal link shows "Service unavailable". This is affecting check-out at three properties right now.
+
+Elena Varga
+A kwame +12m: Hi Elena,
+
+Confirmed, the client portal is down for a subset of accounts, including Castellan. Our team is working on it now. Invoice emails, payments made through saved cards and the API are not affected. I'll update you here within 30 minutes.
+
+Kwame
+A kwame +28m: Update: the portal is back for all accounts as of 14:41 UTC. It was down for 34 minutes due to a database failover that didn't complete. Your guests can open their invoices again.
+
+A full incident report will be published on our status page within 48 hours. I'm sorry for the disruption at check-out.
+C: Thanks for the updates during it. Please send the report when it's ready.
+
+== bugs | patchwork-kids-club/beatriz | Medium | Replied | to=yuki | v3
+# Parents can't pay from their phones
+C: Several parents have told me that when they tap Pay on their phone the page just reloads. On a computer it works. This is new since about a week ago.
+A yuki: Hi Beatriz,
+
+Thank you, and sorry for the trouble for your parents. I've reproduced this on iPhones using the Gmail app's built-in browser: the new payment page doesn't load properly there. It works in Safari or Chrome.
+
+A fix is being tested now. Until it's out, parents can tap the three dots in Gmail and choose "Open in Safari" or "Open in browser". I'll let you know as soon as the fix is live.
+
+Yuki
+
+== bugs | wren-web-design/hazel | Low | Done | rate=5
+# Typo in the reminder email
+C: Small thing: the default reminder email says "Your invoice is now overdue and payment is past it's due date". Should be "its". My clients are designers, they notice.
+A kwame: Hi Hazel,
+
+Ha, they would. Thanks for pointing it out. It's fixed in the default template now. If you'd customised the reminder text, it keeps your version, so you may want to check yours too.
+
+Kwame
+C: Mine was the default. Thanks for fixing it.
+
+== bugs | two-owls-consulting/omar | Medium | Done
+# Invoice total off when using hours with minutes
+C: We bill hourly. When I enter 1.5 hours at $200 it shows $300, fine. When I enter 1:30 as the quantity it shows $260. Something's wrong.
+A yuki: Hi Omar,
+
+Yes, it was reading "1:30" as 1.3 hours. Time-style quantities are now converted correctly, so 1:30 becomes 1.5. If any existing invoices used that format, they keep their saved amount, so it's worth checking any drafts.
+
+Yuki
+C: Found two drafts with the wrong total. Fixed. Thanks.
+
+== bugs | northpeak-logistics/rosa | High | Done | rate=5
+# Customer statements showing other customers' invoices
+C: Hi,
+
+One of our customers called to say their monthly statement listed two invoices that aren't theirs. They belong to a different customer with a similar name (Delta Freight vs Delta Freight Systems). This is a privacy concern for us.
+
+Rosa Delgado
+Controller, Northpeak Logistics
+A kwame +35m: Hi Rosa,
+
+Thank you for raising this quickly. I've checked: the two invoices were assigned to the wrong client when they were created by your NetSuite connector on the 8th, because both clients share the same tax ID in your NetSuite data. Statements are generated per client in Fernbill, so the statement pulled them in.
+
+I've moved the two invoices to Delta Freight Systems and regenerated both statements. To prevent this, the connector should match clients by their NetSuite internal ID instead of tax ID. Liam's team can change that in the connector's mapping.
+
+Kwame
+C: Thank you. I've let the customer know, and Liam is updating the mapping.
+
+== bugs | larkspur-massage/nina | Low | Done
+# App logs me out every few minutes
+C: Fernbill keeps logging me out, like every 5 minutes. Very annoying.
+A yuki: Hi Nina,
+
+Sorry about that. Is it happening on one device, or everywhere? And are you using a private or incognito window? Private windows clear the login when the tab is idle.
+C: oh. yes it's private mode. didn't know. ok thanks
+
+== bugs | redwood-pediatrics/karen | Medium | Open | v3
+# Saved invoice drafts disappearing
+C: Hi,
+
+Twice this week I've spent time building a draft invoice for a family with a long list of visits, saved it, and then it's gone from the Drafts list the next morning. Search doesn't find it either. Both times it was a draft I'd edited in the new editor and then left open in a tab overnight.
+
+Is there anywhere they could have gone? I'd rather not rebuild them a third time.
+
+Karen Liu
+Billing Lead, Redwood Pediatrics

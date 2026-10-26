@@ -1,0 +1,447 @@
+// Integrations: QuickBooks, Xero, Zapier, Slack, HubSpot, Shopify, the API and webhooks.
+
+== integrations | sundial-bookkeeping/deborah | Medium | Done
+# QuickBooks sync creating duplicate customers
+C: Hello,
+
+I connected a client's Fernbill account to QuickBooks Online last week. Every invoice that syncs creates a new customer in QuickBooks instead of matching the existing one. We now have "Acme Plumbing", "Acme Plumbing 1", "Acme Plumbing 2" and so on.
+
+Deborah Klein
+A kwame: Hi Deborah,
+
+Thanks, this one is common on a first connection. Fernbill matches customers by email address first and display name second. The existing QuickBooks customers don't have an email on file, and the Fernbill clients do, so no match is found and a new customer is created.
+
+The fix:
+1. Pause the sync under Settings > Integrations > QuickBooks.
+2. Use Map customers on the same page to link each Fernbill client to the right QuickBooks customer. It suggests matches by name.
+3. Merge the duplicates in QuickBooks (Customers > select > Merge).
+4. Resume the sync.
+
+New invoices will then go to the right customer.
+
+Kwame
+C: That's done and the last few invoices synced correctly. Thank you, clear instructions.
+
+== integrations | vireo-labs/noah | High | Done | v3 | rate=3
+# Webhooks stopped firing after v3
+C: Our invoice.paid webhook hasn't fired since Tuesday. We use it to unlock accounts in our product when a customer pays. Endpoint is up and returning 200 for other providers. Nothing in our logs from Fernbill since Tuesday 14:00 UTC.
+A yuki: Hi Noah,
+
+v3 moved webhooks to a new version. Endpoints created before v3 were kept on the old version, but the invoice.paid event was renamed to payment.succeeded in the new one, and your endpoint was upgraded on Tuesday by someone on your team (the audit log shows noah@vireo-labs.example, Tuesday at 13:58 UTC).
+
+You have two options:
+- Switch the endpoint back to webhook version 2024-01 under Settings > Developers > Webhooks. It will start sending invoice.paid again.
+- Or subscribe to payment.succeeded and update your handler. The payload is similar, but the invoice ID is now under data.invoice_id.
+
+Missed events from the last two days can be resent from the endpoint's Event log.
+
+Yuki
+C: That was me, I clicked upgrade without reading. Moved to payment.succeeded and resent the events. Would be nice if the upgrade button warned about renamed events.
+A yuki: Fair point, and you're not the first to mention it. I've passed it to the team.
+
+== integrations | trailhead-outfitters/jake | Medium | Done | rate=5
+# Shopify orders not creating invoices
+C: We connected Shopify so our wholesale orders create invoices in Fernbill. Retail orders are being ignored, which is correct, but so are wholesale orders since last Friday.
+A kwame: Hi Jake,
+
+I've checked the connection. The integration creates invoices for orders tagged "wholesale". From last Friday, your wholesale orders are tagged "Wholesale" with a capital W, likely from a change in the Shopify app you use for B2B orders, and the tag match is case sensitive.
+
+I've changed your rule to match the tag in any case, and I've re-run the sync from last Friday. 17 invoices were created as drafts so you can check them before they go out.
+
+Kwame
+C: All 17 look right. Sent. Thanks Kwame.
+
+== integrations | kitewing-media/ben | Medium | Done | rate=5
+# Xero tracking categories
+C: Hey, we sync invoices to Xero. We use tracking categories in Xero for our business units (Radio, Digital, Print). Is there a way to set the tracking category from Fernbill so finance doesn't have to tag each one in Xero?
+A yuki: Hi Ben,
+
+Yes. Under Settings > Integrations > Xero > Field mapping, you can map a Fernbill custom field to a Xero tracking category. If you add a custom field "Business unit" on invoices with the three options, then map it to your Xero category, every synced invoice will carry it.
+
+The option names need to match the Xero category names exactly.
+
+Yuki
+C: Set up and tested. Finance is very happy.
+
+== integrations | bluefin-analytics/arjun | Medium | Done
+# API: how to filter invoices by updated date
+C: Using the API to sync invoices into our warehouse. GET /v3/invoices returns everything every time. Is there a filter for invoices changed since a timestamp?
+A yuki: Hi Arjun,
+
+Yes, use updated_since with an ISO 8601 timestamp, for example:
+
+GET /v3/invoices?updated_since=2025-10-01T00:00:00Z
+
+It includes invoices whose status, payments or line items changed after that time. Combine it with the cursor parameter for pagination, and keep the last updated_at you saw as the next starting point.
+
+Yuki
+C: Perfect, thanks.
+
+== integrations | copperline-electric/sue | Medium | Done | rate=4
+# QuickBooks says the connection expired
+C: Getting an email every day that our QuickBooks connection expired. I reconnect and the next day it says it again.
+A kwame: Hi Sue,
+
+QuickBooks connections stay active for 100 days unless the user who connected them signs out of all QuickBooks sessions or loses admin rights. Your connection was made by darnell@copperline-electric.example, and QuickBooks shows that his access was changed from Admin to Standard last week. Fernbill can't renew the connection without admin rights.
+
+Either Darnell's admin access needs to be restored in QuickBooks, or you can reconnect using your own login if you're an admin there.
+C: Reconnected with my login. No email today. Thanks.
+
+== integrations | castellan-hotels/owen | High | Replied | to=yuki
+# Webhook signature verification failing
+C: Hi,
+
+Since this morning our webhook endpoint rejects every Fernbill event because the signature check fails. We verify the Fernbill-Signature header with our signing secret using HMAC-SHA256 as documented. Nothing changed in our code. Events are piling up in your retry queue.
+
+Owen Fitzgerald
+A yuki +50m: Hi Owen,
+
+I've looked at your endpoint. Your signing secret was rotated this morning at 07:12 UTC through the API key "ops-automation". After a rotation, events are signed with the new secret, and the old secret stops working after 24 hours. Your endpoint is still verifying with the old one, and it seems the rotation didn't go through to your secret store.
+
+If you update the secret on your side, the queued events will retry and should go through. You can find the current secret under Settings > Developers > Webhooks > Signing secret. Let me know if the queued events don't clear in the next hour.
+
+Yuki
+
+== integrations | lantern-legal/samuel | Low | Done | rate=5
+# Zapier: create invoice from a new matter
+C: We open new client matters in our practice software and want an invoice draft created in Fernbill automatically. Is that something Zapier can do?
+A kwame: Hi Samuel,
+
+Yes. In Zapier, use your practice software's "New matter" trigger and Fernbill's "Create invoice" action. Set the invoice to Draft so it doesn't go out by itself. You can map the client name, the matter number into the reference field, and a default line item for the retainer.
+
+If the client doesn't exist in Fernbill yet, add a "Find or create client" step before it.
+
+Kwame
+C: Set it up this afternoon. Works well. Thank you.
+
+== integrations | oakridge-physical-therapy/james | Medium | Done | rate=5
+# Google Calendar appointments to invoices
+C: Can Fernbill create an invoice from appointments in our Google Calendar? Each appointment has the patient name in the title.
+A yuki: Hi James,
+
+Not directly, but Zapier can. Use Google Calendar's "Event ended" trigger, then Fernbill's "Find client" by name, then "Create invoice". If the appointment titles follow a pattern like "PT: Jane Doe", Zapier can strip the "PT:" part.
+
+Many clinics add a filter step so only events from the appointments calendar are invoiced.
+
+Yuki
+C: Got it running with the filter. Saves Linda about an hour a day.
+
+== integrations | pinecrest-property-management/greg | Medium | Done | rate=4
+# QuickBooks: payments syncing to the wrong bank account
+C: Payments from Fernbill are showing up in QuickBooks under our operating account. Rent should be going into the trust account. Our accountant is not pleased.
+A kwame: Hi Greg,
+
+Under Settings > Integrations > QuickBooks > Payments, there's a Deposit to account setting. It's set to "Operating - 4410". Change it to your trust account and new payments will go there.
+
+For payments already synced, Fernbill can't move them in QuickBooks, so your accountant would need to move them there. I can send a list of the 63 payments synced to the wrong account since you connected, if that helps.
+
+Kwame
+C: Please send the list.
+A kwame: Attached as a CSV, with the QuickBooks payment ID for each.
+
+== integrations | greenleaf-studio/leo | Low | Done | rate=5
+# Slack notification when an invoice is paid
+C: Is there a way to get a Slack message in our #money channel when a client pays? I like knowing as soon as it happens.
+A yuki: Hi Leo,
+
+Yes. Go to Settings > Integrations > Slack, connect your workspace, and pick #money as the channel. Under Notifications, tick Invoice paid. You can also add Invoice overdue if that's useful.
+
+Yuki
+C: Set up, and the first one came through an hour later. Very satisfying.
+
+== integrations | ostara-learning/ravi | High | Open | to=yuki | v3
+# SSO-provisioned users missing from the API users endpoint
+C: Hi,
+
+Since v3, GET /v3/users only returns users who were invited by email. Users created through our Okta SCIM provisioning (about 80 of them) are missing from the response, although they can log in and appear in Settings > Team.
+
+We use this endpoint to reconcile licences every night, so our report now says we have 40 users instead of 120.
+
+Ravi Menon
+Integrations Engineer, Ostara Learning
+
+== integrations | redwood-pediatrics/paul | Low | Done
+# Does Fernbill integrate with our EHR?
+C: We use an EHR for charting. Does Fernbill integrate with it so patient balances come over automatically?
+A kwame: Hi Dr. Adler,
+
+There's no built-in integration with EHR systems. Some practices connect theirs through Zapier or the Fernbill API, depending on what the EHR supports. If you let me know which EHR you use, I can check whether others have set it up and what they used.
+
+Kwame
+C: I'll ask Karen which one, she handles that.
+
+== integrations | saltmarsh-coffee-roasters/hannah | Medium | Replied | to=kwame
+# Shopify wholesale prices not used on invoices
+C: When Shopify orders come into Fernbill as invoices, the line prices are our retail prices, not the wholesale price list our B2B customers see on Shopify. The totals don't match the order.
+A kwame: Hi Hannah,
+
+The integration reads the line price from the Shopify order. If your wholesale customers use a Shopify price list, the order line should carry the discounted price, but if the discount is applied at checkout as an order-level discount, the line price stays at retail and the discount is a separate amount.
+
+Could you send me one order number where the totals didn't match? I'll check which way it came through and whether we're dropping the discount.
+
+Kwame
+
+== integrations | tandem-courier/andre | Medium | Done | rate=5
+# Import clients from a spreadsheet
+C: We have about 300 business customers in a spreadsheet. Is there a way to import them instead of adding one by one?
+A yuki: Hi Andre,
+
+Yes, under Clients > Import. Download the template, paste your data into it, and upload. The importer shows a preview and lets you match columns before anything is created. It also flags duplicates by email.
+
+Yuki
+C: Imported 296. 4 had bad emails, fixed those by hand. Very easy, thanks.
+
+== integrations | brightwater-dental-group/marcus | Medium | Done
+# Sandbox environment for testing the API
+C: We're building a new integration between our practice management system and Fernbill. Is there a sandbox so we don't create real invoices or charge real cards while we test?
+A yuki: Hi Marcus,
+
+Yes. Enterprise accounts have a sandbox. Go to Settings > Developers and click Create sandbox. It copies your settings but not your data, and has its own API keys. Card payments in the sandbox use test card numbers, so nothing is charged.
+
+The sandbox base URL is the same, but with sandbox API keys requests go to the sandbox data.
+
+Yuki
+C: Created. Thank you.
+
+== integrations | studio-adeyemi/tunde | Low | Replied
+# Calendly to invoices?
+C: Clients book photo sessions through Calendly and pay a deposit there. Can Fernbill pick those up?
+A kwame: Hi Tunde,
+
+Not directly. You could use Zapier with Calendly's "Invitee created" trigger and Fernbill's "Create invoice" action. The deposit paid in Calendly would need to be recorded on the Fernbill invoice as a payment, which Zapier can also do with "Record payment".
+
+Kwame
+
+== integrations | juniper-vale-architects/conor | Medium | Done
+# Xero sync stuck on "Pending"
+C: Hi, about 30 invoices have been showing "Pending" in the Xero sync column since yesterday. Earlier ones synced fine.
+A yuki: Hi Conor,
+
+Xero was rejecting those invoices because they use a tax rate, "VAT 13.5%", that was archived in your Xero account yesterday. Fernbill retries for 48 hours before marking them failed, which is why they show Pending.
+
+Either restore the tax rate in Xero, or map Fernbill's 13.5% rate to a current Xero tax rate under Settings > Integrations > Xero > Tax rates. Once that's done, click Retry sync and they'll go through.
+C: Aoife archived it by mistake. Restored and they've all synced. Thanks.
+
+== integrations | fieldnote-research/ines | Medium | Open | to=kwame
+# HubSpot deals not creating invoices anymore
+C: Hello,
+
+We have the HubSpot integration set up to create a draft invoice when a deal moves to Closed Won. It worked for months. The last three deals we closed this week didn't create anything.
+
+The connection page says Connected. I don't see any errors.
+
+Ines Carvalho
+
+== integrations | castellan-hotels/nadia | Medium | Done
+# PMS export into Fernbill each night
+C: Hi,
+
+Our property management system exports group booking invoices as a CSV every night. Right now I upload it by hand each morning. Can Fernbill pick it up from an SFTP folder automatically?
+
+Nadia Rahman
+A yuki: Hi Nadia,
+
+Yes, Enterprise accounts can use scheduled imports. Under Settings > Integrations > Scheduled imports, add your SFTP server details, the folder, and the time to check. Fernbill uses the same column mapping as the manual upload, so you can save your current mapping and reuse it.
+
+I'd suggest keeping new invoices as drafts for the first week so you can check them before they go out.
+
+Yuki
+C: It's running. I've had my mornings back for a week now. Thank you.
+
+== integrations | kitewing-media/ben | High | Replied | to=yuki | v3
+# Webhook payloads missing line items since v3
+C: Hey, our invoice.created webhook payloads no longer include line_items. We need them to post revenue to the right ledger in our system. This started after v3. We're on the 2024-01 webhook version, which I understood was frozen.
+A yuki: Hi Ben,
+
+You're right, 2024-01 should be frozen, and line items should still be there. I've reproduced it: for invoices created in the new v3 editor, line items are being left out of 2024-01 payloads. Invoices created through the API still include them.
+
+I've raised it as a bug with our engineering team with your examples. In the meantime, you can fetch line items with GET /v3/invoices/{id}?expand=line_items when the webhook arrives. I'll update you as soon as there's a fix date.
+
+Yuki
+
+== integrations | two-owls-consulting/rachel | Low | Done | rate=5
+# Connect to Google Sheets?
+C: Is there a simple way to get our invoices into a Google Sheet that updates itself? We're not technical.
+A kwame: Hi Rachel,
+
+The simplest way is Zapier: the "New invoice" trigger from Fernbill and "Create spreadsheet row" in Google Sheets. It takes about ten minutes and no code. If you'd rather not use Zapier, you can also schedule a weekly CSV export to your email under Reports > Scheduled exports.
+
+Kwame
+C: Zapier it is. Omar set it up in 15 minutes. Thank you.
+
+== integrations | marigold-yoga/anjali | Low | Done
+# Mindbody integration?
+C: Do you integrate with Mindbody? That's where my class bookings are.
+A yuki: Hi Anjali,
+
+We don't have a Mindbody integration, I'm afraid, and Zapier's Mindbody support is limited. Some studios export clients from Mindbody and import them into Fernbill to save typing, but bookings won't create invoices automatically.
+
+Yuki
+C: OK, good to know.
+
+== integrations | vireo-labs/noah | Medium | Done | rate=5
+# API key permissions: read only key?
+C: Can we create an API key that can only read data? Our analytics vendor needs access and I don't want them able to create invoices.
+A yuki: Hi Noah,
+
+Yes. Under Settings > Developers > API keys, click New key and choose Read only. You can also limit it to specific resources, for example invoices and payments only, without clients' contact details.
+
+Yuki
+C: Exactly what I wanted, thanks.
+
+== integrations | nimbus-drone-survey/callum | Low | Done | rate=4
+# QuickBooks Desktop?
+C: My accountant uses QuickBooks Desktop, not Online. Does the integration work with that?
+A kwame: Hi Callum,
+
+The integration only works with QuickBooks Online. For Desktop, the usual approach is to export invoices and payments monthly from Reports > Accounting export, which has a QuickBooks Desktop IIF format your accountant can import.
+
+Kwame
+C: IIF export works, accountant is happy enough.
+
+== integrations | northpeak-logistics/liam | High | Done
+# NetSuite connector: invoices duplicated after retry
+C: Hi,
+
+During a NetSuite outage on Saturday our connector retried a batch of 140 invoices, and now each of those exists twice in Fernbill. Customers have not been emailed yet because they're drafts, but I need to clean this up before Monday's send.
+
+Is there a way to delete duplicates in bulk, and how do we stop this happening again?
+
+Liam Chen
+IT Director, Northpeak Logistics
+A kwame +40m: Hi Liam,
+
+I've identified the 140 duplicate drafts: they have the same external reference as the originals and were created between 02:14 and 02:31 UTC on Saturday. I can delete them for you in one go. Please confirm and I'll do it, so you don't have to select them by hand.
+
+To prevent it: the invoice create endpoint accepts an Idempotency-Key header. If your connector sends the NetSuite record ID as the key, a retry returns the existing invoice instead of creating a new one.
+
+Kwame
+C: Confirmed, please delete. We'll add the idempotency key this week.
+A kwame +25m: Done. 140 duplicates deleted, originals untouched. Let me know if anything looks off on Monday.
+
+== integrations | arbor-lane-optometry/ruth | Low | Open
+# Square integration
+C: Hello, we use Square at the front desk for glasses and contacts. Can Square payments show up on Fernbill invoices? Right now we're entering them twice.
+
+Dr. Ruth Feldman
+
+== integrations | bluefin-analytics/arjun | Medium | Replied | to=yuki
+# Rate limit headers missing
+C: The docs say API responses include X-RateLimit-Remaining. I'm not seeing it on any response from /v3/invoices. We want to throttle ourselves before we hit 429s.
+A yuki: Hi Arjun,
+
+Thanks for flagging. In v3 the headers were renamed to the standard RateLimit-Remaining and RateLimit-Reset (without the X- prefix), and the docs page still shows the old names. I've asked for the docs to be corrected.
+
+So you should see RateLimit-Remaining on every response. If you don't see it either, could you send me a request ID from a response that's missing it?
+
+Yuki
+
+== integrations | harbor-street-veterinary/kelly | Medium | Done
+# Clinic software sends invoices twice
+C: Our clinic software sends invoices to Fernbill through Zapier. Since last week each one comes in twice. Nothing changed that I know of.
+A kwame: Hi Kelly,
+
+Your Zapier account has two Zaps doing the same thing: "Vet invoices to Fernbill" and a copy named "Vet invoices to Fernbill (copy)" that was turned on last Tuesday. Turning off the copy will stop the duplicates.
+
+I've also listed the 26 duplicate invoices from the last week in the attached file so you can void them. None of them were paid twice.
+
+Kwame
+C: The copy is off. Voided the duplicates. You're a lifesaver.
+
+== integrations | mosaic-events/olivia | Medium | Done
+# Xero: contacts syncing with the wrong name
+C: Our clients in Xero are showing as the contact person's name instead of the company. "Sarah Liddell" instead of "Liddell & Co". Is there a setting?
+A yuki: Hi Olivia,
+
+Yes. Under Settings > Integrations > Xero > Contacts, change Contact name from "Primary contact" to "Company name". New syncs will use the company name. Existing Xero contacts keep their current name, but you can choose Update existing contacts on that page to rename them in one go.
+
+Yuki
+C: Worked. Thanks.
+
+== integrations | ironleaf-fitness/dwayne | Medium | Open
+# Gym software
+C: I use Glofox for the gym. Members sign up there. Can it send them to Fernbill automatically? Tired of typing every new member in twice.
+
+== integrations | copperline-electric/darnell | Medium | Done
+# Jobber to Fernbill
+C: Our techs use Jobber in the field. When a job is done can the invoice go to Fernbill?
+A kwame: Hi Darnell,
+
+Yes, through Zapier: Jobber's "Job completed" trigger and Fernbill's "Create invoice" action. You can map the job's line items to invoice lines. A few customers also add a step that sends the invoice right away if the job total is under a set amount, and keeps bigger ones as drafts for review.
+
+Kwame
+C: Draft for over $2k, send for under. Running great.
+
+== integrations | pinecrest-property-management/monique | Low | Done
+# Tenant portal link from our website
+C: Can we put a link on our website where tenants log in to see and pay their rent invoices?
+A yuki: Hi Monique,
+
+Yes. Your client portal link is under Settings > Client portal > Portal link. Add it to your website as a "Pay rent" button. Tenants log in with their email, get a one-time code, and see all their invoices.
+
+Yuki
+C: Added, thanks.
+
+== integrations | kitewing-media/isla | Medium | Done | v3 | rate=5
+# QuickBooks sync stopped after v3 update
+C: Our QuickBooks sync for the Sydney entity stopped on the day of the v3 release. The other two entities are fine. Settings say connected.
+A yuki: Hi Isla,
+
+The Sydney entity's connection was the only one still using the older QuickBooks authorisation, which v3 retired. The page says Connected because the record exists, but the token is no longer accepted. That's a bug in the status display, which I've reported.
+
+Reconnecting it under Settings > Integrations > QuickBooks will fix the sync, and Fernbill will catch up on everything since the release.
+
+Yuki
+C: Reconnected, 412 invoices caught up overnight. Thanks.
+
+== integrations | tidewater-kayak-tours/kai | Low | Done
+# Booking site integration
+C: hi, we use FareHarbor for tour bookings. Corporate groups want invoices though. any way to connect them?
+A kwame: Hi Kai,
+
+No direct integration, but FareHarbor works with Zapier. Use the "New booking" trigger with a filter for corporate bookings, then Fernbill's "Create invoice". I'd keep them as drafts so you can add any extras before sending.
+
+Kwame
+C: nice, will do. thanks
+
+== integrations | ostara-learning/tom | Medium | Done | rate=5
+# Student information system import
+C: We'd like tuition invoices to be created from our student information system each term. It can export a CSV in a fixed format. Can Fernbill read that?
+A yuki: Hi Tom,
+
+Yes. Use Invoices > Import, and on the first upload match the CSV columns to invoice fields. Save the mapping and it will be used for every future import. If the SIS can drop the file on an SFTP server, you can also schedule the import to run automatically.
+
+Yuki
+C: Mapping saved. Term invoices went out this morning without a hitch.
+
+== integrations | hollow-pine-cabins/erik | Low | Done
+# Airbnb sync?
+C: Is there a way to pull Airbnb bookings into Fernbill? I know I asked a lot of things before, this is just one.
+A kwame: Hi Erik,
+
+No problem at all. There isn't an Airbnb integration, since Airbnb collects payment for those bookings itself. Fernbill makes most sense for your direct bookings and longer stays, which is how you're using it now.
+
+Kwame
+C: Makes sense. Thanks
+
+== integrations | riverbend-florist/lily | Medium | Replied | to=kwame
+# Shopify orders creating invoices for paid orders
+C: Our Shopify store is connected and now every online order creates an invoice in Fernbill, even though the customer already paid on Shopify. Customers are getting an invoice email for flowers they already paid for.
+A kwame: Hi Lily,
+
+Sorry for the confusion this caused your customers. The Shopify integration is set to "All orders". Change it to "Orders with payment pending" under Settings > Integrations > Shopify > Which orders, and Fernbill will only invoice orders that weren't paid at checkout, such as wedding and event orders.
+
+I've turned off invoice emails for Shopify orders for now, so no more go out while you change the setting. Would you like me to void the 9 invoices created for paid orders this week?
+
+Kwame
+
+== integrations | lantern-legal/victoria | Medium | Open | to=kwame
+# Clio sync stopped creating invoices
+C: Good morning,
+
+Our Clio connection has stopped sending bills over to Fernbill. The last one that came through was on Tuesday. Bills approved in Clio since then (eleven so far) haven't appeared as invoices, and the integration page still says Connected.
+
+Samuel reconnected it yesterday afternoon, which made no difference. We'd like to send these before the end of the week.
+
+Victoria Ames
+Office Administrator, Lantern Legal
