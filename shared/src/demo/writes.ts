@@ -68,6 +68,7 @@ async function reply(ticket: string, args: Doc): Promise<Body> {
   const fields: Doc = { first_responded_on: doc.first_responded_on || now, last_agent_response: now };
   if (s.auto_update_status && s.update_status_to) fields.status = s.update_status_to;
   if (doc.agreement_status === "First Response Due") fields.agreement_status = "Resolution Due";
+  if (fields.status) Object.assign(fields, await statusFields(doc, fields.status));
   const email = emailOf(doc, args.message, args.attachments, "Sent");
   await overlay.record("email", { name: ticket, fields, email: { ...email, to: args.to, cc: args.cc, bcc: args.bcc } });
   ticketUpdated(ticket);
@@ -76,7 +77,8 @@ async function reply(ticket: string, args: Doc): Promise<Body> {
 
 async function customerReply(ticket: string, args: Doc): Promise<Body> {
   const doc = await overlay.doc(TICKET, ticket);
-  const fields = { status: demoBoot()!.settings.ticket_reopen_status || "Open", last_customer_response: new Date().toISOString() };
+  const status = demoBoot()!.settings.ticket_reopen_status || "Open";
+  const fields = { status, last_customer_response: new Date().toISOString(), ...(await statusFields(doc, status)) };
   await overlay.record("email", { name: ticket, fields, email: emailOf(doc, args.message, args.attachments, "Received") });
   ticketUpdated(ticket);
   return { message: null, docs: [await overlay.doc(TICKET, ticket)] };
