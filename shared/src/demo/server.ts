@@ -15,14 +15,6 @@ export async function callServer(method: string, params: Doc = {}): Promise<any>
   return (await response.json()).message;
 }
 
-// Read once from the real HD Settings. Customers cannot read it, so they get the defaults.
-export const settings = once(() =>
-  callServer("frappe.client.get_value", {
-    doctype: "HD Settings",
-    fieldname: ["auto_update_status", "update_status_to", "ticket_reopen_status", "default_priority", "default_ticket_status"],
-  }).catch(() => ({}))
-);
-
 export const agents = once(async () => {
   const rows = await callServer("frappe.client.get_list", {
     doctype: "HD Agent",

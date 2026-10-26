@@ -1,6 +1,15 @@
 // Page globals the demo reads; the desk and the Studio portal boot them differently.
+import type { Doc } from "./filters";
+
 const page = window as any;
-const DEFAULT_BOOT = { seed_version: "0", max_ticket: 900000 };
+// `settings`, `slas` and `customer_slas` carry what a customer cannot read (see demo/persona.py)
+const DEFAULT_BOOT = {
+  seed_version: "0",
+  max_ticket: 900000,
+  settings: {} as Doc,
+  slas: {} as Record<string, Doc[]>,
+  customer_slas: {} as Record<string, string | null>,
+};
 
 export function demoBoot(): typeof DEFAULT_BOOT | null {
   const demo = page.demo ?? page.boot?.demo;

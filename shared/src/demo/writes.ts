@@ -3,8 +3,8 @@
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
 import { siteTime, slaTargets } from "./replay";
-import { agents, callServer, jsonParam, settings } from "./server";
-import { emitLocal, randomName, sessionUser, siteTimezone } from "./session";
+import { agents, callServer, jsonParam } from "./server";
+import { demoBoot, emitLocal, randomName, sessionUser, siteTimezone } from "./session";
 
 export const BLOCKED = Symbol("blocked");
 type Body = { message: unknown; docs?: Doc[] } | typeof BLOCKED;
@@ -62,7 +62,8 @@ export const writes: Record<string, Fake> = {
 };
 
 async function reply(ticket: string, args: Doc): Promise<Body> {
-  const [doc, s] = await Promise.all([overlay.doc(TICKET, ticket), settings()]);
+  const doc = await overlay.doc(TICKET, ticket);
+  const s = demoBoot()!.settings;
   const now = new Date().toISOString();
   const fields: Doc = { first_responded_on: doc.first_responded_on || now, last_agent_response: now };
   if (s.auto_update_status && s.update_status_to) fields.status = s.update_status_to;
@@ -73,8 +74,8 @@ async function reply(ticket: string, args: Doc): Promise<Body> {
 }
 
 async function customerReply(ticket: string, args: Doc): Promise<Body> {
-  const [doc, s] = await Promise.all([overlay.doc(TICKET, ticket), settings()]);
-  const fields = { status: s.ticket_reopen_status || "Open", last_customer_response: new Date().toISOString() };
+  const doc = await overlay.doc(TICKET, ticket);
+  const fields = { status: demoBoot()!.settings.ticket_reopen_status || "Open", last_customer_response: new Date().toISOString() };
   await overlay.record("email", { name: ticket, fields, email: emailOf(doc, args.message, args.attachments, "Received") });
   return { message: null, docs: [await overlay.doc(TICKET, ticket)] };
 }
@@ -182,23 +183,20 @@ async function insertArticle({ doc }: Doc): Promise<Body> {
   return { message: await overlay.doc("HD Article", name) };
 }
 
-// The customer's plan sets the SLA of every ticket they raise, so their latest ticket names it:
-// SLA conditions are Python. The team and contact come from there too.
+// The customer, contact and team come from the visitor's latest ticket; the SLA its customer
+// maps to and the SLA times come from the boot, as customers cannot read SLAs.
 async function newTicket({ doc, attachments }: Doc): Promise<Body> {
   const fields = jsonParam(doc);
   const user = sessionUser();
-  const [[latest], s] = await Promise.all([
-    callServer("frappe.client.get_list", {
-      doctype: TICKET,
-      fields: ["customer", "contact", "agent_group", "sla"],
-      order_by: "creation desc",
-      limit_page_length: 1,
-    }).catch(() => [{}]),
-    settings(),
-  ]);
-  const sla = latest?.sla
-    ? await callServer("frappe.client.get", { doctype: "HD Service Level Agreement", name: latest.sla }).catch(() => null)
-    : null;
+  const { settings: s, slas, customer_slas } = demoBoot()!;
+  const [latest] = await callServer("frappe.client.get_list", {
+    doctype: TICKET,
+    fields: ["customer", "contact", "agent_group"],
+    order_by: "creation desc",
+    limit_page_length: 1,
+  }).catch(() => [{}]);
+  const customer = fields.customer || latest?.customer || null;
+  const sla = customer_slas[customer ?? ""] ?? null;
   const priority = fields.priority || s.default_priority || "Medium";
   const now = Date.now();
   const name = overlay.nextTicketName();
@@ -209,12 +207,12 @@ async function newTicket({ doc, attachments }: Doc): Promise<Body> {
     status: s.default_ticket_status || "Open",
     priority,
     agent_group: fields.agent_group || latest?.agent_group || null,
-    customer: fields.customer || latest?.customer || null,
+    customer,
     contact: latest?.contact || null,
-    sla: latest?.sla || null,
-    agreement_status: latest?.sla ? "First Response Due" : null,
+    sla,
+    agreement_status: sla ? "First Response Due" : null,
     service_level_agreement_creation: new Date(now).toISOString(),
-    ...slaTargets(sla?.priorities ?? [], priority, now),
+    ...slaTargets((sla && slas[sla]) || [], priority, now),
     raised_by: user.email,
     owner: user.email,
     via_customer_portal: 1,
