@@ -111,10 +111,12 @@ python3 helpdesk/demo/fixture/_build/validate.py
 
 The validator checks the replay contract (document types per file, offset grammar, event shapes, every event at or before `T`), references between files (contacts, customers, agents, teams, SLA conditions, KB categories, feedback labels), the counts above, the Scene Tickets, and the copy rules: no em dash, no banned phrases, and at most 5 exclamation marks.
 
-## Agent avatars
+## Avatars
 
-The six agents' `User` and `HD Agent` records point at `/assets/helpdesk/demo/<first>-<last>.svg`, for example `jamie-rivera.svg`. The files are in `helpdesk/public/demo/`. The replay publishes each one as a public `File` and points the records at its `/files/...` URL, so the images load even where the bench has not built this app's assets.
+The six agents' `User` and `HD Agent` records point at `/assets/helpdesk/demo/<first>-<last>.svg`, for example `jamie-rivera.svg`. The 70 contacts' `Contact.image` and `User.user_image` point at `/assets/helpdesk/demo/customers/<first>-<last>.svg`. The files are in `helpdesk/public/demo/`. The replay publishes each one as a public `File` and points the records at its `/files/...` URL, so the images load even where the bench has not built this app's assets.
 
-Avatars: DiceBear Notionists (https://www.dicebear.com/styles/notionists/), a remix of Notionists by Zoish, CC0 1.0. Generated with seed = file name.
+Agent avatars: DiceBear Notionists (https://www.dicebear.com/styles/notionists/), a remix of Notionists by Zoish, CC0 1.0. Generated with seed = file name.
+
+Contact avatars: DiceBear Lorelei (https://www.dicebear.com/styles/lorelei/), a remix of Lorelei by Lisa Wischofsky, CC0 1.0. Generated with seed = file name, `radius=50`, `backgroundColor=d1e7dd,dbe4ff,ffe3e3,fff3bf,e5dbff` and `mouth=happy01,happy02,happy03,happy04,happy05,happy06,happy08,happy10,happy13,happy14`, so no face looks unhappy.
 
 The Fernbill leaf mark is `helpdesk/public/demo/fernbill-logo.svg`. It was drawn for this demo.
