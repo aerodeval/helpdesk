@@ -409,20 +409,13 @@ const ticketFields = computed(() => {
   const fieldsMeta = getFields();
   if (!fieldsMeta || fieldsMeta.length === 0) return [];
 
-  const coreFieldNames = [
-    "ticket_type",
-    "agent_group",
-    "priority",
-    "customer",
-    "subject",
-    "status",
-  ];
-  let custom_fields = customizations.data?.fields || [];
-  custom_fields = custom_fields.filter(
-    (f) => !coreFieldNames.includes(f.fieldname)
+  // the header already has controls for these
+  const headerFieldNames = ["agent_group", "subject", "status"];
+  const fields = (customizations.data?.fields || []).filter(
+    (f) => !headerFieldNames.includes(f.fieldname)
   );
 
-  return custom_fields
+  return fields
     .map((f) => {
       let fieldMeta = getField(f.fieldname);
       if (!fieldMeta) return null;
