@@ -3,6 +3,7 @@ from frappe.utils import escape_html, get_system_timezone
 from frappe.website.utils import get_home_page
 
 from helpdesk.api.config import get_favicon
+from helpdesk.demo.persona import get_boot as get_demo_boot
 
 
 def get_boot() -> dict:
@@ -23,6 +24,7 @@ def get_boot() -> dict:
         "home_page": "/" + get_home_page().lstrip("/"),
         # Pages put it in their tab title before get_config answers
         "brand_name": get_brand_name(),
+        "demo": get_demo_boot(),
     }
 
 

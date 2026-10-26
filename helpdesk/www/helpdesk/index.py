@@ -5,6 +5,7 @@ from frappe.utils import cint, get_system_timezone
 from frappe.utils.jinja_globals import is_rtl
 from frappe.utils.telemetry import capture
 
+from helpdesk.demo.persona import get_boot as get_demo_boot
 from helpdesk.helpdesk.doctype.hd_settings.helpers import get_customer_home_page
 from helpdesk.utils import get_agent_name, is_agent
 
@@ -71,6 +72,7 @@ def get_boot():
             "dir": "rtl" if is_rtl() else "ltr",
             "apps": frappe.get_installed_apps(),
             "telemetry": get_telemetry_boot(),
+            "demo": get_demo_boot(),
         }
     )
 

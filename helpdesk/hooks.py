@@ -27,7 +27,9 @@ before_uninstall = "helpdesk.setup.install.before_uninstall"
 after_migrate = [
     "helpdesk.search.build_index_in_background",
     "helpdesk.search.download_corpus",
+    "helpdesk.demo.replay.reseed_if_changed",
 ]
+after_request = ["helpdesk.demo.persona.add_noindex_header"]
 
 
 # Full Text Search
@@ -48,6 +50,7 @@ scheduler_events = {
     "hourly_long": [
         "helpdesk.helpdesk.doctype.hd_ticket.hd_ticket.update_sla_status_in_ticket"
     ],
+    "cron": {"*/10 * * * *": ["helpdesk.demo.date_shift.shift_dates"]},
 }
 
 
@@ -118,7 +121,18 @@ user_invitation = {
 studio_app_boot = {"helpdesk": "helpdesk.helpdesk.hooks.studio_app.get_boot"}
 update_website_context = "helpdesk.helpdesk.hooks.studio_app.update_website_context"
 
+DEMO_WRITE_GUARD = "helpdesk.demo.persona.reject_persona_write"
 doc_events = {
+    "*": {
+        "before_validate": DEMO_WRITE_GUARD,
+        "before_change": DEMO_WRITE_GUARD,
+        "before_rename": DEMO_WRITE_GUARD,
+        "on_trash": DEMO_WRITE_GUARD,
+    },
+    "User": {
+        "before_validate": "helpdesk.demo.persona.block_password_change",
+        "validate_reset_password": "helpdesk.demo.persona.block_password_reset",
+    },
     "Assignment Rule": {
         "on_trash": "helpdesk.extends.assignment_rule.on_assignment_rule_trash",
         "validate": "helpdesk.extends.assignment_rule.on_assignment_rule_validate",
