@@ -45,6 +45,20 @@ export const reads: Record<string, Read> = {
   [`${API}.get_navigation_tickets`]: ownTicket(({ ticket }) => [ticket]),
   "helpdesk.api.timeline.get_ticket_calls": ownTicket(() => []),
   "helpdesk.api.timeline.get_comment_extras": ownTicket(() => ({ comments: {}, pinned_comments: [] })),
+  // the server 404s on a ticket only the overlay has
+  "helpdesk.api.ticket_analytics.get_ticket_analytics": ownTicket(({ ticket }) => ({
+    has_sla: false,
+    timeline: [{ key: "created", state: "done", timestamp: overlay.merge(TICKET, { name: ticket }).creation, badge: null }],
+    events: [],
+    metrics: { avg_agent_gap: null, avg_customer_gap: null, hold_time: null },
+    summary: {
+      customer_messages: 0,
+      agent_messages: 0,
+      internal_comments: 0,
+      agents_involved: [],
+      churn: { sla_changes: 0, team_changes: 0 },
+    },
+  })),
   "helpdesk.api.knowledge_base.get_article": { own: article },
   "helpdesk.api.article.get_article_stats": {
     own: ({ article_name }) => (overlay.isNew(ARTICLE, article_name) ? { likes: 0, dislikes: 0, views: 0 } : undefined),
