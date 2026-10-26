@@ -28,6 +28,8 @@ LOG_DOCTYPES = {
     "Web Page View",
 }
 
+PERSONAS = ("agent", "customer")
+
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 @rate_limit(limit=60, seconds=60 * 60)
@@ -52,9 +54,7 @@ def login_as_persona(persona: str, route: str):
 
 def is_guarded_persona(user: str) -> bool:
     return (
-        is_enabled()
-        and not frappe.flags.in_demo_seed
-        and user in (get_state("agent"), get_state("customer"))
+        is_enabled() and not frappe.flags.in_demo_seed and get_persona(user) is not None
     )
 
 
@@ -91,7 +91,17 @@ def get_boot() -> dict | None:
         ),
         "slas": get_sla_priorities(),
         "customer_slas": get_customer_slas(),
+        # The demo dock shows who the visitor is and offers the other persona
+        "persona": get_persona(frappe.session.user),
+        "first_names": {
+            persona: frappe.db.get_value("User", get_state(persona), "first_name")
+            for persona in PERSONAS
+        },
     }
+
+
+def get_persona(user: str) -> str | None:
+    return next((persona for persona in PERSONAS if get_state(persona) == user), None)
 
 
 def get_sla_priorities() -> dict[str, list[dict]]:
