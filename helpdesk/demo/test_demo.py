@@ -1,25 +1,33 @@
+import json
 import shutil
 import tempfile
+from collections import Counter
+from datetime import timedelta
 from unittest.mock import MagicMock, patch
 
 import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_to_date, get_datetime, getdate, now_datetime
 
-from helpdesk.demo import get_state, set_state
+from helpdesk.demo import get_state
 from helpdesk.demo.date_shift import DateShift, shift_dates
+from helpdesk.demo.fixture import FIXTURE_DIR
 from helpdesk.demo.persona import SETTINGS_FIELDS, get_boot, login_as_persona
 from helpdesk.demo.replay import reseed
+from helpdesk.setup.welcome_ticket import create_welcome_ticket
 from helpdesk.test_utils import (
     create_customer,
     enable_demo,
+    get_first_message,
     make_demo_fixture,
     make_sla,
     make_ticket,
+    seed_demo,
     unique_name,
 )
 
 T = "2026-10-26 09:00:00"
+NORTHPEAK_SUBJECT = "Card payments failing for all our customers since this morning"
 
 
 class TestDemo(IntegrationTestCase):
@@ -44,6 +52,18 @@ class TestDemo(IntegrationTestCase):
         with self.assertRaises(frappe.ValidationError):
             DateShift().run()
         self.assertTrue(frappe.db.exists("HD Ticket", ticket.name))
+
+    def test_replay_takes_a_fresh_site_that_has_only_the_welcome_ticket(self):
+        enable_demo(self)
+        frappe.defaults.clear_default(key="demo_seed_version", parent="__default")
+        frappe.db.delete("HD Ticket")
+        create_welcome_ticket()
+        with self.freeze_time(T, tick=True):
+            reseed(self.fixture_dir)
+        self.assertFalse(
+            frappe.db.exists("HD Ticket", {"subject": "Welcome to Helpdesk"})
+        )
+        self.assertEqual(frappe.db.count("HD Ticket"), 1)
 
     def test_replay_backdates_the_ticket_and_its_thread(self):
         ticket = self.seed()
@@ -124,12 +144,34 @@ class TestDemo(IntegrationTestCase):
         login_manager.login_as.assert_called_once_with(self.personas["agent"])
         self.assertEqual(frappe.local.response["location"], "/helpdesk")
 
+    def test_replay_loads_the_fernbill_fixture(self):
+        seed_demo(self, str(FIXTURE_DIR))
+        for doctype, count in (
+            ("HD Ticket", 200),
+            ("HD Article", 25),
+            ("HD Customer", 40),
+        ):
+            self.assertEqual(frappe.db.count(doctype), count, doctype)
+        self.assertEqual(
+            frappe.db.get_single_value("HD Settings", "brand_name"), "Fernbill"
+        )
+        self.assertTicketsEndInTheirFixtureStatus()
+        self.assertArticlesKeepCategoryAndAuthor()
+        self.assertCustomersRaisedTheirTickets()
+        self.assertNorthpeakIsDueIn30Minutes()
+        jamie = frappe.get_all(
+            "ToDo",
+            filters={
+                "allocated_to": "jamie@fernbill.example",
+                "reference_type": "HD Ticket",
+                "status": "Open",
+            },
+        )
+        self.assertEqual(len(jamie), 8)
+
     def seed(self) -> str:
-        enable_demo(self)
-        # a seeded site, so the guard lets the replay wipe it
-        set_state("seed_version", "previous")
         with self.freeze_time(T, tick=True):
-            reseed(self.fixture_dir)
+            seed_demo(self, self.fixture_dir)
         return frappe.db.get_value(
             "HD Ticket", {"raised_by": self.personas["customer"]}
         )
@@ -139,3 +181,45 @@ class TestDemo(IntegrationTestCase):
         self.assertAlmostEqual(
             (due - now_datetime()).total_seconds(), minutes * 60, delta=1
         )
+
+    def assertTicketsEndInTheirFixtureStatus(self):
+        tickets = json.loads((FIXTURE_DIR / "tickets.json").read_text())
+        expected = Counter(t["final_status"] for t in tickets)
+        statuses = frappe.get_all("HD Ticket", pluck="status")
+        self.assertEqual(Counter(statuses), expected)
+        self.assertFalse(
+            frappe.db.exists("HD Ticket", {"description": ["is", "not set"]})
+        )
+
+    def assertArticlesKeepCategoryAndAuthor(self):
+        kb = json.loads((FIXTURE_DIR / "kb.json").read_text())
+        categories = frappe.get_all(
+            "HD Article Category", fields=["name", "category_name"]
+        )
+        titles = {c.name: c.category_name for c in categories}
+        for article in frappe.get_all(
+            "HD Article", fields=["title", "category", "author"]
+        ):
+            expected = next(a for a in kb if a.get("title") == article.title)
+            self.assertEqual(titles.get(article.category), expected["category"])
+            self.assertEqual(article.author, expected["author"])
+
+    def assertCustomersRaisedTheirTickets(self):
+        for ticket in frappe.get_all(
+            "HD Ticket", fields=["name", "raised_by", "owner"]
+        ):
+            first = get_first_message(ticket.name)
+            self.assertEqual(ticket.owner, ticket.raised_by)
+            self.assertEqual(first.sender, ticket.raised_by)
+            self.assertEqual(first.owner, ticket.raised_by)
+
+    def assertNorthpeakIsDueIn30Minutes(self):
+        due, status = frappe.db.get_value(
+            "HD Ticket",
+            {"customer": "Northpeak Logistics", "subject": NORTHPEAK_SUBJECT},
+            ["response_by", "agreement_status"],
+        )
+        anchor = get_datetime(get_state("anchor"))
+        self.assertEqual(get_datetime(due), anchor + timedelta(minutes=30))
+        self.assertLess(now_datetime() - anchor, timedelta(minutes=10))
+        self.assertEqual(status, "First Response Due")

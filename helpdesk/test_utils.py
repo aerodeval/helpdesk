@@ -1226,3 +1226,24 @@ def make_demo_fixture(directory: str) -> dict:
         with open(f"{directory}/{name}.json", "w") as file:
             json.dump(content, file)
     return files["meta"]["personas"]
+
+
+def seed_demo(case, fixture_dir: str) -> None:
+    """Replay `fixture_dir` in the test's transaction. A prior seed version lets the
+    guard wipe a site that already has tickets; the rollback restores them."""
+    from helpdesk.demo import set_state
+    from helpdesk.demo.replay import reseed
+
+    enable_demo(case)
+    set_state("seed_version", "previous")
+    reseed(fixture_dir)
+
+
+def get_first_message(ticket: str) -> dict:
+    return frappe.get_all(
+        "Communication",
+        filters={"reference_doctype": "HD Ticket", "reference_name": ticket},
+        fields=["sender", "owner"],
+        order_by="creation asc",
+        limit=1,
+    )[0]
