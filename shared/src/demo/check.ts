@@ -1,7 +1,8 @@
-// Self-check for the filter evaluator and replay: `node shared/src/demo/check.ts`
+// Self-check for the filter evaluator, the replay and the tour reducer: `node shared/src/demo/check.ts`
 import assert from "node:assert/strict";
 import { matches } from "./filters.ts";
 import { categoryFields, docKey, editedFirst, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
+import { canGoBack, indexOf, initialState, stepAt, tourReducer, type TourAction, type TourState } from "./tourScript.ts";
 
 const me = "jamie@fernbill.example";
 const ticket = { name: "12", status: "Open", priority: "High", agent_group: "", _assign: `["${me}"]` };
@@ -67,5 +68,54 @@ assert.equal(resumed.on_hold_since, null);
 assert.equal(resumed.agreement_status, "Resolution Due");
 assert.equal(categoryFields({ ...due, agreement_status: "Failed" }, "Paused", now).agreement_status, undefined, "failed stays failed");
 assert.deepEqual(categoryFields(due, "Open", now), {}, "same category");
+
+const run = (state: TourState, ...actions: (TourAction | string)[]) =>
+  actions.reduce((s, a) => tourReducer(s, typeof a === "string" ? { type: "DO", what: a } : a), state);
+const happy = run(
+  initialState(),
+  { type: "START" },
+  "open_view",
+  "open_northpeak",
+  "send_reply",
+  { type: "NEXT" },
+  "insert_saved_reply",
+  "post_comment",
+  "assign",
+  "save_article",
+  "switch_to_customer",
+  "raise_ticket",
+  "switch_to_agent",
+  { type: "NEXT" },
+  { type: "NEXT" }
+);
+assert.equal(stepAt(happy).id, "end");
+assert.equal(happy.tour, "finished_card");
+assert.deepEqual([...happy.stopsDone].sort(), [1, 2, 3, 4, 5, 6, 7], "the happy path completes every stop");
+
+const rushed = run(initialState(), { type: "START" }, { type: "NEXT" });
+assert.equal(stepAt(rushed).id, "views", "Next waits for the step");
+assert.equal(stepAt(run(rushed, { type: "SKIP" })).id, "sla");
+assert.ok(!canGoBack(rushed), "Back stops at the welcome card");
+
+const early = run(initialState(), { type: "START" }, "open_view", "switch_to_customer");
+assert.equal(early.tour, "paused", "an early persona switch pauses");
+const back = run(early, { type: "RESUME" });
+assert.equal(back.tour, "running");
+assert.equal(back.persona, "agent", "resuming switches the persona back");
+
+const landed = run(initialState(), { type: "START" }, ...["open_view", "open_northpeak", "send_reply"], { type: "NEXT" });
+const atPortal = { ...landed, step: indexOf("portal_landed"), persona: "agent" as const };
+assert.ok(!canGoBack(atPortal), "Back can't cross a persona switch");
+
+const intro = run(initialState("customer"), { type: "START_INTRO" }, { type: "NEXT" }, "raise_ticket");
+assert.equal(stepAt(intro).id, "intro_raise", "the intro waits for its own button after the ticket");
+const joined = run(intro, { type: "NEXT" }, "switch_to_agent");
+assert.equal(stepAt(joined).id, "portal_landed", "the customer-first entry joins at Already in your inbox");
+assert.equal(joined.tour, "running");
+assert.deepEqual(joined.stopsDone, [], "joining does not tick the stops the visitor skipped");
+
+const extras = run(initialState(), { type: "DISMISS" }, "use_cmdk");
+assert.deepEqual(extras.extrasDone, ["x_cmdk"]);
+assert.equal(run(extras, { type: "RESUME" }).step, indexOf("views"), "resuming a closed welcome starts the tour");
 
 console.log("demo check passed");
