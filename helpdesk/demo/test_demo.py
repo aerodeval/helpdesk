@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 import tempfile
 from collections import Counter
@@ -159,6 +160,7 @@ class TestDemo(IntegrationTestCase):
         self.assertArticlesKeepCategoryAndAuthor()
         self.assertCustomersRaisedTheirTickets()
         self.assertNorthpeakIsDueIn30Minutes()
+        self.assertImagesAreSiteFiles()
         jamie = frappe.get_all(
             "ToDo",
             filters={
@@ -212,6 +214,18 @@ class TestDemo(IntegrationTestCase):
             self.assertEqual(ticket.owner, ticket.raised_by)
             self.assertEqual(first.sender, ticket.raised_by)
             self.assertEqual(first.owner, ticket.raised_by)
+
+    def assertImagesAreSiteFiles(self):
+        jamie = "jamie@fernbill.example"
+        for url in (
+            frappe.db.get_value("User", jamie, "user_image"),
+            frappe.db.get_value("HD Agent", jamie, "user_image"),
+            frappe.db.get_single_value("HD Settings", "brand_logo"),
+            frappe.db.get_single_value("HD Settings", "favicon"),
+        ):
+            self.assertTrue(url.startswith("/files/"), url)
+            path = frappe.get_site_path("public", url[1:])
+            self.assertTrue(os.path.exists(path), url)
 
     def assertNorthpeakIsDueIn30Minutes(self):
         due, status = frappe.db.get_value(

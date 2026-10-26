@@ -10,9 +10,11 @@ recomputed from the backdated `creation` once all tickets are in.
 from collections.abc import Callable
 from contextlib import contextmanager
 from datetime import datetime
+from pathlib import Path
 
 import frappe
 from frappe.cache_manager import clear_doctype_map
+from frappe.core.doctype.file.utils import get_content_hash
 from frappe.utils import get_time, getdate, now_datetime
 
 from helpdesk.demo import (
@@ -37,6 +39,9 @@ TICKET_ROWS = {
     "Tag Link": {"document_type": "HD Ticket"},
 }
 PINNED_TARGETS = ("response_by", "resolution_by")
+# Fixture images live in the app's public/demo; they are published as site files
+IMAGE_FIELDS = ("user_image", "brand_logo", "favicon")
+ASSET_PREFIX = "/assets/helpdesk/demo/"
 RECOMPUTED_FIELDS = (
     "opening_date",
     "opening_time",
@@ -144,6 +149,7 @@ class Replay:
         creation = self.time(record.pop("creation", None))
         thread = record.pop("thread", [])
         pinned = {f: self.time(record.pop(f)) for f in PINNED_TARGETS if f in record}
+        record.update(publish_images(record))
         if record["doctype"] == "HD Article" and record.get("category"):
             record["category"] = self.categories[record["category"]]
         doc = frappe.get_doc(record)
@@ -234,6 +240,7 @@ class Replay:
     def apply_settings(self):
         settings = frappe.get_single("HD Settings")
         settings.update(self.fixture.settings)
+        settings.update(publish_images(self.fixture.settings))
         settings.update({"setup_complete": 1, "persona_captured": 1})
         settings.save(ignore_permissions=True)
 
@@ -246,6 +253,31 @@ class Replay:
         set_state("max_ticket", max_ticket or 0)
         for persona in ("agent", "customer"):
             set_state(persona, self.fixture.personas.get(persona, ""))
+
+
+def publish_images(values: dict) -> dict:
+    """`/assets` resolves only where the bench built this app's assets. A public File
+    serves from the site itself, as an uploaded avatar does."""
+    return {
+        field: publish_image(values[field])
+        for field in IMAGE_FIELDS
+        if str(values.get(field) or "").startswith(ASSET_PREFIX)
+    }
+
+
+def publish_image(asset_url: str) -> str:
+    file_name = asset_url.removeprefix(ASSET_PREFIX)
+    path = Path(frappe.get_app_path("helpdesk", "public", "demo", file_name))
+    content = path.read_bytes()
+    existing = frappe.db.get_value(
+        "File", {"content_hash": get_content_hash(content), "is_private": 0}, "file_url"
+    )
+    if existing:
+        return existing
+    file = frappe.get_doc(
+        {"doctype": "File", "file_name": file_name, "content": content, "is_private": 0}
+    )
+    return file.insert(ignore_permissions=True).file_url
 
 
 def reply_as_contact(ticket, event: dict):

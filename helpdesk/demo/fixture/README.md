@@ -113,7 +113,7 @@ The validator checks the replay contract (document types per file, offset gramma
 
 ## Agent avatars
 
-The six agents' `User` and `HD Agent` records point at `/assets/helpdesk/demo/<first>-<last>.svg`, for example `jamie-rivera.svg`. The files are in `helpdesk/public/demo/`.
+The six agents' `User` and `HD Agent` records point at `/assets/helpdesk/demo/<first>-<last>.svg`, for example `jamie-rivera.svg`. The files are in `helpdesk/public/demo/`. The replay publishes each one as a public `File` and points the records at its `/files/...` URL, so the images load even where the bench has not built this app's assets.
 
 Avatars: DiceBear Notionists (https://www.dicebear.com/styles/notionists/), a remix of Notionists by Zoish, CC0 1.0. Generated with seed = file name.
 
