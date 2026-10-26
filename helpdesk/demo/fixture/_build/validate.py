@@ -11,6 +11,8 @@ from collections import Counter
 from pathlib import Path
 
 FIXTURE = Path(__file__).parent.parent
+ASSETS = "/assets/helpdesk/demo/"
+PUBLIC_DEMO = FIXTURE.parents[1] / "public" / "demo"
 ENTITIES = ("sla", "agents", "customers", "contacts", "kb", "saved_replies", "tickets")
 DOCTYPES = {
     "sla": {"HD Service Level Agreement"},
@@ -169,6 +171,12 @@ def main():
             f"contact {email}: unknown customer",
         )
         check(email.endswith(".example"), f"contact {email}: not an .example address")
+    for c in data["contacts"]:
+        url = c.get("image") or c.get("user_image") or ""
+        check(
+            url.startswith(f"{ASSETS}customers/"),
+            f"{c['doctype']} {c.get('email') or c['email_ids'][0]['email_id']}: no avatar",
+        )
     check(
         set(contacts) == contact_users,
         "every Contact needs a matching Website User and the other way round",
@@ -395,6 +403,11 @@ def main():
 
     # copy rules
     everything = [s for name in ENTITIES for s in strings(data[name])]
+    for url in {s for s in everything if s.startswith(ASSETS)}:
+        check(
+            (PUBLIC_DEMO / url.removeprefix(ASSETS)).is_file(),
+            f"{url} has no file in helpdesk/public/demo",
+        )
     for phrase in BANNED:
         hits = [s for s in everything if phrase.lower() in s.lower()]
         check(not hits, f"banned {phrase!r} found {len(hits)} times")
