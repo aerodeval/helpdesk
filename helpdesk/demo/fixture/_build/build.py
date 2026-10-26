@@ -255,6 +255,7 @@ def build_contacts(orgs):
     contacts, users = [], []
     for o in orgs:
         for c in o["contacts"]:
+            photo = PHOTO_URL.format(f"customers/{c['first']}-{c['last']}".lower())
             contacts.append(
                 {
                     "doctype": "Contact",
@@ -262,6 +263,7 @@ def build_contacts(orgs):
                     "last_name": c["last"],
                     "designation": c["title"],
                     "company_name": o["name"],
+                    "image": photo,
                     "email_ids": [{"email_id": c["email"], "is_primary": 1}],
                     "links": [{"link_doctype": "HD Customer", "link_name": o["name"]}],
                 }
@@ -274,6 +276,7 @@ def build_contacts(orgs):
                     "last_name": c["last"],
                     "user_type": "Website User",
                     "send_welcome_email": 0,
+                    "user_image": photo,
                     # portal sign-up grants it; an insert does not
                     "roles": [{"role": "HD Customer"}],
                 }

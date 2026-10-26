@@ -43,7 +43,7 @@ TICKET_ROWS = {
 TICKET_SERIES = ""
 PINNED_TARGETS = ("response_by", "resolution_by")
 # Fixture images live in the app's public/demo; they are published as site files
-IMAGE_FIELDS = ("user_image", "brand_logo", "favicon")
+IMAGE_FIELDS = ("user_image", "image", "brand_logo", "favicon")
 ASSET_PREFIX = "/assets/helpdesk/demo/"
 RECOMPUTED_FIELDS = (
     "opening_date",
@@ -284,8 +284,11 @@ def publish_images(values: dict) -> dict:
 
 
 def publish_image(asset_url: str) -> str:
-    file_name = asset_url.removeprefix(ASSET_PREFIX)
-    path = Path(frappe.get_app_path("helpdesk", "public", "demo", file_name))
+    path = Path(
+        frappe.get_app_path(
+            "helpdesk", "public", "demo", asset_url.removeprefix(ASSET_PREFIX)
+        )
+    )
     content = path.read_bytes()
     existing = frappe.db.get_value(
         "File", {"content_hash": get_content_hash(content), "is_private": 0}, "file_url"
@@ -293,7 +296,7 @@ def publish_image(asset_url: str) -> str:
     if existing:
         return existing
     file = frappe.get_doc(
-        {"doctype": "File", "file_name": file_name, "content": content, "is_private": 0}
+        {"doctype": "File", "file_name": path.name, "content": content, "is_private": 0}
     )
     return file.insert(ignore_permissions=True).file_url
 

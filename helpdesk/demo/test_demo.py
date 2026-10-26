@@ -220,11 +220,23 @@ class TestDemo(IntegrationTestCase):
 
     def assertImagesAreSiteFiles(self):
         jamie = "jamie@fernbill.example"
+        fixture = json.loads((FIXTURE_DIR / "contacts.json").read_text())
+        emails = [r["email"] for r in fixture if r["doctype"] == "User"]
+        contacts = frappe.get_all(
+            "Contact", {"email_id": ["in", emails]}, pluck="image"
+        )
+        contact_users = frappe.get_all(
+            "User", {"name": ["in", emails]}, pluck="user_image"
+        )
+        self.assertEqual(len(set(contacts)), 70)
+        self.assertEqual(len(contact_users), 70)
         for url in (
             frappe.db.get_value("User", jamie, "user_image"),
             frappe.db.get_value("HD Agent", jamie, "user_image"),
             frappe.db.get_single_value("HD Settings", "brand_logo"),
             frappe.db.get_single_value("HD Settings", "favicon"),
+            *contacts,
+            *contact_users,
         ):
             self.assertTrue(url.startswith("/files/"), url)
             path = frappe.get_site_path("public", url[1:])

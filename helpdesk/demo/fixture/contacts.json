@@ -5,6 +5,7 @@
 		"last_name": "Brooks",
 		"designation": "Finance Systems Lead",
 		"company_name": "Northpeak Logistics",
+		"image": "/assets/helpdesk/demo/customers/daniel-brooks.svg",
 		"email_ids": [
 			{
 				"email_id": "daniel@northpeak-logistics.example",
@@ -24,6 +25,7 @@
 		"last_name": "Kowalski",
 		"designation": "Accounts Receivable Manager",
 		"company_name": "Northpeak Logistics",
+		"image": "/assets/helpdesk/demo/customers/marta-kowalski.svg",
 		"email_ids": [
 			{
 				"email_id": "marta@northpeak-logistics.example",
@@ -43,6 +45,7 @@
 		"last_name": "Chen",
 		"designation": "IT Director",
 		"company_name": "Northpeak Logistics",
+		"image": "/assets/helpdesk/demo/customers/liam-chen.svg",
 		"email_ids": [
 			{
 				"email_id": "liam@northpeak-logistics.example",
@@ -62,6 +65,7 @@
 		"last_name": "Delgado",
 		"designation": "Controller",
 		"company_name": "Northpeak Logistics",
+		"image": "/assets/helpdesk/demo/customers/rosa-delgado.svg",
 		"email_ids": [
 			{
 				"email_id": "rosa@northpeak-logistics.example",
@@ -81,6 +85,7 @@
 		"last_name": "Park",
 		"designation": "Revenue Cycle Manager",
 		"company_name": "Brightwater Dental Group",
+		"image": "/assets/helpdesk/demo/customers/helen-park.svg",
 		"email_ids": [
 			{
 				"email_id": "helen@brightwater-dental-group.example",
@@ -100,6 +105,7 @@
 		"last_name": "Bell",
 		"designation": "IT Manager",
 		"company_name": "Brightwater Dental Group",
+		"image": "/assets/helpdesk/demo/customers/marcus-bell.svg",
 		"email_ids": [
 			{
 				"email_id": "marcus@brightwater-dental-group.example",
@@ -119,6 +125,7 @@
 		"last_name": "Achterberg",
 		"designation": "Billing Coordinator",
 		"company_name": "Brightwater Dental Group",
+		"image": "/assets/helpdesk/demo/customers/grace-achterberg.svg",
 		"email_ids": [
 			{
 				"email_id": "grace@brightwater-dental-group.example",
@@ -138,6 +145,7 @@
 		"last_name": "Varga",
 		"designation": "Finance Director",
 		"company_name": "Castellan Hotels",
+		"image": "/assets/helpdesk/demo/customers/elena-varga.svg",
 		"email_ids": [
 			{
 				"email_id": "elena@castellan-hotels.example",
@@ -157,6 +165,7 @@
 		"last_name": "Fitzgerald",
 		"designation": "Systems Analyst",
 		"company_name": "Castellan Hotels",
+		"image": "/assets/helpdesk/demo/customers/owen-fitzgerald.svg",
 		"email_ids": [
 			{
 				"email_id": "owen@castellan-hotels.example",
@@ -176,6 +185,7 @@
 		"last_name": "Rahman",
 		"designation": "AR Specialist",
 		"company_name": "Castellan Hotels",
+		"image": "/assets/helpdesk/demo/customers/nadia-rahman.svg",
 		"email_ids": [
 			{
 				"email_id": "nadia@castellan-hotels.example",
@@ -195,6 +205,7 @@
 		"last_name": "Hughes",
 		"designation": "Head of Finance Operations",
 		"company_name": "Ostara Learning",
+		"image": "/assets/helpdesk/demo/customers/charlotte-hughes.svg",
 		"email_ids": [
 			{
 				"email_id": "charlotte@ostara-learning.example",
@@ -214,6 +225,7 @@
 		"last_name": "Menon",
 		"designation": "Integrations Engineer",
 		"company_name": "Ostara Learning",
+		"image": "/assets/helpdesk/demo/customers/ravi-menon.svg",
 		"email_ids": [
 			{
 				"email_id": "ravi@ostara-learning.example",
@@ -233,6 +245,7 @@
 		"last_name": "Whitaker",
 		"designation": "Billing Analyst",
 		"company_name": "Ostara Learning",
+		"image": "/assets/helpdesk/demo/customers/tom-whitaker.svg",
 		"email_ids": [
 			{
 				"email_id": "tom@ostara-learning.example",
@@ -252,6 +265,7 @@
 		"last_name": "Robertson",
 		"designation": "Commercial Finance Manager",
 		"company_name": "Kitewing Media",
+		"image": "/assets/helpdesk/demo/customers/isla-robertson.svg",
 		"email_ids": [
 			{
 				"email_id": "isla@kitewing-media.example",
@@ -271,6 +285,7 @@
 		"last_name": "Nguyen",
 		"designation": "Platform Engineer",
 		"company_name": "Kitewing Media",
+		"image": "/assets/helpdesk/demo/customers/ben-nguyen.svg",
 		"email_ids": [
 			{
 				"email_id": "ben@kitewing-media.example",
@@ -290,6 +305,7 @@
 		"last_name": "Martin",
 		"designation": "Accounts Officer",
 		"company_name": "Kitewing Media",
+		"image": "/assets/helpdesk/demo/customers/chloe-martin.svg",
 		"email_ids": [
 			{
 				"email_id": "chloe@kitewing-media.example",
@@ -309,6 +325,7 @@
 		"last_name": "Nair",
 		"designation": "Ops Manager",
 		"company_name": "Greenleaf Studio",
+		"image": "/assets/helpdesk/demo/customers/priya-nair.svg",
 		"email_ids": [
 			{
 				"email_id": "priya@greenleaf-studio.example",
@@ -328,6 +345,7 @@
 		"last_name": "Fischer",
 		"designation": "Founder",
 		"company_name": "Greenleaf Studio",
+		"image": "/assets/helpdesk/demo/customers/leo-fischer.svg",
 		"email_ids": [
 			{
 				"email_id": "leo@greenleaf-studio.example",
@@ -347,6 +365,7 @@
 		"last_name": "Hayes",
 		"designation": "Office Manager",
 		"company_name": "Copperline Electric",
+		"image": "/assets/helpdesk/demo/customers/darnell-hayes.svg",
 		"email_ids": [
 			{
 				"email_id": "darnell@copperline-electric.example",
@@ -366,6 +385,7 @@
 		"last_name": "Anderson",
 		"designation": "Bookkeeper",
 		"company_name": "Copperline Electric",
+		"image": "/assets/helpdesk/demo/customers/sue-anderson.svg",
 		"email_ids": [
 			{
 				"email_id": "sue@copperline-electric.example",
@@ -385,6 +405,7 @@
 		"last_name": "Brennan",
 		"designation": "Practice Manager",
 		"company_name": "Juniper & Vale Architects",
+		"image": "/assets/helpdesk/demo/customers/aoife-brennan.svg",
 		"email_ids": [
 			{
 				"email_id": "aoife@juniper-vale-architects.example",
@@ -404,6 +425,7 @@
 		"last_name": "Walsh",
 		"designation": "Partner",
 		"company_name": "Juniper & Vale Architects",
+		"image": "/assets/helpdesk/demo/customers/conor-walsh.svg",
 		"email_ids": [
 			{
 				"email_id": "conor@juniper-vale-architects.example",
@@ -423,6 +445,7 @@
 		"last_name": "Goldberg",
 		"designation": "COO",
 		"company_name": "Bluefin Analytics",
+		"image": "/assets/helpdesk/demo/customers/maya-goldberg.svg",
 		"email_ids": [
 			{
 				"email_id": "maya@bluefin-analytics.example",
@@ -442,6 +465,7 @@
 		"last_name": "Patel",
 		"designation": "Software Engineer",
 		"company_name": "Bluefin Analytics",
+		"image": "/assets/helpdesk/demo/customers/arjun-patel.svg",
 		"email_ids": [
 			{
 				"email_id": "arjun@bluefin-analytics.example",
@@ -461,6 +485,7 @@
 		"last_name": "Carver",
 		"designation": "Front Desk Lead",
 		"company_name": "Oakridge Physical Therapy",
+		"image": "/assets/helpdesk/demo/customers/linda-carver.svg",
 		"email_ids": [
 			{
 				"email_id": "linda@oakridge-physical-therapy.example",
@@ -480,6 +505,7 @@
 		"last_name": "Whitfield",
 		"designation": "Owner",
 		"company_name": "Oakridge Physical Therapy",
+		"image": "/assets/helpdesk/demo/customers/james-whitfield.svg",
 		"email_ids": [
 			{
 				"email_id": "james@oakridge-physical-therapy.example",
@@ -499,6 +525,7 @@
 		"last_name": "Moreau",
 		"designation": "Wholesale Manager",
 		"company_name": "Saltmarsh Coffee Roasters",
+		"image": "/assets/helpdesk/demo/customers/hannah-moreau.svg",
 		"email_ids": [
 			{
 				"email_id": "hannah@saltmarsh-coffee-roasters.example",
@@ -518,6 +545,7 @@
 		"last_name": "Ross",
 		"designation": "Operations",
 		"company_name": "Saltmarsh Coffee Roasters",
+		"image": "/assets/helpdesk/demo/customers/eli-ross.svg",
 		"email_ids": [
 			{
 				"email_id": "eli@saltmarsh-coffee-roasters.example",
@@ -537,6 +565,7 @@
 		"last_name": "Ames",
 		"designation": "Office Administrator",
 		"company_name": "Lantern Legal",
+		"image": "/assets/helpdesk/demo/customers/victoria-ames.svg",
 		"email_ids": [
 			{
 				"email_id": "victoria@lantern-legal.example",
@@ -556,6 +585,7 @@
 		"last_name": "Osei",
 		"designation": "Paralegal",
 		"company_name": "Lantern Legal",
+		"image": "/assets/helpdesk/demo/customers/samuel-osei.svg",
 		"email_ids": [
 			{
 				"email_id": "samuel@lantern-legal.example",
@@ -575,6 +605,7 @@
 		"last_name": "Morrison",
 		"designation": "Store Operations Manager",
 		"company_name": "Trailhead Outfitters",
+		"image": "/assets/helpdesk/demo/customers/jake-morrison.svg",
 		"email_ids": [
 			{
 				"email_id": "jake@trailhead-outfitters.example",
@@ -594,6 +625,7 @@
 		"last_name": "Zahra",
 		"designation": "Accounts Assistant",
 		"company_name": "Trailhead Outfitters",
+		"image": "/assets/helpdesk/demo/customers/fatima-zahra.svg",
 		"email_ids": [
 			{
 				"email_id": "fatima@trailhead-outfitters.example",
@@ -613,6 +645,7 @@
 		"last_name": "Kim",
 		"designation": "CTO",
 		"company_name": "Vireo Labs",
+		"image": "/assets/helpdesk/demo/customers/noah-kim.svg",
 		"email_ids": [
 			{
 				"email_id": "noah@vireo-labs.example",
@@ -632,6 +665,7 @@
 		"last_name": "Silverstein",
 		"designation": "Finance Lead",
 		"company_name": "Vireo Labs",
+		"image": "/assets/helpdesk/demo/customers/leah-silverstein.svg",
 		"email_ids": [
 			{
 				"email_id": "leah@vireo-labs.example",
@@ -651,6 +685,7 @@
 		"last_name": "Sousa",
 		"designation": "Owner",
 		"company_name": "Harbor Street Veterinary",
+		"image": "/assets/helpdesk/demo/customers/ana-sousa.svg",
 		"email_ids": [
 			{
 				"email_id": "ana@harbor-street-veterinary.example",
@@ -670,6 +705,7 @@
 		"last_name": "Tran",
 		"designation": "Practice Manager",
 		"company_name": "Harbor Street Veterinary",
+		"image": "/assets/helpdesk/demo/customers/kelly-tran.svg",
 		"email_ids": [
 			{
 				"email_id": "kelly@harbor-street-veterinary.example",
@@ -689,6 +725,7 @@
 		"last_name": "Grant",
 		"designation": "Director",
 		"company_name": "Mosaic Events",
+		"image": "/assets/helpdesk/demo/customers/olivia-grant.svg",
 		"email_ids": [
 			{
 				"email_id": "olivia@mosaic-events.example",
@@ -708,6 +745,7 @@
 		"last_name": "Duncan",
 		"designation": "Producer",
 		"company_name": "Mosaic Events",
+		"image": "/assets/helpdesk/demo/customers/harry-duncan.svg",
 		"email_ids": [
 			{
 				"email_id": "harry@mosaic-events.example",
@@ -727,6 +765,7 @@
 		"last_name": "Polanski",
 		"designation": "Controller",
 		"company_name": "Pinecrest Property Management",
+		"image": "/assets/helpdesk/demo/customers/greg-polanski.svg",
 		"email_ids": [
 			{
 				"email_id": "greg@pinecrest-property-management.example",
@@ -746,6 +785,7 @@
 		"last_name": "Dubois",
 		"designation": "Leasing Coordinator",
 		"company_name": "Pinecrest Property Management",
+		"image": "/assets/helpdesk/demo/customers/monique-dubois.svg",
 		"email_ids": [
 			{
 				"email_id": "monique@pinecrest-property-management.example",
@@ -765,6 +805,7 @@
 		"last_name": "Liu",
 		"designation": "Billing Lead",
 		"company_name": "Redwood Pediatrics",
+		"image": "/assets/helpdesk/demo/customers/karen-liu.svg",
 		"email_ids": [
 			{
 				"email_id": "karen@redwood-pediatrics.example",
@@ -784,6 +825,7 @@
 		"last_name": "Adler",
 		"designation": "Physician",
 		"company_name": "Redwood Pediatrics",
+		"image": "/assets/helpdesk/demo/customers/paul-adler.svg",
 		"email_ids": [
 			{
 				"email_id": "paul@redwood-pediatrics.example",
@@ -803,6 +845,7 @@
 		"last_name": "Carvalho",
 		"designation": "Operations Lead",
 		"company_name": "Fieldnote Research",
+		"image": "/assets/helpdesk/demo/customers/ines-carvalho.svg",
 		"email_ids": [
 			{
 				"email_id": "ines@fieldnote-research.example",
@@ -822,6 +865,7 @@
 		"last_name": "Wright",
 		"designation": "Partner",
 		"company_name": "Fieldnote Research",
+		"image": "/assets/helpdesk/demo/customers/ethan-wright.svg",
 		"email_ids": [
 			{
 				"email_id": "ethan@fieldnote-research.example",
@@ -841,6 +885,7 @@
 		"last_name": "Jackson",
 		"designation": "Operations Manager",
 		"company_name": "Tandem Courier",
+		"image": "/assets/helpdesk/demo/customers/andre-jackson.svg",
 		"email_ids": [
 			{
 				"email_id": "andre@tandem-courier.example",
@@ -860,6 +905,7 @@
 		"last_name": "Lin",
 		"designation": "Bookkeeper",
 		"company_name": "Tandem Courier",
+		"image": "/assets/helpdesk/demo/customers/mei-lin.svg",
 		"email_ids": [
 			{
 				"email_id": "mei@tandem-courier.example",
@@ -879,6 +925,7 @@
 		"last_name": "Bianchi",
 		"designation": "Owner",
 		"company_name": "Little Fig Bakery",
+		"image": "/assets/helpdesk/demo/customers/giulia-bianchi.svg",
 		"email_ids": [
 			{
 				"email_id": "giulia@little-fig-bakery.example",
@@ -898,6 +945,7 @@
 		"last_name": "Sullivan",
 		"designation": "Owner",
 		"company_name": "Dovetail Carpentry",
+		"image": "/assets/helpdesk/demo/customers/mike-sullivan.svg",
 		"email_ids": [
 			{
 				"email_id": "mike@dovetail-carpentry.example",
@@ -917,6 +965,7 @@
 		"last_name": "Rao",
 		"designation": "Owner",
 		"company_name": "Marigold Yoga",
+		"image": "/assets/helpdesk/demo/customers/anjali-rao.svg",
 		"email_ids": [
 			{
 				"email_id": "anjali@marigold-yoga.example",
@@ -936,6 +985,7 @@
 		"last_name": "Adeyemi",
 		"designation": "Photographer",
 		"company_name": "Studio Adeyemi",
+		"image": "/assets/helpdesk/demo/customers/tunde-adeyemi.svg",
 		"email_ids": [
 			{
 				"email_id": "tunde@studio-adeyemi.example",
@@ -955,6 +1005,7 @@
 		"last_name": "Holm",
 		"designation": "Owner",
 		"company_name": "Ember & Ash Pottery",
+		"image": "/assets/helpdesk/demo/customers/freya-holm.svg",
 		"email_ids": [
 			{
 				"email_id": "freya@ember-ash-pottery.example",
@@ -974,6 +1025,7 @@
 		"last_name": "Ruiz",
 		"designation": "Founder",
 		"company_name": "Quillwork Translations",
+		"image": "/assets/helpdesk/demo/customers/mateo-ruiz.svg",
 		"email_ids": [
 			{
 				"email_id": "mateo@quillwork-translations.example",
@@ -993,6 +1045,7 @@
 		"last_name": "Laurent",
 		"designation": "Project Manager",
 		"company_name": "Quillwork Translations",
+		"image": "/assets/helpdesk/demo/customers/claire-laurent.svg",
 		"email_ids": [
 			{
 				"email_id": "claire@quillwork-translations.example",
@@ -1012,6 +1065,7 @@
 		"last_name": "Whitmore",
 		"designation": "Owner",
 		"company_name": "Brightpath Tutoring",
+		"image": "/assets/helpdesk/demo/customers/sam-whitmore.svg",
 		"email_ids": [
 			{
 				"email_id": "sam@brightpath-tutoring.example",
@@ -1031,6 +1085,7 @@
 		"last_name": "Price",
 		"designation": "Owner",
 		"company_name": "Cobalt Cleaning Co.",
+		"image": "/assets/helpdesk/demo/customers/yolanda-price.svg",
 		"email_ids": [
 			{
 				"email_id": "yolanda@cobalt-cleaning.example",
@@ -1050,6 +1105,7 @@
 		"last_name": "Ortega",
 		"designation": "Scheduler",
 		"company_name": "Cobalt Cleaning Co.",
+		"image": "/assets/helpdesk/demo/customers/luis-ortega.svg",
 		"email_ids": [
 			{
 				"email_id": "luis@cobalt-cleaning.example",
@@ -1069,6 +1125,7 @@
 		"last_name": "Lund",
 		"designation": "Owner",
 		"company_name": "Hollow Pine Cabins",
+		"image": "/assets/helpdesk/demo/customers/erik-lund.svg",
 		"email_ids": [
 			{
 				"email_id": "erik@hollow-pine-cabins.example",
@@ -1088,6 +1145,7 @@
 		"last_name": "Klein",
 		"designation": "Bookkeeper",
 		"company_name": "Sundial Bookkeeping",
+		"image": "/assets/helpdesk/demo/customers/deborah-klein.svg",
 		"email_ids": [
 			{
 				"email_id": "deborah@sundial-bookkeeping.example",
@@ -1107,6 +1165,7 @@
 		"last_name": "Huang",
 		"designation": "Owner",
 		"company_name": "Riverbend Florist",
+		"image": "/assets/helpdesk/demo/customers/lily-huang.svg",
 		"email_ids": [
 			{
 				"email_id": "lily@riverbend-florist.example",
@@ -1126,6 +1185,7 @@
 		"last_name": "Stein",
 		"designation": "Partner",
 		"company_name": "Two Owls Consulting",
+		"image": "/assets/helpdesk/demo/customers/rachel-stein.svg",
 		"email_ids": [
 			{
 				"email_id": "rachel@two-owls-consulting.example",
@@ -1145,6 +1205,7 @@
 		"last_name": "Haddad",
 		"designation": "Partner",
 		"company_name": "Two Owls Consulting",
+		"image": "/assets/helpdesk/demo/customers/omar-haddad.svg",
 		"email_ids": [
 			{
 				"email_id": "omar@two-owls-consulting.example",
@@ -1164,6 +1225,7 @@
 		"last_name": "Alvarez",
 		"designation": "Owner",
 		"company_name": "Kinfolk Coffee Cart",
+		"image": "/assets/helpdesk/demo/customers/jesse-alvarez.svg",
 		"email_ids": [
 			{
 				"email_id": "jesse@kinfolk-coffee-cart.example",
@@ -1183,6 +1245,7 @@
 		"last_name": "Reid",
 		"designation": "Founder",
 		"company_name": "Nimbus Drone Survey",
+		"image": "/assets/helpdesk/demo/customers/callum-reid.svg",
 		"email_ids": [
 			{
 				"email_id": "callum@nimbus-drone-survey.example",
@@ -1202,6 +1265,7 @@
 		"last_name": "Petrova",
 		"designation": "Owner",
 		"company_name": "Larkspur Massage",
+		"image": "/assets/helpdesk/demo/customers/nina-petrova.svg",
 		"email_ids": [
 			{
 				"email_id": "nina@larkspur-massage.example",
@@ -1221,6 +1285,7 @@
 		"last_name": "Santos",
 		"designation": "Director",
 		"company_name": "Patchwork Kids Club",
+		"image": "/assets/helpdesk/demo/customers/beatriz-santos.svg",
 		"email_ids": [
 			{
 				"email_id": "beatriz@patchwork-kids-club.example",
@@ -1240,6 +1305,7 @@
 		"last_name": "Carter",
 		"designation": "Owner",
 		"company_name": "Ironleaf Fitness",
+		"image": "/assets/helpdesk/demo/customers/dwayne-carter.svg",
 		"email_ids": [
 			{
 				"email_id": "dwayne@ironleaf-fitness.example",
@@ -1259,6 +1325,7 @@
 		"last_name": "Morgan",
 		"designation": "Designer",
 		"company_name": "Wren Web Design",
+		"image": "/assets/helpdesk/demo/customers/hazel-morgan.svg",
 		"email_ids": [
 			{
 				"email_id": "hazel@wren-web-design.example",
@@ -1278,6 +1345,7 @@
 		"last_name": "Nakamura",
 		"designation": "Owner",
 		"company_name": "Tidewater Kayak Tours",
+		"image": "/assets/helpdesk/demo/customers/kai-nakamura.svg",
 		"email_ids": [
 			{
 				"email_id": "kai@tidewater-kayak-tours.example",
@@ -1297,6 +1365,7 @@
 		"last_name": "Feldman",
 		"designation": "Optometrist",
 		"company_name": "Arbor Lane Optometry",
+		"image": "/assets/helpdesk/demo/customers/ruth-feldman.svg",
 		"email_ids": [
 			{
 				"email_id": "ruth@arbor-lane-optometry.example",
@@ -1316,6 +1385,7 @@
 		"last_name": "Mbeki",
 		"designation": "Receptionist",
 		"company_name": "Arbor Lane Optometry",
+		"image": "/assets/helpdesk/demo/customers/joy-mbeki.svg",
 		"email_ids": [
 			{
 				"email_id": "joy@arbor-lane-optometry.example",
@@ -1336,6 +1406,7 @@
 		"last_name": "Brooks",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/daniel-brooks.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1349,6 +1420,7 @@
 		"last_name": "Kowalski",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/marta-kowalski.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1362,6 +1434,7 @@
 		"last_name": "Chen",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/liam-chen.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1375,6 +1448,7 @@
 		"last_name": "Delgado",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/rosa-delgado.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1388,6 +1462,7 @@
 		"last_name": "Park",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/helen-park.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1401,6 +1476,7 @@
 		"last_name": "Bell",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/marcus-bell.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1414,6 +1490,7 @@
 		"last_name": "Achterberg",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/grace-achterberg.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1427,6 +1504,7 @@
 		"last_name": "Varga",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/elena-varga.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1440,6 +1518,7 @@
 		"last_name": "Fitzgerald",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/owen-fitzgerald.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1453,6 +1532,7 @@
 		"last_name": "Rahman",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/nadia-rahman.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1466,6 +1546,7 @@
 		"last_name": "Hughes",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/charlotte-hughes.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1479,6 +1560,7 @@
 		"last_name": "Menon",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ravi-menon.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1492,6 +1574,7 @@
 		"last_name": "Whitaker",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/tom-whitaker.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1505,6 +1588,7 @@
 		"last_name": "Robertson",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/isla-robertson.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1518,6 +1602,7 @@
 		"last_name": "Nguyen",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ben-nguyen.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1531,6 +1616,7 @@
 		"last_name": "Martin",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/chloe-martin.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1544,6 +1630,7 @@
 		"last_name": "Nair",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/priya-nair.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1557,6 +1644,7 @@
 		"last_name": "Fischer",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/leo-fischer.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1570,6 +1658,7 @@
 		"last_name": "Hayes",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/darnell-hayes.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1583,6 +1672,7 @@
 		"last_name": "Anderson",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/sue-anderson.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1596,6 +1686,7 @@
 		"last_name": "Brennan",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/aoife-brennan.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1609,6 +1700,7 @@
 		"last_name": "Walsh",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/conor-walsh.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1622,6 +1714,7 @@
 		"last_name": "Goldberg",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/maya-goldberg.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1635,6 +1728,7 @@
 		"last_name": "Patel",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/arjun-patel.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1648,6 +1742,7 @@
 		"last_name": "Carver",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/linda-carver.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1661,6 +1756,7 @@
 		"last_name": "Whitfield",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/james-whitfield.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1674,6 +1770,7 @@
 		"last_name": "Moreau",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/hannah-moreau.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1687,6 +1784,7 @@
 		"last_name": "Ross",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/eli-ross.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1700,6 +1798,7 @@
 		"last_name": "Ames",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/victoria-ames.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1713,6 +1812,7 @@
 		"last_name": "Osei",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/samuel-osei.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1726,6 +1826,7 @@
 		"last_name": "Morrison",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/jake-morrison.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1739,6 +1840,7 @@
 		"last_name": "Zahra",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/fatima-zahra.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1752,6 +1854,7 @@
 		"last_name": "Kim",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/noah-kim.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1765,6 +1868,7 @@
 		"last_name": "Silverstein",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/leah-silverstein.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1778,6 +1882,7 @@
 		"last_name": "Sousa",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ana-sousa.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1791,6 +1896,7 @@
 		"last_name": "Tran",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/kelly-tran.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1804,6 +1910,7 @@
 		"last_name": "Grant",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/olivia-grant.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1817,6 +1924,7 @@
 		"last_name": "Duncan",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/harry-duncan.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1830,6 +1938,7 @@
 		"last_name": "Polanski",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/greg-polanski.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1843,6 +1952,7 @@
 		"last_name": "Dubois",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/monique-dubois.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1856,6 +1966,7 @@
 		"last_name": "Liu",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/karen-liu.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1869,6 +1980,7 @@
 		"last_name": "Adler",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/paul-adler.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1882,6 +1994,7 @@
 		"last_name": "Carvalho",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ines-carvalho.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1895,6 +2008,7 @@
 		"last_name": "Wright",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ethan-wright.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1908,6 +2022,7 @@
 		"last_name": "Jackson",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/andre-jackson.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1921,6 +2036,7 @@
 		"last_name": "Lin",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/mei-lin.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1934,6 +2050,7 @@
 		"last_name": "Bianchi",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/giulia-bianchi.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1947,6 +2064,7 @@
 		"last_name": "Sullivan",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/mike-sullivan.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1960,6 +2078,7 @@
 		"last_name": "Rao",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/anjali-rao.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1973,6 +2092,7 @@
 		"last_name": "Adeyemi",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/tunde-adeyemi.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1986,6 +2106,7 @@
 		"last_name": "Holm",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/freya-holm.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -1999,6 +2120,7 @@
 		"last_name": "Ruiz",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/mateo-ruiz.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2012,6 +2134,7 @@
 		"last_name": "Laurent",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/claire-laurent.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2025,6 +2148,7 @@
 		"last_name": "Whitmore",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/sam-whitmore.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2038,6 +2162,7 @@
 		"last_name": "Price",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/yolanda-price.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2051,6 +2176,7 @@
 		"last_name": "Ortega",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/luis-ortega.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2064,6 +2190,7 @@
 		"last_name": "Lund",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/erik-lund.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2077,6 +2204,7 @@
 		"last_name": "Klein",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/deborah-klein.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2090,6 +2218,7 @@
 		"last_name": "Huang",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/lily-huang.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2103,6 +2232,7 @@
 		"last_name": "Stein",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/rachel-stein.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2116,6 +2246,7 @@
 		"last_name": "Haddad",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/omar-haddad.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2129,6 +2260,7 @@
 		"last_name": "Alvarez",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/jesse-alvarez.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2142,6 +2274,7 @@
 		"last_name": "Reid",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/callum-reid.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2155,6 +2288,7 @@
 		"last_name": "Petrova",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/nina-petrova.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2168,6 +2302,7 @@
 		"last_name": "Santos",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/beatriz-santos.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2181,6 +2316,7 @@
 		"last_name": "Carter",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/dwayne-carter.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2194,6 +2330,7 @@
 		"last_name": "Morgan",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/hazel-morgan.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2207,6 +2344,7 @@
 		"last_name": "Nakamura",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/kai-nakamura.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2220,6 +2358,7 @@
 		"last_name": "Feldman",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/ruth-feldman.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
@@ -2233,6 +2372,7 @@
 		"last_name": "Mbeki",
 		"user_type": "Website User",
 		"send_welcome_email": 0,
+		"user_image": "/assets/helpdesk/demo/customers/joy-mbeki.svg",
 		"roles": [
 			{
 				"role": "HD Customer"
