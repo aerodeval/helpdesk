@@ -8,7 +8,7 @@ import { realFetch } from "./server";
 import { isDemo, randomName } from "./session";
 import { BLOCKED, writes } from "./writes";
 
-export { restartDemo } from "./overlay";
+export { restartDemo, showRefreshNotice } from "./overlay";
 
 // Every Blocked Action ends here, as a 403 body. The caller's own error handling toasts its
 // message, so the hook must not toast too; the landing ticket can put its CTA in the message.

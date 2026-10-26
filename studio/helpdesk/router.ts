@@ -1,5 +1,5 @@
 // Studio imports this before it mounts anything, so the demo interceptor wraps every page's requests
-import '@helpdesk/shared/demo'
+import { showRefreshNotice } from '@helpdesk/shared/demo'
 
 // The settings dialog opens over any page at `<page>/settings/<screen>`.
 export function settingsPath(pagePath: string, screens: string[]) {
@@ -17,5 +17,7 @@ export default {
       const screens = to.hash.slice('#settings/'.length).split('/')
       return { path: settingsPath(to.path, screens), query: to.query, replace: true }
     })
+    // Studio mounts the app before the first navigation settles
+    router.isReady().then(showRefreshNotice)
   },
 }

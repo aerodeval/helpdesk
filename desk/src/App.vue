@@ -7,6 +7,7 @@
 
 <script setup lang="ts">
 import { Dialogs } from "@/components/dialogs";
+import { showRefreshNotice } from "@helpdesk/shared/demo";
 import { useConfigStore } from "@/stores/config";
 import { useFavicon } from "@vueuse/core";
 import { FrappeUIProvider, setConfig, toast, useColorScheme } from "frappe-ui";
@@ -40,5 +41,6 @@ onMounted(() => {
   });
   setConfig("localTimezone", window.timezone?.user);
   setConfig("systemTimezone", window.timezone?.system || null);
+  showRefreshNotice();
 });
 </script>
