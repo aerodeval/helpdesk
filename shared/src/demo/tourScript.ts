@@ -189,7 +189,7 @@ export const STEPS: Step[] = [
     persona: "agent",
     where: "Dashboard",
     title: "How the team is doing",
-    body: "Volume jumped after last week's v3 release, and first responses stayed on time. Customer rating is holding at 4.4 out of 5.",
+    body: "Volume jumped after last week's v3 release, and first responses stayed on time. Customer ratings are holding above 4 out of 5.",
   },
   {
     id: "end",
