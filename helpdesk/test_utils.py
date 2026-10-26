@@ -1155,3 +1155,74 @@ def get_number_cards(agent: str, from_date: str, to_date: str) -> dict[str, dict
     filters = frappe._dict(from_date=from_date, to_date=to_date, agent=agent)
     cards = HelpdeskDashboard(filters).get_number_card_data()
     return {card["title"]: card for card in cards}
+
+
+def enable_demo(case):
+    """Turn on `helpdesk_demo` in this process's site config until the test ends."""
+    patcher = patch.dict(frappe.conf, {"helpdesk_demo": 1})
+    patcher.start()
+    case.addCleanup(patcher.stop)
+
+
+def make_demo_fixture(directory: str) -> dict:
+    """Write a tiny Seed Data fixture to `directory`: an agent and a customer persona,
+    and one ticket raised at T-10m, commented at T-5m, first response due at T+30m.
+    Returns the persona emails."""
+    agent, customer = unique_email("jamie"), unique_email("priya")
+    files = {
+        "meta": {
+            "seed_version": unique_name("seed"),
+            "personas": {"agent": agent, "customer": customer},
+        },
+        "agents": [
+            {
+                "doctype": "User",
+                "email": agent,
+                "first_name": "Jamie",
+                "send_welcome_email": 0,
+                "bulk_actions": 1,
+                "roles": [{"role": "Agent Manager"}, {"role": "Agent"}],
+                "creation": "T-30d",
+            },
+            {
+                "doctype": "HD Agent",
+                "user": agent,
+                "agent_name": "Jamie",
+                "is_active": 1,
+            },
+        ],
+        "contacts": [
+            {
+                "doctype": "User",
+                "email": customer,
+                "first_name": "Priya",
+                "user_type": "Website User",
+                "send_welcome_email": 0,
+                "roles": [{"role": "HD Customer"}],
+            },
+            {
+                "doctype": "Contact",
+                "first_name": "Priya",
+                "email_id": customer,
+                "user": customer,
+                "email_ids": [{"email_id": customer, "is_primary": 1}],
+            },
+        ],
+        "tickets": [
+            {
+                "doctype": "HD Ticket",
+                "subject": "Invoices stuck in draft",
+                "description": "None of our invoices will send.",
+                "raised_by": customer,
+                "creation": "T-10m",
+                "response_by": "T+30m",
+                "thread": [
+                    {"at": "T-5m", "type": "comment", "by": agent, "content": "On it"}
+                ],
+            }
+        ],
+    }
+    for name, content in files.items():
+        with open(f"{directory}/{name}.json", "w") as file:
+            json.dump(content, file)
+    return files["meta"]["personas"]
