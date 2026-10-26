@@ -246,7 +246,10 @@ function createDraft() {
   function setToggle(fieldname: string, value: boolean) {
     settings.setValue.submit(
       { [fieldname]: value },
-      { onSuccess: () => toast.success(__("Settings updated")) }
+      {
+        onSuccess: () => toast.success(__("Settings updated")),
+        onError: (error: unknown) => getErrorMessage(error, true),
+      }
     );
   }
 
