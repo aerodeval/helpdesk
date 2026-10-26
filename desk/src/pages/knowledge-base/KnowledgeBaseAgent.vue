@@ -12,6 +12,7 @@
             :label="__('Create')"
             variant="solid"
             class="rtl:flex-row-reverse"
+            data-tour="kb-create"
           >
             <template #prefix>
               <LucidePlus class="h-4 w-4" />

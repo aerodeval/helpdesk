@@ -6,7 +6,7 @@
     v-model:open="popoverIsOpen"
   >
     <template #trigger>
-      <div class="flex flex-col gap-1.5 w-full">
+      <div class="flex flex-col gap-1.5 w-full" data-tour="assign">
         <span v-if="!hideLabel" class="block text-base text-ink-gray-5">
           {{ __("Assignee") }}
         </span>

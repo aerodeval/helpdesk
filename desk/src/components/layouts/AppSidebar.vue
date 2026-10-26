@@ -33,6 +33,7 @@
               v-for="item in section.items"
               :key="item.key"
               :id="item.id"
+              :data-tour="item.tour"
               :label="__(item.label)"
               :active="item.isActive"
               :class="item.spacedTop && 'mt-4'"
@@ -202,6 +203,7 @@ const navItems = computed(() => {
       // Separate the nav group from the search/notification tools above it.
       spacedTop: index === 0,
       key: option.label,
+      tour: `nav-${option.to}`,
     }));
 });
 
@@ -276,6 +278,7 @@ function parseViews(views: any[]) {
         }
       ),
     key: view.name,
+    tour: `view-${view.name}`,
     view,
   }));
 }

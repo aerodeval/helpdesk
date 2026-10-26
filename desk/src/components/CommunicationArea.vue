@@ -8,6 +8,7 @@
           ref="sendEmailRef"
           variant="ghost"
           label="Reply"
+          data-tour="reply"
           :class="[
             showEmailBox ? '!bg-surface-gray-4 hover:!bg-surface-gray-3' : '',
           ]"
@@ -20,6 +21,7 @@
         <Button
           variant="ghost"
           label="Comment"
+          data-tour="comment"
           :class="[
             showCommentBox ? '!bg-surface-gray-4 hover:!bg-surface-gray-3' : '',
           ]"
@@ -36,6 +38,7 @@
       <div
         v-show="showEmailBox"
         ref="emailBoxRef"
+        data-tour="reply-editor"
         @keydown.ctrl.enter.capture.stop="submitEmail"
         @keydown.meta.enter.capture.stop="submitEmail"
         @keydown.esc.capture.stop="showEmailBox = false"
@@ -75,6 +78,7 @@
       <div
         v-show="showCommentBox"
         ref="commentBoxRef"
+        data-tour="comment-editor"
         @keydown.ctrl.enter.capture.stop="submitComment"
         @keydown.meta.enter.capture.stop="submitComment"
         @keydown.esc.capture.stop="showCommentBox = false"

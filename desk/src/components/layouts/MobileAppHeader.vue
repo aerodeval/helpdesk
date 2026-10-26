@@ -1,7 +1,11 @@
 <template>
   <div class="flex border-b h-12 items-center">
     <div class="z-20 -me-4 ms-1 flex items-center justify-center">
-      <Button variant="ghost" @click="sidebarOpened = !sidebarOpened">
+      <Button
+        variant="ghost"
+        data-tour="menu"
+        @click="sidebarOpened = !sidebarOpened"
+      >
         <LucideMenu class="size-4" />
       </Button>
     </div>

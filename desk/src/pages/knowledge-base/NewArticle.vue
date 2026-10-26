@@ -28,6 +28,7 @@
             <Button
               :label="__('Create')"
               variant="solid"
+              data-tour="article-create"
               @click="handleCreateArticle"
             />
           </div>

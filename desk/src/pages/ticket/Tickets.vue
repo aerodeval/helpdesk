@@ -206,7 +206,16 @@ const options = computed(() => ({
       },
     },
     response_by: {
-      custom: ({ row, item }) => responseBadge(row, item),
+      custom: ({ row, item }) => {
+        const badge = responseBadge(row, item);
+        // a countdown badge sits in a Tooltip, which drops attributes
+        return (
+          badge &&
+          h("span", { class: "inline-flex", "data-tour": `sla-${row.name}` }, [
+            badge,
+          ])
+        );
+      },
     },
     resolution_by: {
       custom: ({ row, item }) =>

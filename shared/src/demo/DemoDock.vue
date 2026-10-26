@@ -5,6 +5,7 @@
       <Button
         size="md"
         variant="outline"
+        data-tour="dock"
         class="absolute bottom-[calc(4rem+env(safe-area-inset-bottom))] left-4 z-20 rounded-full shadow-lg max-sm:h-11 sm:h-10"
       >
         <template #prefix>

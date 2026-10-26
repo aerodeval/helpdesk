@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cards.length" class="space-y-0.5">
+  <div v-if="cards.length" class="space-y-0.5" data-tour="sla">
     <div
       v-for="card in cards"
       :key="card.title"
