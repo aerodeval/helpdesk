@@ -2,7 +2,7 @@
 // 404); `merge` patches the server's answer. Overlay rows go on the first page only.
 import { conditions, matches, type Doc, type Filters } from "./filters";
 import { overlay } from "./overlay";
-import { assignees, docKey, type Activity } from "./replay";
+import { assignees, docKey, editedFirst, type Activity } from "./replay";
 import { agents, callServer, jsonParam } from "./server";
 import { sessionUser } from "./session";
 
@@ -70,8 +70,10 @@ async function listData(message: Doc, params: Doc) {
   let filters = jsonParam(params.filters);
   // as the server applies a default view's filters
   if (params.is_default && isEmpty(filters)) filters = jsonParam(params.default_filters);
-  const { rows, delta } = await mergeRows(params.doctype, message.data, filters, message.rows);
-  return { ...message, data: rows, total_count: message.total_count + delta, row_count: rows.length };
+  const merged = await mergeRows(params.doctype, message.data, filters, message.rows);
+  const byModified = /^`?modified`?\s+desc\b/i.test(String(params.order_by ?? "modified desc").trim());
+  const rows = byModified ? editedFirst(overlay.projection, params.doctype, merged.rows) : merged.rows;
+  return { ...message, data: rows, total_count: message.total_count + merged.delta, row_count: rows.length };
 }
 
 async function plainList(rows: Doc[], params: Doc) {

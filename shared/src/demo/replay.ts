@@ -52,6 +52,13 @@ export function patched(p: Projection, doctype: string, base: Doc): Doc {
   return doc;
 }
 
+// The visitor's edits are newer than the Seed Data, so a "modified desc" list shows them first.
+export function editedFirst(p: Projection, doctype: string, rows: Doc[]) {
+  const modified = (row: Doc) => String(p.docs.get(docKey(doctype, row.name))?.modified ?? "");
+  const edited = rows.filter(modified).sort((a, b) => modified(b).localeCompare(modified(a)));
+  return [...edited, ...rows.filter((row) => !modified(row))];
+}
+
 export function assignees(_assign: unknown, delta: { added: Set<string>; removed: Set<string> }) {
   const current: string[] = JSON.parse(String(_assign || "[]"));
   const kept = current.filter((user) => !delta.removed.has(user));

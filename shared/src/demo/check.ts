@@ -1,7 +1,7 @@
 // Self-check for the filter evaluator and replay: `node shared/src/demo/check.ts`
 import assert from "node:assert/strict";
 import { matches } from "./filters.ts";
-import { categoryFields, docKey, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
+import { categoryFields, docKey, editedFirst, patched, replay, siteTime, slaTargets, type Action } from "./replay.ts";
 
 const me = "jamie@fernbill.example";
 const ticket = { name: "12", status: "Open", priority: "High", agent_group: "", _assign: `["${me}"]` };
@@ -50,6 +50,12 @@ assert.deepEqual(slaTargets(priorities, "Urgent", Date.parse(at(0))), {
   resolution_by: "2026-10-26T18:00:00.000Z",
 });
 assert.deepEqual(slaTargets(priorities, "Low", Date.parse(at(0))), { response_by: null, resolution_by: null }, "no row for the priority");
+
+assert.deepEqual(
+  editedFirst(p, "HD Ticket", [{ name: "13" }, { name: "12" }, { name: "11" }]).map((row) => row.name),
+  ["12", "13", "11"],
+  "an edited row goes to the top of a modified list"
+);
 
 const now = new Date(at(0));
 const due = { status_category: "Open", agreement_status: "Resolution Due", first_responded_on: at(0) };
