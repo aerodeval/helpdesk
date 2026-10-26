@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<!-- PROTOTYPE, throwaway. Answers: "Tour script and checklist copy" (aerodeval/helpdesk#56). Open by double-click. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fernbill demo tour: prototype</title>
+    <style>
+      :root {
+        --ink: #171717;
+        --muted: #6b6b6b;
+        --line: #e5e5e5;
+        --soft: #f7f7f7;
+        --accent: #2f6f4f;
+        --warn: #a15c07;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+        color: var(--ink);
+        background: #fff;
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 24px 16px 64px;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 4px;
+      }
+      h2 {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        margin: 0 0 10px;
+      }
+      p.lead {
+        color: var(--muted);
+        margin: 0 0 20px;
+        max-width: 760px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 20px;
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      section {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .stage {
+        background: var(--soft);
+        border-radius: 8px;
+        padding: 14px;
+        min-height: 260px;
+        position: relative;
+      }
+      .stage.mobile {
+        max-width: 380px;
+        margin: 0 auto;
+        min-height: 420px;
+      }
+      .where {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+      .where b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .anchor {
+        display: inline-block;
+        border: 2px dashed var(--accent);
+        border-radius: 6px;
+        padding: 2px 8px;
+        font-size: 12px;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 14px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+        max-width: 360px;
+      }
+      .stage.mobile .card {
+        position: absolute;
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
+        max-width: none;
+        border-radius: 14px 14px 10px 10px;
+      }
+      .card .prog {
+        font-size: 11px;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+      .card h3 {
+        margin: 0 0 6px;
+        font-size: 15px;
+      }
+      .card p {
+        margin: 0 0 12px;
+      }
+      .card .wait {
+        font-size: 12px;
+        color: var(--warn);
+        margin-bottom: 10px;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      button {
+        font: inherit;
+        font-size: 13px;
+        border: 1px solid var(--line);
+        background: #fff;
+        border-radius: 6px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      button:hover {
+        border-color: #bbb;
+      }
+      button.primary {
+        background: var(--ink);
+        color: #fff;
+        border-color: var(--ink);
+      }
+      button.link {
+        border: none;
+        background: none;
+        color: var(--muted);
+        padding: 5px 4px;
+        text-decoration: underline;
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .pill {
+        display: inline-flex;
+        gap: 8px;
+        align-items: center;
+        background: var(--ink);
+        color: #fff;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+      dl {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 4px 12px;
+        margin: 0;
+        font-size: 13px;
+      }
+      dt {
+        color: var(--muted);
+      }
+      .changed {
+        background: #fff6d6;
+      }
+      ul.check {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      ul.check li {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        padding: 4px 0;
+      }
+      .tick {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        border: 1.5px solid #bbb;
+        display: inline-grid;
+        place-items: center;
+        font-size: 10px;
+      }
+      .tick.on {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      .tabs {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+      }
+      .tabs button.on {
+        background: var(--ink);
+        color: #fff;
+      }
+      ol.steps {
+        padding-left: 18px;
+        margin: 8px 0 0;
+      }
+      ol.steps li {
+        margin: 4px 0;
+      }
+      .note {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .log {
+        font-size: 12px;
+        color: var(--muted);
+        max-height: 120px;
+        overflow: auto;
+      }
+      table.script {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12.5px;
+      }
+      table.script td,
+      table.script th {
+        border-top: 1px solid var(--line);
+        padding: 6px 6px;
+        vertical-align: top;
+        text-align: left;
+      }
+      table.script th {
+        color: var(--muted);
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Fernbill demo tour: prototype</h1>
+      <p class="lead">
+        Question: does this tour script and its behaviour feel right? Check the
+        order of the stops, the copy on each card, which steps wait for the
+        visitor to do something, and what happens when they wander off, reload,
+        switch between Jamie (agent) and Priya (customer), or use a phone. The
+        grey box mocks what the visitor sees. The card is the tour popover.
+      </p>
+
+      <div class="grid">
+        <div>
+          <section>
+            <h2>What the visitor sees</h2>
+            <div id="stage" class="stage"></div>
+          </section>
+          <section>
+            <h2>Visitor does something (free play)</h2>
+            <div class="row" id="actions"></div>
+            <p class="note">
+              These are the things a visitor can do in the real app. A tour step
+              waiting for one of them moves on when it happens.
+            </p>
+          </section>
+          <section>
+            <h2>Guided walkthroughs</h2>
+            <div class="tabs" id="tabs"></div>
+            <div id="scenario"></div>
+          </section>
+        </div>
+        <div>
+          <section>
+            <h2>State</h2>
+            <dl id="state"></dl>
+          </section>
+          <section>
+            <h2>Try-it checklist (frappe-ui Onboarding)</h2>
+            <ul class="check" id="checklist"></ul>
+          </section>
+          <section>
+            <h2>Log</h2>
+            <div class="log" id="log"></div>
+          </section>
+        </div>
+      </div>
+
+      <section>
+        <h2>Full script</h2>
+        <table class="script" id="script"></table>
+      </section>
+    </main>
+
+    <script>
+      // ---- Portable module: tour script + pure reducer. No DOM in here. ----
+      const STOPS = 7;
+
+      const STEPS = [
+        {
+          id: "welcome",
+          stop: 0,
+          persona: "agent",
+          where: "Ticket list",
+          anchor: null,
+          title: "Welcome to Fernbill Support",
+          body: "You're Jamie Rivera, Support Lead at Fernbill. Fernbill makes invoicing software for small businesses, and this is their help desk. Take a 3-minute tour, or look around on your own. Your changes stay in your browser.",
+          buttons: ["Start tour", "Explore on my own"],
+        },
+        {
+          id: "views",
+          stop: 1,
+          persona: "agent",
+          where: "Ticket list",
+          anchor: "Sidebar view: Assigned to me",
+          mobileAnchor: "Menu button, then Assigned to me",
+          title: "Your inbox",
+          body: "Every customer email becomes a ticket. Views are saved filters your team shares. Open the tickets assigned to you.",
+          wait: "open_view",
+        },
+        {
+          id: "sla",
+          stop: 2,
+          persona: "agent",
+          where: "Assigned to me",
+          anchor: "SLA badge on the Northpeak Logistics row",
+          title: "Deadlines you can see",
+          body: "Northpeak is on the Enterprise plan. Urgent tickets need a first reply within an hour, and this one is due in 25 minutes. Open it.",
+          wait: "open_northpeak",
+        },
+        {
+          id: "reply",
+          stop: 2,
+          persona: "agent",
+          where: "Northpeak ticket",
+          anchor: "Reply editor",
+          title: "Reply from the ticket",
+          body: "Write back to Northpeak. They get your reply as an email, and the whole conversation stays on this ticket.",
+          wait: "send_reply",
+        },
+        {
+          id: "sla_met",
+          stop: 2,
+          persona: "agent",
+          where: "Northpeak ticket",
+          anchor: "SLA panel",
+          title: "First response: on time",
+          body: "The first-response clock has stopped. The SLA now tracks how long the ticket takes to resolve.",
+        },
+        {
+          id: "saved",
+          stop: 3,
+          persona: "agent",
+          where: "Ticket: How do I download past invoices?",
+          anchor: "Saved replies button",
+          jump: true,
+          title: "Same question, same answer",
+          body: 'Customers ask how to download past invoices every week. Insert the "Download invoices" saved reply and send it.',
+          wait: "insert_saved_reply",
+        },
+        {
+          id: "comment",
+          stop: 4,
+          persona: "agent",
+          where: "Ticket: Refund for a double charge",
+          anchor: "Comment tab",
+          jump: true,
+          title: "Talk to your team privately",
+          body: "Ananya needs your approval for a $240 refund. Comments are only visible to agents. Approve it and mention @Ananya.",
+          wait: "post_comment",
+        },
+        {
+          id: "assign",
+          stop: 4,
+          persona: "agent",
+          where: "Ticket: Refund for a double charge",
+          anchor: "Assign button",
+          title: "Hand it back",
+          body: "Assign the ticket to Ananya so she can issue the refund.",
+          wait: "assign",
+        },
+        {
+          id: "kb",
+          stop: 5,
+          persona: "agent",
+          where: "Ticket: Can I invoice in euros?",
+          anchor: "New article button",
+          mobileAnchor: "Menu button, then Knowledge base",
+          jump: true,
+          title: "Answer once, help everyone",
+          body: "Your help center has no article on multi-currency invoices yet. Write a short one. Customers will find it before they need to ask.",
+          wait: "save_article",
+        },
+        {
+          id: "portal",
+          stop: 6,
+          persona: "agent",
+          where: "Knowledge base",
+          anchor: "Switch to customer, in the demo banner",
+          title: "Now be the customer",
+          body: "Switch to Priya Nair at Greenleaf Studio, one of Fernbill's customers.",
+          wait: "switch_to_customer",
+        },
+        {
+          id: "portal_new",
+          stop: 6,
+          persona: "customer",
+          where: "Fernbill Help Center",
+          anchor: "New ticket button",
+          title: "Priya's help center",
+          body: "Customers see their own tickets and can search your articles. Raise a ticket as Priya.",
+          wait: "raise_ticket",
+        },
+        {
+          id: "portal_back",
+          stop: 6,
+          persona: "customer",
+          where: "Priya's new ticket",
+          anchor: "Switch to agent, in the demo banner",
+          title: "Back to Jamie",
+          body: "Switch back to Jamie and see where Priya's ticket lands.",
+          wait: "switch_to_agent",
+        },
+        {
+          id: "portal_landed",
+          stop: 6,
+          persona: "agent",
+          where: "Ticket list",
+          anchor: "Row #201, highlighted",
+          title: "Already in your inbox",
+          body: "Priya's ticket is here, with the right SLA for her plan already set.",
+        },
+        {
+          id: "dashboard",
+          stop: 7,
+          persona: "agent",
+          where: "Dashboard",
+          anchor: "Ticket volume chart",
+          jump: true,
+          title: "How the team is doing",
+          body: "Volume jumped after last week's v3 release, and first responses stayed on time. Customer rating is holding at 4.4 out of 5.",
+        },
+        {
+          id: "end",
+          stop: 8,
+          persona: "agent",
+          where: "Dashboard",
+          anchor: null,
+          title: "That's Helpdesk",
+          body: "There's more to try in the checklist: assignment rules, customer ratings and the command palette. Ready to run it for your own team?",
+          buttons: ["Start free trial", "Talk to sales", "Keep exploring"],
+        },
+      ];
+
+      const EXTRAS = [
+        {
+          id: "x_rules",
+          label: "See how tickets get assigned automatically",
+          action: "open_assignment_rules",
+        },
+        {
+          id: "x_csat",
+          label: "Read a customer rating",
+          action: "open_rating",
+        },
+        {
+          id: "x_cmdk",
+          label: "Press ⌘K and jump to any ticket",
+          action: "use_cmdk",
+        },
+      ];
+
+      const STOP_LABELS = [
+        "",
+        "Inbox and views",
+        "SLA and reply",
+        "Saved replies",
+        "Comments and assignment",
+        "Knowledge base",
+        "Customer portal",
+        "Dashboard",
+      ];
+
+      function initialState() {
+        return {
+          persona: "agent",
+          viewport: "desktop",
+          tour: "not_started",
+          step: 0,
+          done: [],
+          stopsDone: [],
+          extrasDone: [],
+          notice: "",
+        };
+      }
+
+      function stepAt(i) {
+        return STEPS[i];
+      }
+
+      function completeStepsUpTo(state, i) {
+        // a stop is done when its last step is passed
+        const stopsDone = new Set(state.stopsDone);
+        for (const s of STEPS.slice(0, i)) {
+          const isLastOfStop = !STEPS.slice(STEPS.indexOf(s) + 1).some(
+            (n) => n.stop === s.stop
+          );
+          if (s.stop >= 1 && s.stop <= STOPS && isLastOfStop)
+            stopsDone.add(s.stop);
+        }
+        return [...stopsDone];
+      }
+
+      function advance(state, to) {
+        const next = { ...state, step: to, notice: "" };
+        next.stopsDone = completeStepsUpTo(next, to);
+        if (to >= STEPS.length - 1) next.tour = "finished_card";
+        return next;
+      }
+
+      function tourReducer(state, action) {
+        const cur = stepAt(state.step);
+        switch (action.type) {
+          case "START":
+            return { ...advance(state, 1), tour: "running" };
+          case "DISMISS":
+            return {
+              ...state,
+              tour: "dismissed",
+              notice: "Tour closed. It stays one click away in the checklist.",
+            };
+          case "NEXT":
+            if (state.tour !== "running") return state;
+            if (cur.wait && !state.done.includes(cur.wait))
+              return {
+                ...state,
+                notice: "Next unlocks when you do the step. Or skip it.",
+              };
+            return advance(state, state.step + 1);
+          case "SKIP":
+            if (state.tour !== "running") return state;
+            return advance(state, state.step + 1);
+          case "BACK": {
+            if (state.tour !== "running" || state.step <= 1) return state;
+            const prev = stepAt(state.step - 1);
+            if (prev.persona !== state.persona)
+              return { ...state, notice: "Back can't cross a persona switch." };
+            return { ...state, step: state.step - 1, notice: "" };
+          }
+          case "DO": {
+            const done = state.done.includes(action.what)
+              ? state.done
+              : [...state.done, action.what];
+            let next = { ...state, done, notice: "" };
+            const extra = EXTRAS.find((e) => e.action === action.what);
+            if (extra && !next.extrasDone.includes(extra.id))
+              next.extrasDone = [...next.extrasDone, extra.id];
+            if (action.what === "switch_to_customer") next.persona = "customer";
+            if (action.what === "switch_to_agent") next.persona = "agent";
+            const waitingHere =
+              state.tour === "running" && cur.wait === action.what;
+            if (waitingHere) return advance(next, state.step + 1);
+            // persona switched off-script: the tour can't show agent cards in the portal
+            if (
+              state.tour === "running" &&
+              next.persona !== stepAt(next.step).persona
+            )
+              return {
+                ...next,
+                tour: "paused",
+                notice:
+                  "Tour paused: this step happens as " +
+                  (stepAt(next.step).persona === "agent" ? "Jamie" : "Priya") +
+                  ".",
+              };
+            return next;
+          }
+          case "WANDER":
+            if (state.tour !== "running") return state;
+            return {
+              ...state,
+              tour: "paused",
+              notice: "Tour paused while you look around.",
+            };
+          case "RESUME": {
+            if (!["paused", "dismissed"].includes(state.tour)) return state;
+            const want = stepAt(state.step).persona;
+            const step = state.step === 0 ? 1 : state.step;
+            // resuming takes the visitor back to the step's page, switching persona if needed
+            return {
+              ...state,
+              tour: "running",
+              step,
+              persona: want,
+              notice: "Back on: " + stepAt(step).where + ".",
+            };
+          }
+          case "RELOAD":
+            // tour progress is saved with "your changes", so a reload restores it
+            return {
+              ...state,
+              notice: "Page reloaded. Tour picked up where it was.",
+            };
+          case "TOGGLE_VIEWPORT":
+            return {
+              ...state,
+              viewport: state.viewport === "desktop" ? "mobile" : "desktop",
+            };
+          case "FINISH":
+            return {
+              ...state,
+              tour: "finished",
+              notice: action.cta ? "Opened: " + action.cta : "",
+            };
+          case "RESTART_DEMO":
+            return {
+              ...initialState(),
+              viewport: state.viewport,
+              notice: "Your changes were cleared.",
+            };
+          default:
+            return state;
+        }
+      }
+
+      // ---- Throwaway page shell ----
+      let state = initialState();
+      let prev = state;
+      const log = [];
+      const $ = (id) => document.getElementById(id);
+
+      function dispatch(action, label) {
+        prev = state;
+        state = tourReducer(state, action);
+        log.unshift(label || action.type);
+        render();
+      }
+
+      const VISITOR_ACTIONS = [
+        ["open_view", 'Opens "Assigned to me"'],
+        ["open_northpeak", "Opens the Northpeak ticket"],
+        ["send_reply", "Sends a reply"],
+        ["insert_saved_reply", "Inserts a saved reply"],
+        ["post_comment", "Posts a comment"],
+        ["assign", "Assigns the ticket"],
+        ["save_article", "Saves an article draft"],
+        ["switch_to_customer", "Switches to Priya"],
+        ["raise_ticket", "Raises a ticket as Priya"],
+        ["switch_to_agent", "Switches to Jamie"],
+        ["open_assignment_rules", "Opens assignment rules"],
+        ["open_rating", "Opens a customer rating"],
+        ["use_cmdk", "Presses ⌘K"],
+      ];
+
+      function renderStage() {
+        const s = stepAt(state.step);
+        const stage = $("stage");
+        stage.className =
+          "stage" + (state.viewport === "mobile" ? " mobile" : "");
+        const who =
+          state.persona === "agent"
+            ? "Jamie Rivera (agent)"
+            : "Priya Nair (customer)";
+        let html = `<div class="where">${
+          state.viewport === "mobile" ? "Phone" : "Desktop"
+        } · signed in as <b>${who}</b> · page: <b>${
+          state.tour === "running" ? s.where : "wherever they are"
+        }</b></div>`;
+
+        if (
+          state.tour === "running" ||
+          state.tour === "not_started" ||
+          state.tour === "finished_card"
+        ) {
+          const anchor =
+            state.viewport === "mobile" && s.mobileAnchor
+              ? s.mobileAnchor
+              : s.anchor;
+          if (anchor)
+            html += `<div class="anchor">Highlighted: ${anchor}</div>`;
+          const prog =
+            s.stop >= 1 && s.stop <= STOPS
+              ? `Step ${s.stop} of ${STOPS} · ${STOP_LABELS[s.stop]}`
+              : "";
+          const waiting = s.wait && !state.done.includes(s.wait);
+          let buttons;
+          if (s.id === "welcome") {
+            buttons = `<button class="primary" data-a="START">Start tour</button><button data-a="DISMISS">Explore on my own</button>`;
+          } else if (s.id === "end") {
+            buttons = s.buttons
+              .map(
+                (b, i) =>
+                  `<button class="${
+                    i === 0 ? "primary" : ""
+                  }" data-finish="${b}">${b}</button>`
+              )
+              .join("");
+          } else {
+            buttons = `<button data-a="BACK" ${
+              state.step <= 1 ? "disabled" : ""
+            }>Back</button>
+        <button class="primary" data-a="NEXT" ${
+          waiting ? "disabled" : ""
+        }>Next</button>
+        ${
+          waiting
+            ? `<button class="link" data-a="SKIP">Skip this step</button>`
+            : ""
+        }
+        <button class="link" data-a="DISMISS">Close tour</button>`;
+          }
+          html += `<div class="card">
+      ${prog ? `<div class="prog">${prog}</div>` : ""}
+      <h3>${s.title}</h3><p>${s.body}</p>
+      ${waiting ? `<div class="wait">Waiting for you to do it.</div>` : ""}
+      <div class="row">${buttons}</div></div>`;
+        } else if (state.tour === "paused" || state.tour === "dismissed") {
+          const label =
+            state.step >= 1
+              ? `Resume tour · step ${stepAt(state.step).stop} of ${STOPS}`
+              : "Take the tour";
+          html += `<p class="note">No card. The visitor sees the app, and a small pill in the corner:</p>
+      <span class="pill">${label} <button class="primary" data-a="RESUME" style="padding:2px 8px">Resume</button></span>`;
+        } else if (state.tour === "finished") {
+          html += `<p class="note">Tour finished. The visitor explores freely. The checklist stays available from the banner.</p>`;
+        }
+        stage.innerHTML = html;
+        stage
+          .querySelectorAll("[data-a]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch(
+                  { type: b.dataset.a },
+                  "Card: " + b.textContent.trim()
+                ))
+          );
+        stage
+          .querySelectorAll("[data-finish]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch(
+                  { type: "FINISH", cta: b.dataset.finish },
+                  "Card: " + b.dataset.finish
+                ))
+          );
+      }
+
+      function renderState() {
+        const rows = [
+          [
+            "Signed in as",
+            state.persona === "agent" ? "Jamie (agent)" : "Priya (customer)",
+            "persona",
+          ],
+          [
+            "Device",
+            state.viewport === "mobile" ? "Phone" : "Desktop",
+            "viewport",
+          ],
+          [
+            "Tour",
+            {
+              not_started: "Welcome card showing",
+              running: "Running",
+              paused: "Paused",
+              dismissed: "Closed by visitor",
+              finished_card: "On the last card",
+              finished: "Finished",
+            }[state.tour],
+            "tour",
+          ],
+          ["Current step", `${stepAt(state.step).title}`, "step"],
+          [
+            "Stops completed",
+            state.stopsDone.length
+              ? state.stopsDone.map((n) => STOP_LABELS[n]).join(", ")
+              : "None",
+            "stopsDone",
+          ],
+          [
+            "Your changes",
+            state.done.length
+              ? state.done.length + " simulated action(s)"
+              : "None",
+            "done",
+          ],
+          ["Message", state.notice || "None", "notice"],
+        ];
+        $("state").innerHTML = rows
+          .map(([k, v, key]) => {
+            const changed =
+              JSON.stringify(prev[key]) !== JSON.stringify(state[key]);
+            return `<dt>${k}</dt><dd class="${
+              changed ? "changed" : ""
+            }" style="margin:0">${v}</dd>`;
+          })
+          .join("");
+      }
+
+      function renderChecklist() {
+        const items = [];
+        for (let n = 1; n <= STOPS; n++)
+          items.push([STOP_LABELS[n], state.stopsDone.includes(n), null]);
+        EXTRAS.forEach((e) =>
+          items.push([e.label, state.extrasDone.includes(e.id), e.action])
+        );
+        $("checklist").innerHTML =
+          `<li><button data-a="RESUME" ${
+            ["paused", "dismissed"].includes(state.tour) ? "" : "disabled"
+          }>Resume tour</button>
+    <button data-a="RESTART_DEMO">Restart demo</button></li>` +
+          items
+            .map(
+              ([label, on, act], i) => `<li><span class="tick ${
+                on ? "on" : ""
+              }">${on ? "✓" : ""}</span>
+      ${label}${
+                i === STOPS
+                  ? `<span class="note" style="margin-left:auto">extra</span>`
+                  : ""
+              }
+      ${
+        act && !on ? `<button class="link" data-do="${act}">do it</button>` : ""
+      }</li>`
+            )
+            .join("");
+        $("checklist")
+          .querySelectorAll("[data-a]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch({ type: b.dataset.a }, "Checklist: " + b.textContent))
+          );
+        $("checklist")
+          .querySelectorAll("[data-do]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch(
+                  { type: "DO", what: b.dataset.do },
+                  "Checklist: " + b.dataset.do
+                ))
+          );
+      }
+
+      function renderActions() {
+        $("actions").innerHTML =
+          VISITOR_ACTIONS.map(
+            ([what, label]) => `<button data-do="${what}">${label}</button>`
+          ).join("") +
+          `<button data-x="WANDER">Clicks somewhere off-script</button>
+     <button data-x="RELOAD">Reloads the page</button>
+     <button data-x="TOGGLE_VIEWPORT">Switch phone / desktop</button>`;
+        $("actions")
+          .querySelectorAll("[data-do]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch(
+                  { type: "DO", what: b.dataset.do },
+                  "Visitor: " + b.textContent
+                ))
+          );
+        $("actions")
+          .querySelectorAll("[data-x]")
+          .forEach(
+            (b) =>
+              (b.onclick = () =>
+                dispatch({ type: b.dataset.x }, "Visitor: " + b.textContent))
+          );
+      }
+
+      const SCENARIOS = [
+        {
+          name: "Happy path",
+          text: "A visitor does every step as asked. Watch the checklist tick off stops, and the persona switch in step 6.",
+          steps: [
+            ["START", "Start tour"],
+            ["DO:open_view", "Opens Assigned to me"],
+            ["DO:open_northpeak", "Opens Northpeak"],
+            ["DO:send_reply", "Sends a reply"],
+            ["NEXT", "Next (SLA met)"],
+            ["DO:insert_saved_reply", "Inserts saved reply"],
+            ["DO:post_comment", "Posts comment"],
+            ["DO:assign", "Assigns"],
+            ["DO:save_article", "Saves article"],
+            ["DO:switch_to_customer", "Switches to Priya"],
+            ["DO:raise_ticket", "Raises ticket"],
+            ["DO:switch_to_agent", "Switches to Jamie"],
+            ["NEXT", "Next (in inbox)"],
+            ["NEXT", "Next (dashboard)"],
+          ],
+        },
+        {
+          name: "Wanders off",
+          text: "Mid-tour the visitor clicks around, then reloads. The tour pauses into a pill and resumes on the right page.",
+          steps: [
+            ["START", "Start tour"],
+            ["DO:open_view", "Opens Assigned to me"],
+            ["WANDER", "Clicks off-script"],
+            ["RELOAD", "Reloads"],
+            ["RESUME", "Resume tour"],
+          ],
+        },
+        {
+          name: "Tries to rush",
+          text: "The visitor presses Next without doing the step. Should Next be blocked, or should it just move on?",
+          steps: [
+            ["START", "Start tour"],
+            ["NEXT", "Next without opening the view"],
+            ["SKIP", "Skip this step"],
+          ],
+        },
+        {
+          name: "Switches persona early",
+          text: "On step 2 the visitor switches to Priya from the banner. Agent cards can't show in the portal, so the tour pauses. Resume switches back.",
+          steps: [
+            ["START", "Start tour"],
+            ["DO:open_view", "Opens Assigned to me"],
+            ["DO:switch_to_customer", "Switches to Priya"],
+            ["RESUME", "Resume tour"],
+          ],
+        },
+        {
+          name: "Skips the tour",
+          text: "The visitor picks Explore on my own and uses the checklist instead.",
+          steps: [
+            ["DISMISS", "Explore on my own"],
+            ["DO:use_cmdk", "Presses ⌘K"],
+            ["DO:open_rating", "Opens a rating"],
+            ["RESUME", "Take the tour after all"],
+          ],
+        },
+        {
+          name: "On a phone",
+          text: "The same tour on a phone. Cards become bottom sheets, and sidebar anchors point at the menu button.",
+          steps: [
+            ["TOGGLE_VIEWPORT", "Switch to phone"],
+            ["START", "Start tour"],
+            ["DO:open_view", "Opens Assigned to me"],
+          ],
+        },
+      ];
+      let activeScenario = 0,
+        scenarioPos = 0;
+
+      function renderScenarios() {
+        $("tabs").innerHTML = SCENARIOS.map(
+          (s, i) =>
+            `<button class="${
+              i === activeScenario ? "on" : ""
+            }" data-i="${i}">${s.name}</button>`
+        ).join("");
+        $("tabs")
+          .querySelectorAll("button")
+          .forEach(
+            (b) =>
+              (b.onclick = () => {
+                activeScenario = +b.dataset.i;
+                scenarioPos = 0;
+                state = initialState();
+                prev = state;
+                log.length = 0;
+                log.unshift(
+                  "Reset for scenario: " + SCENARIOS[activeScenario].name
+                );
+                render();
+              })
+          );
+        const sc = SCENARIOS[activeScenario];
+        $("scenario").innerHTML =
+          `<p class="note">${sc.text}</p><ol class="steps">` +
+          sc.steps
+            .map(
+              ([a, label], i) =>
+                `<li><button ${i === scenarioPos ? 'class="primary"' : ""} ${
+                  i !== scenarioPos ? "disabled" : ""
+                } data-i="${i}">${label}</button></li>`
+            )
+            .join("") +
+          "</ol>";
+        $("scenario")
+          .querySelectorAll("button[data-i]")
+          .forEach(
+            (b) =>
+              (b.onclick = () => {
+                const [a, label] = sc.steps[+b.dataset.i];
+                scenarioPos++;
+                if (a.startsWith("DO:"))
+                  dispatch(
+                    { type: "DO", what: a.slice(3) },
+                    "Scenario: " + label
+                  );
+                else dispatch({ type: a }, "Scenario: " + label);
+              })
+          );
+      }
+
+      function renderScript() {
+        $("script").innerHTML =
+          `<tr><th>Step</th><th>Persona · page</th><th>Highlights</th><th>Card</th><th>Moves on when</th></tr>` +
+          STEPS.map(
+            (s) => `<tr><td>${
+              s.stop >= 1 && s.stop <= STOPS
+                ? s.stop + " · " + STOP_LABELS[s.stop]
+                : s.stop === 0
+                ? "Welcome"
+                : "End"
+            }</td>
+      <td>${s.persona === "agent" ? "Jamie" : "Priya"} · ${s.where}${
+              s.jump ? " <span class='note'>(tour navigates here)</span>" : ""
+            }</td>
+      <td>${s.anchor || "Nothing (centered)"}${
+              s.mobileAnchor
+                ? `<br><span class="note">Phone: ${s.mobileAnchor}</span>`
+                : ""
+            }</td>
+      <td><b>${s.title}</b><br>${s.body}</td>
+      <td>${
+        s.wait
+          ? VISITOR_ACTIONS.find((a) => a[0] === s.wait)[1]
+          : s.buttons
+          ? s.buttons.join(" / ")
+          : "Next"
+      }</td></tr>`
+          ).join("");
+      }
+
+      function render() {
+        renderStage();
+        renderState();
+        renderChecklist();
+        renderScenarios();
+        $("log").innerHTML = log.map((l) => `<div>${l}</div>`).join("");
+      }
+      renderActions();
+      renderScript();
+      render();
+    </script>
+  </body>
+</html>
