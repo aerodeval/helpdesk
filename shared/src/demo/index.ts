@@ -1,6 +1,5 @@
 // The demo interceptor. Import it first in each bundle: it wraps `fetch` and the upload XHR so
 // Simulated Actions land in the Demo Overlay and never reach the server. Inert without boot `demo`.
-import { toast } from "frappe-ui";
 import { __ } from "../translation";
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
@@ -11,9 +10,10 @@ import { BLOCKED, writes } from "./writes";
 
 export { restartDemo } from "./overlay";
 
-// Every Blocked Action ends here; the landing ticket replaces the toast with its CTA.
+// Every Blocked Action ends here, as a 403 body. The caller's own error handling toasts its
+// message, so the hook must not toast too; the landing ticket can put its CTA in the message.
 export function onBlocked(_action: string) {
-  toast(__("This is not available in the demo"));
+  return { exc_type: "PermissionError", _error_message: __("This is not available in the demo") };
 }
 
 type Call = { method: string; params: Doc; write: boolean };
@@ -80,8 +80,7 @@ function body(value: unknown): Doc {
 }
 
 function blocked({ method, params }: Call) {
-  onBlocked(method === "run_doc_method" ? params.method : method);
-  return json({ exc_type: "PermissionError", _error_message: __("Not available in the demo") }, 403);
+  return json(onBlocked(method === "run_doc_method" ? params.method : method), 403);
 }
 
 function json(body: unknown, status = 200) {
@@ -98,11 +97,7 @@ function interceptUpload() {
   XMLHttpRequest.prototype.send = function (this: XMLHttpRequest & Doc, data) {
     if (!isDemo() || !this.demoUrl?.includes("/api/method/upload_file")) return send.call(this, data);
     const file = data instanceof FormData ? data.get("file") : null;
-    if (!(file instanceof File)) {
-      onBlocked("upload_file");
-      respond(this, 403, { exc_type: "PermissionError", _error_message: __("Not available in the demo") });
-      return;
-    }
+    if (!(file instanceof File)) return respond(this, 403, onBlocked("upload_file"));
     upload(file, data as FormData).then((doc) => respond(this, 200, { message: doc }));
   };
 }
