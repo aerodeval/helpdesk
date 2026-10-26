@@ -1,5 +1,7 @@
 // Studio imports this before it mounts anything, so the demo interceptor wraps every page's requests
-import { showRefreshNotice } from '@helpdesk/shared/demo'
+import { isDemo, showRefreshNotice } from '@helpdesk/shared/demo'
+import DemoDock from '@helpdesk/shared/demo/DemoDock.vue'
+import { createApp } from 'vue'
 
 // The settings dialog opens over any page at `<page>/settings/<screen>`.
 export function settingsPath(pagePath: string, screens: string[]) {
@@ -18,6 +20,17 @@ export default {
       return { path: settingsPath(to.path, screens), query: to.query, replace: true }
     })
     // Studio mounts the app before the first navigation settles
-    router.isReady().then(showRefreshNotice)
+    router.isReady().then(() => {
+      showRefreshNotice()
+      mountDemoDock()
+    })
   },
+}
+
+// Studio owns the app instance, so the dock mounts its own, in a box on the viewport's bottom edge
+function mountDemoDock() {
+  if (!isDemo()) return
+  const host = document.body.appendChild(document.createElement('div'))
+  host.className = 'fixed inset-x-0 bottom-0 z-20'
+  createApp(DemoDock).mount(host)
 }

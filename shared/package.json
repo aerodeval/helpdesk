@@ -29,6 +29,7 @@
 		"./ArticleIcon.vue": "./src/ArticleIcon.vue",
 		"./OrganizationsIcon.vue": "./src/OrganizationsIcon.vue",
 		"./demo": "./src/demo/index.ts",
+		"./demo/DemoDock.vue": "./src/demo/DemoDock.vue",
 		"./settings/*": "./src/settings/*"
 	},
 	"peerDependencies": {

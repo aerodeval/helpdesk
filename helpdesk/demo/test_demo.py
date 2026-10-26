@@ -138,6 +138,14 @@ class TestDemo(IntegrationTestCase):
         )
         self.assertEqual(set(boot["settings"]), set(SETTINGS_FIELDS))
 
+    def test_boot_names_the_visitors_persona(self):
+        self.seed()
+        with self.set_user(self.personas["customer"]):
+            boot = get_boot()
+        self.assertEqual(boot["persona"], "customer")
+        self.assertEqual(set(boot["first_names"]), {"agent", "customer"})
+        self.assertIsNone(get_boot()["persona"], "Administrator is no persona")
+
     def test_login_as_persona_redirects(self):
         self.seed()
         login_manager = MagicMock()

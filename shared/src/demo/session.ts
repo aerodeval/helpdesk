@@ -9,7 +9,12 @@ const DEFAULT_BOOT = {
   settings: {} as Doc,
   slas: {} as Record<string, Doc[]>,
   customer_slas: {} as Record<string, string | null>,
+  // null for a guest or a user who is not a persona
+  persona: null as Persona | null,
+  first_names: {} as Record<Persona, string>,
 };
+
+export type Persona = "agent" | "customer";
 
 export function demoBoot(): typeof DEFAULT_BOOT | null {
   const demo = page.demo ?? page.boot?.demo;
