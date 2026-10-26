@@ -282,7 +282,7 @@ import { useTicketStatusStore } from "@/stores/ticketStatus";
 import { capture } from "@/telemetry";
 import { __ } from "@/translation";
 import { View, ViewType } from "@/types";
-import { getIcon } from "@/utils";
+import { getErrorMessage, getIcon } from "@/utils";
 import { useStorage } from "@vueuse/core";
 import {
   Avatar,
@@ -436,39 +436,51 @@ function handleBulkDelete(hide: Function, selections: Set<string>) {
   // Use frappeRequest (not `call`) so per-item delete errors surfaced in
   // `_server_messages` get routed through the app's serverMessagesHandler.
   // `call` silently drops them on 200 responses.
+  let refused = false;
   frappeRequest({
     url: "frappe.desk.reportview.delete_items",
     params: {
       items: JSON.stringify(requested),
       doctype: props.options.doctype,
     },
-  }).finally(() => {
-    $socket.off("msgprint", onBulkResult);
-
-    const deletedCount = requestedCount - failedCount;
-
-    if (failureMessages.length > 0 && deletedCount > 0) {
-      // Partial success: some deleted, some failed — show both toasts
-      toast.success(__("{0} item(s) deleted successfully", [deletedCount]));
-      for (const msg of failureMessages) {
-        toast.error(msg);
+  })
+    // a refused request (e.g. PermissionError) deletes nothing, so it must not toast success
+    .catch((error) => {
+      refused = true;
+      getErrorMessage(error, true);
+    })
+    .finally(() => {
+      $socket.off("msgprint", onBulkResult);
+      if (refused) {
+        hide();
+        reset();
+        return;
       }
-    } else if (failureMessages.length > 0) {
-      // All failed
-      for (const msg of failureMessages) {
-        toast.error(msg);
-      }
-    } else if (successMessage) {
-      // All succeeded
-      toast.success(successMessage);
-    } else {
-      // Fallback: no socket messages received (e.g. enqueued for >10 items)
-      toast.success(__("{0} item(s) queued for deletion", [requestedCount]));
-    }
 
-    hide();
-    reset();
-  });
+      const deletedCount = requestedCount - failedCount;
+
+      if (failureMessages.length > 0 && deletedCount > 0) {
+        // Partial success: some deleted, some failed — show both toasts
+        toast.success(__("{0} item(s) deleted successfully", [deletedCount]));
+        for (const msg of failureMessages) {
+          toast.error(msg);
+        }
+      } else if (failureMessages.length > 0) {
+        // All failed
+        for (const msg of failureMessages) {
+          toast.error(msg);
+        }
+      } else if (successMessage) {
+        // All succeeded
+        toast.success(successMessage);
+      } else {
+        // Fallback: no socket messages received (e.g. enqueued for >10 items)
+        toast.success(__("{0} item(s) queued for deletion", [requestedCount]));
+      }
+
+      hide();
+      reset();
+    });
 }
 
 function reset() {
