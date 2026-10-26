@@ -164,6 +164,8 @@ class TestDemo(IntegrationTestCase):
         self.assertCustomersRaisedTheirTickets()
         self.assertNorthpeakIsDueIn30Minutes()
         self.assertImagesAreSiteFiles()
+        personal = frappe.db.get_value("HD Saved Reply", {"scope": "Personal"}, "owner")
+        self.assertEqual(personal, "jamie@fernbill.example")
         jamie = frappe.get_all(
             "ToDo",
             filters={

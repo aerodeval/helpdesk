@@ -174,8 +174,8 @@ class Replay:
     def create(self, doc):
         if doc.doctype == "HD Ticket":
             return self.create_ticket(doc)
-        # an article's author is whoever inserts it
-        with acting_as(doc.author if doc.doctype == "HD Article" else None):
+        # an article's author, or a fixture owner, is whoever inserts it
+        with acting_as(doc.author if doc.doctype == "HD Article" else doc.owner):
             doc.insert(ignore_permissions=True)
 
     def create_ticket(self, ticket):

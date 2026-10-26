@@ -265,6 +265,10 @@ def main():
             all(t["team"] in teams for t in r["teams"]),
             f"saved reply {r['title']}: unknown team",
         )
+        check(
+            (r["scope"] == "Personal") == (r.get("owner") in agent_users),
+            f"saved reply {r['title']}: a Personal reply needs an agent owner",
+        )
 
     # tickets
     tickets = data["tickets"]

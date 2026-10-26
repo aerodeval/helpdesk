@@ -1,7 +1,9 @@
 // Saved replies. Header: title | scope (Global, Team, Personal) | team | team ...
+// A Personal reply names its agent instead: title | Personal | agent
 // "Download invoices" is a Scene: the tour inserts it on "How do I download past invoices?".
+// It is Jamie's own, so the picker opens on a Personal filter that has it.
 
-== Download invoices | Global
+== Download invoices | Personal | jamie
 Hi,
 
 You can download past invoices in bulk from the Invoices list:

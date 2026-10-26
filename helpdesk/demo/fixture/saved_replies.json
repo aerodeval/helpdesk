@@ -2,7 +2,8 @@
 	{
 		"doctype": "HD Saved Reply",
 		"title": "Download invoices",
-		"scope": "Global",
+		"scope": "Personal",
+		"owner": "jamie@fernbill.example",
 		"teams": [],
 		"message": "<p>Hi,</p><p>You can download past invoices in bulk from the Invoices list:</p><ol><li>Go to Invoices and set the date filter to the period you need, for example last year.</li><li>Tick the checkbox at the top of the list to select every invoice in that period.</li><li>Click Actions &gt; Download PDFs.</li></ol><p>Fernbill puts the PDFs in a single zip file. For a large number of invoices it's prepared in the background, and we email you a download link when it's ready. If you'd rather have a spreadsheet, choose Actions &gt; Export CSV instead.</p><p>Let me know if anything doesn't look right.</p>"
 	},

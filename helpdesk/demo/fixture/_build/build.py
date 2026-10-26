@@ -17,7 +17,7 @@ from pathlib import Path
 
 BUILD = Path(__file__).parent
 FIXTURE = BUILD.parent
-SEED_VERSION = "fernbill-1"
+SEED_VERSION = "fernbill-2"
 RECENT_DONE = 28  # resolved tickets opened after the v3 release (T-7d), besides v3 ones
 PHOTO_URL = "/assets/helpdesk/demo/{}.svg"
 
@@ -615,15 +615,13 @@ def build_saved_replies():
     replies = []
     for item in parse_sections("saved_replies.txt"):
         title, scope, *teams = item["meta"]
-        replies.append(
-            {
-                "doctype": "HD Saved Reply",
-                "title": title,
-                "scope": scope,
-                "teams": [{"team": t} for t in teams if t],
-                "message": html_blocks("\n".join(item["lines"])),
-            }
-        )
+        reply = {"doctype": "HD Saved Reply", "title": title, "scope": scope}
+        # a Personal reply names its agent where a Team reply names its teams
+        if scope == "Personal":
+            reply["owner"], teams = agent_email(teams[0]), []
+        reply["teams"] = [{"team": t} for t in teams if t]
+        reply["message"] = html_blocks("\n".join(item["lines"]))
+        replies.append(reply)
     return replies
 
 
