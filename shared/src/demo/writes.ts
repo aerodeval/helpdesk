@@ -70,6 +70,7 @@ async function reply(ticket: string, args: Doc): Promise<Body> {
   if (doc.agreement_status === "First Response Due") fields.agreement_status = "Resolution Due";
   const email = emailOf(doc, args.message, args.attachments, "Sent");
   await overlay.record("email", { name: ticket, fields, email: { ...email, to: args.to, cc: args.cc, bcc: args.bcc } });
+  ticketUpdated(ticket);
   return { message: email.name, docs: [await overlay.doc(TICKET, ticket)] };
 }
 
@@ -77,7 +78,13 @@ async function customerReply(ticket: string, args: Doc): Promise<Body> {
   const doc = await overlay.doc(TICKET, ticket);
   const fields = { status: demoBoot()!.settings.ticket_reopen_status || "Open", last_customer_response: new Date().toISOString() };
   await overlay.record("email", { name: ticket, fields, email: emailOf(doc, args.message, args.attachments, "Received") });
+  ticketUpdated(ticket);
   return { message: null, docs: [await overlay.doc(TICKET, ticket)] };
+}
+
+// A message moves status and SLA server-side; the ticket page reloads on the server's event
+function ticketUpdated(ticket: string) {
+  emitLocal("helpdesk:ticket-update", { ticket_id: ticket });
 }
 
 async function comment(ticket: string, content: string, attachments: string[] = []) {
