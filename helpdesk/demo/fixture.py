@@ -2,6 +2,7 @@
 
     fixture/meta.json   {"seed_version": "1", "personas": {"agent": <email>, "customer": <email>}}
     fixture/<entity>.json   a list of Frappe documents, each with its "doctype"
+    fixture/settings.json   HD Settings values, saved before any insert
 
 Entities are inserted in ENTITIES order; a missing file is skipped. Any Date or Datetime
 field, and `creation`, may be an offset from the anchor T: "T", "T-3d4h", "T+30m".
@@ -32,6 +33,12 @@ class Fixture:
     @property
     def personas(self) -> dict:
         return self.meta.get("personas", {})
+
+    @property
+    def settings(self) -> dict:
+        if not (self.path / "settings.json").exists():
+            return {}
+        return {k: v for k, v in self.read("settings").items() if k != "doctype"}
 
     def records(self) -> list[dict]:
         return [

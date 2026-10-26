@@ -16,7 +16,7 @@ The replay in `helpdesk/demo/replay.py` loads this folder. `helpdesk/demo/fixtur
 | `kb.json` | 6 `HD Article Category`, then 25 `HD Article` |
 | `saved_replies.json` | 8 `HD Saved Reply` |
 | `tickets.json` | 200 `HD Ticket`, oldest first, each with its `thread` |
-| `settings.json` | `HD Settings` values: the Fernbill name and logo. The replay does not load this file yet. |
+| `settings.json` | `HD Settings` values: the Fernbill name, logo and ticket defaults. The replay saves them before it inserts anything. |
 | `_build/` | The hand-written sources, the build script and the validator |
 
 Each entity file is a list of Frappe documents. Each document has its `doctype`. The replay inserts them in this order: sla, agents, customers, contacts, kb, saved_replies, tickets. Inside a file, documents are inserted in the order they appear, so a `User` comes before the `HD Agent` that links to it.
