@@ -153,6 +153,7 @@ class TestDemo(IntegrationTestCase):
             ("HD Customer", 40),
         ):
             self.assertEqual(frappe.db.count(doctype), count, doctype)
+        self.assertEqual(get_boot()["max_ticket"], 200)
         self.assertEqual(
             frappe.db.get_single_value("HD Settings", "brand_name"), "Fernbill"
         )

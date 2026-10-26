@@ -38,6 +38,8 @@ TICKET_ROWS = {
     "ToDo": {"reference_type": "HD Ticket"},
     "Tag Link": {"document_type": "HD Ticket"},
 }
+# HD Ticket names come from the `.####` autoname, whose series key is empty
+TICKET_SERIES = ""
 PINNED_TARGETS = ("response_by", "resolution_by")
 # Fixture images live in the app's public/demo; they are published as site files
 IMAGE_FIELDS = ("user_image", "brand_logo", "favicon")
@@ -119,6 +121,11 @@ class Replay:
             delete_rows(doctype)
         for doctype, filters in TICKET_ROWS.items():
             delete_rows(doctype, filters)
+        # numbers restart at 1, or each replay would carry on from the last one
+        series = frappe.qb.DocType("Series")
+        frappe.qb.update(series).set(series.current, 0).where(
+            series.name == TICKET_SERIES
+        ).run()
         seeded = list(doctypes | set(TICKET_ROWS))
         delete_rows("Version", {"ref_doctype": ["in", seeded]})
         delete_rows("Comment", {"reference_doctype": ["in", seeded]})
