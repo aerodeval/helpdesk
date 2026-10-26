@@ -94,8 +94,8 @@ const APPLY: Record<ActionType, (p: Projection, a: Action) => void> = {
     if (email) addEmail(p, doc.name, at, email);
   },
   set(p, { id, at, payload }) {
-    const { doctype, name, fields, from, by } = payload;
-    patch(p, doctype, name, { ...fields, modified: at });
+    const { doctype, name, fields, derived, from, by } = payload;
+    patch(p, doctype, name, { ...fields, ...derived, modified: at });
     if (doctype !== "HD Ticket") return;
     Object.entries(fields).forEach(([fieldname, to], i) => {
       const label = LABELS[fieldname] ?? fieldname;

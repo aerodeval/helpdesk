@@ -24,6 +24,15 @@ export const agents = once(async () => {
   return Object.fromEntries(rows.map((agent: Doc) => [agent.name, agent])) as Record<string, Doc>;
 });
 
+export const statusCategories = once(async () => {
+  const rows = await callServer("frappe.client.get_list", {
+    doctype: "HD Ticket Status",
+    fields: ["name", "category"],
+    limit_page_length: 0,
+  }).catch(() => []);
+  return Object.fromEntries(rows.map((status: Doc) => [status.name, status.category])) as Record<string, string>;
+});
+
 // A Frappe param that may arrive as a JSON string (GET, `call()` with stringified args).
 export function jsonParam(value: unknown): any {
   if (typeof value !== "string" || !/^[[{"]/.test(value)) return value;

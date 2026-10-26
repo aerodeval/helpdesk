@@ -3,7 +3,7 @@
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
 import { siteTime, slaTargets } from "./replay";
-import { agents, callServer, jsonParam } from "./server";
+import { agents, callServer, jsonParam, statusCategories } from "./server";
 import { demoBoot, emitLocal, randomName, sessionUser, siteTimezone } from "./session";
 
 export const BLOCKED = Symbol("blocked");
@@ -129,9 +129,24 @@ async function setValue({ doctype, name, fieldname, value }: Doc): Promise<Body>
   return { message: await overlay.doc(doctype, String(name)) };
 }
 
-function setFields(doctype: string, doc: Doc, fields: Doc) {
+async function setFields(doctype: string, doc: Doc, fields: Doc) {
   const from = Object.fromEntries(Object.keys(fields).map((field) => [field, doc[field]]));
-  return overlay.record("set", { doctype, name: String(doc.name), fields, from, by: sessionUser() });
+  const derived = doctype === TICKET && fields.status ? await statusFields(doc, fields.status) : {};
+  return overlay.record("set", { doctype, name: String(doc.name), fields, derived, from, by: sessionUser() });
+}
+
+// What the server stamps on save when the status category changes (HDTicket.set_resolution_date,
+// the SLA's agreement status). Kept out of `fields`, which become the activity's change rows.
+async function statusFields(doc: Doc, status: string): Promise<Doc> {
+  const category = (await statusCategories())[status];
+  if (!category || category === doc.status_category) return {};
+  if (category !== "Resolved") return { status_category: category, resolution_date: null };
+  const now = new Date();
+  const derived: Doc = { status_category: category, resolution_date: now.toISOString() };
+  if (doc.agreement_status === "Resolution Due") {
+    derived.agreement_status = doc.resolution_by && new Date(doc.resolution_by) < now ? "Failed" : "Fulfilled";
+  }
+  return derived;
 }
 
 async function bulkUpdate({ doctype, docnames, action, data, task_id }: Doc): Promise<Body> {
