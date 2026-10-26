@@ -10,8 +10,8 @@ import { realFetch } from "./server";
 import { demoBoot, isDemo, randomName } from "./session";
 import { BLOCKED, writes } from "./writes";
 
-export { dockActions } from "./dock";
-export { isDemo } from "./session";
+export { CHECKLIST, dockActions, loginUrl } from "./dock";
+export { demoBoot, isDemo } from "./session";
 export { restartDemo, showRefreshNotice } from "./overlay";
 
 // Every Blocked Action ends here, as a 403 body. The caller's own error handling toasts its

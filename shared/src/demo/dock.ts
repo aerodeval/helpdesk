@@ -5,6 +5,9 @@ import type { Persona } from "./session";
 export const TRIAL_URL = "https://cloud.frappe.io/dashboard/signup?product=helpdesk";
 export const SALES_URL = "https://frappe.io/contact-us?product=Frappe%20Helpdesk";
 
+// The Try-it Checklist's frappe Onboarding app name; "Things to try" opens it
+export const CHECKLIST = "helpdesk_demo";
+
 // The dock lists "Resume tour" and "Things to try" only once these are set
 export const dockActions = shallowReactive<{ resumeTour?: () => void; showChecklist?: () => void }>({});
 
