@@ -223,13 +223,13 @@ export function newTicketName(): string | undefined {
   return overlay.log.findLast((a) => a.type === "insert" && a.payload.doctype === "HD Ticket")?.payload.doc.name;
 }
 
-export function findAnchor(name: string) {
+function findAnchor(name: string) {
   const element = document.querySelector(`[data-tour="${name}"]`);
   return element && element.getClientRects().length ? element : null;
 }
 
 // Resolves with what `find` returns once it returns something, or null after `timeout`.
-export function waitForElement(find: () => Element | null, timeout: number): Promise<Element | null> {
+function waitForElement(find: () => Element | null, timeout: number): Promise<Element | null> {
   return new Promise((resolve) => {
     const done = (element: Element | null) => {
       observer.disconnect();
