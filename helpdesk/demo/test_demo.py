@@ -10,6 +10,7 @@ import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_to_date, get_datetime, getdate, now_datetime
 
+from helpdesk.api.knowledge_base import get_general_category
 from helpdesk.demo import get_state
 from helpdesk.demo.date_shift import DateShift, shift_dates
 from helpdesk.demo.fixture import FIXTURE_DIR
@@ -154,6 +155,7 @@ class TestDemo(IntegrationTestCase):
         ):
             self.assertEqual(frappe.db.count(doctype), count, doctype)
         self.assertEqual(get_boot()["max_ticket"], 200)
+        self.assertTrue(get_general_category())
         self.assertEqual(
             frappe.db.get_single_value("HD Settings", "brand_name"), "Fernbill"
         )

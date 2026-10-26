@@ -17,6 +17,7 @@ from frappe.cache_manager import clear_doctype_map
 from frappe.core.doctype.file.utils import get_content_hash
 from frappe.utils import get_time, getdate, now_datetime
 
+from helpdesk.consts import DEFAULT_ARTICLE_CATEGORY
 from helpdesk.demo import (
     TIMED_DOCTYPES,
     assert_seedable,
@@ -101,6 +102,7 @@ class Replay:
         with self.seeding():
             # before the inserts: status and SLA defaults shape how tickets are handled
             self.apply_settings()
+            self.add_general_category()
             tickets = [r for r in self.records if r["doctype"] == "HD Ticket"]
             for record in self.records:
                 if record["doctype"] != "HD Ticket":
@@ -250,6 +252,15 @@ class Replay:
         settings.update(publish_images(self.fixture.settings))
         settings.update({"setup_complete": 1, "persona_captured": 1})
         settings.save(ignore_permissions=True)
+
+    def add_general_category(self):
+        """A fixture's categories replace the site's, but the desk files a new article
+        under General."""
+        category = {"category_name": DEFAULT_ARTICLE_CATEGORY}
+        if not frappe.db.exists("HD Article Category", category):
+            frappe.get_doc({"doctype": "HD Article Category", **category}).insert(
+                ignore_permissions=True
+            )
 
     def save_state(self):
         max_ticket = frappe.db.sql(
