@@ -8,9 +8,16 @@ from frappe.utils import add_to_date, get_datetime, getdate, now_datetime
 
 from helpdesk.demo import get_state, set_state
 from helpdesk.demo.date_shift import DateShift, shift_dates
-from helpdesk.demo.persona import get_boot, login_as_persona
+from helpdesk.demo.persona import SETTINGS_FIELDS, get_boot, login_as_persona
 from helpdesk.demo.replay import reseed
-from helpdesk.test_utils import enable_demo, make_demo_fixture, make_ticket
+from helpdesk.test_utils import (
+    create_customer,
+    enable_demo,
+    make_demo_fixture,
+    make_sla,
+    make_ticket,
+    unique_name,
+)
 
 T = "2026-10-26 09:00:00"
 
@@ -90,6 +97,24 @@ class TestDemo(IntegrationTestCase):
         user.new_password = "a-new-password-123"
         with self.assertRaises(frappe.PermissionError):
             user.save(ignore_permissions=True)
+
+    def test_boot_carries_the_sla_and_settings_a_customer_cannot_read(self):
+        enable_demo(self)
+        customer = create_customer(unique_name("Greenleaf")).name
+        sla = make_sla(
+            unique_name("Growth"),
+            f"doc.customer == {customer!r}",
+            rank=1,
+            priorities=["Urgent"],
+        )
+        boot = get_boot()
+        self.assertEqual(boot["customer_slas"][customer], sla.name)
+        self.assertNotEqual(boot["customer_slas"][""], sla.name)
+        self.assertEqual(
+            boot["slas"][sla.name],
+            [{"priority": "Urgent", "response_time": 3600, "resolution_time": 14400}],
+        )
+        self.assertEqual(set(boot["settings"]), set(SETTINGS_FIELDS))
 
     def test_login_as_persona_redirects(self):
         self.seed()

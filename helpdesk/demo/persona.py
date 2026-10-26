@@ -6,6 +6,16 @@ from frappe.rate_limiter import rate_limit
 from frappe.utils import cint
 
 from helpdesk.demo import get_state, is_enabled
+from helpdesk.helpdesk.doctype.hd_service_level_agreement.utils import get_sla
+
+# What the interceptor mirrors from HD Settings. Customers cannot read it, so it rides in the boot.
+SETTINGS_FIELDS = (
+    "auto_update_status",
+    "update_status_to",
+    "ticket_reopen_status",
+    "default_ticket_status",
+    "default_priority",
+)
 
 # Framework logs a signed-in session writes on its own, even when it only reads
 LOG_DOCTYPES = {
@@ -76,6 +86,34 @@ def get_boot() -> dict | None:
     return {
         "seed_version": get_state("seed_version"),
         "max_ticket": cint(get_state("max_ticket")),
+        "settings": frappe.get_cached_value(
+            "HD Settings", "HD Settings", SETTINGS_FIELDS, as_dict=True
+        ),
+        "slas": get_sla_priorities(),
+        "customer_slas": get_customer_slas(),
+    }
+
+
+def get_sla_priorities() -> dict[str, list[dict]]:
+    """Response and resolution seconds per SLA and priority: a new ticket's due dates."""
+    slas = {}
+    for row in frappe.get_all(
+        "HD Service Level Priority",
+        filters={"parenttype": "HD Service Level Agreement"},
+        fields=["parent", "priority", "response_time", "resolution_time"],
+    ):
+        slas.setdefault(row.pop("parent"), []).append(row)
+    return slas
+
+
+def get_customer_slas() -> dict[str, str | None]:
+    """The SLA a new ticket of each customer gets; "" for a ticket with no customer.
+    SLA conditions are Python, so each is run against an unsaved ticket."""
+    customers = ["", *frappe.get_all("HD Customer", pluck="name")]
+    return {
+        customer: (sla := get_sla(frappe.new_doc("HD Ticket", customer=customer)))
+        and sla.name
+        for customer in customers
     }
 
 
