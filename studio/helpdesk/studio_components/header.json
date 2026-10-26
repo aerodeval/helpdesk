@@ -164,6 +164,9 @@
         "script": "onPageAction()"
        }
       },
+      "attributes": {
+       "data-tour": "page-action"
+      },
       "componentId": "Button-page-action",
       "componentName": "Button",
       "componentProps": {
