@@ -128,7 +128,10 @@ function routeDone() {
 function setUpChecklist() {
   const onboarding = useOnboarding(CHECKLIST);
   if (!onboarding) return;
-  const resume = () => dockActions.resumeTour?.();
+  const resume = () => {
+    showHelpModal.value = false;
+    dockActions.resumeTour?.();
+  };
   const extraClicks: Record<string, () => void> = {
     x_rules: () => {
       setActiveSettingsTab("Assignment Rules");
@@ -152,7 +155,8 @@ function setUpChecklist() {
       completed: false,
       icon: extraIcons[id],
       onClick: () => {
-        minimize.value = true;
+        // closed, not minimized: ticking the step un-minimizes the panel
+        showHelpModal.value = false;
         extraClicks[id]();
       },
     })),
@@ -184,6 +188,8 @@ const ARTICLE = {
 // The same calls the reply, comment and assign controls make, so the fakes record them as a visitor's.
 async function reply(ticket: string, message: string) {
   await call("run_doc_method", { dt: "HD Ticket", dn: ticket, method: "reply_via_agent", args: { message } });
+  // the phone ticket page has no socket refresh, so reload as the reply box does
+  reloadTicket(ticket);
   reloadTicketFeed(ticket);
 }
 
