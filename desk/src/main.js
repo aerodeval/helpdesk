@@ -1,3 +1,5 @@
+// first, so no request in the import graph slips past the demo interceptor
+import "@helpdesk/shared/demo";
 import { createApp, h } from "vue";
 import {
   Badge,

@@ -28,12 +28,14 @@
 		"./ExportModal.vue": "./src/ExportModal.vue",
 		"./ArticleIcon.vue": "./src/ArticleIcon.vue",
 		"./OrganizationsIcon.vue": "./src/OrganizationsIcon.vue",
+		"./demo": "./src/demo/index.ts",
 		"./settings/*": "./src/settings/*"
 	},
 	"peerDependencies": {
 		"@tiptap/core": "*",
 		"@vueuse/core": "*",
 		"frappe-ui": "*",
+		"idb-keyval": "*",
 		"vuedraggable": "*",
 		"vue": "*"
 	}

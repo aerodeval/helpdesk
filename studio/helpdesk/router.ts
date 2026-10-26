@@ -1,3 +1,6 @@
+// Studio imports this before it mounts anything, so the demo interceptor wraps every page's requests
+import '@helpdesk/shared/demo'
+
 // The settings dialog opens over any page at `<page>/settings/<screen>`.
 export function settingsPath(pagePath: string, screens: string[]) {
   return [pagePath.replace(/\/$/, ''), 'settings', ...screens.map(encodeURIComponent)].join('/')

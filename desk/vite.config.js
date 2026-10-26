@@ -144,8 +144,9 @@ export default defineConfig(async ({ mode }) => {
         "prosemirror-history",
         "prosemirror-gapcursor",
         "prosemirror-tables",
-        // shared/ imports it from outside desk/
+        // shared/ imports these from outside desk/
         "vuedraggable",
+        "idb-keyval",
       ],
     },
     optimizeDeps: {
