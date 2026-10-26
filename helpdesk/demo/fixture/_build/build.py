@@ -274,6 +274,8 @@ def build_contacts(orgs):
                     "last_name": c["last"],
                     "user_type": "Website User",
                     "send_welcome_email": 0,
+                    # portal sign-up grants it; an insert does not
+                    "roles": [{"role": "HD Customer"}],
                 }
             )
     return contacts + users

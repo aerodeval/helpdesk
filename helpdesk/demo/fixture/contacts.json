@@ -1335,7 +1335,12 @@
 		"first_name": "Daniel",
 		"last_name": "Brooks",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1343,7 +1348,12 @@
 		"first_name": "Marta",
 		"last_name": "Kowalski",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1351,7 +1361,12 @@
 		"first_name": "Liam",
 		"last_name": "Chen",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1359,7 +1374,12 @@
 		"first_name": "Rosa",
 		"last_name": "Delgado",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1367,7 +1387,12 @@
 		"first_name": "Helen",
 		"last_name": "Park",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1375,7 +1400,12 @@
 		"first_name": "Marcus",
 		"last_name": "Bell",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1383,7 +1413,12 @@
 		"first_name": "Grace",
 		"last_name": "Achterberg",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1391,7 +1426,12 @@
 		"first_name": "Elena",
 		"last_name": "Varga",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1399,7 +1439,12 @@
 		"first_name": "Owen",
 		"last_name": "Fitzgerald",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1407,7 +1452,12 @@
 		"first_name": "Nadia",
 		"last_name": "Rahman",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1415,7 +1465,12 @@
 		"first_name": "Charlotte",
 		"last_name": "Hughes",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1423,7 +1478,12 @@
 		"first_name": "Ravi",
 		"last_name": "Menon",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1431,7 +1491,12 @@
 		"first_name": "Tom",
 		"last_name": "Whitaker",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1439,7 +1504,12 @@
 		"first_name": "Isla",
 		"last_name": "Robertson",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1447,7 +1517,12 @@
 		"first_name": "Ben",
 		"last_name": "Nguyen",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1455,7 +1530,12 @@
 		"first_name": "Chloe",
 		"last_name": "Martin",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1463,7 +1543,12 @@
 		"first_name": "Priya",
 		"last_name": "Nair",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1471,7 +1556,12 @@
 		"first_name": "Leo",
 		"last_name": "Fischer",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1479,7 +1569,12 @@
 		"first_name": "Darnell",
 		"last_name": "Hayes",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1487,7 +1582,12 @@
 		"first_name": "Sue",
 		"last_name": "Anderson",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1495,7 +1595,12 @@
 		"first_name": "Aoife",
 		"last_name": "Brennan",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1503,7 +1608,12 @@
 		"first_name": "Conor",
 		"last_name": "Walsh",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1511,7 +1621,12 @@
 		"first_name": "Maya",
 		"last_name": "Goldberg",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1519,7 +1634,12 @@
 		"first_name": "Arjun",
 		"last_name": "Patel",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1527,7 +1647,12 @@
 		"first_name": "Linda",
 		"last_name": "Carver",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1535,7 +1660,12 @@
 		"first_name": "James",
 		"last_name": "Whitfield",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1543,7 +1673,12 @@
 		"first_name": "Hannah",
 		"last_name": "Moreau",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1551,7 +1686,12 @@
 		"first_name": "Eli",
 		"last_name": "Ross",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1559,7 +1699,12 @@
 		"first_name": "Victoria",
 		"last_name": "Ames",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1567,7 +1712,12 @@
 		"first_name": "Samuel",
 		"last_name": "Osei",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1575,7 +1725,12 @@
 		"first_name": "Jake",
 		"last_name": "Morrison",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1583,7 +1738,12 @@
 		"first_name": "Fatima",
 		"last_name": "Zahra",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1591,7 +1751,12 @@
 		"first_name": "Noah",
 		"last_name": "Kim",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1599,7 +1764,12 @@
 		"first_name": "Leah",
 		"last_name": "Silverstein",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1607,7 +1777,12 @@
 		"first_name": "Ana",
 		"last_name": "Sousa",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1615,7 +1790,12 @@
 		"first_name": "Kelly",
 		"last_name": "Tran",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1623,7 +1803,12 @@
 		"first_name": "Olivia",
 		"last_name": "Grant",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1631,7 +1816,12 @@
 		"first_name": "Harry",
 		"last_name": "Duncan",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1639,7 +1829,12 @@
 		"first_name": "Greg",
 		"last_name": "Polanski",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1647,7 +1842,12 @@
 		"first_name": "Monique",
 		"last_name": "Dubois",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1655,7 +1855,12 @@
 		"first_name": "Karen",
 		"last_name": "Liu",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1663,7 +1868,12 @@
 		"first_name": "Paul",
 		"last_name": "Adler",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1671,7 +1881,12 @@
 		"first_name": "Ines",
 		"last_name": "Carvalho",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1679,7 +1894,12 @@
 		"first_name": "Ethan",
 		"last_name": "Wright",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1687,7 +1907,12 @@
 		"first_name": "Andre",
 		"last_name": "Jackson",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1695,7 +1920,12 @@
 		"first_name": "Mei",
 		"last_name": "Lin",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1703,7 +1933,12 @@
 		"first_name": "Giulia",
 		"last_name": "Bianchi",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1711,7 +1946,12 @@
 		"first_name": "Mike",
 		"last_name": "Sullivan",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1719,7 +1959,12 @@
 		"first_name": "Anjali",
 		"last_name": "Rao",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1727,7 +1972,12 @@
 		"first_name": "Tunde",
 		"last_name": "Adeyemi",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1735,7 +1985,12 @@
 		"first_name": "Freya",
 		"last_name": "Holm",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1743,7 +1998,12 @@
 		"first_name": "Mateo",
 		"last_name": "Ruiz",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1751,7 +2011,12 @@
 		"first_name": "Claire",
 		"last_name": "Laurent",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1759,7 +2024,12 @@
 		"first_name": "Sam",
 		"last_name": "Whitmore",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1767,7 +2037,12 @@
 		"first_name": "Yolanda",
 		"last_name": "Price",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1775,7 +2050,12 @@
 		"first_name": "Luis",
 		"last_name": "Ortega",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1783,7 +2063,12 @@
 		"first_name": "Erik",
 		"last_name": "Lund",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1791,7 +2076,12 @@
 		"first_name": "Deborah",
 		"last_name": "Klein",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1799,7 +2089,12 @@
 		"first_name": "Lily",
 		"last_name": "Huang",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1807,7 +2102,12 @@
 		"first_name": "Rachel",
 		"last_name": "Stein",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1815,7 +2115,12 @@
 		"first_name": "Omar",
 		"last_name": "Haddad",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1823,7 +2128,12 @@
 		"first_name": "Jesse",
 		"last_name": "Alvarez",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1831,7 +2141,12 @@
 		"first_name": "Callum",
 		"last_name": "Reid",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1839,7 +2154,12 @@
 		"first_name": "Nina",
 		"last_name": "Petrova",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1847,7 +2167,12 @@
 		"first_name": "Beatriz",
 		"last_name": "Santos",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1855,7 +2180,12 @@
 		"first_name": "Dwayne",
 		"last_name": "Carter",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1863,7 +2193,12 @@
 		"first_name": "Hazel",
 		"last_name": "Morgan",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1871,7 +2206,12 @@
 		"first_name": "Kai",
 		"last_name": "Nakamura",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1879,7 +2219,12 @@
 		"first_name": "Ruth",
 		"last_name": "Feldman",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	},
 	{
 		"doctype": "User",
@@ -1887,6 +2232,11 @@
 		"first_name": "Joy",
 		"last_name": "Mbeki",
 		"user_type": "Website User",
-		"send_welcome_email": 0
+		"send_welcome_email": 0,
+		"roles": [
+			{
+				"role": "HD Customer"
+			}
+		]
 	}
 ]
