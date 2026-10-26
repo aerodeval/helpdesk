@@ -1,0 +1,276 @@
+[
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Getting started"
+	},
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Invoicing"
+	},
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Payments"
+	},
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Integrations"
+	},
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Plans & billing"
+	},
+	{
+		"doctype": "HD Article Category",
+		"category_name": "Account & security"
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Set up your Fernbill account in 10 minutes",
+		"category": "Getting started",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-210d",
+		"content": "<p>A few settings make your first invoice look right and get you paid faster. You can change all of them later.</p><ol><li>Add your business details under Settings &gt; Business: legal name, address and tax ID. They print on every invoice.</li><li>Upload your logo under Settings &gt; Branding. A PNG with a transparent background looks best.</li><li>Choose your invoice numbering under Settings &gt; Invoices &gt; Numbering, for example a prefix like \"INV-\".</li><li>Turn on online payments under Settings &gt; Payments so clients can pay by card or bank transfer from the invoice.</li><li>Set your default payment terms, such as Net 15 or Net 30, under Settings &gt; Invoices.</li></ol><p>When that's done, add your first client and send yourself a test invoice to see what your clients will see.</p>",
+		"views": 444
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Send your first invoice",
+		"category": "Getting started",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-210d",
+		"content": "<ol><li>Go to Invoices and click New invoice.</li><li>Choose a client, or create one by typing a new name.</li><li>Add line items. Pick a saved item or type a description, quantity and price.</li><li>Check the due date and any notes at the bottom.</li><li>Click Send. The client gets an email with a link to view and pay the invoice.</li></ol><p>You can also click Share to copy the link and send it yourself, for example by text message.</p><h3>What the client sees</h3><p>The invoice opens in their browser, with a Pay button if online payments are on. They don't need an account. They can download a PDF from the same page.</p>",
+		"views": 586
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Import your clients and items",
+		"category": "Getting started",
+		"author": "yuki@fernbill.example",
+		"status": "Published",
+		"published_on": "T-205d",
+		"content": "<p>If you're moving from a spreadsheet or another tool, you can import clients and items instead of typing them in.</p><ol><li>Go to Clients &gt; Import (or Items &gt; Import).</li><li>Download the template and paste your data into it.</li><li>Upload the file. Fernbill shows a preview and lets you match your columns to Fernbill fields.</li><li>Check the preview and click Import.</li></ol><p>Duplicates are flagged by email address for clients and by name for items. Rows with errors, such as a malformed email, are listed so you can fix them and import them again.</p>",
+		"views": 365
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Invite your team",
+		"category": "Getting started",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-200d",
+		"content": "<p>Go to Settings &gt; Team and click Invite. Enter their email and choose a role:</p><ul><li>Owner: everything, including closing the account. There is one owner.</li><li>Admin: everything except changing the owner.</li><li>Billing Manager: invoices, payments and the Fernbill subscription, but not users or data exports.</li><li>Member: create and send invoices, record payments.</li><li>Field staff: create and send their own invoices only.</li></ul><p>On Growth and Enterprise, each user is a seat. Removing a user lowers your seat count from the next billing period.</p>",
+		"views": 391
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Recurring invoices",
+		"category": "Invoicing",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-190d",
+		"content": "<p>Use a recurring invoice for anything you bill on a schedule, like a retainer, rent or a membership.</p><ol><li>Create the invoice as usual.</li><li>Click Make recurring and choose how often: weekly, monthly, quarterly or yearly.</li><li>Choose the start date and, if you want, an end date or a number of invoices.</li><li>Optionally turn on Auto-charge. The client confirms their card once, and each invoice is charged on its date.</li></ol><p>To skip one period, open the schedule and click Skip next invoice. Changes to the schedule apply to future invoices, not ones already sent.</p>",
+		"views": 124
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Estimates and converting them to invoices",
+		"category": "Invoicing",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-185d",
+		"content": "<p>Send an estimate when the client should approve the price before you start work.</p><p>Create one under Estimates and click Send. The client can approve or decline it online, and you get a notification either way. Once approved, click Convert to invoice. Clients, lines, discounts and notes carry over.</p><p>You can ask for a deposit when the client approves. The deposit is paid from the estimate, and the invoice shows it as already paid.</p>",
+		"views": 908
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Taxes on invoices",
+		"category": "Invoicing",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-180d",
+		"content": "<p>Set up your tax rates under Settings &gt; Taxes. Each rate has a name, such as \"Sales tax\" or \"GST\", and a percentage.</p><p>You can set a default rate for the account, a rate per item, and a rate per client. The most specific one wins: an item's rate beats the client's, and the client's beats the account default. Use \"Exempt\" for items or clients that aren't taxed.</p><h3>Rounding</h3><p>By default, Fernbill rounds tax on each line and adds the lines together. If your accountant rounds tax once on the invoice total, turn on Settings &gt; Taxes &gt; Rounding &gt; Round tax on invoice total. The setting applies to new invoices.</p>",
+		"views": 910
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Credit notes and partial refunds",
+		"category": "Invoicing",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-170d",
+		"content": "<p>A credit note reduces what a client owes without changing the original invoice, which keeps your records clean.</p><p>Open the invoice and click Create credit note. Choose the lines or enter an amount and a reason. You can apply the credit to the same invoice, to another open invoice, or keep it on the client's account for later.</p><p>If the client already paid by card or bank transfer and wants their money back instead, refund the payment from the invoice's Payments tab.</p>",
+		"views": 932
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Customize your invoice PDF",
+		"category": "Invoicing",
+		"author": "kwame@fernbill.example",
+		"status": "Published",
+		"published_on": "T-160d",
+		"content": "<p>Go to Settings &gt; PDF templates. Each template controls the layout, fonts, colors, logo position and which fields appear, such as item images, a payment QR code, or your bank details.</p><p>You can have more than one template. Set a default for the account, choose a template per client, or switch it on a single invoice from the Design tab in the editor.</p><p>Templates also set the date format and the language of labels such as \"Due date\" and \"Total\". Your item descriptions stay as you wrote them.</p>",
+		"views": 123
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Statements of account",
+		"category": "Invoicing",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-150d",
+		"content": "<p>A statement lists a client's invoices, payments and credits over a period, with a running balance.</p><p>Open the client and click Statement, then choose the dates. You can download the PDF or email it to the client. To send statements to many clients at once, select them in the Clients list and choose Send statements.</p><p>Choose \"Payments only\" to list just what the client paid, which is useful at the end of the year.</p>",
+		"views": 313
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Accept card and bank payments",
+		"category": "Payments",
+		"author": "tomas@fernbill.example",
+		"status": "Published",
+		"published_on": "T-200d",
+		"content": "<p>Go to Settings &gt; Payments and click Turn on online payments. You'll be asked for your business and bank details so we can verify your account and send payouts.</p><p>Once verified, every invoice shows a Pay button. Clients can pay by card or, if you turn it on, by ACH bank transfer.</p><ul><li>Cards: 2.9% + 30¢ per payment.</li><li>ACH: 0.8%, capped at $5 per payment.</li></ul><p>You can choose which methods to offer on each invoice from Payment options in the editor.</p>",
+		"views": 908
+	},
+	{
+		"doctype": "HD Article",
+		"title": "When will I get paid? Payout timing",
+		"category": "Payments",
+		"author": "tomas@fernbill.example",
+		"status": "Published",
+		"published_on": "T-195d",
+		"content": "<p>Card payments are paid out 2 business days after the payment. ACH payments take 3 to 5 business days to clear, and are then paid out on the same 2-day schedule.</p><p>Your payout schedule and history are under Payments &gt; Payouts. Each payout lists the payments in it and any refunds or fees taken from it. Switch the report to Net view to see the amount that reaches your bank.</p><p>If you need money faster, turn on Instant payouts under Settings &gt; Payments &gt; Payouts. Instant payouts arrive in about 30 minutes for a 1% fee.</p>",
+		"views": 293
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Payment reminders and late fees",
+		"category": "Payments",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-175d",
+		"content": "<p>Reminders go out automatically for unpaid invoices. Set the schedule under Settings &gt; Reminders, for example 3 days before the due date, on the due date, and every 7 days after.</p><p>Late fees are set under Settings &gt; Reminders &gt; Late fees. Choose a flat amount or a percentage, and whether it applies once or repeats at a fixed interval. Late fees don't compound.</p><p>You can turn off reminders or late fees for one client from their profile, or for one invoice from its More menu.</p>",
+		"views": 403
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Disputes and chargebacks",
+		"category": "Payments",
+		"author": "tomas@fernbill.example",
+		"status": "Published",
+		"published_on": "T-165d",
+		"content": "<p>A dispute happens when a client asks their bank to reverse a card payment. You'll get an email, and the payment shows as Disputed.</p><p>Respond from Payments: open the payment and click Respond to dispute. You have 7 days. Strong evidence includes the signed agreement or approved estimate, proof of delivery, and messages where the client acknowledged the work.</p><p>The bank usually decides within 60 to 75 days. A $15 dispute fee is taken from your payouts and returned if you win.</p>",
+		"views": 661
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Payment plans and deposits",
+		"category": "Payments",
+		"author": "tomas@fernbill.example",
+		"status": "Published",
+		"published_on": "T-120d",
+		"content": "<p>To let a client pay a large invoice over time, open the invoice and click Set up payment plan. Choose the number of payments and the dates. The client confirms their card once, and each payment is charged on schedule. Payment plans work with cards only.</p><p>To take part of the payment up front, click Request deposit in the editor and set an amount or percentage. The client pays the deposit first, and the rest stays open with its own due date.</p><p>To let clients pay any amount they choose, turn on Allow partial payments under Settings &gt; Payments.</p>",
+		"views": 623
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Connect QuickBooks Online",
+		"category": "Integrations",
+		"author": "kwame@fernbill.example",
+		"status": "Published",
+		"published_on": "T-190d",
+		"content": "<p>Go to Settings &gt; Integrations &gt; QuickBooks and click Connect. Sign in with a QuickBooks admin account and choose the company.</p><p>Fernbill sends invoices, payments and clients to QuickBooks as they change. Before the first sync, use Map customers to link existing QuickBooks customers to Fernbill clients, so no duplicates are created.</p><p>Under Payments, choose which QuickBooks account payments are deposited to. QuickBooks Desktop isn't supported; use Reports &gt; Accounting export with the IIF format instead.</p>",
+		"views": 259
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Connect Xero",
+		"category": "Integrations",
+		"author": "yuki@fernbill.example",
+		"status": "Published",
+		"published_on": "T-185d",
+		"content": "<p>Go to Settings &gt; Integrations &gt; Xero and click Connect. Choose the Xero organisation and approve access.</p><p>Map your Fernbill tax rates to Xero tax rates on the Tax rates tab. If an invoice uses a tax rate that has no match, or one that's archived in Xero, it stays Pending and is retried for 48 hours.</p><p>On the Field mapping tab, you can send a Fernbill custom field to a Xero tracking category.</p>",
+		"views": 99
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Automate with Zapier",
+		"category": "Integrations",
+		"author": "kwame@fernbill.example",
+		"status": "Published",
+		"published_on": "T-140d",
+		"content": "<p>Zapier connects Fernbill to thousands of other apps without code. Fernbill triggers include New invoice, Invoice paid and New client. Actions include Create invoice, Find or create client and Record payment.</p><p>Common setups:<br>- Create a draft invoice when a deal is won in your CRM.<br>- Add a row to a Google Sheet when an invoice is paid.<br>- Create an invoice when a job is completed in your field service app.</p><p>Keep new invoices as drafts at first, so you can check them before they go to clients.</p>",
+		"views": 790
+	},
+	{
+		"doctype": "HD Article",
+		"title": "API and webhooks",
+		"category": "Integrations",
+		"author": "yuki@fernbill.example",
+		"status": "Published",
+		"published_on": "T-6d",
+		"content": "<p>The Fernbill API lets you create and read invoices, clients and payments. Create API keys under Settings &gt; Developers &gt; API keys, and choose Read only if a key only needs to read data.</p><p>Webhooks send an event to your server when something happens, such as payment.succeeded. Each event is signed with your endpoint's signing secret in the Fernbill-Signature header.</p><h3>Changes in v3</h3><ul><li>The API allows 600 requests per minute per account. Responses include RateLimit-Remaining and RateLimit-Reset.</li><li>New webhook endpoints use version 2025-10, where invoice.paid is replaced by payment.succeeded. Existing endpoints stay on their version until you upgrade them.</li><li>POST /v3/invoices/batch creates up to 100 invoices in one request.</li></ul>",
+		"views": 184
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Plans and pricing",
+		"category": "Plans & billing",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-200d",
+		"content": "<ul><li>Starter: $29 a month for one user. Extra users are $29 each.</li><li>Growth: $24 per user a month, with recurring invoices, custom PDF templates, time tracking and integrations.</li><li>Enterprise: priced per contract, with SSO, approvals, scheduled imports, a sandbox, and a named contact.</li></ul><p>Annual billing saves about 20% on Growth and two months a year on Starter. Change your plan under Settings &gt; Billing &gt; Change plan.</p>",
+		"views": 931
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Change, pause or cancel your plan",
+		"category": "Plans & billing",
+		"author": "tomas@fernbill.example",
+		"status": "Published",
+		"published_on": "T-190d",
+		"content": "<p>Upgrades take effect right away, and you pay the prorated difference. Downgrades take effect at the end of your current billing period.</p><p>You can pause your subscription for up to 3 months. During a pause you can still log in and look things up, but you can't send invoices.</p><p>To cancel, go to Settings &gt; Billing &gt; Cancel subscription and follow the steps to the end. Export your data first from Settings &gt; Data &gt; Export. After cancelling, the account stays readable for 90 days.</p>",
+		"views": 381
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Receipts and billing details",
+		"category": "Plans & billing",
+		"author": "ananya@fernbill.example",
+		"status": "Published",
+		"published_on": "T-160d",
+		"content": "<p>Receipts for your Fernbill subscription are under Settings &gt; Billing &gt; Payment history. Click a charge and choose Download receipt.</p><p>To show your tax ID, a PO number or a different company name on receipts and invoices, edit Settings &gt; Billing &gt; Billing details. Billing emails go to the billing contact on the same page, which can be different from your login email.</p><p>If you need past receipts reissued with new details, contact us with the months you need.</p>",
+		"views": 359
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Two-factor authentication",
+		"category": "Account & security",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-180d",
+		"content": "<p>Turn on two-factor authentication under your profile &gt; Security. You'll scan a QR code with an authenticator app and save a set of backup codes.</p><p>Admins can require it for everyone under Settings &gt; Security &gt; Require two-factor authentication. The Team page shows who has it turned on.</p><p>If you lose your phone, sign in with a backup code. If you don't have one, contact us from the email on your account and we'll confirm your identity before turning it off.</p>",
+		"views": 775
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Single sign-on with Okta, Azure AD or Google",
+		"category": "Account & security",
+		"author": "sofia@fernbill.example",
+		"status": "Published",
+		"published_on": "T-150d",
+		"content": "<p>SAML single sign-on is available on Enterprise. Google sign-in is available on all plans.</p><ol><li>In your identity provider, add Fernbill from the app catalog.</li><li>In Fernbill, go to Settings &gt; Security &gt; Single sign-on, choose your provider and paste the metadata URL.</li><li>Test with your own account.</li><li>Turn on Require SSO when it works. The account owner keeps a password as a fallback.</li></ol><p>The email your identity provider sends must match the user's email in Fernbill. If you use aliases, either send the primary email or turn on Just-in-time provisioning. Okta and Azure AD can also provision users through SCIM.</p>",
+		"views": 690
+	},
+	{
+		"doctype": "HD Article",
+		"title": "Export or delete your data",
+		"category": "Account & security",
+		"author": "jamie@fernbill.example",
+		"status": "Published",
+		"published_on": "T-140d",
+		"content": "<p>Admins can export everything under Settings &gt; Data &gt; Export: all invoices as PDFs, and clients, items, payments and expenses as spreadsheets. Large exports run in the background, and you get an email with a download link.</p><p>To delete your account and all its data, contact us from the account owner's email. Deletion is permanent. We keep only records we're required to keep by law, such as your subscription payments.</p>",
+		"views": 505
+	}
+]

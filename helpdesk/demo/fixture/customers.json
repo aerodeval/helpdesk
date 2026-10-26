@@ -1,0 +1,242 @@
+[
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Northpeak Logistics",
+		"domain": "northpeak-logistics.example",
+		"country": "Canada"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Brightwater Dental Group",
+		"domain": "brightwater-dental-group.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Castellan Hotels",
+		"domain": "castellan-hotels.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Ostara Learning",
+		"domain": "ostara-learning.example",
+		"country": "United Kingdom"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Kitewing Media",
+		"domain": "kitewing-media.example",
+		"country": "Australia"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Greenleaf Studio",
+		"domain": "greenleaf-studio.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Copperline Electric",
+		"domain": "copperline-electric.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Juniper & Vale Architects",
+		"domain": "juniper-vale-architects.example",
+		"country": "Ireland"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Bluefin Analytics",
+		"domain": "bluefin-analytics.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Oakridge Physical Therapy",
+		"domain": "oakridge-physical-therapy.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Saltmarsh Coffee Roasters",
+		"domain": "saltmarsh-coffee-roasters.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Lantern Legal",
+		"domain": "lantern-legal.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Trailhead Outfitters",
+		"domain": "trailhead-outfitters.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Vireo Labs",
+		"domain": "vireo-labs.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Harbor Street Veterinary",
+		"domain": "harbor-street-veterinary.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Mosaic Events",
+		"domain": "mosaic-events.example",
+		"country": "United Kingdom"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Pinecrest Property Management",
+		"domain": "pinecrest-property-management.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Redwood Pediatrics",
+		"domain": "redwood-pediatrics.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Fieldnote Research",
+		"domain": "fieldnote-research.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Tandem Courier",
+		"domain": "tandem-courier.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Little Fig Bakery",
+		"domain": "little-fig-bakery.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Dovetail Carpentry",
+		"domain": "dovetail-carpentry.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Marigold Yoga",
+		"domain": "marigold-yoga.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Studio Adeyemi",
+		"domain": "studio-adeyemi.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Ember & Ash Pottery",
+		"domain": "ember-ash-pottery.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Quillwork Translations",
+		"domain": "quillwork-translations.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Brightpath Tutoring",
+		"domain": "brightpath-tutoring.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Cobalt Cleaning Co.",
+		"domain": "cobalt-cleaning.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Hollow Pine Cabins",
+		"domain": "hollow-pine-cabins.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Sundial Bookkeeping",
+		"domain": "sundial-bookkeeping.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Riverbend Florist",
+		"domain": "riverbend-florist.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Two Owls Consulting",
+		"domain": "two-owls-consulting.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Kinfolk Coffee Cart",
+		"domain": "kinfolk-coffee-cart.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Nimbus Drone Survey",
+		"domain": "nimbus-drone-survey.example",
+		"country": "Canada"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Larkspur Massage",
+		"domain": "larkspur-massage.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Patchwork Kids Club",
+		"domain": "patchwork-kids-club.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Ironleaf Fitness",
+		"domain": "ironleaf-fitness.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Wren Web Design",
+		"domain": "wren-web-design.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Tidewater Kayak Tours",
+		"domain": "tidewater-kayak-tours.example",
+		"country": "United States"
+	},
+	{
+		"doctype": "HD Customer",
+		"customer_name": "Arbor Lane Optometry",
+		"domain": "arbor-lane-optometry.example",
+		"country": "United States"
+	}
+]

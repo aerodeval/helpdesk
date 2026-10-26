@@ -1,0 +1,105 @@
+// Feature requests. Multi-currency is deliberately not requested here: it is Scene Ticket "Can I invoice in euros?".
+
+== feature | wren-web-design/hazel | Low | Done
+# Dark mode for the client portal
+C: Feature request: a dark mode for the client portal. Half my clients are designers and they've asked. Not urgent at all.
+A sofia: Hi Hazel,
+
+Thanks for passing it on. I've added it to our feature requests with your clients' interest noted. I can't promise a date, but requests with real customer demand behind them do get looked at when the portal is next updated.
+
+Sofia
+C: Fair enough. Thanks.
+
+== feature | vireo-labs/noah | Medium | Done
+# Custom fields in the API response
+C: We added custom fields to invoices ("Contract ID", "Region"). They don't show up in the API response. Any plans to include them?
+A sofia: Hi Noah,
+
+Good news: they're already available, just not included by default. Add ?expand=custom_fields to GET /v3/invoices or GET /v3/invoices/{id} and they'll be in a custom_fields object, keyed by the field's API name.
+
+I've also suggested that the docs mention this on the invoice endpoint page, since it's easy to miss.
+
+Sofia
+C: Oh nice, works. Thanks.
+
+== feature | trailhead-outfitters/jake | Low | Replied | to=sofia
+# SMS reminders
+C: A lot of our customers ignore email. Any chance of sending reminders by text message?
+A sofia: Hi Jake,
+
+Not at the moment. Reminders go by email only. I've logged your request with the number of customers you mentioned it affects, which helps the team decide.
+
+In the meantime, some customers copy the invoice link and send it by text from their phone for the overdue invoices that matter most. Not ideal for volume, I know.
+
+Sofia
+
+== feature | castellan-hotels/elena | Medium | Done | rate=5
+# Request: approval chains with two approvers
+C: Hello,
+
+We use invoice approvals for anything over $25,000. Our policy now requires two approvers for invoices over $100,000: the property GM and finance. Is a two-step approval possible?
+
+Elena Varga
+A sofia: Hi Elena,
+
+Today approvals have one step, so I can't set up the two-step chain you need. What some Enterprise customers do is add two rules: one for over $25,000 with finance as approver, and one for over $100,000 with the GMs. Invoices over $100,000 then need both, though not in a fixed order.
+
+I've also logged the request for ordered, multi-step approvals with your policy as the example. Jamie will raise it at your next account review.
+
+Sofia
+C: Two rules will do for now. Thank you.
+
+== feature | bluefin-analytics/maya | Low | Done | rate=4
+# Bulk send reminders manually
+C: Would love a way to select a bunch of overdue invoices and send reminders now, instead of waiting for the schedule. Can that happen?
+A sofia: Hi Maya,
+
+You can do it today: filter Invoices by Overdue, select the ones you want, and choose Send reminder from the bulk actions. It sends the reminder email straight away without changing the schedule.
+C: Didn't know that existed. Thanks.
+
+== feature | ember-ash-pottery/freya | Low | Done | rate=5
+# QR code on invoices
+C: Could you add a QR code on printed invoices that takes people to the payment page? Some of my customers prefer paper.
+A sofia: Hi Freya,
+
+That one's already possible. Under Settings > PDF templates > your template, turn on Show payment QR code. It prints in the bottom corner and opens the payment page when scanned.
+C: Oh, lovely. On now. Thank you.
+
+== feature | pinecrest-property-management/greg | Medium | Replied | to=sofia
+# Late fee by days overdue, not a flat rate
+C: We'd like late fees that increase the longer rent is overdue: $50 after 5 days, then $10 per day up to a cap. Our leases are written that way. Is that possible or planned?
+A sofia: Hi Greg,
+
+Fernbill's late fees today are either a flat amount or a percentage, applied once or repeating at a fixed interval. A tiered fee with a daily amount and a cap isn't possible yet.
+
+The closest setup is a $50 flat fee after 5 days, then a $10 fee repeating every day. What's missing is the cap, so you'd have to watch for invoices that reach it. I've logged a request for capped late fees with your lease terms as the example.
+
+Sofia
+
+== feature | sundial-bookkeeping/deborah | Low | Open
+# Bank feed matching for payments made outside Fernbill
+C: Hello,
+
+A suggestion: many of my clients' customers pay by bank transfer outside of Fernbill, and I record each payment by hand. If Fernbill could connect to the bank account and match deposits to open invoices, it would save me hours a month. Is anything like that planned?
+
+Deborah Klein
+
+== feature | kitewing-media/isla | Medium | Done
+# Multiple sender emails per business unit
+C: Hi, we'd like invoices for Radio to come from radio-billing@kitewing-media.example and Digital from digital-billing@. Right now everything comes from one address. Possible?
+A sofia: Hi Isla,
+
+Yes, Enterprise accounts can add more sender addresses. Add and verify each one under Settings > Email > Sender addresses, then set a default sender per PDF template or per client. If you already use a template per business unit, setting the sender on each template is the quickest way.
+
+Sofia
+C: We have templates per unit, so that's perfect. Thank you.
+
+== feature | mosaic-events/harry | Low | Replied
+# Gantt view of event invoices
+C: Mad idea: a calendar or timeline view of invoices by event date, so we can see what's due around each event.
+A sofia: Hi Harry,
+
+Not mad at all. There's no timeline view, but you can add a custom field "Event date" to invoices and filter or sort the list by it. I've also logged the timeline idea with the team.
+
+Sofia
+

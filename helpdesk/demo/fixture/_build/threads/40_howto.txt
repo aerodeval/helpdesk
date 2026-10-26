@@ -1,0 +1,285 @@
+// How-to questions. Several come from people finding their way around the v3 editor.
+
+== howto | little-fig-bakery/giulia | Low | Done
+# Add my logo to invoices
+C: Hi! Just signed up. How do I put my bakery's logo on the invoices?
+A sofia: Hi Giulia, welcome to Fernbill.
+
+Go to Settings > Branding and upload your logo under PDF logo. A PNG with a transparent background looks best. It will appear on every invoice from then on, including drafts you've already made.
+
+Sofia
+C: Done, it looks so professional now. Thank you
+
+== howto | dovetail-carpentry/mike | Low | Done | v3 | rate=2 | note="Stop moving things around."
+# Where did the duplicate button go
+C: Used to be able to copy an old invoice to make a new one. Can't find it since you changed things.
+A sofia: Hi Mike,
+
+It moved in the new editor. Open the old invoice, click the three dots at the top right, and choose Duplicate. It makes a new draft with the same client and lines, and today's date.
+
+Sofia
+C: Found it. Would've been nice to leave it where it was.
+
+== howto | marigold-yoga/anjali | Low | Done | rate=5
+# Set up monthly membership invoices
+C: I have 40 students on a monthly membership. Do I really have to make 40 invoices every month?
+A sofia: Hi Anjali,
+
+No. Use recurring invoices: open a student's invoice and click Make recurring, choose Monthly and a start date. Fernbill then creates and sends it each month. If students agree to it, turn on Auto-charge so their card is charged on the same day and they get a receipt.
+
+To set them all up at once, create one recurring invoice, then use Duplicate for each student and change the client.
+
+Sofia
+C: This is a game changer for me. Thank you so much Sofia.
+
+== howto | studio-adeyemi/tunde | Low | Done | rate=5
+# Send an estimate before the invoice
+C: For bigger shoots I want to send a quote first that the client approves. Then turn it into an invoice. Possible?
+A sofia: Hi Tunde,
+
+Yes, that's what Estimates are for. Create one under Estimates, send it, and the client can approve it online. Once approved, click Convert to invoice and everything carries over. You can also ask for a deposit when they approve.
+
+Sofia
+C: Sent my first estimate. Client approved within an hour. Nice.
+
+== howto | trailhead-outfitters/jake | Medium | Done | rate=4
+# Different tax rates for different products
+C: Some of our products are tax exempt (certain clothing) and others aren't. How do we handle that on one invoice?
+A sofia: Hi Jake,
+
+Set the tax per item. Under Items, open each exempt item and set Tax rate to "Exempt". Taxable items keep your standard rate. When both kinds are on one invoice, Fernbill calculates tax only on the taxable lines, and the PDF shows which lines were taxed.
+
+Sofia
+C: Done for the clothing items. Thanks.
+
+== howto | lantern-legal/victoria | Medium | Done | rate=5
+# Statement of account for a client
+C: Good morning,
+
+A client has asked for a statement showing all invoices and payments over the past year. Is there a way to produce that from Fernbill rather than building it in a spreadsheet?
+
+Victoria Ames
+A sofia: Hi Victoria,
+
+Yes. Open the client, click Statement, and choose the date range. You'll get a PDF that lists each invoice, payment and credit, with the running balance. You can download it or email it to the client from the same screen.
+
+Sofia
+C: Exactly what I needed. Thank you, Sofia.
+
+== howto | harbor-street-veterinary/kelly | Medium | Done
+# Message on invoices about our payment policy
+C: We'd like every invoice to say "Payment is due at the time of service. Payment plans are available on request." Where do we put that?
+A sofia: Hi Kelly,
+
+Go to Settings > Invoices > Default notes and paste your text there. It will appear at the bottom of every new invoice. You can still change it on a single invoice if you need to.
+
+Sofia
+C: Thank you.
+
+== howto | bluefin-analytics/maya | Medium | Done
+# Who changed this invoice?
+C: An invoice amount was changed last week and nobody remembers doing it. Is there a history?
+A sofia: Hi Maya,
+
+Yes. Open the invoice and click Activity at the top. It shows each change with who made it and when, including the old and new values. For the whole account, Settings > Audit log shows the same across all invoices.
+
+Sofia
+C: Found it. Mystery solved, thanks.
+
+== howto | kinfolk-coffee-cart/jesse | Low | Done | rate=5
+# Send invoice by text message
+C: Lots of my catering clients don't check email much. Can I text them the invoice?
+A sofia: Hi Jesse,
+
+Yes. Open the invoice, click Share, and copy the link. You can paste it into a text message from your phone. The client opens it, sees the invoice, and can pay right there.
+
+Sofia
+C: Easy. Thanks
+
+== howto | oakridge-physical-therapy/linda | Medium | Done | rate=4
+# Insurance portion on patient invoices
+C: How do I show the insurance payment and the patient's portion on one invoice? Right now patients get confused about what they owe.
+A sofia: Hi Linda,
+
+The clearest way is to add the full charge as normal, then record the insurance payment on the invoice with Record payment, method "Insurance". The PDF then shows the total, the insurance payment, and the balance due, which is the patient's portion.
+
+If the insurance payment comes in later, the patient's invoice updates automatically once you record it.
+
+Sofia
+C: That's clearer. We'll try it this week.
+
+== howto | castellan-hotels/nadia | Medium | Done | rate=5
+# Consolidated invoice for a corporate client
+C: Hi,
+
+One of our corporate clients wants a single monthly invoice covering all their employee stays across our properties, instead of one invoice per stay. Can Fernbill group them?
+
+Nadia Rahman
+A sofia: Hi Nadia,
+
+Yes. Create the individual stay invoices as usual but leave them as drafts. At the end of the month, go to Invoices, filter by the client, select the drafts, and choose Combine into one invoice. Each stay becomes a section on the combined invoice, with the property and dates.
+
+Sofia
+C: Tried it on October's stays. The client is happy. Thank you.
+
+== howto | patchwork-kids-club/beatriz | Low | Done | rate=5
+# Year-end statement for parents' taxes
+C: Parents need a statement of what they paid us during the year for their childcare tax credit. Can I send everyone one at once?
+A sofia: Hi Beatriz,
+
+Yes. Go to Clients, select all, and choose Send statements. Pick January 1st to December 31st and choose "Payments only" so it lists what they paid. Each parent gets their own statement by email.
+
+You can add a note, for example your tax ID, in the message box before sending.
+
+Sofia
+C: Wonderful, that will save me days. Thank you.
+
+== howto | pinecrest-property-management/monique | Medium | Done
+# Bulk change due dates
+C: Is there a way to change the due date on 60 invoices at once? We moved rent due date from the 1st to the 5th.
+A sofia: Hi Monique,
+
+Select the invoices in the list, then choose Bulk edit > Due date. It applies to unpaid invoices only. For your recurring rent invoices, also change the due date on the schedules, otherwise next month's invoices will be due on the 1st again.
+C: Did both. Thanks.
+
+== howto | tidewater-kayak-tours/kai | Low | Done | rate=5
+# tip line on invoice?
+C: guides get tips sometimes from groups. can I add a tip option when they pay?
+A sofia: Hi Kai,
+
+Yes. Under Settings > Payments, turn on Allow tips. Clients then see an optional tip with 10%, 15%, 20% or a custom amount when they pay. Tips show separately in your payment reports so you can split them with the guides.
+
+Sofia
+C: awesome thanks
+
+== howto | fieldnote-research/ethan | Medium | Done | v3
+# Where are invoice templates in v3
+C: The template picker that used to be on the right side of the editor is gone. We have two templates, one for government clients. How do I pick the government one now?
+A sofia: Hi Ethan,
+
+In the v3 editor it's in the Design tab at the top, next to Details. Choose the template there. You can also set a default template per client under the client's settings, so government clients always get the right one.
+C: Set the default on our government clients. Better than before actually.
+
+== howto | ember-ash-pottery/freya | Low | Done | rate=5
+# Selling at markets: can I give receipts?
+C: At craft fairs people sometimes want a receipt for a pot. Can Fernbill make a quick receipt without a whole invoice?
+A sofia: Hi Freya,
+
+The quickest way is a paid invoice: create an invoice, add the pot, and use Record payment straight away. Then share or email it, and it shows as a receipt marked Paid. On a phone it takes about a minute.
+
+Sofia
+C: That works. Thanks Sofia.
+
+== howto | hollow-pine-cabins/erik | Low | Done
+# Security deposit that gets refunded
+C: For longer stays we take a $500 security deposit that we return after checkout if nothing is damaged. What's the best way to handle that in Fernbill? Should it be on the invoice?
+A sofia: Hi Erik,
+
+Most rental owners put it on its own invoice, so the stay invoice stays clean. Create a separate invoice for the $500 deposit with a line like "Refundable security deposit". After checkout, refund it from the payment. If there's damage, refund part of it and add a note.
+
+Sofia
+C: Separate invoice makes sense. Thanks again.
+
+== howto | brightwater-dental-group/helen | Medium | Done
+# Reports per location for 31 offices
+C: Hi Sofia,
+
+Each of our office managers wants to see revenue only for their own office. Is there a way to give them a report filtered to their location without access to the others?
+
+Helen Park
+Revenue Cycle Manager
+A sofia: Hi Helen,
+
+Yes. Under Settings > Team, edit each office manager and set Location access to their office. They'll only see invoices, payments and reports for that location, and the Reports page filters to it automatically.
+
+If it's useful, I can also set up a monthly email with each office's revenue report to its manager. Just send me the list of managers and offices.
+
+Sofia
+C: Location access is done. Yes please to the monthly email. List attached.
+A sofia +1d: All 31 are set up. The first emails go out on the 1st. Let me know if any manager doesn't receive theirs.
+
+== howto | copperline-electric/sue | Medium | Replied | to=sofia | v3
+# Can't find the Payments tab on an invoice
+C: In the new version, where do I see which payments were made on an invoice? It used to be at the bottom of the invoice. Now I can't find it anywhere.
+A sofia: Hi Sue,
+
+In v3, payments moved to their own tab on the invoice. Open the invoice and you'll see tabs at the top: Details, Design, Payments and Activity. The Payments tab lists each payment with the date, method and amount, and that's also where you record or refund one.
+
+If you're on a narrow screen, the tabs may be under the "More" button at the top right.
+
+Sofia
+
+== howto | ironleaf-fitness/dwayne | Low | Done | rate=4
+# How to give a member a free month
+C: How do I give a member a free month without messing up their recurring invoice?
+A sofia: Hi Dwayne,
+
+Open the member's recurring schedule and click Skip next invoice. The next month won't be created or charged, and the one after goes out as usual.
+
+Sofia
+C: done thx
+
+== howto | quillwork-translations/claire | Medium | Done | rate=5
+# Invoice in Spanish for one client
+C: Hello, one client in Mexico would like the invoice in Spanish (the labels like "Due date", "Total" etc). Is that possible for just one client?
+A sofia: Hi Claire,
+
+Yes. Open the client, click Edit, and set Invoice language to Spanish. Their invoices and emails will use Spanish labels. Your item descriptions stay as you write them.
+
+Sofia
+C: Done. They were very pleased. Gracias.
+
+== howto | two-owls-consulting/rachel | Medium | Replied | to=sofia
+# Expenses on invoices
+C: We sometimes pay for travel on behalf of clients and need to bill it back with the receipt. How do we add expenses to an invoice?
+A sofia: Hi Rachel,
+
+Log the expense under Expenses, choose the client, and attach the receipt photo. Tick Billable. When you next create an invoice for that client, Fernbill offers to add unbilled expenses, and the receipts can be attached to the invoice email.
+
+If you add a markup, for example 10% for handling, you can set that on the expense too.
+
+Sofia
+
+== howto | mosaic-events/olivia | Medium | Done | rate=5
+# Show sub-totals per section
+C: For events we'd like the invoice split into sections: venue, catering, production, with a subtotal for each. Can the template do that?
+A sofia: Hi Olivia,
+
+Yes. In the editor, add a Section heading line (from the + menu) above each group of lines. The PDF then shows each section with its own subtotal, and the overall total at the bottom.
+C: Our clients love it. Thanks.
+
+== howto | nimbus-drone-survey/callum | Low | Open
+# Mileage on invoices
+C: Hi, I charge mileage for site visits at 70 cents per km. Is there a way to have Fernbill calculate that or do I just do the math myself and add a line?
+
+Callum
+
+== howto | ostara-learning/charlotte | Medium | Done | rate=5
+# Approval step before invoices go out
+C: Hi Sofia,
+
+We'd like invoices over £10,000 (sorry, $10,000, we've been setting everything up in USD) to be approved by a manager before they're sent. Is there an approval workflow?
+
+Charlotte Hughes
+A sofia: Hi Charlotte,
+
+Yes, Enterprise accounts can turn on Approvals under Settings > Invoices > Approvals. Set the rule "Total greater than $10,000" and choose who can approve. Invoices that match need approval before the Send button becomes available, and approvers get an email and a list under Approvals.
+
+Sofia
+C: Turned on and tested. Thanks, this was on our audit list.
+
+== howto | riverbend-florist/lily | Low | Done | rate=5
+# Wedding consultation fee deducted later
+C: I charge $75 for a wedding consultation, and if they book, the $75 comes off the final invoice. How do I do that without confusing everyone?
+A sofia: Hi Lily,
+
+Invoice the consultation as normal. When they book, add a line on the wedding invoice called "Consultation fee credit" with -$75, or use a credit note from the consultation invoice and apply it to the wedding invoice. The credit note way keeps a clearer record, which helps at tax time.
+
+Sofia
+C: Credit note it is. Thanks.
+
+== howto | saltmarsh-coffee-roasters/hannah | Medium | Open | to=sofia
+# Price list for wholesale customers
+C: Hi, we have three tiers of wholesale pricing depending on volume. Is there a way to set a price list per customer so the right price fills in automatically on invoices? Right now we look it up each time and sometimes get it wrong.
+
+Hannah

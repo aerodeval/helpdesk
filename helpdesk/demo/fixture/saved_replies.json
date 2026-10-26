@@ -1,0 +1,82 @@
+[
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Download invoices",
+		"scope": "Global",
+		"teams": [],
+		"message": "<p>Hi,</p><p>You can download past invoices in bulk from the Invoices list:</p><ol><li>Go to Invoices and set the date filter to the period you need, for example last year.</li><li>Tick the checkbox at the top of the list to select every invoice in that period.</li><li>Click Actions &gt; Download PDFs.</li></ol><p>Fernbill puts the PDFs in a single zip file. For a large number of invoices it's prepared in the background, and we email you a download link when it's ready. If you'd rather have a spreadsheet, choose Actions &gt; Export CSV instead.</p><p>Let me know if anything doesn't look right.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Refund issued",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Billing & Payments"
+			}
+		],
+		"message": "<p>Hi,</p><p>I've issued the refund. You'll get a confirmation email shortly, and the money usually shows on the original card or bank account within 5 to 10 business days, depending on your bank.</p><p>If it hasn't arrived after 10 business days, reply here and I'll send you the reference number to give your bank.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Failed subscription payment",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Billing & Payments"
+			}
+		],
+		"message": "<p>Hi,</p><p>Your last Fernbill payment didn't go through. Your account stays fully active for 7 days while you sort it out.</p><p>To update your card, go to Settings &gt; Billing &gt; Payment method. If your bank asks you to confirm the payment, make sure pop-ups are allowed for Fernbill so the confirmation window can open. We'll retry the payment as soon as the new card is saved.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Payout timing",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Billing & Payments"
+			}
+		],
+		"message": "<p>Hi,</p><p>Card payments are paid out 2 business days after the payment. ACH payments take 3 to 5 business days to clear first, and then follow the same 2-day schedule. You can see each payout and the payments in it under Payments &gt; Payouts.</p><p>If a payout shows as sent but hasn't reached your bank, your bank may be holding it for review. Give them the payout reference from the Payouts page and they can usually release it the same day.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Need request IDs",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Technical Support"
+			}
+		],
+		"message": "<p>Hi,</p><p>Thanks for reporting this. To track it down quickly, could you send:</p><ul><li>the request ID from one or two failed responses (the Fernbill-Request-Id header)</li><li>the approximate time of the failures, with your time zone</li><li>the endpoint and method you're calling</li></ul><p>With those I can find the exact requests in our logs.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Logged as a feature request",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Customer Success"
+			}
+		],
+		"message": "<p>Hi,</p><p>Thank you for the suggestion. I've logged it with our product team, together with how it would help your business. I can't promise a date, but requests with clear customer examples like yours are what the team looks at when planning.</p><p>If there's a workaround that gets you part of the way in the meantime, I've included it above.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Reset two-factor authentication",
+		"scope": "Team",
+		"teams": [
+			{
+				"team": "Customer Success"
+			}
+		],
+		"message": "<p>Hi,</p><p>I can help you get back in. To reset two-factor authentication, I first need to confirm it's you. Please reply from the email address on the account and tell me the amount and date of your last Fernbill subscription charge.</p><p>Once that matches, I'll turn off two-factor so you can sign in with your password, and you can set it up again on your new device.</p>"
+	},
+	{
+		"doctype": "HD Saved Reply",
+		"title": "Closing after no reply",
+		"scope": "Global",
+		"teams": [],
+		"message": "<p>Hi,</p><p>I haven't heard back on this one, so I'm going to close the ticket for now. If you still need help, just reply to this email and it will open again with the full history.</p>"
+	}
+]

@@ -1,0 +1,15 @@
+{
+	"doctype": "HD Settings",
+	"brand_name": "Fernbill",
+	"brand_logo": "/assets/helpdesk/demo/fernbill-logo.svg",
+	"favicon": "/assets/helpdesk/demo/fernbill-logo.svg",
+	"public_knowledge_base": 1,
+	"knowledge_base_home_page_for_guests": 1,
+	"auto_update_status": 1,
+	"update_status_to": "Replied",
+	"default_ticket_status": "Open",
+	"ticket_reopen_status": "Open",
+	"send_acknowledgement_email": 0,
+	"enable_email_ticket_feedback": 0,
+	"auto_close_tickets": 0
+}

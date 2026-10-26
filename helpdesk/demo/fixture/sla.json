@@ -1,0 +1,227 @@
+[
+	{
+		"doctype": "HD Service Level Agreement",
+		"service_level": "Enterprise",
+		"description": "Enterprise plan. Support runs every day, around the clock.",
+		"enabled": 1,
+		"default_sla": 0,
+		"rank": 3,
+		"default_priority": "Medium",
+		"apply_sla_for_resolution": 1,
+		"condition": "doc.customer in [\"Northpeak Logistics\", \"Brightwater Dental Group\", \"Castellan Hotels\", \"Ostara Learning\", \"Kitewing Media\"]",
+		"holiday_list": "Default",
+		"support_and_resolution": [
+			{
+				"workday": "Monday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Tuesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Wednesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Thursday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Friday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Saturday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Sunday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			}
+		],
+		"priorities": [
+			{
+				"priority": "Urgent",
+				"response_time": 3600,
+				"resolution_time": 28800,
+				"default_priority": 0
+			},
+			{
+				"priority": "High",
+				"response_time": 7200,
+				"resolution_time": 43200,
+				"default_priority": 0
+			},
+			{
+				"priority": "Medium",
+				"response_time": 14400,
+				"resolution_time": 86400,
+				"default_priority": 1
+			},
+			{
+				"priority": "Low",
+				"response_time": 28800,
+				"resolution_time": 172800,
+				"default_priority": 0
+			}
+		]
+	},
+	{
+		"doctype": "HD Service Level Agreement",
+		"service_level": "Growth",
+		"description": "Growth plan. Support runs every day, around the clock.",
+		"enabled": 1,
+		"default_sla": 0,
+		"rank": 2,
+		"default_priority": "Medium",
+		"apply_sla_for_resolution": 1,
+		"condition": "doc.customer in [\"Greenleaf Studio\", \"Copperline Electric\", \"Juniper & Vale Architects\", \"Bluefin Analytics\", \"Oakridge Physical Therapy\", \"Saltmarsh Coffee Roasters\", \"Lantern Legal\", \"Trailhead Outfitters\", \"Vireo Labs\", \"Harbor Street Veterinary\", \"Mosaic Events\", \"Pinecrest Property Management\", \"Redwood Pediatrics\", \"Fieldnote Research\", \"Tandem Courier\"]",
+		"holiday_list": "Default",
+		"support_and_resolution": [
+			{
+				"workday": "Monday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Tuesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Wednesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Thursday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Friday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Saturday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Sunday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			}
+		],
+		"priorities": [
+			{
+				"priority": "Urgent",
+				"response_time": 7200,
+				"resolution_time": 43200,
+				"default_priority": 0
+			},
+			{
+				"priority": "High",
+				"response_time": 14400,
+				"resolution_time": 86400,
+				"default_priority": 0
+			},
+			{
+				"priority": "Medium",
+				"response_time": 28800,
+				"resolution_time": 172800,
+				"default_priority": 1
+			},
+			{
+				"priority": "Low",
+				"response_time": 86400,
+				"resolution_time": 259200,
+				"default_priority": 0
+			}
+		]
+	},
+	{
+		"doctype": "HD Service Level Agreement",
+		"service_level": "Starter",
+		"description": "Starter plan. Support runs every day, around the clock.",
+		"enabled": 1,
+		"default_sla": 1,
+		"rank": 1,
+		"default_priority": "Medium",
+		"apply_sla_for_resolution": 1,
+		"condition": null,
+		"holiday_list": "Default",
+		"support_and_resolution": [
+			{
+				"workday": "Monday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Tuesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Wednesday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Thursday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Friday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Saturday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			},
+			{
+				"workday": "Sunday",
+				"start_time": "00:00:00",
+				"end_time": "23:59:59"
+			}
+		],
+		"priorities": [
+			{
+				"priority": "Urgent",
+				"response_time": 14400,
+				"resolution_time": 86400,
+				"default_priority": 0
+			},
+			{
+				"priority": "High",
+				"response_time": 28800,
+				"resolution_time": 172800,
+				"default_priority": 0
+			},
+			{
+				"priority": "Medium",
+				"response_time": 86400,
+				"resolution_time": 259200,
+				"default_priority": 1
+			},
+			{
+				"priority": "Low",
+				"response_time": 172800,
+				"resolution_time": 432000,
+				"default_priority": 0
+			}
+		]
+	}
+]

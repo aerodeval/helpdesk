@@ -1,0 +1,420 @@
+// Billing, part B. Fernbill Payments: payouts, fees, disputes, ACH, reminders, late fees.
+
+== billing | saltmarsh-coffee-roasters/hannah | High | Done
+# Payout hasn't arrived
+C: Hi, we had $6,420 in card payments come in on Monday and the payout still isn't in our bank account. It's Thursday. Payouts are usually 2 days. Can you check?
+
+Hannah Moreau
+A tomas: Hi Hannah,
+
+I've checked, and the payout was sent on Wednesday morning as expected, reference PO-8812-SR. Your bank received it but has it on hold for review, which some banks do the first time a payout is larger than usual.
+
+If you call your bank and give them that reference, they can usually release it the same day.
+
+Tomás
+C: You were right, the bank had it on hold. It's in now. Thanks for the reference number, it made the call a lot shorter.
+
+== billing | lantern-legal/samuel | Medium | Done | rate=4
+# Client wants to pay by bank transfer, not card
+C: One of our clients refuses to pay by card because of the fee we pass on. Can they pay an invoice by bank transfer through Fernbill?
+A ananya: Hi Samuel,
+
+Yes. Turn on ACH bank payments under Settings > Payments > Payment methods. Once it's on, the Pay button on your invoices offers both card and bank account. ACH costs 0.8% capped at $5, so it's usually much cheaper than card for larger invoices.
+
+You can also choose to offer only ACH on a specific invoice: in the invoice editor, open Payment options and untick Card.
+
+Ananya
+C: Turned on. The client paid by ACH this morning. Thanks.
+
+== billing | trailhead-outfitters/jake | High | Done | rate=2 | note="Lost the dispute and the explanation came too late to help."
+# Chargeback on a paid invoice, what do we do
+C: A customer paid a $1,890 invoice for a group gear order in September. Today we got an email that they disputed the charge with their bank. They have the gear. What do we do?
+A tomas +3h: Hi Jake,
+
+I'm sorry, disputes are stressful. You have 7 days from the notice to respond. Go to Payments, open the disputed payment, and click Respond to dispute. The strongest evidence is usually:
+- the signed order or the email where they agreed to the order
+- proof of delivery or pickup
+- any messages where they acknowledged receiving the gear
+
+Upload those and submit. The bank decides, usually within 60 to 75 days.
+
+Tomás
+C: We uploaded the pickup receipt and the order email. Still lost. The bank says "product not as described." The customer never complained to us once.
+A tomas: I'm sorry, Jake. Once the bank rules, there's no further appeal through the card network, but you can still pursue the customer directly for the amount. If it would help, I can send you a summary of the dispute and the evidence you submitted, for your records or a collections agency.
+C: Send it. Not great.
+
+== billing | redwood-pediatrics/karen | Medium | Done | rate=5
+# Partial payments on patient invoices
+C: Hi,
+
+A lot of our families pay their balances in two or three parts. Right now if they pay part of an invoice through the link, the invoice still shows as fully unpaid in our list until the rest comes in. Is there a way to show "partially paid"?
+
+Karen Liu
+A ananya: Hi Karen,
+
+There is. Under Settings > Payments, turn on Allow partial payments. When it's on, families can enter any amount up to the balance, and the invoice shows as Partially paid with the remaining balance.
+
+Reminders will then go out for the remaining balance only, not the original total.
+
+Ananya
+C: That's on now. The front desk will be relieved.
+
+== billing | copperline-electric/darnell | Medium | Done
+# Card fee: can we pass it on to the client
+C: We do a lot of big jobs, $8k to $20k. The card fee is eating into our margin. Can we add the fee to the invoice when a customer pays by card?
+A tomas: Hi Darnell,
+
+Yes, under Settings > Payments > Card surcharge. You can add up to 3% to card payments, and the customer sees the surcharge before they pay. A couple of things to know:
+- Some states don't allow card surcharges. The setting shows a warning if your business address is in one of them.
+- The surcharge doesn't apply to ACH, so many customers switch to bank payment for big invoices, which is cheaper for you too.
+
+Tomás
+C: Turned it on. Thanks for the heads-up about the states, we're fine here.
+
+== billing | vireo-labs/leah | Medium | Done | rate=1 | note="Nobody told us the new account was never verified."
+# Payout went to the wrong bank account
+C: We changed our payout bank account last week. Today's payout went to the old one. The old account is still open luckily but this is a bit worrying.
+A ananya: Hi Leah,
+
+I understand. When a payout bank account is changed, we verify the new one with two small deposits before switching. Your new account was added but the deposits were never confirmed, so payouts kept going to the old account.
+
+You'll find the two deposits (under $1 each) in the new account's statement. Enter them under Settings > Payments > Payout account and future payouts will go there.
+
+Ananya
+C: Found them, verified. Thanks.
+
+== billing | mosaic-events/harry | Medium | Done | rate=5
+# Deposit invoice then final invoice for events
+C: Hi, we invoice clients 50% when they book and 50% two weeks before the event. Right now we make two separate invoices by hand. Is there a better way?
+A tomas: Hi Harry,
+
+Yes, use a deposit. In the invoice editor, click Request deposit and set 50%. The client pays the deposit first, and the invoice stays open for the balance. You can set the balance to be due on a specific date, two weeks before the event in your case, and reminders will go out for it automatically.
+
+The client sees one invoice with both payments, which tends to cause fewer questions than two separate ones.
+
+Tomás
+C: Tried it on next month's wedding booking. Much tidier. Thanks.
+
+== billing | pinecrest-property-management/monique | Medium | Open | to=tomas | overdue
+# Rent payments marked paid twice
+C: Hello,
+
+Some of our tenants' rent invoices are showing two payments on them. For example, unit 4B paid $1,650 by ACH on the 1st, and the invoice shows two payments of $1,650, so it's now showing a credit of $1,650. The tenant's bank only shows one payment.
+
+This is on 7 invoices so far this month. I haven't touched them because I don't want to make it worse.
+
+Monique Dubois
+Leasing Coordinator, Pinecrest Property Management
+
+== billing | little-fig-bakery/giulia | Low | Done
+# Customer paid the wrong invoice
+C: A cafe that buys our bread paid invoice LF-210 twice by mistake instead of paying LF-214. Can I move the payment over?
+A ananya: Hi Giulia,
+
+Yes. Open LF-210, click the second payment, and choose Apply to another invoice. Pick LF-214 and save. LF-210 goes back to paid once, and LF-214 shows as paid.
+
+Ananya
+C: Done in a minute. Grazie.
+
+== billing | castellan-hotels/owen | High | Done
+# Payout report doesn't match bank deposits
+C: Hi,
+
+Our finance team reconciles Fernbill payouts against our bank daily. For October 12th, the payout report shows $48,210.55 but the bank deposit was $47,986.30. The difference is $224.25. We can't find which payments it belongs to.
+
+Owen Fitzgerald
+Systems Analyst, Castellan Hotels
+A tomas: Hi Owen,
+
+The difference is a refund and a dispute fee taken from that day's payout:
+- $209.25 refund to guest invoice CH-55120, issued on the 11th
+- $15.00 dispute fee for invoice CH-54877
+
+The payout report shows gross payments by default. If you switch the report to Net view, or export it with "Include deductions", each payout lists the refunds and fees taken from it, so the total will match the bank.
+
+Tomás
+C: Net view is what we needed. Reconciles to the cent now. Thank you.
+
+== billing | marigold-yoga/anjali | Low | Done
+# Turn off reminders for one client
+C: One of my students is going through a hard time and I've agreed she can pay when she can. How do I stop the reminder emails for her without turning them off for everyone?
+A ananya: Hi Anjali,
+
+That's kind of you. Open her client profile, click Edit, and under Reminders choose Don't send reminders. It only affects her. If you'd rather keep reminders for future invoices, you can also turn them off on a single invoice from the invoice's More menu.
+
+Ananya
+C: Thank you, done.
+
+== billing | ironleaf-fitness/dwayne | Medium | Replied | to=tomas
+# Monthly memberships failing on the 1st
+C: About a third of my members' monthly payments failed on the 1st. Most of them have been paying fine for a year. What happened?
+A tomas: Hi Dwayne,
+
+I've looked at the failed payments. 23 of the 31 were declined with "authentication required". Since October, a lot of banks ask for a one-time confirmation on recurring card payments, and when a card is charged automatically there's no one there to confirm it.
+
+Fernbill emails each member a link to confirm the payment, and most people complete it within a day or two. 9 of the 31 have already paid this way. For the rest, you can resend the link from Payments > Failed, using Retry with customer.
+
+Going forward, turning on Save card with authentication under Settings > Payments makes future charges much less likely to need this.
+
+Tomás
+
+== billing | studio-adeyemi/tunde | Low | Done | rate=5
+# Client says the payment link expired
+C: A client says the pay button on my invoice gives "This link has expired". The invoice is from 3 months ago, it's still unpaid. Can I make a new link?
+A tomas: Hi Tunde,
+
+Payment links expire 90 days after the invoice is sent. Open the invoice and click Resend. That creates a fresh link and emails it to the client. You can also copy the new link from Share if you'd rather send it yourself.
+
+Tomás
+C: She paid an hour later. Thanks.
+
+== billing | bluefin-analytics/maya | Medium | Done | rate=4
+# Instant payouts?
+C: Is there a way to get payouts faster than 2 days? Cash flow is tight this quarter.
+A ananya: Hi Maya,
+
+Yes. Under Settings > Payments > Payouts, you can turn on Instant payouts. Payouts then arrive within about 30 minutes, any day of the week, for a 1% fee on the payout amount. You can switch between instant and standard whenever you like.
+
+Ananya
+C: 1% is steep but worth it this month. Thanks.
+
+== billing | sundial-bookkeeping/deborah | Medium | Done
+# Late fee calculated wrong
+C: Hello,
+
+My client has a 1.5% monthly late fee set up. An invoice for $2,000 that's 45 days late shows a late fee of $60. I'd expect $30 for the first month and then $30.45 for the second (compounding), or $45 if it's prorated. $60 doesn't match either.
+
+Deborah Klein
+A ananya: Hi Deborah,
+
+Good catch, and thanks for the working. Your client's late fee rule is set to apply 1.5% every 15 days rather than monthly, so after 45 days it has applied twice to the original balance: $30 + $30 = $60. The rule is under Settings > Reminders > Late fees > Frequency.
+
+If it should be monthly, change the frequency to Every 30 days and I'll recalculate the fee on any open invoices for you. Late fees don't compound in Fernbill, so after 45 days it would then be $30.
+
+Ananya
+C: That's it, someone set it to 15 days. Changed. Please recalculate.
+A ananya: Done. 4 open invoices were updated, and the $2,000 one now shows a $30 late fee.
+
+== billing | oakridge-physical-therapy/linda | Medium | Open | to=ananya
+# Patients receiving reminders for invoices they already paid
+C: Hi,
+
+We've had four patients call this week upset because they got a "Your invoice is overdue" email for invoices they paid at the front desk. We mark those invoices as paid by hand when they pay in person.
+
+Is the reminder going out before we mark it? We usually do that the same afternoon.
+
+Linda Carver
+Front Desk Lead
+A ananya +2h: Hi Linda,
+
+Sorry for the upset calls. Could you send me the invoice numbers for two of those patients? I'd like to check the times on the reminder and on the payment to see which came first.
+
+Ananya
+C +5h: OP-3381 and OP-3390. Both paid on the 14th, around 11am. I marked them paid myself around 4pm that day.
+
+== billing | quillwork-translations/claire | Low | Done | rate=5
+# Invoice paid by client but shows unpaid
+C: Our client sent proof that they paid invoice QW-0412 by bank transfer outside of Fernbill. How do I mark it as paid?
+A tomas: Hi Claire,
+
+Open QW-0412 and click Record payment. Choose Bank transfer as the method, enter the date and amount, and save. The invoice will show as paid and no more reminders will go out.
+
+Tomás
+C: Thanks, all good.
+
+== billing | tandem-courier/andre | High | Done
+# Customer's card charged but invoice still open
+C: One of our account customers says their card was charged $3,400 for invoice TC-1188 yesterday but the invoice still shows unpaid. They're angry that they'll get a reminder. Can you look?
+A tomas +30m: Hi Andre,
+
+I've found the payment. It went through, but the confirmation from the card network came back after the payment page had timed out, so it wasn't linked to the invoice. I've linked it now. TC-1188 shows as paid, and reminders are cancelled.
+
+Your customer won't be charged again. I'm sorry this caused them worry.
+
+Tomás
+C: Thanks for the quick fix. They're happy now.
+
+== billing | kinfolk-coffee-cart/jesse | Low | Replied
+# Card reader for events?
+C: Do you guys sell a card reader I can use at farmers markets? Would be nice to have it all in one place.
+A ananya: Hi Jesse,
+
+We don't have a card reader, sorry. Fernbill is built around invoices and payment links. Some market vendors send a payment link by text from their phone for larger catering orders, but for quick coffee sales a dedicated card reader will work better.
+
+Ananya
+
+== billing | brightwater-dental-group/grace | Medium | Done
+# Refund to a patient who overpaid
+C: Hello,
+
+A patient paid $480 by card on invoice BW-30219 but insurance has since covered $300 of it. We need to refund her $300. Can we do a partial refund from Fernbill or do we need to issue a check?
+
+Grace Achterberg
+Billing Coordinator
+A ananya: Hi Grace,
+
+You can refund from Fernbill. Open BW-30219, click the card payment, choose Refund, and enter $300. The patient gets the money back on the same card, usually within 5 to 10 business days, and receives an email confirmation.
+
+The invoice will then show $180 paid, so you may want to adjust the invoice total to match what's owed after insurance.
+
+Ananya
+C: Done, thank you.
+
+== billing | hollow-pine-cabins/erik | Low | Replied | to=tomas
+# Guest asked for a refund of their deposit
+C: A guest cancelled their October booking more than 30 days out so they get their deposit back. The deposit was $400 paid by card through Fernbill. How do I give it back?
+A tomas: Hi Erik,
+
+Open the booking invoice, click the $400 deposit payment, and choose Refund. You can refund the full amount or part of it. The guest gets it back on the card they used, normally within 5 to 10 business days, and Fernbill emails them a confirmation.
+
+The card processing fee on the original payment isn't returned on refunds, so you'll see about $11.90 less in your next payout than the refund amount.
+
+Tomás
+
+== billing | two-owls-consulting/omar | Medium | Done | rate=4
+# How long do ACH payments take to clear?
+C: A client paid a $12,000 invoice by ACH on Tuesday. It still shows "Processing". When will it be marked paid and when do we get the money?
+A tomas: Hi Omar,
+
+ACH payments take 3 to 5 business days to clear. Fernbill marks the invoice Paid once the bank confirms it, and then pays out on the usual 2-day schedule. For a Tuesday payment, you'd expect it to be marked paid by Monday and in your account by Wednesday.
+
+Larger ACH payments sometimes take the full 5 days because the client's bank checks the account balance first.
+
+Tomás
+C: Arrived Wednesday as you said. Thanks.
+
+== billing | lantern-legal/victoria | High | Open | to=ananya
+# Client was charged a card fee we didn't set up
+C: Good afternoon,
+
+A long-standing client of the firm called today, rather upset, because she was charged a 3% card surcharge on her retainer payment. We have never turned on a surcharge, and in fact as a law firm we're not permitted to add one to trust account payments.
+
+Could you please confirm whether a surcharge setting has been changed on our account, and refund her the $84 surcharge as soon as possible?
+
+Victoria Ames
+Office Administrator, Lantern Legal
+
+== billing | harbor-street-veterinary/ana | Medium | Done
+# Payment plans for big vet bills
+C: Hi, we sometimes agree payment plans with pet owners for bigger surgeries, like $3,000 over 6 months. Can Fernbill charge them automatically each month?
+A tomas: Hi Dr. Sousa,
+
+Yes. Create the invoice for the full amount, then click Set up payment plan. Choose 6 monthly payments and the start date. The owner confirms their card once, and Fernbill charges each installment on schedule and emails them a receipt each time.
+
+If a payment fails, you'll get a notification and the owner gets a link to update their card.
+
+Tomás
+C: This is going to save Kelly a lot of phone calls. Thank you.
+
+== billing | kitewing-media/chloe | Medium | Done | rate=4
+# Payout report export for our ERP
+C: Hi, our ERP needs payout data as a CSV with one row per payment, including the fee for each payment. The current export gives one row per payout. Is there another format?
+A ananya: Hi Chloe,
+
+Yes. In Payments > Payouts, choose Export and pick Payout details instead of Payout summary. That gives one row per payment, with gross amount, fee, net amount, and the payout it belongs to.
+
+If your ERP needs specific column names, you can save a column layout in the export dialog and reuse it.
+
+Ananya
+C: Payout details works. Thanks.
+
+== billing | cobalt-cleaning/luis | Low | Open
+# client paid twice
+C: Hi one of our office clients paid their monthly cleaning invoice twice, $640 two times. How do I give one back? First time this has happened
+
+Luis
+
+== billing | ostara-learning/charlotte | High | Done | rate=3 | note="Fixed fast, but payments should never have been paused in our first week of term."
+# Payments disabled on our account
+C: Hi,
+
+Since this morning, our tuition invoices show "Online payment unavailable" instead of the Pay button. It's the first week of term, so this is our busiest payment week. Please treat this as urgent.
+
+Charlotte Hughes
+A tomas +20m: Hi Charlotte,
+
+I've found the cause. Our payments partner asked for an updated proof of address for Ostara as part of their yearly check, and the request went to an email address that's no longer monitored. When it wasn't answered within 30 days, payments were paused.
+
+I've asked them to restore payments for 72 hours while the document is provided, and the Pay button is back on your invoices now. Could you upload a utility bill or bank statement from the last 3 months under Settings > Payments > Verification? I've also changed the contact for these checks to your address.
+
+Tomás
+C: Pay button is back, thank you. Document uploaded.
+A tomas +4h: Thanks Charlotte, verification is approved, so payments are fully restored. Sorry this hit during your first week of term.
+
+== billing | patchwork-kids-club/beatriz | Low | Done | rate=5
+# Sibling discount on invoices
+C: We give a 10% discount for a second child. Is there a way to set that up so it's added automatically on the family's invoice?
+A ananya: Hi Beatriz,
+
+Not fully automatic, but close. Create a discount under Items > Discounts called "Sibling discount, 10%", then add it to the family's recurring invoice once. It stays on every invoice that recurring schedule creates.
+
+Ananya
+C: Lovely, that works for us.
+
+== billing | riverbend-florist/lily | Medium | Replied | to=tomas
+# Wedding client wants to pay with two different cards
+C: Hi, I have a bride who wants to split her $2,300 wedding flowers invoice between her card and her mom's card. Can the invoice take two payments?
+A tomas: Hi Lily,
+
+Yes, as long as partial payments are on for your account. I've checked, and they're currently off. Turn them on under Settings > Payments > Allow partial payments.
+
+Then the bride can pay any amount with her card, and her mom can pay the remaining balance with the same link. Each gets their own receipt.
+
+Tomás
+
+== billing | fieldnote-research/ethan | Medium | Done | rate=3 | note="Answer was fine but it's a gap in the product."
+# Can clients pay in installments by card?
+C: A government client has asked if they can pay a $45k project invoice in three parts. Can they set that up on their side or do we need to?
+A ananya: Hi Ethan,
+
+You'd set it up from your side: open the invoice and click Set up payment plan. You choose the number of payments and the dates, and the client confirms once.
+
+One thing to know: payment plans only work with cards. For a $45k invoice the card fees would be high, and most government clients pay by ACH, which payment plans don't support yet. The usual approach is to split it into three invoices with their own due dates.
+C: Three invoices then. Would be good if plans worked with ACH.
+A ananya: Agreed, and I've added your vote to that request.
+
+== billing | dovetail-carpentry/mike | Medium | Replied | to=ananya
+# Where's my money
+C: Got a $4,200 payment for a kitchen job last week. Not in my bank yet.
+A ananya: Hi Mike,
+
+I've checked. The payment was made by ACH on Thursday, and ACH takes 3 to 5 business days to clear before we pay it out. It cleared this morning, so the payout has been sent and should reach your bank tomorrow.
+
+Ananya
+
+== billing | greenleaf-studio/leo | Medium | Done
+# Retainer billing for design clients
+C: Hey, I'm Leo, founder at Greenleaf. We want to bill a few clients a monthly retainer, and then charge extra hours on top when they go over. What's the cleanest way to set that up?
+A tomas: Hi Leo,
+
+Two pieces:
+1. Create a recurring invoice for the retainer amount, monthly, with auto-charge on if the client agrees.
+2. For extra hours, log them as time entries against the client. At the end of the month, Unbilled time shows the hours over, and you can add them to the next retainer invoice with one click.
+
+Priya may already have time tracking set up, since your account has it turned on.
+
+Tomás
+C: Priya showed me. This works well, thanks.
+
+== billing | wren-web-design/hazel | Low | Done | rate=5
+# Client wants a refund for half the project
+C: Ugh. A client is asking for half her money back on a website project because she "changed her mind about the direction." I'm not going to refund it but I'm curious, if I did, can I refund half through Fernbill?
+A ananya: Hi Hazel,
+
+That sounds frustrating. To answer the question: yes, you can refund any part of a card or ACH payment. Open the payment on the invoice and choose Refund, then enter the amount.
+
+Whether you refund is entirely your call, of course. If she disputes the charge with her bank, you'd respond through the dispute screen with your contract and the work delivered.
+
+Ananya
+C: Thanks. Holding my ground for now.
+
+== billing | juniper-vale-architects/conor | Medium | Open | to=ananya
+# Client paid in full but invoice shows a balance of $0.40
+C: Hi,
+
+A client paid invoice JV-2207 in full by ACH, $18,450.00. The invoice now shows Partially paid with $0.40 outstanding, and a reminder is scheduled for Friday. The client's remittance shows the full amount and so does our bank.
+
+Where is the 40 cents coming from? I'd rather not send a reminder for 40 cents to a client who has paid us on time for six years.
+
+Conor Walsh
+Partner, Juniper & Vale Architects

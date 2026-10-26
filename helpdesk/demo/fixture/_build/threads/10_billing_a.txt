@@ -1,0 +1,468 @@
+// Billing, part A. Fernbill subscription charges, receipts, plan changes, refunds.
+
+== billing | little-fig-bakery/giulia | Low | Done
+# Receipt for last month's subscription
+C: Hi, my accountant needs a receipt for the Fernbill charge from last month, the one on the 14th. Where do I find that?
+A tomas: Hi Giulia,
+
+You can find every receipt under Settings > Billing > Payment history. Click the date of the charge and use Download receipt at the top right.
+
+I've also attached last month's receipt here so you have it straight away.
+
+Tomás
+C: Perfect, found it. Thank you
+
+== billing | copperline-electric/sue | Medium | Done | rate=4
+# Our card was charged but the account says payment failed
+C: Hello. We got an email saying our payment failed and the account would be downgraded in 7 days. But our bank statement shows the $96 charge went through on the same day. Can someone check?
+A ananya: Hi Sue,
+
+Thanks for checking your statement before writing in, that helps. Your bank approved the first attempt but the confirmation didn't reach us, so our system retried and that attempt was declined as a duplicate. That's what triggered the email.
+
+I've marked the original $96 payment as received and cleared the downgrade notice. You don't need to do anything else, and you weren't charged twice.
+
+Ananya
+C: OK. Glad it's sorted but the email gave our owner a scare. Maybe double check before sending those?
+A ananya: That's fair, and I've passed it to the team that owns those emails. Sorry again for the worry.
+
+== billing | lantern-legal/victoria | Medium | Done | rate=5
+# Need our firm's tax ID on Fernbill receipts
+C: Good afternoon,
+
+Our receipts from Fernbill don't show our EIN, and our auditor has asked that all vendor receipts include it going forward. Is there a field for this?
+
+Victoria Ames
+Office Administrator, Lantern Legal
+A tomas: Hi Victoria,
+
+Yes. Go to Settings > Billing > Billing details and fill in the Tax ID field. Every receipt from then on will show it under your company address.
+
+If your auditor needs past receipts with the EIN too, reply with the months and I'll regenerate them for you.
+
+Tomás
+C: That would be wonderful. January through September of this year, please.
+A tomas +2h: Done. I've attached a zip with the nine receipts, each now showing your EIN. Anything else your auditor needs, just let me know.
+C: Thank you, Tomás. Very kind.
+
+== billing | ironleaf-fitness/dwayne | High | Done | rate=3 | note="Fixed in the end but took three emails to get a straight answer."
+# Why did my bill go up
+C: My bill was $29 for the last year. This month it's $58. Nobody told me about a price change.
+A ananya: Hi Dwayne,
+
+Sorry for the surprise. The jump is because a second user was added to your account on the 2nd: coach@ironleaf-fitness.example. Starter includes one user, and each extra user is billed at the same rate.
+
+If that user wasn't meant to be added, I can remove them and refund the difference.
+C: I didn't add anyone. Who did?
+A ananya: The invite was sent from your login on the 2nd at 6:41pm. It may have been someone at the front desk using your account. I've removed the extra user and refunded the $29. Your next bill will be back to $29.
+
+If you'd like, you can turn on two-factor authentication under Settings > Security so nobody else can use your login.
+C: Fine. I'll talk to the front desk.
+
+== billing | vireo-labs/leah | Medium | Done
+# Switching from monthly to annual billing
+C: Hi, we're on Growth monthly with 8 seats. If we switch to annual now, do we get credit for the rest of this month, and what's the annual price?
+A tomas: Hi Leah,
+
+Annual on Growth is $230 per seat per year, which works out to about 20% less than monthly. For 8 seats that's $1,840.
+
+If you switch now, we credit the unused part of this month (about $95 based on today's date) against the annual charge, so you'd pay roughly $1,745 today. You can switch under Settings > Billing > Change plan, or I can do it for you if you confirm here.
+
+Tomás
+C: Please go ahead.
+A tomas: Done. You were charged $1,744.62 and the receipt is in your payment history. Your plan now renews on the same date next year.
+
+== billing | tandem-courier/mei | Medium | Done
+# Downgrade from Growth to Starter
+C: Hello,
+
+We've been on Growth since spring but it turns out only two of us actually use Fernbill. I want to drop to Starter at the end of this billing period. Will we lose our invoice history or the recurring invoices we have set up?
+
+Mei Lin
+A ananya: Hi Mei,
+
+You won't lose any invoices, clients or payment history. A couple of things do change on Starter:
+- Starter includes one user, so one of your two users would need to be removed or added as an extra seat.
+- Recurring invoices are limited to 10 active schedules. You currently have 14, so 4 would be paused. You choose which ones.
+- Custom PDF templates aren't included. Your invoices would use the standard template.
+
+If that all works for you, I can schedule the downgrade for the 28th, when your current period ends.
+
+Ananya
+C: Hmm. The recurring limit is a problem, those are our regular delivery contracts. Let me talk to Andre and come back to you.
+C +2d: We'll stay on Growth but drop to 2 seats. Can you do that instead?
+A ananya: Of course. I've reduced you to 2 seats from the 28th, so your next bill will be $48. Nothing else changes.
+C: Great, thank you for laying out the options.
+
+== billing | brightpath-tutoring/sam | Low | Done | rate=1 | note="Should not have been charged in the first place."
+# Charged after cancelling
+C: I cancelled my account in August. Why was I charged $29 on September 3rd?
+A tomas: Hi Sam,
+
+I'm sorry about that. Looking at your account, the cancellation was started on August 29th but the last confirmation step wasn't completed, so the account stayed active. I know that screen isn't as clear as it should be.
+
+I've refunded the September charge in full and closed the account. You'll get a confirmation email, and the refund should show on your card within 5 to 10 business days.
+
+Tomás
+C: ok thanks
+
+== billing | redwood-pediatrics/karen | Medium | Done | rate=5
+# Invoice from Fernbill needs a PO number
+C: Hi,
+
+Our hospital network now requires a purchase order number on every vendor invoice or AP won't pay it. Our PO for Fernbill is PO-77231. Can that go on our monthly invoice?
+
+Karen Liu
+Billing Lead, Redwood Pediatrics
+A ananya: Hi Karen,
+
+Yes. I've added PO-77231 to your billing details, so it will print on every Fernbill invoice from now on. I've also reissued this month's invoice with the PO number and attached it here.
+
+If the PO changes at renewal, you can update it yourself under Settings > Billing > Billing details.
+
+Ananya
+C: Perfect, AP has it. Thank you.
+
+== billing | studio-adeyemi/tunde | Low | Done | rate=4
+# Student discount?
+C: Hey, I'm a photography student doing freelance work on the side. Is there any discount on Starter for students?
+A tomas +40m: Hi Tunde,
+
+We don't have a student discount, I'm sorry. What I can suggest is annual billing on Starter, which is $290 a year instead of $348, so about two months free.
+
+Good luck with the freelance work.
+
+Tomás
+C: Fair enough, I'll go annual then. Thanks for the quick answer.
+
+== billing | castellan-hotels/nadia | High | Done
+# Wrong legal entity on our Fernbill invoice
+C: Hi,
+
+Our October invoice from Fernbill is addressed to Castellan Hotels LLC. Our contract is with Castellan Hospitality Group Inc., which is the parent. Our AP team rejected it because the entity doesn't match the contract.
+
+Can you reissue it to the correct entity, and fix it for future invoices? Contract reference is CH-ENT-2024-031.
+
+Nadia Rahman
+AR Specialist, Castellan Hotels
+A ananya: Hi Nadia,
+
+You're right, the contract is with Castellan Hospitality Group Inc. and our billing record didn't match it. I've corrected the billing entity and reissued October's invoice. The new invoice number is FB-ENT-10294 and it replaces FB-ENT-10211, which I've voided.
+
+Future invoices will go to the correct entity. Sorry for the hold-up with your AP team.
+
+Ananya
+C: Received, AP has approved it. Thanks for turning it around so quickly.
+
+== billing | hollow-pine-cabins/erik | Medium | Done
+# Question about my bill and a few other things
+C: Hi there, sorry in advance, this is going to be a long one.
+
+So I run Hollow Pine Cabins, it's four cabins up near the lake, and I've been using Fernbill for about a year now mostly for the longer stays where people want a proper invoice instead of paying through the booking site. It's been working fine. My question is about my bill. I noticed this month it says $34.50 instead of $29 and I couldn't figure out why. At first I thought it was sales tax but I've never been charged sales tax before by you guys so I wasn't sure. Then I wondered if it was because I went over some limit, because we had a busy September with the leaf season and I sent a lot more invoices than usual, maybe 70 or so.
+
+Also while I'm writing, my wife asked me to ask whether we can put a photo of the cabins on the invoice, like at the top, because the guests like that kind of thing. And last thing, is there a way to see all the money that came in for one cabin? We name the invoices with the cabin name in the description but I don't see a way to add them up.
+
+Anyway the bill is the main thing. Thanks for reading all this.
+
+Erik
+A tomas: Hi Erik,
+
+No need to apologise, this was easy to follow. Taking your questions in order:
+
+Your bill: the extra $5.50 is sales tax. Your state started requiring sales tax on software subscriptions from October 1st, so we now collect it. It isn't related to how many invoices you send. Starter has no invoice limit, so a busy September doesn't change anything.
+
+A photo on the invoice: you can add a header image under Settings > Branding > PDF header. A wide image around 1200 by 300 pixels works best. On Starter it shows on the standard template.
+
+Money per cabin: the simplest way is to add each cabin as an item under Items (for example "Lakeside cabin, per night"). Then Reports > Sales by item shows the total for each cabin for any date range. Descriptions on their own can't be totalled, unfortunately.
+
+Hope the leaf season was a good one.
+
+Tomás
+C: That all makes sense. I set up the cabins as items, the report is exactly what we wanted. Thanks Tomás.
+
+== billing | bluefin-analytics/maya | Medium | Done | rate=5
+# Adding 4 seats mid-cycle, how is it billed?
+C: We're hiring four people next week. If I add them now, are we charged the full month for each or prorated?
+A ananya: Hi Maya,
+
+Prorated. When you add a seat, you're charged only for the days left in your current billing period, and from the next period it's part of your regular bill.
+
+For example, if you add four seats with 12 days left in a 30-day period, you'd pay about $38 now ($24 x 4 x 12/30), then $96 more per month after that.
+
+Ananya
+C: Clear, thanks.
+
+== billing | pinecrest-property-management/greg | High | Replied | to=ananya
+# Unexpected charge of $1,152 this morning
+C: We were just charged $1,152 by Fernbill. Our monthly bill is usually around $96. Nobody here approved an upgrade. I need to know what this is today.
+
+Greg Polanski
+Controller, Pinecrest Property Management
+A ananya +35m: Hi Greg,
+
+I understand why that's alarming, and I'm looking at it now. The $1,152 is an annual renewal for 4 Growth seats ($24 x 4 x 12). Your account was switched from monthly to annual billing on the 2nd by monique@pinecrest-property-management.example.
+
+If that wasn't intended, I can reverse it: refund the $1,152, move you back to monthly, and charge only this month's $96. Would you like me to do that? I'll wait for your go-ahead so I don't undo something Monique planned.
+
+Ananya
+
+== billing | marigold-yoga/anjali | Low | Done | rate=5
+# Pause subscription for 2 months?
+C: Hi, the studio is closing for renovation for November and December. Can I pause Fernbill for those two months rather than cancel? I don't want to lose my client list.
+A tomas: Hi Anjali,
+
+Yes, you can pause for up to 3 months. During the pause you won't be charged, your clients and invoices stay exactly where they are, and you can still log in to look things up. You just can't send new invoices.
+
+I've scheduled the pause from November 1st and set it to resume on January 1st. If the renovation runs long, reply here and I'll extend it.
+
+Good luck with the work.
+
+Tomás
+C: That's perfect. Thank you so much.
+
+== billing | trailhead-outfitters/fatima | Medium | Done | rate=4
+# Can't update the card on file
+C: When I try to update our card under Billing it just spins and then says "Something went wrong." Tried two different cards. Our current card expires at the end of this month.
+A ananya: Hi Fatima,
+
+Sorry about that. I can see both attempts were blocked by your bank's 3D Secure check, which opens in a pop-up that your browser may have blocked. Could you try once more with pop-ups allowed for fernbill.example, or from a different browser?
+
+If it still fails, I can send you a secure link to add the card instead.
+
+Ananya
+C: Pop-ups were blocked. Worked on the first try after allowing them. Might be worth a message on that page.
+A ananya: Good idea, I've passed that on. Glad it's working.
+
+== billing | oakridge-physical-therapy/james | Medium | Done
+# Refund request for unused seats
+C: We removed 3 users in August but I see we were still billed for them through the end of the period. Shouldn't we get a credit for that?
+A tomas: Hi James,
+
+When seats are removed, we stop billing for them from the next billing period, and we don't credit the rest of the current one. That's in our billing terms, but I know it isn't obvious when you remove someone.
+
+In this case the three seats were removed two days into a new period, so I've applied a one-time credit of $67.20 for the unused days. It will come off your next bill.
+
+Tomás
+C: Appreciated, thank you.
+
+== billing | saltmarsh-coffee-roasters/eli | Low | Done | rate=5
+# VAT number for UK wholesale customer
+C: Quick one: one of our wholesale customers in the UK wants our invoices to show their VAT number. Where does that go?
+A ananya: Hi Eli,
+
+Open the client, click Edit, and fill in Tax ID under Billing details. It will print under their address on every invoice you send them from then on.
+
+Ananya
+C: Easy. Cheers.
+
+== billing | kinfolk-coffee-cart/jesse | Medium | Open | overdue
+# double charged??
+C: just got 2 charges from fernbill on my card, $29 each, same day. please fix
+
+== billing | two-owls-consulting/rachel | Medium | Done | rate=5
+# Moving our account to a new owner
+C: Hello,
+
+My business partner Omar is taking over the admin side of our firm. We'd like his card to be charged going forward and for him to be the account owner. I'll stay on as a regular user.
+
+Rachel Stein
+A tomas: Hi Rachel,
+
+Two steps, and you can do both:
+1. Under Settings > Team, change Omar's role to Owner. Only the current owner can do this, so it has to come from your login.
+2. Omar then adds his card under Settings > Billing > Payment method. The next charge will go to his card.
+
+Your role changes to Admin automatically, and you can lower it to Member afterwards if you like.
+
+Tomás
+C omar: This is Omar. All done on our side, the card is updated. Thanks for the clear steps.
+
+== billing | harbor-street-veterinary/kelly | Medium | Replied | to=tomas
+# Receipts going to an old email address
+C: Hi, our Fernbill receipts are still going to our old practice manager, who left in July. I've changed my email in my profile but the receipts still go to her. How do I change where they go?
+
+Kelly Tran
+Practice Manager, Harbor Street Veterinary
+A tomas: Hi Kelly,
+
+Billing emails go to the address under Settings > Billing > Billing contact, which is separate from your login email. It still shows the previous manager's address.
+
+Only the account owner can change it, and the owner is listed as Dr. Ana Sousa. Could you ask her to update it, or reply with her approval and I'll change it to kelly@harbor-street-veterinary.example for you?
+
+Tomás
+
+== billing | castellan-hotels/elena | Medium | Done
+# Usage report for annual true-up
+C: Hello,
+
+Ahead of our annual true-up, please send a report of our active seat count by month for the past twelve months. Our contract allows for a true-up based on the average.
+
+Elena Varga
+A ananya: Hi Elena,
+
+I've attached a CSV with your active seat count on the last day of each month for the past twelve months, plus the monthly average, which comes to 86.4 seats against the 80 in your contract.
+
+The true-up invoice will be issued at renewal on the 1st. Based on these numbers it would be for 6 seats, prorated across the year. If you'd like to talk through the numbers before then, Jamie can set up a call.
+
+Ananya
+C: This works for our audit committee. Thank you.
+
+== billing | wren-web-design/hazel | Low | Done
+# Nonprofit pricing
+C: Hi, I'm a one-person studio but about half my clients are nonprofits. Do you do nonprofit pricing? Not for my clients, for me, I know that's a stretch.
+A tomas: Hi Hazel,
+
+Nonprofit pricing is for registered nonprofits using Fernbill themselves, so it wouldn't apply here, sorry. Annual billing on Starter does save you about two months a year if that helps.
+
+Tomás
+C: Worth asking. Thanks Tomás.
+
+== billing | fieldnote-research/ines | Medium | Replied | to=ananya
+# Receipts need to show the billing period
+C: Hello,
+
+Our finance team needs every vendor receipt to state the service period it covers, for example "Service period: 1 Oct to 31 Oct". The Fernbill receipts only show the payment date. Can that be added?
+
+Ines Carvalho
+Operations Lead, Fieldnote Research
+A ananya: Hi Ines,
+
+Good point. Receipts don't show the service period today, but the matching invoice does, under Billing period. You can download both from Settings > Billing > Payment history.
+
+If your finance team needs it on the receipt itself, I can regenerate receipts with the period added by hand for the months you need. Would that work while I ask the team about adding it for everyone?
+
+Ananya
+
+== billing | dovetail-carpentry/mike | Low | Done | rate=5
+# How to cancel
+C: Retiring at the end of the year. How do I cancel and can I still get my invoices after?
+A tomas: Hi Mike,
+
+Congratulations on retiring. You can cancel under Settings > Billing > Cancel subscription. Before you do, I'd suggest exporting everything from Settings > Data > Export, which gives you all invoices as PDFs plus a spreadsheet of clients and payments. After you cancel, the account stays readable for 90 days, then it's deleted.
+
+If you'd like me to cancel it from December 31st so you don't have to remember, just say so.
+
+Tomás
+C: Yes please, the 31st. And thanks, 40 years of sawdust is enough.
+A tomas: All set for December 31st. Enjoy it, Mike.
+
+== billing | ostara-learning/tom | Medium | Done
+# PO number missing on this month's invoice
+C: Hi, our October invoice came through without the PO number, which means our AP system bounced it. Previous months had it. PO is OST-PO-5521.
+A ananya: Hi Tom,
+
+Sorry about that. The PO on your account had an end date of September 30th, so the system stopped printing it. I've extended it to the end of your contract and reissued October's invoice with OST-PO-5521. It's attached.
+
+Ananya
+C: Thanks. Could you set a reminder before it expires next time? It's a pain when AP bounces these.
+A ananya: I've added a note on your account to check with you a month before the PO end date. Good call.
+
+== billing | patchwork-kids-club/beatriz | Medium | Open
+# Charge declined but card is fine
+C: Hi,
+
+I keep getting emails that our Fernbill payment was declined. I called the bank and they say there's no declined transaction on their side and the card is fine. I've had three of these emails now and it says we'll lose access on Friday. We have parents paying through Fernbill this week, so I really can't lose access.
+
+Beatriz Santos
+Director, Patchwork Kids Club
+
+== billing | nimbus-drone-survey/callum | Low | Done | rate=5
+# Charges in USD on a Canadian card
+C: Hey, my bank charges me a foreign transaction fee every month because Fernbill bills in USD. Is there a way to be billed in CAD?
+A tomas: Hi Callum,
+
+Fernbill subscriptions are billed in USD only right now, so I can't switch you to CAD. Two things that may help: annual billing means one foreign transaction fee a year instead of twelve, and some Canadian cards don't charge the fee at all.
+
+Sorry I can't offer more on this one.
+
+Tomás
+C: Annual makes sense, switched. Cheers.
+
+== billing | juniper-vale-architects/aoife | Medium | Done
+# Invoices from Fernbill need VAT
+C: Hi,
+
+We're registered for VAT in Ireland. Our Fernbill invoices don't show VAT or our VAT number, and our accountant says they need to for us to reclaim it. Our VAT number is IE 3456789KH.
+
+Aoife Brennan
+Practice Manager, Juniper & Vale Architects
+A ananya: Hi Aoife,
+
+Thanks for the VAT number. I've added it to your billing details. Because you're a VAT-registered business in the EU, our invoices to you now show the reverse charge note and your VAT number, which is what your accountant will need to reclaim it.
+
+I've reissued the last six months of invoices in that format. They're attached as one zip.
+
+Ananya
+C: Brilliant. Our accountant is satisfied, thank you.
+
+== billing | cobalt-cleaning/yolanda | Medium | Done | rate=2
+# Still charged for Growth after downgrading
+C: I downgraded to Starter on the 10th. This month I was charged for Growth again. $120. What happened?
+A tomas: Hi Yolanda,
+
+When you downgrade, the change takes effect at the end of your current billing period, which was the 15th. The charge on the 15th should have been at the Starter price.
+
+Looking closer, the downgrade was saved, but a bug at the time meant some downgrades scheduled in the last five days of a period were skipped. That's what happened here. I've refunded the $91 difference and confirmed you're on Starter now.
+
+Sorry for the extra step.
+
+Tomás
+C: ok thank you
+C +1d: Refund is there. Thanks.
+
+== billing | kitewing-media/isla | High | Done
+# Approval for an extra 25 seats before Monday
+C: Hi,
+
+We're onboarding the new Melbourne team on Monday and need 25 additional seats on our Enterprise account. Our contract has a set seat price, so I assume we just get invoiced at that rate. Can you confirm and add them today so IT can set up logins over the weekend?
+
+Isla Robertson
+Commercial Finance Manager, Kitewing Media
+A ananya +40m: Hi Isla,
+
+Confirmed. Your contract rate applies, so the 25 seats will be invoiced at the contract price, prorated to your renewal date. I've raised the seat limit to 145 now, so IT can start creating logins straight away.
+
+The invoice for the added seats will come on the 1st as usual.
+
+Ananya
+C: Thanks Ananya, that's a big help.
+
+== billing | larkspur-massage/nina | Low | Done | rate=3
+# Do you have a cheaper plan?
+C: Hi, I only send maybe 15 invoices a month. $29 feels like a lot for that. Is there anything cheaper?
+A tomas: Hi Nina,
+
+Starter is our smallest plan. Annual billing brings it down to $290 a year, which is about $24 a month. I know that's still not nothing for 15 invoices.
+
+If the main thing you use is card payments, it may also help that Starter doesn't charge any extra fee on top of the card processing rate.
+
+Tomás
+C: Ok. I'll think about it, thanks for being honest.
+
+== billing | arbor-lane-optometry/joy | Medium | Replied | to=tomas
+# Two Fernbill accounts by mistake
+C: Hi, I think we accidentally have two Fernbill accounts. Dr. Feldman set one up last year and I made another one in September without knowing. We're paying for both. Can they be merged, and can we get a refund for the one we don't need?
+
+Joy Mbeki
+Arbor Lane Optometry
+A tomas: Hi Joy,
+
+I can see both: one owned by ruth@arbor-lane-optometry.example since last March, and yours since September 9th.
+
+We can't merge two accounts automatically, but your September account only has 11 invoices. The easiest path is:
+1. Export those 11 invoices from your account (Invoices > select all > Export).
+2. I'll import them into Dr. Feldman's account so everything is in one place.
+3. Then I'll close your account and refund its charges since September, which comes to $58.
+
+Shall I go ahead once you've sent the export?
+
+Tomás
+
+== billing | bluefin-analytics/arjun | Low | Done
+# Which card is on file?
+C: Can you tell me the last 4 digits of the card you're charging? Trying to figure out which of our cards it is.
+A ananya: Hi Arjun,
+
+For security I can only share that with the account owner or billing contact, which for Bluefin is Maya Goldberg. She can also see it herself under Settings > Billing > Payment method.
+
+Ananya
+C: Makes sense, I'll ask her.
