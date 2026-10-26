@@ -129,7 +129,7 @@ class Replay:
         throttle = frappe.conf.get("throttle_user_limit")
         frappe.flags.mute_emails = frappe.flags.in_demo_seed = True
         # a fixture inserts more users in a minute than the signup throttle allows
-        frappe.conf.throttle_user_limit = len(self.records)
+        frappe.conf.throttle_user_limit = float("inf")
         try:
             yield
         finally:
