@@ -19,7 +19,7 @@ BUILD = Path(__file__).parent
 FIXTURE = BUILD.parent
 SEED_VERSION = "fernbill-1"
 RECENT_DONE = 28  # resolved tickets opened after the v3 release (T-7d), besides v3 ones
-PHOTO_URL = "/assets/helpdesk/demo/{}.jpg"
+PHOTO_URL = "/assets/helpdesk/demo/{}.svg"
 
 # key, first, last, roles, teams
 AGENTS = [

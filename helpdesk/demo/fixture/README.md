@@ -111,19 +111,10 @@ python3 helpdesk/demo/fixture/_build/validate.py
 
 The validator checks the replay contract (document types per file, offset grammar, event shapes, every event at or before `T`), references between files (contacts, customers, agents, teams, SLA conditions, KB categories, feedback labels), the counts above, the Scene Tickets, and the copy rules: no em dash, no banned phrases, and at most 5 exclamation marks.
 
-## Agent photos
+## Agent avatars
 
-The six agents use photos from Unsplash under the [Unsplash License](https://unsplash.com/license), which allows free use without attribution. We credit the photographers here anyway. The photos are not in the repository yet. Download each one at 256 px wide and save it under `helpdesk/public/demo/` with the file name in the table. The `User` and `HD Agent` records already point at `/assets/helpdesk/demo/<file name>`.
+The six agents' `User` and `HD Agent` records point at `/assets/helpdesk/demo/<first>-<last>.svg`, for example `jamie-rivera.svg`. The files are in `helpdesk/public/demo/`.
 
-| Agent | File name | Photo | Photographer |
-| --- | --- | --- | --- |
-| Jamie Rivera | `jamie-rivera.jpg` | https://unsplash.com/photos/4mUk_DFImbI | Jonathan Borba |
-| Ananya Iyer | `ananya-iyer.jpg` | https://unsplash.com/photos/LAprsXXH-Nc | Sylvester DSouza |
-| Tomás Herrera | `tomas-herrera.jpg` | https://unsplash.com/photos/p5BoBF0XJUA | Willian Souza |
-| Kwame Mensah | `kwame-mensah.jpg` | https://unsplash.com/photos/kUGwR0S8qXo | Kingsley Osei-Abrah |
-| Yuki Tanaka | `yuki-tanaka.jpg` | https://unsplash.com/photos/5yo65pSHp50 | Leandra Rieger |
-| Sofia Lindqvist | `sofia-lindqvist.jpg` | https://unsplash.com/photos/VzusBjHlKM8 | Giorgio Trovato |
-
-Download a photo at 256 px with `https://unsplash.com/photos/<id>/download?w=256`. Look at each photo before you use it, and pick another if it does not fit the agent. None of them are Unsplash+ photos.
+Avatars: DiceBear Notionists (https://www.dicebear.com/styles/notionists/), a remix of Notionists by Zoish, CC0 1.0. Generated with seed = file name.
 
 The Fernbill leaf mark is `helpdesk/public/demo/fernbill-logo.svg`. It was drawn for this demo.
