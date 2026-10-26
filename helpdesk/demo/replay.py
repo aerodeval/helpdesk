@@ -12,6 +12,7 @@ from contextlib import contextmanager
 from datetime import datetime
 
 import frappe
+from frappe.cache_manager import clear_doctype_map
 from frappe.utils import get_time, getdate, now_datetime
 
 from helpdesk.demo import (
@@ -93,14 +94,22 @@ class Replay:
         with self.seeding():
             # before the inserts: status and SLA defaults shape how tickets are handled
             self.apply_settings()
+            tickets = [r for r in self.records if r["doctype"] == "HD Ticket"]
             for record in self.records:
-                self.insert(dict(record))
+                if record["doctype"] != "HD Ticket":
+                    self.insert(dict(record))
+            with without_auto_assignment():
+                for record in tickets:
+                    self.insert(dict(record))
             for ticket_name, pinned in self.pinned_targets.items():
                 self.recompute_ticket_dates(ticket_name, pinned)
         self.save_state()
 
     def wipe(self):
         doctypes = {record["doctype"] for record in self.records} - {"User"}
+        # each team made its own round-robin rule; the re-inserted team makes another
+        rules = frappe.get_all("HD Team", pluck="assignment_rule")
+        delete_rows("Assignment Rule", {"name": ["in", [r for r in rules if r]]})
         for doctype in doctypes:
             delete_rows(doctype)
         for doctype, filters in TICKET_ROWS.items():
@@ -263,6 +272,28 @@ def update_ticket(ticket, values: dict):
     # a closed ticket is rated through the link in its closing email
     ticket.flags.ignore_closed_ticket_guard = "feedback" in values
     ticket.update(values).save(ignore_permissions=True)
+
+
+@contextmanager
+def without_auto_assignment():
+    """The fixture's `assign` events say who owns each ticket; round-robin rules
+    would add an assignee to every ticket they match."""
+    rules = frappe.get_all(
+        "Assignment Rule", {"document_type": "HD Ticket", "disabled": 0}, pluck="name"
+    )
+    set_disabled(rules, 1)
+    try:
+        yield
+    finally:
+        set_disabled(rules, 0)
+
+
+def set_disabled(rules: list[str], disabled: int):
+    for rule in rules:
+        frappe.db.set_value(
+            "Assignment Rule", rule, "disabled", disabled, update_modified=False
+        )
+    clear_doctype_map("Assignment Rule", "HD Ticket")
 
 
 @contextmanager
