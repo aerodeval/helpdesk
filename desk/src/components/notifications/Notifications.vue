@@ -3,6 +3,7 @@
     v-if="notificationStore.visible"
     ref="target"
     class="fixed z-10 h-screen overflow-auto bg-surface-base notifications-panel"
+    data-tour="notifications-panel"
     :style="{
       'box-shadow': '8px 0px 8px rgba(0, 0, 0, 0.1)',
       'max-width': '350px',

@@ -6,10 +6,13 @@ import {
   setActiveSettingsTab,
   showSettingsModal,
 } from "@/components/Settings/settingsModal";
+import { applyListFilters, filterChanges } from "@/components/listViewFilters";
+import { useScreenSize } from "@/composables/screen";
 import { reloadTicket, reloadTicketFeed } from "@/composables/useTicket";
 import { router } from "@/router";
+import { useNotificationStore } from "@/stores/notification";
 import { minimize, showHelpModal, useOnboarding } from "@framework/ui";
-import { CHECKLIST, dockActions, loginUrl } from "@helpdesk/shared/demo";
+import { CHECKLIST, loginUrl } from "@helpdesk/shared/demo";
 import { EXTRAS, newTicketName, STOP_LABELS, STOPS, tour, type Stop } from "@helpdesk/shared/demo/tour";
 import { call } from "frappe-ui";
 import { watch } from "vue";
@@ -35,6 +38,11 @@ export async function startDeskTour() {
   await findScenes();
   setUpChecklist();
   watch(paletteOpen, (open) => open && tour.did("use_cmdk"));
+  watch(filterChanges, () => tour.did("filter_list"));
+  watch(
+    () => useNotificationStore().visible,
+    (open) => open && tour.did("open_notifications")
+  );
   watch([showSettingsModal, activeTab], ([open, tab]) => {
     if (open && tab?.label === "Assignment Rules") tour.did("open_assignment_rules");
   });
@@ -42,13 +50,15 @@ export async function startDeskTour() {
     persona: "agent",
     stops: stops(),
     navigate: (to) => router.push(to as any),
-    onRoute: (callback) => router.afterEach(callback),
+    // a cancelled navigation leaves the route where it was
+    onRoute: (callback) => router.afterEach((_to, _from, failure) => failure || callback()),
     routeDone,
     actionDone: ({ type, payload }) => {
       if (type === "email") return { [scene.northpeak]: "send_reply", [scene.saved]: "insert_saved_reply" }[payload.name];
       if (type === "comment" && payload.name === scene.refund) return "post_comment";
       if (type === "assign" && payload.name === scene.refund && payload.add) return "assign";
       if (type === "insert" && payload.doctype === "HD Article") return "save_article";
+      if (type === "insert" && payload.doctype === "HD Ticket") return "create_ticket";
     },
     showChecklist: () => {
       minimize.value = false;
@@ -63,6 +73,11 @@ function stops(): Record<string, Stop> {
     views: {
       anchors: () => ["menu", `view-${ASSIGNED_VIEW}`],
       showMe: () => router.push(assignedView),
+    },
+    filter: {
+      anchors: () => ["filter"],
+      page: { go: () => assignedView, matches: () => route().name === "TicketsAgent" },
+      showMe: () => applyListFilters([["priority", "=", "Urgent"]]),
     },
     sla: {
       anchors: () => [`row-${scene.northpeak}`, `sla-${scene.northpeak}`],
@@ -93,6 +108,23 @@ function stops(): Record<string, Stop> {
       page: ticketPage(() => scene.refund),
       showMe: () => assign(scene.refund, ANANYA.email),
     },
+    notifications: {
+      anchors: () => ["menu", "notifications"],
+      showMe: openNotifications,
+    },
+    notifications_open: { anchors: () => ["notifications-panel"] },
+    new_ticket: {
+      anchors: () => ["new-ticket", "new-ticket-form"],
+      page: {
+        go: () => ({ name: "TicketsAgent" }),
+        matches: () => ["TicketsAgent", "TicketAgentNew"].includes(String(route().name)),
+      },
+      showMe: createTicket,
+    },
+    new_ticket_done: {
+      anchors: () => ["sla"],
+      page: ticketPage(() => newTicketName() ?? ""),
+    },
     kb: {
       anchors: () => ["menu", "nav-AgentKnowledgeBase", "kb-create", "article-create"],
       page: {
@@ -122,15 +154,16 @@ function routeDone() {
   if (name === "TicketAgent") return params.ticketId === scene.northpeak ? "open_northpeak" : undefined;
   if (query.view === ASSIGNED_VIEW) return "open_view";
   if (query.view === RATINGS_VIEW) return "open_rating";
+  if (name === "Notifications") return "open_notifications";
 }
 
 // The checklist is frappe's Onboarding, ticked from the tour's state.
 function setUpChecklist() {
   const onboarding = useOnboarding(CHECKLIST);
   if (!onboarding) return;
-  const resume = () => {
+  const runStop = (stop: number) => {
     showHelpModal.value = false;
-    dockActions.resumeTour?.();
+    tour.dispatch({ type: "GOTO", stop });
   };
   const extraClicks: Record<string, () => void> = {
     x_rules: () => {
@@ -147,7 +180,7 @@ function setUpChecklist() {
       title,
       completed: false,
       icon: LucideCircleDot,
-      onClick: resume,
+      onClick: () => runStop(i + 1),
     })),
     ...EXTRAS.map(({ id, label }) => ({
       name: id,
@@ -179,6 +212,11 @@ function setUpChecklist() {
 const NORTHPEAK_REPLY =
   "<p>Hi Daniel,</p><p>Thanks for the detail. We can see card payments failing for several customers, and our payments team is on it now. ACH payments are not affected. I'll update you here within 30 minutes.</p><p>Jamie</p>";
 const REFUND_APPROVAL = `<p><span class="mention" data-type="mention" data-id="${ANANYA.email}" data-label="${ANANYA.name}">@${ANANYA.name}</span> Approved. Please go ahead with the $240 refund.</p>`;
+const NEW_TICKET = {
+  subject: "Invoice for October never arrived",
+  description:
+    "<p>Called in: Castellan Hotels says October's invoice never reached their accounts inbox. Please resend it and check the billing email on file.</p>",
+};
 const ARTICLE = {
   title: "Invoicing in other currencies",
   content:
@@ -201,6 +239,17 @@ async function comment(ticket: string, content: string) {
 async function assign(ticket: string, user: string) {
   await call("frappe.desk.form.assign_to.add", { doctype: "HD Ticket", name: ticket, assign_to: [user] });
   reloadTicket(ticket);
+}
+
+function openNotifications() {
+  if (useScreenSize().isMobileView.value) return router.push({ name: "Notifications" });
+  const store = useNotificationStore();
+  if (!store.visible) store.toggle();
+}
+
+async function createTicket() {
+  const ticket = await call("helpdesk.helpdesk.doctype.hd_ticket.api.new", { doc: NEW_TICKET });
+  await router.push(ticketRoute(ticket.name));
 }
 
 async function writeArticle() {

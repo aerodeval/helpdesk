@@ -1,4 +1,4 @@
-import { shallowRef } from "vue";
+import { ref, shallowRef } from "vue";
 
 export type FilterCondition = [string, string, unknown];
 
@@ -13,6 +13,9 @@ interface ListFilterActions {
  * `listViewActions`. Null whenever no list is mounted.
  */
 export const listFilters = shallowRef<ListFilterActions | null>(null);
+
+/** Counts filter changes the user makes; the demo tour waits on it. */
+export const filterChanges = ref(0);
 
 /**
  * Applies `conditions` on top of what the list already has, replacing any

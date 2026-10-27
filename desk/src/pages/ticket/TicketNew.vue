@@ -8,7 +8,7 @@
         <CustomActions v-if="customActions.length" :actions="customActions" />
       </template>
     </LayoutHeader>
-    <div class="mx-auto w-full max-w-4xl px-5 pt-6">
+    <div class="mx-auto w-full max-w-4xl px-5 pt-6" data-tour="new-ticket-form">
       <NewTicketForm
         :template="templateId || 'Default'"
         :initial-subject="String(route.query.subject ?? '')"

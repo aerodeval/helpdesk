@@ -1,7 +1,7 @@
 <template>
   <Popover ref="popover" bare side="bottom" align="end">
     <template #trigger>
-      <div class="w-fit">
+      <div class="w-fit" data-tour="filter">
         <FilterTrigger
           :count="activeFilters.length"
           @toggle="resetSteps()"

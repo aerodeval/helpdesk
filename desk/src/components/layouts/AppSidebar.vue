@@ -227,6 +227,7 @@ const notificationItem = computed(() =>
         badge: notificationStore.unread,
         key: "notifications",
         id: "notifications-btn",
+        tour: "notifications",
       }
     : {
         label: __("Notifications"),
@@ -235,6 +236,7 @@ const notificationItem = computed(() =>
         badge: notificationStore.unread,
         key: "notifications",
         id: "notifications-btn",
+        tour: "notifications",
       }
 );
 

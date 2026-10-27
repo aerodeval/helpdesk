@@ -2,7 +2,7 @@
 // so check.ts runs it in node. Copy is English: the demo is not translated (map #51).
 import type { Persona } from "./session";
 
-export const STOPS = 7;
+export const STOPS = 9;
 
 export const STOP_LABELS = [
   "",
@@ -10,6 +10,8 @@ export const STOP_LABELS = [
   "SLA and reply",
   "Saved replies",
   "Comments and assignment",
+  "Notifications",
+  "Create a ticket",
   "Knowledge base",
   "Customer portal",
   "Dashboard",
@@ -20,12 +22,17 @@ export type StepId =
   | "intro_raise"
   | "welcome"
   | "views"
+  | "filter"
   | "sla"
   | "reply"
   | "sla_met"
   | "saved"
   | "comment"
   | "assign"
+  | "notifications"
+  | "notifications_open"
+  | "new_ticket"
+  | "new_ticket_done"
   | "kb"
   | "portal"
   | "portal_new"
@@ -36,7 +43,7 @@ export type StepId =
 
 export interface Step {
   id: StepId;
-  // 0 for the intro and welcome cards, 8 for the end card
+  // 0 for the intro and welcome cards, STOPS + 1 for the end card
   stop: number;
   persona: Persona;
   // where the step happens, for the resume notice
@@ -75,7 +82,7 @@ export const STEPS: Step[] = [
     persona: "agent",
     where: "Ticket list",
     title: "Welcome to Fernbill Support",
-    body: "You're Jamie Rivera, Support Lead at Fernbill. Fernbill makes invoicing software for small businesses, and this is their help desk. Take a 3-minute tour, or look around on your own. Your changes stay in your browser.",
+    body: "You're Jamie Rivera, Support Lead at Fernbill. Fernbill makes invoicing software for small businesses, and this is their help desk. Take a 5-minute tour, or look around on your own. Your changes stay in your browser.",
   },
   {
     id: "views",
@@ -85,6 +92,15 @@ export const STEPS: Step[] = [
     title: "Your inbox",
     body: "Every customer email becomes a ticket. Views are saved filters your team shares. Open the tickets assigned to you.",
     wait: "open_view",
+  },
+  {
+    id: "filter",
+    stop: 1,
+    persona: "agent",
+    where: "Assigned to me",
+    title: "Narrow it down",
+    body: "Filter by priority, team, customer or any other field. Save a filter as a view, and your whole team can use it. Add a filter now.",
+    wait: "filter_list",
   },
   {
     id: "sla",
@@ -140,8 +156,42 @@ export const STEPS: Step[] = [
     wait: "assign",
   },
   {
-    id: "kb",
+    id: "notifications",
     stop: 5,
+    persona: "agent",
+    where: "Ticket: Refund for a double charge",
+    title: "Never miss a mention",
+    body: "When a teammate mentions you or assigns you a ticket, it shows up here. Open your notifications.",
+    wait: "open_notifications",
+  },
+  {
+    id: "notifications_open",
+    stop: 5,
+    persona: "agent",
+    where: "Notifications",
+    title: "Everything that needs you",
+    body: "Mentions, assignments and customer replies, newest first. Click one to jump straight to its ticket.",
+  },
+  {
+    id: "new_ticket",
+    stop: 6,
+    persona: "agent",
+    where: "Ticket list",
+    title: "Log a ticket yourself",
+    body: "Not every request arrives by email. A customer just called about a missing invoice: create a ticket for it.",
+    wait: "create_ticket",
+  },
+  {
+    id: "new_ticket_done",
+    stop: 6,
+    persona: "agent",
+    where: "Your new ticket",
+    title: "On the clock",
+    body: "It's a ticket like any other: it has an SLA, and your team can reply, comment and assign it.",
+  },
+  {
+    id: "kb",
+    stop: 7,
     persona: "agent",
     where: "Ticket: Can I invoice in euros?",
     title: "Answer once, help everyone",
@@ -150,7 +200,7 @@ export const STEPS: Step[] = [
   },
   {
     id: "portal",
-    stop: 6,
+    stop: 8,
     persona: "agent",
     where: "Knowledge base",
     title: "Now be the customer",
@@ -159,7 +209,7 @@ export const STEPS: Step[] = [
   },
   {
     id: "portal_new",
-    stop: 6,
+    stop: 8,
     persona: "customer",
     where: "Fernbill Help Center",
     title: "Priya's help center",
@@ -168,7 +218,7 @@ export const STEPS: Step[] = [
   },
   {
     id: "portal_back",
-    stop: 6,
+    stop: 8,
     persona: "customer",
     where: "Priya's new ticket",
     title: "Back to Jamie",
@@ -177,15 +227,17 @@ export const STEPS: Step[] = [
   },
   {
     id: "portal_landed",
-    stop: 6,
+    stop: 8,
     persona: "agent",
     where: "Ticket list",
     title: "Already in your inbox",
     body: "Priya's ticket is here, with the right SLA for her plan already set.",
+    // the customer-first entry has seen nothing else yet; advance() skips the stops already done
+    next: "views",
   },
   {
     id: "dashboard",
-    stop: 7,
+    stop: 9,
     persona: "agent",
     where: "Dashboard",
     title: "How the team is doing",
@@ -193,7 +245,7 @@ export const STEPS: Step[] = [
   },
   {
     id: "end",
-    stop: 8,
+    stop: 10,
     persona: "agent",
     where: "Dashboard",
     title: "That's Helpdesk",
@@ -222,6 +274,7 @@ export interface TourState {
 export type TourAction =
   | { type: "START" | "START_INTRO" | "DISMISS" | "NEXT" | "SKIP" | "BACK" | "WANDER" | "RESUME" }
   | { type: "DO"; what: string }
+  | { type: "GOTO"; stop: number }
   | { type: "FINISH" };
 
 const NAMES: Record<Persona, string> = { agent: "Jamie", customer: "Priya" };
@@ -280,6 +333,12 @@ export function tourReducer(state: TourState, action: TourAction): TourState {
       // resuming takes the visitor back to the step's page, switching persona if needed
       return { ...state, tour: "running", step, persona: STEPS[step]!.persona, notice: `Back on: ${STEPS[step]!.where}.` };
     }
+    case "GOTO": {
+      // a checklist row runs its stop again, even after the tour finished
+      const step = STEPS.findIndex((s) => s.stop === action.stop);
+      if (step < 0) return state;
+      return { ...state, tour: "running", step, persona: STEPS[step]!.persona, notice: "" };
+    }
     case "FINISH":
       return { ...state, tour: "finished", notice: "" };
     default:
@@ -306,14 +365,18 @@ function did(state: TourState, what: string): TourState {
   return next;
 }
 
-// A stop is done when the visitor moves on from its last step.
+// A stop is done when the visitor moves on from its last step. Moving anywhere but on through
+// the same stop skips the stops already done, so each path ends once it has shown every stop.
 function advance(state: TourState, to: number): TourState {
   const from = stepAt(state);
-  const next = { ...state, step: to, notice: "" };
+  const next = { ...state, notice: "" };
   const isLastOfStop = STEPS[state.step + 1]?.stop !== from.stop;
-  if (to > state.step && isLastOfStop && from.stop >= 1 && from.stop <= STOPS && !state.stopsDone.includes(from.stop)) {
+  if (isLastOfStop && from.stop >= 1 && from.stop <= STOPS && !state.stopsDone.includes(from.stop)) {
     next.stopsDone = [...state.stopsDone, from.stop];
   }
+  const isDone = (i: number) => next.stopsDone.includes(STEPS[i]!.stop) && !(STEPS[i]!.stop === from.stop && i > state.step);
+  while (isDone(to)) to++;
+  next.step = to;
   if (STEPS[to]!.id === "end") next.tour = "finished_card";
   return next;
 }

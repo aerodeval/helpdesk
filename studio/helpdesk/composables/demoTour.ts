@@ -25,7 +25,7 @@ export function startDemoTour(router: any) {
       portal_back: { anchors: () => ['dock'], showMe: async () => location.assign(loginUrl('agent')) },
     },
     navigate: (to) => router.push(to),
-    onRoute: (callback) => router.afterEach(callback),
+    onRoute: (callback) => router.afterEach((_to, _from, failure) => failure || callback()),
     actionDone: ({ type, payload }) =>
       type === 'insert' && payload.doctype === 'HD Ticket' ? 'raise_ticket' : undefined,
   })

@@ -58,6 +58,9 @@ export const writes: Record<string, Fake> = {
   "helpdesk.helpdesk.doctype.hd_ticket.api.new": newTicket,
   "helpdesk.api.knowledge_base.increment_views": done,
   "frappe.onboarding.update_user_onboarding_status": done,
+  // ponytail: read state is not kept, so a reload shows the notification unread again
+  "frappe.desk.doctype.notification_log.notification_log.mark_as_read": done,
+  "frappe.desk.doctype.notification_log.notification_log.mark_all_as_read": done,
   "helpdesk.api.onboarding.mark_persona_captured": done,
 };
 
@@ -199,13 +202,14 @@ async function insertArticle({ doc }: Doc): Promise<Body> {
   return { message: await overlay.doc("HD Article", name) };
 }
 
-// The customer, contact and team come from the visitor's latest ticket; the SLA its customer
-// maps to and the SLA times come from the boot, as customers cannot read SLAs.
+// A customer's customer, contact and team come from their latest ticket; an agent's ticket has
+// none of these. The SLA its customer maps to and the SLA times come from the boot, as customers
+// cannot read SLAs.
 async function newTicket({ doc, attachments }: Doc): Promise<Body> {
   const fields = jsonParam(doc);
   const user = sessionUser();
-  const { settings: s, slas, customer_slas } = demoBoot()!;
-  const [latest] = await callServer("frappe.client.get_list", {
+  const { settings: s, slas, customer_slas, persona } = demoBoot()!;
+  const [latest] = persona === "agent" ? [{}] : await callServer("frappe.client.get_list", {
     doctype: TICKET,
     fields: ["customer", "contact", "agent_group"],
     order_by: "creation desc",
