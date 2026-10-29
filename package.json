@@ -3,7 +3,6 @@
 	"dependencies": {
 		"@helpdesk/shared": "link:./shared",
 		"@vueuse/core": "^14.1.0",
-		"driver.js": "~1.10.2",
 		"idb-keyval": "^6.2.2",
 		"vuedraggable": "^4.1.0"
 	},

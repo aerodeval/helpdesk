@@ -23,7 +23,6 @@
     </template>
   </LayoutHeader>
   <NotificationPanel
-    data-tour="notifications-panel"
     v-bind="controller"
     @mark-as-read="handleNotificationClick"
     @mark-all-as-read="controller.markAllAsRead"

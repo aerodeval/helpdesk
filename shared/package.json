@@ -30,13 +30,11 @@
 		"./OrganizationsIcon.vue": "./src/OrganizationsIcon.vue",
 		"./demo": "./src/demo/index.ts",
 		"./demo/DemoDock.vue": "./src/demo/DemoDock.vue",
-		"./demo/tour": "./src/demo/tour.ts",
 		"./settings/*": "./src/settings/*"
 	},
 	"peerDependencies": {
 		"@tiptap/core": "*",
 		"@vueuse/core": "*",
-		"driver.js": "~1.10.2",
 		"frappe-ui": "*",
 		"idb-keyval": "*",
 		"vuedraggable": "*",

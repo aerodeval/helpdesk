@@ -11,8 +11,8 @@ import { realFetch } from "./server";
 import { demoBoot, isDemo, randomName } from "./session";
 import { BLOCKED, writes } from "./writes";
 
-export { CHECKLIST, dockActions, loginUrl } from "./dock";
-export { demoBoot, isDemo } from "./session";
+export { loginUrl, SALES_URL, TRIAL_URL } from "./dock";
+export { demoBoot, isDemo, sessionUser } from "./session";
 export { restartDemo, showRefreshNotice } from "./overlay";
 
 // Every Blocked Action ends here, as a 403 body, and raises the Blocked Notice banner. The caller's

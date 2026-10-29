@@ -115,11 +115,7 @@
         >
           <template v-for="(chart, index) in trendData.data" :key="index">
             <!-- has data -->
-            <ChartCard
-              v-if="!isChartEmpty(chart)"
-              class="h-80"
-              :data-tour="index === 0 ? 'volume-chart' : undefined"
-            >
+            <ChartCard v-if="!isChartEmpty(chart)" class="h-80">
               <component :is="getChartType(chart)" />
             </ChartCard>
 

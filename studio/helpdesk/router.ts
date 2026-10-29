@@ -1,5 +1,5 @@
 // Studio imports this before it mounts anything, so the demo interceptor wraps every page's requests
-import { demoBoot, isDemo, showRefreshNotice } from '@helpdesk/shared/demo'
+import { isDemo, showRefreshNotice } from '@helpdesk/shared/demo'
 import DemoDock from '@helpdesk/shared/demo/DemoDock.vue'
 import { createApp } from 'vue'
 
@@ -23,8 +23,6 @@ export default {
     router.isReady().then(() => {
       showRefreshNotice()
       mountDemoDock()
-      // loads driver.js and the tour only for the customer persona
-      if (demoBoot()?.persona === 'customer') import('./composables/demoTour').then((m) => m.startDemoTour(router))
     })
   },
 }

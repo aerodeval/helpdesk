@@ -1,5 +1,5 @@
 // Knowledge base. Header: category | title | author key | published_on offset.
-// Multi-currency invoicing is left out on purpose: the tour has the visitor write that article.
+// Multi-currency invoicing is left out on purpose: it leaves a gap for the visitor to write that article.
 
 == Getting started | Set up your Fernbill account in 10 minutes | sofia | T-210d
 A few settings make your first invoice look right and get you paid faster. You can change all of them later.

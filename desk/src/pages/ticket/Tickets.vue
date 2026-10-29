@@ -11,11 +11,7 @@
         />
       </template>
       <template #right-header>
-        <RouterLink
-          class="inline-flex"
-          :to="{ name: 'TicketAgentNew' }"
-          data-tour="new-ticket"
-        >
+        <RouterLink class="inline-flex" :to="{ name: 'TicketAgentNew' }">
           <Button
             class="rtl:flex-row-reverse"
             :label="__('Create')"
@@ -210,16 +206,7 @@ const options = computed(() => ({
       },
     },
     response_by: {
-      custom: ({ row, item }) => {
-        const badge = responseBadge(row, item);
-        // a countdown badge sits in a Tooltip, which drops attributes
-        return (
-          badge &&
-          h("span", { class: "inline-flex", "data-tour": `sla-${row.name}` }, [
-            badge,
-          ])
-        );
-      },
+      custom: ({ row, item }) => responseBadge(row, item),
     },
     resolution_by: {
       custom: ({ row, item }) =>

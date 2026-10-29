@@ -59,7 +59,7 @@ Ticket names are numbered in insert order, so the newest seeded ticket is #200 a
 
 ## Scene Tickets
 
-The guided tour depends on these tickets. Their subjects must not change. Each has a `scene` key.
+Each ticket shows off one feature. Their subjects must not change. Each has a `scene` key.
 
 | `scene` | Subject | State |
 | --- | --- | --- |

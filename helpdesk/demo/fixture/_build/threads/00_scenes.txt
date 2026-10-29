@@ -1,4 +1,4 @@
-// Scene Tickets. The guided tour depends on these subjects and states. Edit with care.
+// Scene Tickets. Each shows off one feature; the validator checks these subjects and states. Edit with care.
 
 == bugs | northpeak-logistics/daniel | Urgent | Open | at=T-30m | to=jamie | type=Incident | scene=sla-breach | response_by=T+30m
 # Card payments failing for all our customers since this morning

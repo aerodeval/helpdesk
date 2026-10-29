@@ -1,6 +1,8 @@
 <template>
   <AppSidebar :profile-settings="profileSettings">
     <template #footer="{ isCollapsed }">
+      <!-- full width, so outside the banners' px-2 -->
+      <DemoSidebarCard v-if="isDemo()" />
       <!-- The Sidebar container already has p-2; the extra px-2 only fits when
       expanded. Collapsed, it would squeeze the banners' icon buttons to 0. -->
       <div
@@ -11,7 +13,7 @@
         <GettingStartedBanner
           v-if="showOnboardingBanner"
           :isSidebarCollapsed="isCollapsed"
-          :appName="onboardingApp"
+          appName="helpdesk"
         />
         <CustomerPortalPermissionBanner
           v-if="isBannerVisible('customer_portal_permission')"
@@ -93,12 +95,19 @@ import {
 } from "@framework/ui";
 
 import { HelpIcon } from "frappe-ui/icons";
-import { computed, h, markRaw, onMounted, ref } from "vue";
+import {
+  computed,
+  defineAsyncComponent,
+  h,
+  markRaw,
+  onMounted,
+  ref,
+} from "vue";
 import { useRouter } from "vue-router";
 import AppSidebar from "./AppSidebar.vue";
 import { showShortcutsModal } from "./layoutSettings";
 
-import { CHECKLIST, isDemo } from "@helpdesk/shared/demo";
+import { isDemo } from "@helpdesk/shared/demo";
 import { useShortcut } from "@helpdesk/shared/shortcuts";
 import { __ } from "@/translation";
 import Globe from "~icons/lucide/globe";
@@ -189,10 +198,14 @@ const logo = h(
   null
 );
 
+// lazy: only demo sites load it
+const DemoSidebarCard = defineAsyncComponent(
+  () => import("@/demo/DemoSidebarCard.vue")
+);
+
 const showOnboardingBanner = computed(() => {
-  return (
-    !isOnboardingStepsCompleted?.value && (isDemo() || authStore.isManager)
-  );
+  // the demo's card carries its own progress
+  return !isDemo() && authStore.isManager && !isOnboardingStepsCompleted?.value;
 });
 
 const steps = [
@@ -407,10 +420,8 @@ const articles = ref([
 const showIntermediateModal = ref(false);
 const currentStep = ref({});
 
-const { setUp, updateOnboardingStep } = useOnboarding("helpdesk") ?? {};
-// In the demo, the Try-it Checklist takes the place of Getting started
-const onboardingApp = isDemo() ? CHECKLIST : "helpdesk";
-const { isOnboardingStepsCompleted } = useOnboarding(onboardingApp) ?? {};
+const { isOnboardingStepsCompleted, setUp, updateOnboardingStep } =
+  useOnboarding("helpdesk") ?? {};
 
 async function handleFirstTicketNavigation() {
   const ticket = await getFirstTicket();

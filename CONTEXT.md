@@ -30,7 +30,7 @@ The fictional company's tickets, customers, agents and articles that every visit
 _Avoid_: fixtures, dummy data
 
 **Scene Ticket**:
-A hand-written Seed Data ticket that a Tour Stop depends on, such as the SLA that is about to breach.
+A hand-written Seed Data ticket that shows off one feature, such as the SLA that is about to breach.
 _Avoid_: demo ticket, sample ticket
 
 **Reseed**:
@@ -39,12 +39,6 @@ _Avoid_: reset
 
 **Restart Demo**:
 A visitor clearing their own Demo Overlay to start again.
-
-**Tour Stop**:
-One step of the guided tour that points at a feature and, where needed, waits for the visitor to try it.
-
-**Try-it Checklist**:
-Optional tasks outside the tour that a visitor can tick off at their own pace.
 
 ## Relationships
 

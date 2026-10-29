@@ -33,7 +33,6 @@
               v-for="item in section.items"
               :key="item.key"
               :id="item.id"
-              :data-tour="item.tour"
               :label="__(item.label)"
               :active="item.isActive"
               :class="item.spacedTop && 'mt-4'"
@@ -95,7 +94,8 @@
 
       <div class="mt-auto flex flex-col gap-2">
         <slot name="footer" :is-collapsed="isCollapsed" />
-        <SidebarCollapseToggle v-if="!mobile" />
+        <!-- the demo card holds its own toggle -->
+        <SidebarCollapseToggle v-if="!mobile && !isDemo()" />
       </div>
     </div>
   </Sidebar>
@@ -136,6 +136,7 @@ import { useRoute, useRouter } from "vue-router";
 import LucideBell from "~icons/lucide/bell";
 import LucideSearch from "~icons/lucide/search";
 import { agentPortalSidebarOptions } from "./layoutSettings";
+import { isDemo } from "@helpdesk/shared/demo";
 
 const props = defineProps<{
   profileSettings: any[];
@@ -203,7 +204,6 @@ const navItems = computed(() => {
       // Separate the nav group from the search/notification tools above it.
       spacedTop: index === 0,
       key: option.label,
-      tour: `nav-${option.to}`,
     }));
 });
 
@@ -227,7 +227,6 @@ const notificationItem = computed(() =>
         badge: notificationStore.unread,
         key: "notifications",
         id: "notifications-btn",
-        tour: "notifications",
       }
     : {
         label: __("Notifications"),
@@ -236,7 +235,6 @@ const notificationItem = computed(() =>
         badge: notificationStore.unread,
         key: "notifications",
         id: "notifications-btn",
-        tour: "notifications",
       }
 );
 
@@ -280,7 +278,6 @@ function parseViews(views: any[]) {
         }
       ),
     key: view.name,
-    tour: `view-${view.name}`,
     view,
   }));
 }

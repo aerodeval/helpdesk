@@ -36,7 +36,6 @@
           :key="row.name"
           v-slot="{ idx, column, item }"
           :row="row"
-          :data-tour="`row-${row.name}`"
           class="truncate text-base row"
         >
           <slot v-bind="{ idx, column, item, row }" />
@@ -50,7 +49,6 @@
       :key="row.name"
       v-slot="{ idx, column, item }"
       :row="row"
-      :data-tour="`row-${row.name}`"
       class="truncate text-base"
     >
       <slot v-bind="{ idx, column, item, row }" />

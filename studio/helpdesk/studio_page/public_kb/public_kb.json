@@ -124,9 +124,6 @@
            "children": [
             {
              "blockName": "kb-search",
-             "attributes": {
-              "data-tour": "kb-search"
-             },
              "componentId": "PortalArticleSearch-home",
              "componentName": "PortalArticleSearch",
              "componentProps": {

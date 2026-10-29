@@ -1,6 +1,6 @@
 // Saved replies. Header: title | scope (Global, Team, Personal) | team | team ...
 // A Personal reply names its agent instead: title | Personal | agent
-// "Download invoices" is a Scene: the tour inserts it on "How do I download past invoices?".
+// "Download invoices" is a Scene: it fits "How do I download past invoices?".
 // It is Jamie's own, so the picker opens on a Personal filter that has it.
 
 == Download invoices | Personal | jamie

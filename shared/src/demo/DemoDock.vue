@@ -5,7 +5,6 @@
       <Button
         size="md"
         variant="outline"
-        data-tour="dock"
         class="absolute bottom-[calc(4rem+env(safe-area-inset-bottom))] left-4 z-20 rounded-full shadow-lg max-sm:h-11 sm:h-10"
       >
         <template #prefix>
@@ -48,11 +47,9 @@ import { Avatar, Button, Dropdown } from "frappe-ui";
 import { computed } from "vue";
 import LucideArrowLeftRight from "~icons/lucide/arrow-left-right";
 import LucideChevronUp from "~icons/lucide/chevron-up";
-import LucideListChecks from "~icons/lucide/list-checks";
-import LucideMap from "~icons/lucide/map";
 import LucideRotateCcw from "~icons/lucide/rotate-ccw";
 import { __ } from "../translation";
-import { dockActions, loginUrl, SALES_URL, TRIAL_URL } from "./dock";
+import { loginUrl, SALES_URL, TRIAL_URL } from "./dock";
 import { restartDemo } from "./overlay";
 import { demoBoot, sessionUser, type Persona } from "./session";
 
@@ -71,24 +68,6 @@ const options = computed(() => [
       icon: LucideArrowLeftRight,
       onClick: () => location.assign(loginUrl(other)),
     })),
-  },
-  {
-    group: "tour",
-    hideLabel: true,
-    options: [
-      {
-        label: __("Resume tour"),
-        icon: LucideMap,
-        onClick: () => dockActions.resumeTour?.(),
-        condition: () => Boolean(dockActions.resumeTour),
-      },
-      {
-        label: __("Things to try"),
-        icon: LucideListChecks,
-        onClick: () => dockActions.showChecklist?.(),
-        condition: () => Boolean(dockActions.showChecklist),
-      },
-    ],
   },
   {
     group: "restart",

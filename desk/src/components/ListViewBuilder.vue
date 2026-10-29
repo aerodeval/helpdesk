@@ -319,7 +319,7 @@ import {
 import { useRoute, useRouter } from "vue-router";
 
 import EmptyState from "./EmptyState.vue";
-import { filterChanges, listFilters } from "./listViewFilters";
+import { listFilters } from "./listViewFilters";
 import ListRows from "./ListRows.vue";
 
 interface P {
@@ -781,7 +781,6 @@ listFilters.value = {
 onUnmounted(() => (listFilters.value = null));
 
 function applyFilters(filters) {
-  filterChanges.value++;
   isViewUpdated.value = true;
   defaultParams.filters = normalizeFilters(filters);
   loadList();
