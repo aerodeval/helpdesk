@@ -63,6 +63,10 @@ def reseed(fixture_path: str | None = None) -> None:
     """`bench --site <site> execute helpdesk.demo.replay.reseed`"""
     assert_seedable()
     Replay(Fixture(fixture_path or FIXTURE_DIR)).run()
+    # the wipe deletes rows without hooks, so the search index still lists the old tickets
+    frappe.enqueue(
+        "helpdesk.search_sqlite.build_index", queue="long", enqueue_after_commit=True
+    )
 
 
 def reseed_if_changed() -> None:
