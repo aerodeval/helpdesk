@@ -1,9 +1,10 @@
 // The demo interceptor. Import it first in each bundle: it wraps `fetch` and the upload XHR so
 // Simulated Actions land in the Demo Overlay and never reach the server. Inert without boot `demo`.
 import { toast } from "frappe-ui";
+import { createApp } from "vue";
 import { __ } from "../translation";
 import type { Doc } from "./filters";
-import { TRIAL_URL } from "./dock";
+import BlockedNotice, { raiseNotice } from "./BlockedNotice.vue";
 import { overlay } from "./overlay";
 import { reads } from "./reads";
 import { realFetch } from "./server";
@@ -14,30 +15,36 @@ export { CHECKLIST, dockActions, loginUrl } from "./dock";
 export { demoBoot, isDemo } from "./session";
 export { restartDemo, showRefreshNotice } from "./overlay";
 
-// Every Blocked Action ends here, as a 403 body. The caller's own error handling toasts its
-// message, so the hook must not toast too. frappe-ui toasts render the message's `<a>`.
+// Every Blocked Action ends here, as a 403 body, and raises the Blocked Notice banner. The caller's
+// own error handling toasts the 403 message too; the banner says it better, so that toast goes.
 export function onBlocked(_action: string) {
   const copy =
     demoBoot()?.persona === "customer"
-      ? __("That works on a real help center.")
-      : __("That works on your own Helpdesk.");
-  const cta = `<a class="font-medium underline" href="${TRIAL_URL}">${__("Start free trial")}</a>`;
-  keepBlockedToast();
-  return { exc_type: "PermissionError", _error_message: `${copy} ${cta}` };
+      ? __("That works on a real help center")
+      : __("That works on your own Helpdesk");
+  showBlocked(copy);
+  dropCallerToast(copy);
+  return { exc_type: "PermissionError", _error_message: copy };
 }
 
-// The caller toasts with the 4s default; updating that toast by id keeps it until closed.
-// ponytail: polls for 2s, a caller that toasts later keeps the default
-function keepBlockedToast(tries = 40) {
-  const shown = toast.getToasts().find(isBlockedToast);
-  if (shown) toast(shown.title, { id: shown.id, duration: Infinity });
-  else if (tries) setTimeout(() => keepBlockedToast(tries - 1), 50);
+let noticeMounted = false;
+function showBlocked(copy: string) {
+  if (!noticeMounted) createApp(BlockedNotice).mount(document.body.appendChild(document.createElement("div")));
+  noticeMounted = true;
+  raiseNotice(copy);
 }
 
-function isBlockedToast(shown: any) {
-  // frappe-ui wraps an HTML message in a render function
-  const html = typeof shown.title === "function" ? shown.title()?.props?.innerHTML : null;
-  return shown.duration !== Infinity && Boolean(html?.includes(TRIAL_URL));
+// ponytail: watches for 2s, a caller that toasts later keeps its toast
+function dropCallerToast(copy: string, frames = 120) {
+  const shown = toast.getToasts().find((t: any) => [t.title, t.description].some((part) => text(part).includes(copy)));
+  if (shown) toast.dismiss(shown.id);
+  else if (frames) requestAnimationFrame(() => dropCallerToast(copy, frames - 1));
+}
+
+// frappe-ui wraps a string message in a render function
+function text(part: unknown): string {
+  if (typeof part === "string") return part;
+  return typeof part === "function" ? (part() as any)?.props?.innerHTML ?? "" : "";
 }
 
 type Call = { method: string; params: Doc; write: boolean };

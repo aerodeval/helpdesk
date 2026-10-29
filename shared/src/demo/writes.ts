@@ -11,6 +11,9 @@ type Body = { message: unknown; docs?: Doc[] } | typeof BLOCKED;
 type Fake = (params: Doc) => Body | Promise<Body>;
 
 const TICKET = "HD Ticket";
+// The list saves every filter, sort and column change into the visitor's default view. Those saves
+// are dropped quietly, so the list keeps working without a Blocked Notice per filter.
+const VIEW = "HD View";
 // BulkEditModal waits for a `progress` event from this many tickets up
 const BACKGROUND_THRESHOLD = 20;
 const SAVED_REPLY_FIELDS: Record<string, string> = {
@@ -36,7 +39,7 @@ export const writes: Record<string, Fake> = {
   run_doc_method: ({ dt, dn, method, args }) =>
     dt === TICKET && DOC_METHODS[method] ? DOC_METHODS[method](String(dn), jsonParam(args) ?? {}) : BLOCKED,
   "frappe.client.set_value": setValue,
-  "frappe.client.insert": insertArticle,
+  "frappe.client.insert": insert,
   "frappe.desk.form.assign_to.add": async ({ doctype, name, assign_to }) => {
     if (doctype !== TICKET) return BLOCKED;
     await assign(String(name), jsonParam(assign_to), []);
@@ -126,6 +129,10 @@ async function assign(ticket: string, add: string[], remove: string[], live = tr
 }
 
 async function setValue({ doctype, name, fieldname, value }: Doc): Promise<Body> {
+  if (doctype === VIEW) {
+    const view = await callServer("frappe.client.get_value", { doctype, filters: name, fieldname: "is_default" });
+    if (view?.is_default) return done();
+  }
   const fields = typeof fieldname === "string" && !fieldname.startsWith("{") ? { [fieldname]: value } : jsonParam(fieldname);
   // a published draft would need every portal KB read synthesized
   const allowed = doctype === TICKET || (doctype === "HD Article" && overlay.isNew(doctype, name) && fields.status !== "Published");
@@ -185,8 +192,9 @@ async function applySavedReplyActions({ ticket_id, actions }: Doc): Promise<Body
   return { message: { applied, skipped } };
 }
 
-async function insertArticle({ doc }: Doc): Promise<Body> {
+async function insert({ doc }: Doc): Promise<Body> {
   const article = jsonParam(doc);
+  if (article.doctype === VIEW && article.is_default) return { message: article };
   if (article.doctype !== "HD Article") return BLOCKED;
   const user = sessionUser().email;
   const category = await callServer("frappe.client.get_value", {
