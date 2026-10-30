@@ -60,8 +60,9 @@
       </CommandPaletteGroup>
     </CommandPaletteList>
 
-    <CommandPaletteEmpty v-if="!isLoading">{{
-      emptyMessage
+    <!-- Stays mounted as the live region; an empty text node keeps fui's fallback out. -->
+    <CommandPaletteEmpty>{{
+      isLoading ? "" : emptyMessage
     }}</CommandPaletteEmpty>
 
     <CommandPaletteFooter>
@@ -128,6 +129,8 @@ import {
 
 // A command owns focus after it runs; only a dismissal returns it to the opener.
 let commandRan = false;
+// Reka's pointerleave drops the highlight but fui's `active` keeps the old row.
+let isRowHighlighted = () => false;
 
 // Reaches reka state fui hides: keeps a live row highlighted, skips refocus after a run.
 const RekaBridge = defineComponent({
@@ -142,6 +145,13 @@ const RekaBridge = defineComponent({
       },
       { flush: "post" }
     );
+    watch(listbox.highlightedElement, (element, previous) => {
+      if (element || !previous || !isOpen.value) return;
+      // fui nulls it itself when the list empties; only refill a non-empty list.
+      if (groups.value.some((group) => group.items.length))
+        listbox.highlightFirstItem();
+    });
+    isRowHighlighted = () => !!listbox.highlightedElement.value?.isConnected;
     watch(isOpen, (open) => {
       if (open) return;
       if (commandRan) dialog.triggerElement.value = undefined;
@@ -215,7 +225,8 @@ function drillIn(event: KeyboardEvent, command?: Command) {
   const caretAtEnd =
     input.selectionStart === input.selectionEnd &&
     input.selectionEnd === input.value.length;
-  if (modified || !caretAtEnd || !command?.children) return;
+  if (modified || !caretAtEnd || !isRowHighlighted() || !command?.children)
+    return;
   event.preventDefault();
   run(command);
 }
