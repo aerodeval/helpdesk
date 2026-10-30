@@ -12,7 +12,7 @@ All paths are under `desk/src/components/command-palette/`.
 | File | Job |
 |---|---|
 | `useCommandPalette.ts` | The engine. All state, ranking, `run()`, server search. |
-| `CommandPalette.vue` | The dialog. Renders `groups`, owns keyboard/mouse, calls `run()`. |
+| `CommandPalette.vue` | The dialog: `frappe-ui/experimental`'s `CommandPalette` with `:filterable="false"`. Renders `groups`, adds Esc/Backspace/→ layering, calls `run()`. |
 | `CommandPaletteRow.vue` | One row: icon, title, tick, hint. |
 | `paletteTypes.ts` | The `Command` interface + shared constants. Exists to break import cycles. |
 | `commands.ts` | Global root commands (nav, create, account, recents, `#123` jump). |
@@ -65,14 +65,8 @@ scattered subsequence (`fuzzyScore.ts`), `keywords` match at a penalty,
 `weight` multiplies, `rank` (server hits) bypasses scoring entirely. Sort,
 bucket by `group`, render.
 
-`flatItems` (`useCommandPalette.ts:246`) flattens the groups back into one
-array — that's what arrow keys and Enter index into
-(`CommandPalette.vue:313`):
-
-```ts
-const command = flatItems.value[activeIndex.value];
-run(command);
-```
+fui's list owns ↑/↓/Enter over the rendered rows. Picking one emits `select`,
+and `onSelect` in `CommandPalette.vue` hands it to `run(command)`.
 
 ## Enter: `run()` (useCommandPalette.ts:112)
 
@@ -111,7 +105,7 @@ Full trace of `⌘K → "them" → Enter`:
 2. Each keystroke → `onQueryChange("them")` (`useCommandPalette.ts:284`) →
    `groups` recomputes → `fuzzyScore("Toggle theme", "them")` gives a
    word-boundary match → the row surfaces near the top.
-3. Enter → `CommandPalette.vue:313` → `run(command)`.
+3. Enter → fui's list picks the highlighted row → `onSelect` → `run(command)`.
 4. No `children`, no `keepOpen` → `closePalette(); command.perform()` →
    theme flips. **The palette closes first** so the action lands on a clean
    screen.
@@ -217,8 +211,8 @@ What consumes it:
    ticket, so a "Ticket" header would repeat it). Each scoped row carries
    `weight: CONTEXT_WEIGHT` (1.2, `paletteTypes.ts:92`) — that's *how* scoped
    rows lead once you type: they outrank, they don't exclude.
-2. **The chip** (`CommandPalette.vue:24`) — renders `label + title` above the
-   input. Inert by design; removal is Backspace, advertised by the footer's
+2. **The chip** (the input's prefix in `CommandPalette.vue`) — renders
+   `label + title` beside the input. Inert by design; removal is Backspace, advertised by the footer's
    esc label.
 3. **The command builders** — `ticketCommands(ticketId)` closes over the id,
    so every `perform` ("Set status", "Assign to me", tag toggles) knows which
@@ -296,9 +290,7 @@ Contacts: `cont` is a prefix of the title → 1000, × nav weight 0.7 = **700**.
 So the list reads Contacts (700) above Settings (341) — both visible, because
 a weak match is still a match. One keystroke earlier (`con`) the order was
 *reversed*: Settings scored 948 − 50 = **898** via the `configure` substring,
-beating Contacts' 700 — which is why the highlight was sitting on Settings,
-and the follow-the-row watch (`CommandPalette.vue:388`) kept it there as the
-row sank.
+beating Contacts' 700 — which is why the highlight was sitting on Settings.
 
 ## Server search, in one paragraph
 
