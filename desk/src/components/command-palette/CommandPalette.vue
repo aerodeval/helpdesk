@@ -61,9 +61,7 @@
     </CommandPaletteList>
 
     <!-- Stays mounted as the live region; an empty text node keeps fui's fallback out. -->
-    <CommandPaletteEmpty>{{
-      isLoading ? "" : emptyMessage
-    }}</CommandPaletteEmpty>
+    <CommandPaletteEmpty>{{ emptyMessage }}</CommandPaletteEmpty>
 
     <CommandPaletteFooter>
       <span class="flex items-center gap-1.5 text-xs text-ink-gray-4">
@@ -165,6 +163,7 @@ const stepLabel = computed(() => (depth.value ? breadcrumb.value.at(-1) : ""));
 
 /** Per-level: an empty drill-down is not "No commands found". */
 const emptyMessage = computed(() => {
+  if (isLoading.value) return "";
   if (query.value) return __('No results for "{0}"', query.value);
   if (stepLabel.value) return __("Nothing left in {0}", stepLabel.value);
   return __("No commands found");
