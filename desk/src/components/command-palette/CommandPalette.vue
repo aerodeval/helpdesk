@@ -127,8 +127,6 @@ import {
 
 // A command owns focus after it runs; only a dismissal returns it to the opener.
 let commandRan = false;
-// Reka's pointerleave drops the highlight but fui's `active` keeps the old row.
-let isRowHighlighted = () => false;
 
 // Reaches reka state fui hides: keeps a live row highlighted, skips refocus after a run.
 const RekaBridge = defineComponent({
@@ -149,7 +147,6 @@ const RekaBridge = defineComponent({
       if (groups.value.some((group) => group.items.length))
         listbox.highlightFirstItem();
     });
-    isRowHighlighted = () => !!listbox.highlightedElement.value?.isConnected;
     watch(isOpen, (open) => {
       if (open) return;
       if (commandRan) dialog.triggerElement.value = undefined;
@@ -224,8 +221,7 @@ function drillIn(event: KeyboardEvent, command?: Command) {
   const caretAtEnd =
     input.selectionStart === input.selectionEnd &&
     input.selectionEnd === input.value.length;
-  if (modified || !caretAtEnd || !isRowHighlighted() || !command?.children)
-    return;
+  if (modified || !caretAtEnd || !command?.children) return;
   event.preventDefault();
   run(command);
 }
