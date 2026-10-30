@@ -229,7 +229,6 @@ function groupCommands(source: Command[], term: string): PaletteGroup[] {
   return [...byGroup].map(([title, items]) => ({ title: __(title), items }));
 }
 
-export const flatItems = computed(() => groups.value.flatMap((g) => g.items));
 export const isLoading = computed(
   () => loadingChildren.value || searchLoading.value
 );
