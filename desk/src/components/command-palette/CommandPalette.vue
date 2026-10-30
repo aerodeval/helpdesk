@@ -37,6 +37,7 @@
           class="shrink-0"
           :label="stepLabel"
           :icon-right="LucideChevronRight"
+          @mousedown.prevent
           @click="back"
         />
       </template>
@@ -179,8 +180,9 @@ function onSelect(
 ) {
   event.preventDefault();
   const command = value as Command;
-  commandRan = !command.children && !command.keepOpen;
   run(command);
+  // Only a leaf closes, and synchronously, so open-state is the outcome.
+  commandRan = !isOpen.value;
 }
 
 function onKeydown(event: KeyboardEvent, active: CommandPaletteValue) {

@@ -1,5 +1,6 @@
 <template>
-  <CommandPaletteItem :value="command">
+  <!-- Keep focus on the input: every key handler is bound there. -->
+  <CommandPaletteItem :value="command" @mousedown.prevent>
     <template #prefix>
       <Avatar
         v-if="command.avatar"
