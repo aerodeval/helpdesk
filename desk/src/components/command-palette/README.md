@@ -4,7 +4,9 @@ Leads with the actions for whatever you're looking at — on a ticket, that
 ticket's actions behind a removable context chip; on the ticket list, that list's
 filters and views — then falls back to search, recents and navigation.
 
-Mounted once, in `layouts/AppSidebar.vue`, on desktop only.
+Mounted once, in `layouts/AppSidebar.vue`, on desktop only. The shell is
+`frappe-ui/experimental`'s CommandPalette with `:filterable="false"`: this
+engine ranks, fui renders.
 
 ## The `Command` shape
 
