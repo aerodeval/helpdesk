@@ -129,11 +129,7 @@ import {
 // A command owns focus after it runs; only a dismissal returns it to the opener.
 let commandRan = false;
 
-/**
- * Rendered inside the palette to reach reka state fui doesn't expose. Re-highlights
- * when rows swap without typing (drill-downs, late search), else Enter hits a removed
- * row; and drops the opener reka refocuses on close once a command has run.
- */
+// Reaches reka state fui hides: keeps a live row highlighted, skips refocus after a run.
 const RekaBridge = defineComponent({
   setup() {
     const listbox = injectListboxRootContext();
@@ -147,7 +143,9 @@ const RekaBridge = defineComponent({
       { flush: "post" }
     );
     watch(isOpen, (open) => {
-      if (!open && commandRan) dialog.triggerElement.value = undefined;
+      if (open) return;
+      if (commandRan) dialog.triggerElement.value = undefined;
+      commandRan = false;
     });
     return () => null;
   },
@@ -224,9 +222,7 @@ function drillIn(event: KeyboardEvent, command?: Command) {
 
 // Reset on open, not close: resetting on close revived the dismissed chip mid-fade.
 watch(isOpen, (open) => {
-  if (!open) return;
-  resetPalette();
-  commandRan = false;
+  if (open) resetPalette();
 });
 
 // frappe-ui's useKeyboardShortcut: the local one suppresses bindings in inputs
