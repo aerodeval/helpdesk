@@ -4,7 +4,7 @@ import { toast } from "frappe-ui";
 import { createApp } from "vue";
 import { __ } from "../translation";
 import type { Doc } from "./filters";
-import BlockedNotice, { raiseNotice } from "./BlockedNotice.vue";
+import BlockedNotice, { noticeOpen, raiseNotice } from "./BlockedNotice.vue";
 import { overlay } from "./overlay";
 import { reads } from "./reads";
 import { realFetch } from "./server";
@@ -15,15 +15,13 @@ export { loginUrl, SALES_URL, TRIAL_URL } from "./dock";
 export { demoBoot, isDemo, sessionUser } from "./session";
 export { restartDemo, showRefreshNotice } from "./overlay";
 
-// Every Blocked Action ends here, as a 403 body, and raises the Blocked Notice banner. The caller's
-// own error handling toasts the 403 message too; the banner says it better, so that toast goes.
+// Every Blocked Action ends here, as a 403 body, and raises the Blocked Notice.
 export function onBlocked(_action: string) {
   const copy =
     demoBoot()?.persona === "customer"
       ? __("That works on a real help center")
       : __("That works on your own Helpdesk");
   showBlocked(copy);
-  dropCallerToast(copy);
   return { exc_type: "PermissionError", _error_message: copy };
 }
 
@@ -32,19 +30,15 @@ function showBlocked(copy: string) {
   if (!noticeMounted) createApp(BlockedNotice).mount(document.body.appendChild(document.createElement("div")));
   noticeMounted = true;
   raiseNotice(copy);
+  toast.dismiss();
 }
 
-// ponytail: watches for 2s, a caller that toasts later keeps its toast
-function dropCallerToast(copy: string, frames = 120) {
-  const shown = toast.getToasts().find((t: any) => [t.title, t.description].some((part) => text(part).includes(copy)));
-  if (shown) toast.dismiss(shown.id);
-  else if (frames) requestAnimationFrame(() => dropCallerToast(copy, frames - 1));
-}
-
-// frappe-ui wraps a string message in a render function
-function text(part: unknown): string {
-  if (typeof part === "string") return part;
-  return typeof part === "function" ? (part() as any)?.props?.innerHTML ?? "" : "";
+// The notice says it all: the caller's error toast, or a success it assumed, never shows under it.
+function muteToastsWhile(muted: () => boolean) {
+  for (const kind of ["success", "error", "warning", "info", "message", "loading"] as const) {
+    const show = toast[kind];
+    toast[kind] = ((...args: Parameters<typeof show>) => (muted() ? "" : show(...args))) as typeof show;
+  }
 }
 
 type Call = { method: string; params: Doc; write: boolean };
@@ -58,6 +52,7 @@ if (!page.__helpdeskDemo) {
   page.__helpdeskDemo = true;
   window.fetch = interceptFetch;
   interceptUpload();
+  muteToastsWhile(noticeOpen);
 }
 
 async function interceptFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {

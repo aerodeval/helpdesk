@@ -93,6 +93,8 @@ const notice = shallowReactive({ title: "" });
 export function raiseNotice(title: string) {
   notice.title = title;
 }
+
+export const noticeOpen = () => Boolean(notice.title);
 </script>
 
 <script setup lang="ts">
