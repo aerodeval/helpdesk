@@ -154,6 +154,15 @@ class TestDemo(IntegrationTestCase):
         login_manager.login_as.assert_called_once_with(self.personas["agent"])
         self.assertEqual(frappe.local.response["location"], "/helpdesk")
 
+    def test_login_as_persona_refuses_a_user_with_wider_roles(self):
+        self.seed()
+        frappe.get_doc("User", self.personas["agent"]).add_roles("System Manager")
+        login_manager = MagicMock()
+        with patch.object(frappe.local, "login_manager", login_manager, create=True):
+            with self.assertRaises(frappe.PermissionError):
+                login_as_persona("agent", "/helpdesk")
+        login_manager.login_as.assert_not_called()
+
     def test_replay_loads_the_fernbill_fixture(self):
         seed_demo(self, str(FIXTURE_DIR))
         for doctype, count in (

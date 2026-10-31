@@ -30,6 +30,15 @@ LOG_DOCTYPES = {
 
 PERSONAS = ("agent", "customer")
 
+# The user type and the only roles each persona may hold. A guest signs in as the persona,
+# so a user with any wider role (System Manager, say) is refused rather than handed out.
+PERSONA_ACCESS = {
+    "agent": ("System User", {"Agent", "Agent Manager"}),
+    "customer": ("Website User", {"HD Customer"}),
+}
+# What Frappe gives every user of the type
+IMPLICIT_ROLES = {"All", "Guest", "Desk User"}
+
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
 @rate_limit(limit=60, seconds=60 * 60)
@@ -47,9 +56,21 @@ def login_as_persona(persona: str, route: str):
     user = is_enabled() and get_state(persona)
     if not user:
         frappe.throw(_("Not found"), frappe.DoesNotExistError)
+    if not has_persona_access(user, persona):
+        frappe.log_error(f"Demo {persona} {user} has more access than a persona may")
+        frappe.throw(_("Not permitted"), frappe.PermissionError)
     frappe.local.login_manager.login_as(user)
     frappe.local.response["type"] = "redirect"
     frappe.local.response["location"] = route
+
+
+def has_persona_access(user: str, persona: str) -> bool:
+    user_type, roles = PERSONA_ACCESS[persona]
+    if user in ("Administrator", "Guest"):
+        return False
+    if frappe.db.get_value("User", user, ["user_type", "enabled"]) != (user_type, 1):
+        return False
+    return set(frappe.get_roles(user)) <= roles | IMPLICIT_ROLES
 
 
 def is_guarded_persona(user: str) -> bool:
