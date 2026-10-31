@@ -9,12 +9,18 @@ from unittest.mock import MagicMock, patch
 import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import add_to_date, get_datetime, getdate, now_datetime
+from werkzeug.exceptions import HTTPException
 
 from helpdesk.api.knowledge_base import get_general_category
 from helpdesk.demo import get_state
 from helpdesk.demo.date_shift import DateShift, shift_dates
 from helpdesk.demo.fixture import FIXTURE_DIR
-from helpdesk.demo.persona import SETTINGS_FIELDS, get_boot, login_as_persona
+from helpdesk.demo.persona import (
+    SETTINGS_FIELDS,
+    get_boot,
+    keep_persona_out_of_desk,
+    login_as_persona,
+)
 from helpdesk.demo.replay import reseed
 from helpdesk.setup.welcome_ticket import create_welcome_ticket
 from helpdesk.test_utils import (
@@ -162,6 +168,21 @@ class TestDemo(IntegrationTestCase):
             with self.assertRaises(frappe.PermissionError):
                 login_as_persona("agent", "/helpdesk")
         login_manager.login_as.assert_not_called()
+
+    def test_a_persona_is_sent_from_the_desk_to_the_agent_ui(self):
+        self.seed()
+        with self.set_user(self.personas["agent"]):
+            for path in ("/app", "/app/hd-ticket", "/desk/hd-ticket"):
+                with patch.object(
+                    frappe.local, "request", MagicMock(path=path), create=True
+                ):
+                    with self.assertRaises(HTTPException) as raised:
+                        keep_persona_out_of_desk()
+                self.assertEqual(raised.exception.response.location, "/helpdesk")
+            with patch.object(
+                frappe.local, "request", MagicMock(path="/helpdesk"), create=True
+            ):
+                keep_persona_out_of_desk()
 
     def test_replay_loads_the_fernbill_fixture(self):
         seed_demo(self, str(FIXTURE_DIR))

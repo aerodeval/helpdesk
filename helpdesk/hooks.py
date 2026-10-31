@@ -29,6 +29,7 @@ after_migrate = [
     "helpdesk.search.download_corpus",
     "helpdesk.demo.replay.reseed_if_changed",
 ]
+before_request = ["helpdesk.demo.persona.keep_persona_out_of_desk"]
 after_request = ["helpdesk.demo.persona.add_noindex_header"]
 
 

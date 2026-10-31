@@ -1,3 +1,4 @@
+import { isDemo } from "@helpdesk/shared/demo";
 import { createResource } from "frappe-ui";
 import { computed, h, markRaw, type Component, type ComputedRef } from "vue";
 import AppsIcon from "@/components/icons/AppsIcon.vue";
@@ -33,7 +34,8 @@ export function useApps() {
   const resource = createResource({
     url: "frappe.apps.get_apps",
     cache: "apps",
-    auto: true,
+    // the demo personas have no desk
+    auto: !isDemo(),
     transform: (data: App[]) => {
       const apps = [deskApp];
       data.forEach((app) => {
@@ -51,15 +53,19 @@ export function useApps() {
 
   const apps = computed<App[]>(() => resource.data ?? []);
 
-  const appsMenuOption: ComputedRef<AppsMenuOption> = computed(() => ({
-    label: "Apps",
-    icon: markRaw(AppsIcon),
-    submenu: apps.value.map((app) => ({
-      label: app.title,
-      icon: h("img", { src: app.logo }),
-      onClick: () => window.open(app.route, "_self"),
-    })),
-  }));
+  const appsMenuOption: ComputedRef<AppsMenuOption | null> = computed(() =>
+    isDemo()
+      ? null
+      : {
+          label: "Apps",
+          icon: markRaw(AppsIcon),
+          submenu: apps.value.map((app) => ({
+            label: app.title,
+            icon: h("img", { src: app.logo }),
+            onClick: () => window.open(app.route, "_self"),
+          })),
+        }
+  );
 
   return { apps, appsMenuOption };
 }

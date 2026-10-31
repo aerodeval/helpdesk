@@ -1,9 +1,13 @@
 """Visitor access: persona auto-login, the server write guard, boot keys and noindex."""
 
+import re
+
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
 from frappe.utils import cint
+from werkzeug.exceptions import abort
+from werkzeug.utils import redirect
 
 from helpdesk.demo import get_state, is_enabled
 from helpdesk.helpdesk.doctype.hd_service_level_agreement.utils import get_sla
@@ -29,6 +33,9 @@ LOG_DOCTYPES = {
 }
 
 PERSONAS = ("agent", "customer")
+
+# Frappe's desk: /app on v15, /desk on v16
+DESK_PATH = re.compile(r"^/(app|desk)(/|$)")
 
 # The user type and the only roles each persona may hold. A guest signs in as the persona,
 # so a user with any wider role (System Manager, say) is refused rather than handed out.
@@ -77,6 +84,13 @@ def is_guarded_persona(user: str) -> bool:
     return (
         is_enabled() and not frappe.flags.in_demo_seed and get_persona(user) is not None
     )
+
+
+def keep_persona_out_of_desk():
+    """before_request: a persona works in the agent UI, never Frappe's desk."""
+    if DESK_PATH.match(frappe.request.path) and is_guarded_persona(frappe.session.user):
+        # 302: a cached 301 would follow the visitor into a real login
+        abort(redirect("/helpdesk", 302))
 
 
 def reject_persona_write(doc, method=None, *args, **kwargs):
