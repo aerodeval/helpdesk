@@ -1,5 +1,4 @@
 <template>
-  <!-- Keep focus on the input: every key handler is bound there. -->
   <CommandPaletteItem :value="command" @mousedown.prevent>
     <template #prefix>
       <Avatar
@@ -9,7 +8,6 @@
         size="xs"
         class="me-3 shrink-0"
       />
-      <!-- Boxed to the icon's width, so a dot row's title lands on the same axis. -->
       <span
         v-else-if="command.dotClass"
         class="me-3 flex size-4 shrink-0 items-center justify-center"
@@ -27,7 +25,6 @@
       />
     </template>
 
-    <!-- Server matches stand out by ink, since every row is already medium weight. -->
     <span
       v-for="(run, index) in runs"
       :key="index"
@@ -68,7 +65,6 @@ const props = defineProps<{
   command: Command;
 }>();
 
-/** One unmatched run for every row without server highlighting. */
 const runs = computed(() =>
   props.command.marked
     ? titleRuns(props.command.marked)
@@ -77,7 +73,6 @@ const runs = computed(() =>
 
 const { metaIcon } = useDevice();
 
-/** "Mod+Shift+." -> "⌘ Shift ." — ShortcutKey caps each space-separated key. */
 const shortcutKeys = computed(() =>
   (props.command.hint ?? "")
     .split("+")
