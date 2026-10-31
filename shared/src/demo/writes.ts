@@ -3,7 +3,7 @@
 import type { Doc } from "./filters";
 import { overlay } from "./overlay";
 import { categoryFields, siteTime, slaTargets } from "./replay";
-import { agents, callServer, jsonParam, statusCategories } from "./server";
+import { agents, callServer, jsonParam, outgoingAccounts, statusCategories } from "./server";
 import { demoBoot, emitLocal, randomName, sessionUser, siteTimezone } from "./session";
 
 export const BLOCKED = Symbol("blocked");
@@ -11,6 +11,9 @@ type Body = { message: unknown; docs?: Doc[] } | typeof BLOCKED;
 type Fake = (params: Doc) => Body | Promise<Body>;
 
 const TICKET = "HD Ticket";
+const AGENT = "HD Agent";
+// What visitors may change on their own profile
+const PROFILE_FIELDS: Record<string, string[]> = { User: ["email_signature"], [AGENT]: ["availability"] };
 // The list saves every filter, sort and column change into the visitor's default view. Those saves
 // are dropped quietly, so the list keeps working without a Blocked Notice per filter.
 const VIEW = "HD View";
@@ -59,6 +62,16 @@ export const writes: Record<string, Fake> = {
   "frappe.desk.doctype.bulk_update.bulk_update.submit_cancel_or_update_docs": bulkUpdate,
   "helpdesk.api.saved_replies.apply_saved_reply_actions": applySavedReplyActions,
   "helpdesk.helpdesk.doctype.hd_ticket.api.new": newTicket,
+  "helpdesk.api.auth.set_user_email_accounts": async ({ email_accounts }) => {
+    const accounts = await outgoingAccounts();
+    const user_emails = (jsonParam(email_accounts) as string[])
+      .map((name) => accounts.find((account) => account.name === name))
+      .filter(Boolean)
+      .map((account) => ({ email_account: account!.name, email_id: account!.email_id }));
+    const by = sessionUser();
+    await overlay.record("set", { doctype: "User", name: by.email, fields: { user_emails }, by });
+    return done();
+  },
   "helpdesk.api.knowledge_base.increment_views": done,
   "frappe.onboarding.update_user_onboarding_status": done,
   // ponytail: read state is not kept, so a reload shows the notification unread again
@@ -75,7 +88,7 @@ async function reply(ticket: string, args: Doc): Promise<Body> {
   if (s.auto_update_status && s.update_status_to) fields.status = s.update_status_to;
   if (doc.agreement_status === "First Response Due") fields.agreement_status = "Resolution Due";
   if (fields.status) Object.assign(fields, await statusFields(doc, fields.status));
-  const email = emailOf(doc, args.message, args.attachments, "Sent");
+  const email = { ...emailOf(doc, args.message, args.attachments, "Sent"), sender: args.from_email?.email_id ?? sessionUser().email };
   await overlay.record("email", { name: ticket, fields, email: { ...email, to: args.to, cc: args.cc, bcc: args.bcc } });
   ticketUpdated(ticket);
   return { message: email.name, docs: [await overlay.doc(TICKET, ticket)] };
@@ -135,15 +148,35 @@ async function setValue({ doctype, name, fieldname, value }: Doc): Promise<Body>
   }
   const fields = typeof fieldname === "string" && !fieldname.startsWith("{") ? { [fieldname]: value } : jsonParam(fieldname);
   // a published draft would need every portal KB read synthesized
-  const allowed = doctype === TICKET || (doctype === "HD Article" && overlay.isNew(doctype, name) && fields.status !== "Published");
+  const allowed =
+    doctype === TICKET ||
+    (doctype === "HD Article" && overlay.isNew(doctype, name) && fields.status !== "Published") ||
+    (name === sessionUser().email && doctype in PROFILE_FIELDS && Object.keys(fields).every((field) => PROFILE_FIELDS[doctype].includes(field)));
   if (!allowed) return BLOCKED;
   await setFields(doctype, await overlay.doc(doctype, String(name)), fields);
-  return { message: await overlay.doc(doctype, String(name)) };
+  const doc = await overlay.doc(doctype, String(name));
+  if (doctype === AGENT) availabilityChanged(doc);
+  return { message: doc };
+}
+
+// HD Agent's on_update broadcast, which the status store and the assign picker listen for
+function availabilityChanged(agent: Doc) {
+  emitLocal("agent_availability_updated", {
+    agent: agent.name,
+    availability: agent.availability,
+    availability_changed_on: agent.availability_changed_on,
+    changed_by: agent.availability_changed_by,
+  });
 }
 
 async function setFields(doctype: string, doc: Doc, fields: Doc) {
   const from = Object.fromEntries(Object.keys(fields).map((field) => [field, doc[field]]));
-  const derived = doctype === TICKET && fields.status ? await statusFields(doc, fields.status) : {};
+  const derived =
+    doctype === TICKET && fields.status
+      ? await statusFields(doc, fields.status)
+      : doctype === AGENT
+        ? { availability_changed_on: new Date().toISOString(), availability_changed_by: sessionUser().email }
+        : {};
   return overlay.record("set", { doctype, name: String(doc.name), fields, derived, from, by: sessionUser() });
 }
 

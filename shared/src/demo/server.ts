@@ -24,6 +24,18 @@ export const agents = once(async () => {
   return Object.fromEntries(rows.map((agent: Doc) => [agent.name, agent])) as Record<string, Doc>;
 });
 
+// The seed has no Email Account, as nothing may send, so the From picker offers Fernbill's team inboxes
+const DEMO_INBOXES = [
+  { name: "Fernbill Support", email_id: "support@fernbill.example" },
+  { name: "Fernbill Billing", email_id: "billing@fernbill.example" },
+  { name: "Fernbill Success", email_id: "success@fernbill.example" },
+];
+
+export const outgoingAccounts = once(async (): Promise<Doc[]> => {
+  const info = await callServer("helpdesk.api.auth.get_current_user_email_info").catch(() => null);
+  return info?.available_emails?.length ? info.available_emails : DEMO_INBOXES;
+});
+
 export const statusCategories = once(async () => {
   const rows = await callServer("frappe.client.get_list", {
     doctype: "HD Ticket Status",

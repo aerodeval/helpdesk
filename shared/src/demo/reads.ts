@@ -3,13 +3,14 @@
 import { conditions, matches, type Doc, type Filters } from "./filters";
 import { overlay } from "./overlay";
 import { assignees, docKey, editedFirst, type Activity } from "./replay";
-import { agents, callServer, jsonParam } from "./server";
+import { agents, callServer, jsonParam, outgoingAccounts } from "./server";
 import { sessionUser } from "./session";
 
 type Read = { own?: (params: Doc) => unknown; merge?: (message: any, params: Doc) => unknown };
 
 const TICKET = "HD Ticket";
 const ARTICLE = "HD Article";
+const AGENT = "HD Agent";
 const OVERLAID = [TICKET, ARTICLE];
 const API = "helpdesk.helpdesk.doctype.hd_ticket.api";
 const isNewTicket = (name: unknown) => overlay.isNew(TICKET, name);
@@ -21,8 +22,10 @@ const noTimeline = { activities: [], has_more_emails: false, has_more_milestones
 export const reads: Record<string, Read> = {
   "frappe.client.get": {
     own: ({ doctype, name }) => (overlay.isNew(doctype, name) ? overlay.merge(doctype, { name }) : undefined),
-    merge: (doc, { doctype }) => (OVERLAID.includes(doctype) ? overlay.merge(doctype, doc) : doc),
+    merge: (doc, { doctype }) => overlay.merge(doctype, doc),
   },
+  "helpdesk.api.auth.get_user": { merge: ownAvailability },
+  "helpdesk.api.auth.get_current_user_email_info": { merge: emailInfo },
   "helpdesk.api.doc.get_list_data": { merge: listData },
   "helpdesk.api.doc.get_grouped_list": { merge: groupedList },
   "frappe.client.get_list": { merge: plainList },
@@ -77,6 +80,8 @@ async function listData(message: Doc, params: Doc) {
 }
 
 async function plainList(rows: Doc[], params: Doc) {
+  // the visitor's availability, in the assign and agent pickers
+  if (params.doctype === AGENT) return rows.map((row) => pick(overlay.merge(AGENT, row), Object.keys(row)));
   const fields: string[] = jsonParam(params.fields) ?? ["name"];
   const firstPage = !Number(params.start ?? params.limit_start ?? 0);
   const plain = fields.every((field) => /^\w+$/.test(field)) && !params.group_by;
@@ -117,7 +122,6 @@ async function groupedList(groups: Doc[], params: Doc) {
 // Patches the page's rows, drops those that stop matching, and puts new matches on top.
 async function mergeRows(doctype: string, rows: Doc[], filters: Filters, fields: string[]) {
   const user = sessionUser().email;
-  const pick = (doc: Doc, keys: string[]) => Object.fromEntries(keys.map((key) => [key, doc[key] ?? null]));
   // The server already matched these, so only a loaded field can unmatch them: a filter on a
   // column the view hides, or an operator we cannot evaluate, keeps the row.
   const stillMatches = (doc: Doc) => matches(doc, conditions(filters).filter(([field]) => field in doc), user, true);
@@ -150,6 +154,23 @@ async function outside(doctype: string, onPage: string[], fields: string[], filt
     ...bases.map((base) => ({ base: base as Doc | null, doc: overlay.merge(doctype, base) })),
     ...names.filter((name) => overlay.isNew(doctype, name)).map((name) => ({ base: null, doc: overlay.merge(doctype, { name }) })),
   ];
+}
+
+function ownAvailability(user: Doc) {
+  if (!overlay.touched(AGENT, user.user_id)) return user;
+  const { availability, availability_changed_on, availability_changed_by } = overlay.merge(AGENT, { name: user.user_id });
+  return { ...user, availability, availability_changed_on, availability_changed_by };
+}
+
+// The signature and From accounts the visitor saved, over the server's
+async function emailInfo(info: Doc) {
+  const user = overlay.merge("User", { name: sessionUser().email });
+  return {
+    ...info,
+    email_signature: user.email_signature ?? info.email_signature,
+    outgoing_emails: user.user_emails ?? info.outgoing_emails,
+    available_emails: await outgoingAccounts(),
+  };
 }
 
 function timeline(message: Doc, { doctype, name, visible_types }: Doc) {
@@ -254,6 +275,7 @@ function rowsOf(ticket: unknown): Activity[] {
   return overlay.projection.timeline.get(String(ticket)) ?? [];
 }
 
+const pick = (doc: Doc, keys: string[]) => Object.fromEntries(keys.map((key) => [key, doc[key] ?? null]));
 const hits = (doc: Doc | null, filters: Filters, user: string) => Number(Boolean(doc) && matches(doc!, filters, user));
 
 function isEmpty(filters: unknown) {
