@@ -1,63 +1,35 @@
-<!-- The demo dock on desktop, in the sidebar footer: the trial pitch and who the visitor is
-     viewing as. It stands in for Getting started and the Collapse row. -->
+<!-- The demo dock on desktop, in the sidebar footer: who the visitor is viewing as.
+     It stands in for Getting started and the Collapse row. -->
 <template>
-  <div v-if="!isCollapsed" class="flex flex-col gap-2">
-    <div
-      class="flex flex-col gap-3 rounded-7 border border-outline-gray-1 bg-surface-base p-3.5 shadow-sm"
+  <div v-if="!isCollapsed" class="flex items-center gap-1 border-t pt-2">
+    <button
+      class="flex min-w-0 flex-1 items-center gap-2 rounded-6 p-1 text-start hover:bg-surface-gray-2"
+      :aria-label="switchLabel"
+      @click="switchPersona"
     >
-      <div class="flex flex-col gap-1">
-        <span class="text-base font-medium text-ink-gray-9">
-          {{ __("Liking what you see?") }}
-        </span>
-        <span class="text-p-sm text-ink-gray-6">
-          {{
-            __(
-              "Start a free trial with your own team, or talk to sales about the right plan."
-            )
-          }}
-        </span>
-      </div>
-      <div class="flex gap-2">
-        <Button
-          class="flex-1"
-          variant="solid"
-          :label="__('Start free trial')"
-          :href="TRIAL_URL"
-        />
-        <Button variant="outline" :label="__('Sales')" :href="SALES_URL" />
-      </div>
-    </div>
-
-    <div class="mt-1 flex items-center gap-1 border-t pt-2">
-      <button
-        class="flex min-w-0 flex-1 items-center gap-2 rounded-6 p-1 text-start hover:bg-surface-gray-2"
-        :aria-label="switchLabel"
-        @click="switchPersona"
-      >
-        <Avatar
-          :image="user.image"
-          :label="user.fullname"
-          shape="square"
-          size="lg"
-        />
-        <span class="flex min-w-0 flex-1 flex-col">
-          <span class="truncate text-base font-medium text-ink-gray-9">
-            {{ user.fullname }}
-          </span>
-          <span class="truncate text-p-sm text-ink-gray-5">
-            {{ viewingAs }}
-          </span>
-        </span>
-        <LucideChevronsUpDown class="size-4 shrink-0 text-ink-gray-5" />
-      </button>
-      <Button
-        variant="ghost"
-        icon="lucide-panel-left-close"
-        :tooltip="__('Collapse')"
-        :aria-label="__('Collapse')"
-        @click="toggleSidebar"
+      <Avatar
+        :image="user.image"
+        :label="user.fullname"
+        shape="square"
+        size="lg"
       />
-    </div>
+      <span class="flex min-w-0 flex-1 flex-col">
+        <span class="truncate text-base font-medium text-ink-gray-9">
+          {{ user.fullname }}
+        </span>
+        <span class="truncate text-p-sm text-ink-gray-5">
+          {{ viewingAs }}
+        </span>
+      </span>
+      <LucideChevronsUpDown class="size-4 shrink-0 text-ink-gray-5" />
+    </button>
+    <Button
+      variant="ghost"
+      icon="lucide-panel-left-close"
+      :tooltip="__('Collapse')"
+      :aria-label="__('Collapse')"
+      @click="toggleSidebar"
+    />
   </div>
 
   <div v-else class="flex flex-col items-center gap-2">
@@ -87,9 +59,7 @@ import {
   demoBoot,
   loginUrl,
   restartDemo,
-  SALES_URL,
   sessionUser,
-  TRIAL_URL,
 } from "@helpdesk/shared/demo";
 import {
   Avatar,
