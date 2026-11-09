@@ -4,7 +4,13 @@ import frappe
 from frappe.tests import IntegrationTestCase
 
 from helpdesk.api.docs_source import get_import_result, import_docs
-from helpdesk.docs_source.importer import JOB_ID, RESULT_KEY, run_import
+from helpdesk.docs_source.importer import (
+    ALIVE_KEY,
+    JOB_ID,
+    RESULT_KEY,
+    mark_alive,
+    run_import,
+)
 from helpdesk.test_utils import (
     create_agent,
     make_agent_manager,
@@ -59,6 +65,24 @@ class TestImportDocs(DocsApiCase):
                 import_docs(URL, category)
         self.enqueue.assert_not_called()
 
+    def test_new_category_is_created_only_when_the_import_starts(self):
+        frappe.set_user(self.manager)
+        name = unique_name("Docs Site")
+
+        def count():
+            return frappe.db.count("HD Article Category", {"category_name": name})
+
+        import_docs("http://docs.example.com", new_category=name)
+        self.assertEqual(count(), 0)
+
+        self.assertEqual(import_docs(URL, new_category=name)["state"], "running")
+        created = frappe.get_value("HD Article Category", {"category_name": name})
+        self.assertEqual(self.enqueue.call_args.kwargs["category"], created)
+        self.assertEqual(frappe.db.count("HD Article", {"category": created}), 0)
+
+        with self.assertRaises(frappe.ValidationError):
+            import_docs(URL, new_category="General")
+
     def test_import_enqueues_one_long_job(self):
         frappe.set_user(self.manager)
         result = import_docs(f"{URL}:8443/docs/?x=1", self.category)
@@ -85,6 +109,7 @@ class TestRunImport(DocsApiCase):
                 "created": 2,
                 "skipped": 0,
                 "failed": 0,
+                "unreadable": [],
                 "host": HOST,
                 "category": self.category,
             },
@@ -116,12 +141,26 @@ class TestImportResult(DocsApiCase):
         frappe.set_user(self.manager)
         self.assertIsNone(get_import_result())
 
-        running = {"state": "running", "stage": "reading", "done": 3, "total": 9}
-        running["host"] = HOST
-        frappe.cache.set_value(RESULT_KEY, running)
+        finding = {"state": "running", "stage": "finding", "done": 0, "total": 0}
+        finding["host"] = HOST
+        frappe.cache.set_value(RESULT_KEY, finding)
         with patch(ENQUEUED, return_value=True):
-            self.assertEqual(get_import_result(), running)
+            self.assertEqual(get_import_result(), finding)
+        self.assertStopped(get_import_result())  # the job is gone
 
-        result = get_import_result()  # the job is gone
+        run = unique_name("run")
+        reading = {**finding, "stage": "reading", "total": 9, "run": run}
+        frappe.cache.set_value(RESULT_KEY, reading)
+        self.addCleanup(frappe.cache.delete_value, f"docs_import_outcomes:{run}")
+        for _ in range(3):
+            frappe.cache.rpush(f"docs_import_outcomes:{run}", "{}")
+        mark_alive()
+        self.assertEqual(get_import_result()["done"], 3)
+        self.assertIn("already running", import_docs(URL, self.category)["message"])
+
+        frappe.cache.delete_value(ALIVE_KEY)  # no page finished for a while
+        self.assertStopped(get_import_result())
+
+    def assertStopped(self, result):
         self.assertEqual((result["state"], result["host"]), ("error", HOST))
         self.assertIn("stopped before it finished", result["message"])

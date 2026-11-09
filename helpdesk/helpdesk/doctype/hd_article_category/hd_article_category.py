@@ -360,17 +360,19 @@ def narrow_category_articles(category: str, visibility: str | None) -> None:
 
 
 @contextmanager
-def batched_article_index():
-    """Article saves inside queue their search index updates as one job."""
+def batched_article_index(send: bool = True):
+    """Article saves inside queue their search index updates as one job. Yields the
+    articles; with `send` False no job is sent and the caller indexes them."""
     if frappe.flags.batch_article_index is not None:
-        yield  # the outer batch sends the job
+        yield frappe.flags.batch_article_index  # the outer batch sends the job
         return
     frappe.flags.batch_article_index = articles = []
     try:
-        yield
+        yield articles
     finally:
         frappe.flags.batch_article_index = None
-    index_articles(articles)
+    if send:
+        index_articles(articles)
 
 
 def index_articles(articles: list[str], queue: str = "long") -> None:

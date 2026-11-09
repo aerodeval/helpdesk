@@ -81,7 +81,7 @@
       </section>
       <section>
         <h2 class="text-md-semibold text-ink-gray-8">
-          {{ __("Import from a docs site") }}
+          {{ __("Import existing knowledge base") }}
         </h2>
         <div class="mt-2 [&>*]:py-3.5">
           <DocsImport />
@@ -94,7 +94,7 @@
         { title: __('Access'), rows: accessToggles.length },
         { title: __('Customize home page'), panels: [50, 50, 180] },
         { title: __('Header'), rows: 1, panels: [96] },
-        { title: __('Import from a docs site'), rows: 1 },
+        { title: __('Import existing knowledge base'), rows: 1 },
       ]"
     />
   </Transition>

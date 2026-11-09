@@ -1,7 +1,7 @@
 <template>
   <Dialog
     v-model:open="open"
-    :title="__('Import pages from a docs site')"
+    :title="__('Import existing knowledge base')"
     size="md"
   >
     <div class="space-y-5">
@@ -11,9 +11,6 @@
           <TextInput
             v-model="url"
             :label="__('Docs site address')"
-            :description="
-              __('We look for an llms.txt first, then a sitemap.xml.')
-            "
             placeholder="https://docs.example.com"
             type="url"
             maxlength="500"
@@ -34,9 +31,6 @@
             required
           />
         </div>
-        <p class="text-p-sm text-ink-gray-5">
-          {{ __("Pages you have already imported are skipped.") }}
-        </p>
         <p
           v-if="errorText"
           class="flex items-start gap-2 text-p-sm text-ink-red-6"
@@ -48,7 +42,10 @@
           />
           {{ errorText }}
         </p>
-        <div class="flex justify-end">
+        <div class="flex items-center gap-4">
+          <p class="min-w-0 flex-1 text-p-sm text-ink-gray-5">
+            {{ __("Pages you have already imported are skipped.") }}
+          </p>
           <Button
             variant="solid"
             :label="screen === 'error' ? __('Try again') : __('Import')"
@@ -90,28 +87,7 @@
       </template>
 
       <template v-else-if="screen === 'done' && run?.state === 'done'">
-        <p
-          v-if="nothingNew"
-          class="flex items-start gap-3 text-p-base text-ink-gray-8"
-        >
-          <LucideCircleCheck
-            class="mt-0.5 size-5 shrink-0 text-ink-gray-6"
-            aria-hidden="true"
-          />
-          {{ __("Everything on {0} is already imported.", [run.host]) }}
-        </p>
-        <dl class="divide-y divide-outline-gray-2">
-          <div
-            v-for="figure in figures"
-            :key="figure.label"
-            class="flex items-baseline justify-between gap-4 py-3"
-          >
-            <dt class="text-p-base text-ink-gray-6">{{ figure.label }}</dt>
-            <dd class="text-xl tabular-nums text-ink-gray-9">
-              {{ figure.value }}
-            </dd>
-          </div>
-        </dl>
+        <DocsImportSummary :result="run" :category-label="categoryLabel" />
         <div class="flex justify-end gap-2">
           <Button
             variant="ghost"
@@ -147,14 +123,18 @@ import {
 } from "frappe-ui";
 import { computed, ref, watch } from "vue";
 import LucideCircleAlert from "~icons/lucide/circle-alert";
-import LucideCircleCheck from "~icons/lucide/circle-check";
 import LucideLoaderCircle from "~icons/lucide/loader-circle";
 import { __ } from "../translation";
+import DocsImportSummary from "./DocsImportSummary.vue";
 import {
   type ImportResult,
+  siteCategoryName,
   useImportResult,
   viewDraftsHref,
 } from "./docsImport";
+
+// Picker value for "create a category named after the site".
+const NEW_CATEGORY = ":new-category";
 
 const open = defineModel<boolean>("open", { required: true });
 const emit = defineEmits<{ started: [] }>();
@@ -179,6 +159,8 @@ const start = createResource({
       emit("started");
       refresh();
     }
+    // A new category has to show up in the picker and in the result.
+    if (category.value === NEW_CATEGORY) categories.reload();
   },
   onError(error: { exc_type?: string }) {
     const message =
@@ -192,14 +174,30 @@ const start = createResource({
   },
 });
 
-const options = computed(() =>
-  (categories.data || []).map(({ value, label }) => ({ value, label })),
-);
+const newCategoryName = computed(() => siteCategoryName(url.value.trim()));
+
+// Offered first, unless a category of that name already exists.
+const options = computed(() => {
+  const existing = (categories.data || []).map(({ value, label }) => ({
+    value,
+    label,
+  }));
+  const name = newCategoryName.value;
+  const taken = existing.some(
+    (o) => o.label.toLowerCase() === name.toLowerCase(),
+  );
+  if (!name || taken) return existing;
+  const label = __("New category: {0}", [name]);
+  return [{ value: NEW_CATEGORY, label }, ...existing];
+});
 const noCategories = computed(
-  () => categories.data && !categories.data.length && !categories.loading,
+  () => categories.data && !options.value.length && !categories.loading,
 );
 const canImport = computed(
-  () => Boolean(url.value.trim() && category.value) && !start.loading,
+  () =>
+    Boolean(url.value.trim() && category.value) &&
+    (category.value !== NEW_CATEGORY || Boolean(newCategoryName.value)) &&
+    !start.loading,
 );
 
 const screen = computed(() => {
@@ -227,7 +225,9 @@ const stepText = computed(() => {
   const state = run.value;
   if (state?.state !== "running") return "";
   if (state.stage === "reading")
-    return __("Reading page {0} of {1}", [state.done + 1, state.total]);
+    return __("Copied {0} of {1} pages", [state.done, state.total]);
+  // Queued, no worker has picked it up yet.
+  if (state.stage === "waiting") return __("Waiting to start…");
   return __("Looking for pages on {0}…", [state.host]);
 });
 
@@ -235,14 +235,10 @@ const nothingNew = computed(
   () => run.value?.state === "done" && !run.value.created && !run.value.failed,
 );
 
-const figures = computed(() => {
+const categoryLabel = computed(() => {
   const state = run.value;
-  if (state?.state !== "done") return [];
-  return [
-    { label: __("Added"), value: state.created },
-    { label: __("Already imported"), value: state.skipped },
-    { label: __("Couldn't read"), value: state.failed },
-  ];
+  if (state?.state !== "done") return "";
+  return options.value.find((o) => o.value === state.category)?.label || "";
 });
 
 watch(open, (isOpen) => {
@@ -264,7 +260,11 @@ function onEnter(event: KeyboardEvent) {
 }
 
 function submit() {
-  if (canImport.value)
-    start.submit({ url: url.value.trim(), category: category.value });
+  if (!canImport.value) return;
+  const target =
+    category.value === NEW_CATEGORY
+      ? { new_category: newCategoryName.value }
+      : { category: category.value };
+  start.submit({ url: url.value.trim(), ...target });
 }
 </script>

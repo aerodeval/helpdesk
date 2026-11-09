@@ -214,23 +214,35 @@ def create_category(
     """Create an article category holding one "New Article"; returns both names.
     Under `parent` when given, as a Subcategory. Returns {"article": name,
     "category": name}. "General" is a reserved name."""
+    category = insert_category(title, icon, parent, description)
+    article = frappe.new_doc(
+        "HD Article", title="New Article", category=category.name
+    ).insert()
+    return {"article": article.name, "category": category.name}
+
+
+def insert_category(
+    title: str,
+    icon: str | None = None,
+    parent: str | None = None,
+    description: str | None = None,
+):
+    """Insert an empty article category. "General" is a reserved name."""
+    if not isinstance(title, str) or not title.strip():
+        frappe.throw(_("Enter a category name."))
     if title.strip().lower() == "general":
         frappe.throw(
             _(
                 "General is a reserved category name. Please use a different name to proceed."
             )
         )
-    category = frappe.new_doc(
+    return frappe.new_doc(
         "HD Article Category",
-        category_name=title,
+        category_name=title.strip(),
         description=description,
         icon=icon,
         parent_article_category=parent,
     ).insert()
-    article = frappe.new_doc(
-        "HD Article", title="New Article", category=category.name
-    ).insert()
-    return {"article": article.name, "category": category.name}
 
 
 def _validate_category(category: str) -> None:

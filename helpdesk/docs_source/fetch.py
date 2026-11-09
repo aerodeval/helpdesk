@@ -8,6 +8,9 @@ from urllib3.util import parse_url
 
 PAGE_TIMEOUT = 10
 MAX_BYTES = 5 * 1024 * 1024
+# Sitemaps of big help centers run past 5 MB; 50 MB is the sitemap protocol's own cap.
+SITEMAP_MAX_BYTES = 50 * 1024 * 1024
+SITEMAP_TIMEOUT = 30
 MAX_REDIRECTS = 3
 # What a docs site may offer: pages listed, and child indexes or sitemaps followed.
 MAX_CANDIDATES = 2000
@@ -23,13 +26,15 @@ class DocsFetchError(Exception):
         self.transient = transient
 
 
-def fetch(url: str, host: str) -> requests.Response:
-    """GET url over https, same host only, with PAGE_TIMEOUT as a total deadline."""
-    deadline = time.monotonic() + PAGE_TIMEOUT
+def fetch(
+    url: str, host: str, max_bytes: int = MAX_BYTES, timeout: float = PAGE_TIMEOUT
+) -> requests.Response:
+    """GET url over https, same host only, with `timeout` as a total deadline."""
+    deadline = time.monotonic() + timeout
     for _ in range(MAX_REDIRECTS + 1):
         response = _get(url, host, deadline)
         if not response.is_redirect:
-            _read_body(response, deadline)
+            _read_body(response, deadline, max_bytes)
             return response
         url = _redirect_url(url, response)
     raise DocsFetchError("Too many redirects")
@@ -66,13 +71,13 @@ def _redirect_url(url, response):
         response.close()
 
 
-def _read_body(response, deadline):
+def _read_body(response, deadline, max_bytes=MAX_BYTES):
     try:
         if response.status_code >= 300:
             raise DocsFetchError(
                 f"HTTP {response.status_code}", status=response.status_code
             )
-        _read_capped(response, deadline)
+        _read_capped(response, deadline, max_bytes)
     except (requests.RequestException, HTTPError) as e:
         response.close()
         raise _as_fetch_error(e) from e
@@ -81,12 +86,12 @@ def _read_body(response, deadline):
         raise
 
 
-def _read_capped(response, deadline):
+def _read_capped(response, deadline, max_bytes=MAX_BYTES):
     # One recv per loop so the deadline is checked between recvs.
     body = bytearray()
     while chunk := response.raw.read1(CHUNK_SIZE, decode_content=True):
         body += chunk
-        if len(body) > MAX_BYTES:
+        if len(body) > max_bytes:
             raise DocsFetchError("Response too large")
         _remaining(deadline)
     response._content = bytes(body)

@@ -1,4 +1,4 @@
-import time
+import json
 from urllib.parse import urlsplit
 
 import frappe
@@ -10,10 +10,11 @@ from helpdesk.docs_source.fetch import MAX_CANDIDATES, DocsFetchError
 from helpdesk.docs_source.text import absolute_links, visible_text
 from helpdesk.helpdesk.doctype.hd_article_category.hd_article_category import (
     batched_article_index,
+    index_articles,
 )
 
-MAX_PAGES = 50
-PAGE_PAUSE = 0.5
+# Pages queued per run; importing the address again picks up the next batch.
+MAX_PAGES = 200
 TITLE_LENGTH = 140
 URL_LENGTH = 500
 GONE_STATUSES = (404, 410)
@@ -21,6 +22,10 @@ DENIED_STATUSES = (401, 403, 429)
 JOB_ID = "docs_import"
 RESULT_KEY = "docs_import_result"
 RUNNING_SECONDS = 3600
+PAGE_JOB_TIMEOUT = 120
+# A run with no page finished for this long has stopped (its worker died or is down).
+ALIVE_KEY = "docs_import_alive"
+STALL_SECONDS = 600
 RESULT_SECONDS = 7 * 24 * 3600
 
 
@@ -56,41 +61,51 @@ def page_key(url: str) -> str:
 
 
 class DocsImport:
-    """Copy up to MAX_PAGES new pages of a docs site into a category as Draft Articles."""
+    """Copy up to MAX_PAGES new pages of a docs site into a category as Draft
+    Articles, one background job per page."""
 
     def __init__(self, url: str, category: str):
         self.url = normalize_url(url)
         self.category = category
         self.host = urlsplit(self.url).hostname
 
-    def run(self) -> dict:
-        """Returns the number of pages `created`, `skipped` as already imported and `failed`."""
+    def run(self) -> dict | None:
+        """Find the new pages and queue a job for each. Returns the counts when there is
+        nothing to copy; otherwise the last page job stores them (see `finish_run`)."""
         self.report("finding")
         new, skipped = self.drop_imported(self.find_pages())
-        batch = list(new.items())[:MAX_PAGES]
-        created = failed = 0
-        with batched_article_index():
-            for done, (key, url) in enumerate(batch):
-                self.report("reading", done, len(batch))
-                if done:
-                    time.sleep(PAGE_PAUSE)
-                if self.import_page(key, url):
-                    created += 1
-                else:
-                    failed += 1
-        frappe.db.commit()  # sends the search index job
-        if batch and not created:
-            raise DocsImportError(
-                _("We found pages on {0} but could not read any of them.").format(
-                    self.host
-                )
+        new = dict(list(new.items())[:MAX_PAGES])
+        if not new:
+            return {"created": 0, "skipped": skipped, "failed": 0, "unreadable": []}
+        run = frappe.generate_hash(length=10)
+        # Written before the first job is queued, so a fast page job finds it.
+        frappe.cache.set_value(
+            RESULT_KEY,
+            {
+                "state": "running",
+                "stage": "reading",
+                "done": 0,
+                "total": len(new),
+                "host": self.host,
+                "run": run,
+                "skipped": skipped,
+                "category": self.category,
+            },
+            expires_in_sec=RUNNING_SECONDS,
+        )
+        mark_alive()
+        for key, url in new.items():
+            enqueue_page(
+                run=run, key=key, url=url, category=self.category, host=self.host
             )
-        return {"created": created, "skipped": skipped, "failed": failed}
+        return None
 
     def find_pages(self) -> list[str]:
         """Page URLs from llms.txt, else sitemap.xml."""
         error = None
-        for source in (llms, sitemap):
+        # A pasted sitemap address skips llms.txt.
+        sources = (sitemap,) if sitemap.is_sitemap_url(self.url) else (llms, sitemap)
+        for source in sources:
             try:
                 urls = source.find_pages(self.url)
             except DocsFetchError as e:
@@ -120,20 +135,22 @@ class DocsImport:
         )
         return {k: u for k, u in pages.items() if k not in imported}, len(imported)
 
-    def import_page(self, key: str, url: str) -> bool:
-        """Copy one page. False when it can't be read or saved; the run goes on."""
+    def import_page(self, key: str, url: str) -> str | None:
+        """Copy one page. Returns why it was not copied, or None; the run goes on."""
         frappe.db.savepoint("docs_page")
         try:
-            if page := self.read_one(url):
-                self.insert_draft(key, *page)
-                frappe.db.commit()  # keeps the pages already copied if the job is killed
-                return True
-        except DocsFetchError:
-            pass
+            page = self.read_one(url)
+            if not page:
+                return "no_text"
+            self.insert_draft(key, *page)
+            frappe.db.commit()  # keeps the pages already copied if the job is killed
+            return None
+        except DocsFetchError as e:
+            return fetch_reason(e)
         except Exception:
             frappe.db.rollback(save_point="docs_page")
             frappe.log_error(f"Docs import failed: {key}")
-        return False
+            return "failed"
 
     def read_one(self, url: str) -> tuple[str, str] | None:
         """The page's title and HTML, or None when it has no title or no text."""
@@ -193,16 +210,89 @@ class DocsImport:
         ).format(self.host)
 
 
-def run_import(url: str, category: str) -> None:
-    """The background job: import, then store the counts or a plain error for the page."""
-    host = urlsplit(url).hostname or ""
-    try:
+def fetch_reason(error: DocsFetchError) -> str:
+    """Why a page fetch failed, as a code the settings page words."""
+    if error.status in GONE_STATUSES:
+        return "not_found"
+    if error.status in DENIED_STATUSES:
+        return "blocked"
+    if error.transient:
+        return "timed_out"
+    if (error.status or 0) >= 500:
+        return "server_error"
+    return "failed"
+
+
+def mark_alive() -> None:
+    frappe.cache.set_value(ALIVE_KEY, 1, expires_in_sec=STALL_SECONDS)
+
+
+def is_alive() -> bool:
+    return bool(frappe.cache.get_value(ALIVE_KEY))
+
+
+def _outcomes_key(run: str) -> str:
+    return f"docs_import_outcomes:{run}"
+
+
+def pages_done(run: str) -> int:
+    return frappe.cache.llen(_outcomes_key(run))
+
+
+def enqueue_page(**kwargs) -> None:
+    frappe.enqueue(import_page_job, queue="long", timeout=PAGE_JOB_TIMEOUT, **kwargs)
+
+
+def import_page_job(run: str, key: str, url: str, category: str, host: str) -> None:
+    """One page of a run: copy it, record what happened, and finish the run when it
+    is the last page."""
+    with batched_article_index(send=False) as articles:
+        reason = DocsImport(f"https://{host}", category).import_page(key, url)
+    outcome = {"url": url, "reason": reason, "articles": articles}
+    # RPUSH is atomic, so its length tells exactly one job that it was the last.
+    done = frappe.cache.rpush(_outcomes_key(run), json.dumps(outcome))
+    frappe.cache.expire(frappe.cache.make_key(_outcomes_key(run)), RUNNING_SECONDS)
+    mark_alive()
+    state = frappe.cache.get_value(RESULT_KEY)
+    if state and state.get("run") == run and done == state["total"]:
+        finish_run(run, state)
+
+
+def finish_run(run: str, state: dict) -> None:
+    """Store the counts of a finished run, and index its new articles in one job."""
+    outcomes = [json.loads(o) for o in frappe.cache.lrange(_outcomes_key(run), 0, -1)]
+    frappe.cache.delete_value(_outcomes_key(run))
+    unreadable = [
+        {"url": o["url"], "reason": o["reason"]} for o in outcomes if o["reason"]
+    ]
+    created = len(outcomes) - len(unreadable)
+    index_articles([name for o in outcomes for name in o["articles"]])
+    host = state["host"]
+    if created:
         result = {
             "state": "done",
-            **DocsImport(url, category).run(),
+            "created": created,
+            "skipped": state["skipped"],
+            "failed": len(unreadable),
+            "unreadable": unreadable,
             "host": host,
-            "category": category,
+            "category": state["category"],
         }
+    else:
+        message = _("We found pages on {0} but could not read any of them.")
+        result = {"state": "error", "message": message.format(host), "host": host}
+    frappe.cache.set_value(RESULT_KEY, result, expires_in_sec=RESULT_SECONDS)
+
+
+def run_import(url: str, category: str) -> None:
+    """The background job: find the pages and queue their jobs, or store a plain error
+    (or the counts, when there is nothing new) for the page."""
+    host = urlsplit(url).hostname or ""
+    try:
+        counts = DocsImport(url, category).run()
+        if counts is None:
+            return  # the page jobs store the result
+        result = {"state": "done", **counts, "host": host, "category": category}
     except DocsImportError as e:
         result = {"state": "error", "message": str(e), "host": host}
     except Exception:

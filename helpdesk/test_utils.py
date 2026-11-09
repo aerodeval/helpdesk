@@ -1238,7 +1238,7 @@ def fake_docs_fetch(site: dict):
     """side_effect for a patched docs fetch: URL -> body, or an int status (raised); else 404."""
     from helpdesk.docs_source.fetch import DocsFetchError
 
-    def fake(url, host):
+    def fake(url, host, **_limits):
         body = site.get(url, 404)
         if isinstance(body, int):
             raise DocsFetchError(f"HTTP {body}", status=body)
@@ -1302,15 +1302,22 @@ def get_category_articles(category: str) -> list:
 
 
 def patch_docs_site(case, site: dict) -> MagicMock:
-    """Serve `site` to every docs fetch in this test and skip the pause between pages.
+    """Serve `site` to every docs fetch in this test, and run each import page job
+    as soon as it is queued.
 
     Returns the shared fetch mock, so a test can check which URLs were requested.
     """
+    from helpdesk.docs_source import importer
+
     fetch = MagicMock(side_effect=fake_docs_fetch(site))
     for target in (
         "helpdesk.docs_source.llms.fetch",
         "helpdesk.docs_source.sitemap.fetch",
     ):
         case.enterContext(patch(target, fetch))
-    case.enterContext(patch("helpdesk.docs_source.importer.time.sleep"))
+    case.enterContext(
+        patch.object(
+            importer, "enqueue_page", lambda **job: importer.import_page_job(**job)
+        )
+    )
     return fetch

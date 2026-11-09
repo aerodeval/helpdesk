@@ -10,7 +10,13 @@ from helpdesk.docs_source.fetch import (
     DocsFetchError,
     fetch,
 )
-from helpdesk.docs_source.text import clean_html, clean_markdown, in_scope, text_title
+from helpdesk.docs_source.text import (
+    clean_html,
+    clean_markdown,
+    in_scope,
+    split_front_matter,
+    text_title,
+)
 
 LINE = re.compile(r"^\s*[-*] \[(.+?)\]\((\S+?)\)(?:: (.*))?$", re.M)
 # Mintlify lists big sites as /_llms/<section>.txt.
@@ -34,8 +40,9 @@ def read_page(url: str) -> tuple[str, str]:
     text = fetch(url, urlsplit(url).hostname).text
     if not urlsplit(url).path.endswith(".md"):
         return sitemap.extract_main(text)
+    meta, text = split_front_matter(text)
     heading = re.search(r"^# (.+)$", text, re.M)
-    title = text_title(heading[1]) if heading else ""
+    title = text_title(str(meta.get("title") or (heading[1] if heading else "")))
     return title, clean_html(md_to_html(clean_markdown(text, title)))
 
 

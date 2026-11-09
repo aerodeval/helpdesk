@@ -14,12 +14,31 @@ export type ImportResult =
       created: number;
       skipped: number;
       failed: number;
+      // Older results have no list.
+      unreadable?: { url: string; reason: string }[];
       host: string;
       category: string;
     }
   | { state: "error"; message: string; host: string };
 
 const GIVE_UP = 5 * 60 * 1000;
+
+// Leading labels that name the kind of site, not the product.
+const SITE_PREFIXES = /^(www|docs?|help|support|kb|wiki|learn|developers?)$/;
+
+/** A category name for a docs site: `help.corsair.com` is "Corsair". Empty when the address doesn't parse. */
+export function siteCategoryName(address: string) {
+  let host = "";
+  try {
+    host = new URL(address.includes("://") ? address : `https://${address}`)
+      .hostname;
+  } catch {
+    return "";
+  }
+  const labels = host.split(".").filter((label) => !SITE_PREFIXES.test(label));
+  const name = labels.length > 1 ? labels[labels.length - 2] : labels[0] || "";
+  return name.charAt(0).toUpperCase() + name.slice(1);
+}
 
 export function viewDraftsHref(category: string) {
   return `/helpdesk/kb?category=${encodeURIComponent(category)}`;

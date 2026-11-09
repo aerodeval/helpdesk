@@ -8,11 +8,7 @@
           {{ __("Copy pages from your docs site") }}
         </h3>
         <span class="mt-1 text-base leading-5 text-ink-gray-6">
-          {{
-            __(
-              "Paste your docs address and pick a category. Up to 50 pages are copied once as drafts you can edit and publish."
-            )
-          }}
+          {{ __("Copied once as drafts you can edit and publish.") }}
         </span>
       </div>
       <Button
@@ -79,10 +75,12 @@ const { result, refresh } = useImportResult(5000);
 const runningLine = computed(() => {
   const run = result.value;
   if (run?.state !== "running") return "";
+  if (run.stage === "waiting")
+    return __("Waiting to import from {0}…", [run.host]);
   return run.stage === "reading"
     ? __("Importing from {0}, {1} of {2} pages…", [
         run.host,
-        run.done + 1,
+        run.done,
         run.total,
       ])
     : __("Importing from {0}…", [run.host]);

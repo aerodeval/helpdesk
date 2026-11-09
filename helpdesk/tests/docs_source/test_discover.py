@@ -1,6 +1,7 @@
 from frappe.tests import IntegrationTestCase
 
 from helpdesk.docs_source import llms, sitemap
+from helpdesk.docs_source.fetch import SITEMAP_MAX_BYTES
 from helpdesk.test_utils import (
     make_docs_page,
     make_docs_site,
@@ -58,8 +59,45 @@ class TestLlms(IntegrationTestCase):
         self.assertEqual(title, "Beta")
         self.assertIn("<p>", html)
 
+    def test_reads_title_from_front_matter_and_drops_it(self):
+        page = (
+            '---\ntitle: "Alpha: the start"\nspace: Guide\n---\n\n'
+            "Intro text.\n\n---\n\nMore text.\n"
+        )
+        patch_docs_site(self, {f"{BASE}/a.md": page})
+        title, html = llms.read_page(f"{BASE}/a.md")
+        self.assertEqual(title, "Alpha: the start")
+        self.assertNotIn("space:", html)
+        self.assertIn("Intro text.", html)
+        self.assertIn("More text.", html)
+
 
 class TestSitemap(IntegrationTestCase):
+    def test_reads_a_pasted_sitemap_address_scoped_to_its_folder(self):
+        site = {
+            f"{BASE}/hc/sitemap.xml": make_sitemap(
+                f"{BASE}/hc/en-us/articles/1", f"{BASE}/blog/x"
+            ),
+        }
+        fetch = patch_docs_site(self, site)
+        pages = sitemap.find_pages(f"{BASE}/hc/sitemap.xml")
+        self.assertEqual(pages, [f"{BASE}/hc/en-us/articles/1"])
+        call = fetch.call_args
+        self.assertEqual(call.kwargs["max_bytes"], SITEMAP_MAX_BYTES)
+
+    def test_follows_the_sitemap_robots_txt_names(self):
+        site = {
+            f"{BASE}/robots.txt": (
+                "User-agent: *\nSitemap: https://other.example.org/sitemap.xml\n"
+                f"sitemap: {BASE}/hc/sitemap.xml\n"
+            ),
+            f"{BASE}/hc/sitemap.xml": make_sitemap(f"{BASE}/hc/en-us/articles/1"),
+        }
+        fetch = patch_docs_site(self, site)
+        self.assertEqual(sitemap.find_pages(BASE), [f"{BASE}/hc/en-us/articles/1"])
+        fetched = [c.args[0] for c in fetch.call_args_list]
+        self.assertNotIn("https://other.example.org/sitemap.xml", fetched)
+
     def test_lists_in_scope_pages_unversioned_first(self):
         site = {
             f"{BASE}/docs/sitemap.xml": make_sitemap(

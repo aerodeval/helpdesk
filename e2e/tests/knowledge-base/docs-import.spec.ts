@@ -19,11 +19,12 @@ const running = (done: number, total = 3, stage = "reading") => ({
   total,
   host: HOST,
 });
-const finished = (category: string, created = 3, skipped = 0, failed = 0) => ({
+const finished = (category: string, created = 3, skipped = 0, unreadable: { url: string; reason: string }[] = []) => ({
   state: "done",
   created,
   skipped,
-  failed,
+  failed: unreadable.length,
+  unreadable,
   host: HOST,
   category,
 });
@@ -53,7 +54,7 @@ async function openDeskSettings(page: Page) {
 async function openImport(page: Page) {
   const settings = await openDeskSettings(page);
   await settings.getByRole("button", { name: "Import pages" }).click();
-  const dialog = page.getByRole("dialog", { name: "Import pages from a docs site" });
+  const dialog = page.getByRole("dialog", { name: "Import existing knowledge base" });
   await expect(dialog).toBeVisible();
   return { settings, dialog };
 }
@@ -76,7 +77,7 @@ async function solidBehind(page: Page, dialog: ReturnType<Page["getByRole"]>) {
     .evaluateAll((els, root) => els.filter((el) => !root!.contains(el)).map((el) => el.textContent?.trim()), handle);
 }
 
-test("importing shows progress, then the three counts and a link to the drafts", async ({
+test("importing shows progress, then success and a link to the drafts", async ({
   page,
   api,
 }) => {
@@ -90,19 +91,57 @@ test("importing shows progress, then the three counts and a link to the drafts",
   expect(await solidBehind(page, dialog)).toEqual(["Save"]);
   await dialog.getByRole("button", { name: "Import", exact: true }).click();
 
-  await expect(dialog.getByText("Reading page 2 of 3")).toBeVisible();
+  await expect(dialog.getByText("Copied 1 of 3 pages")).toBeVisible();
   await expect(solidButtons(dialog)).toHaveCount(0);
   await expect(dialog.getByRole("progressbar")).toBeVisible();
 
-  const figure = (label: string) => dialog.locator("dt", { hasText: label }).locator("xpath=following-sibling::dd");
-  await expect(figure("Added")).toHaveText("3");
-  await expect(figure("Already imported")).toHaveText("0");
-  await expect(figure("Couldn't read")).toHaveText("0");
+  await expect(dialog.getByText(`Imported 3 pages as drafts in ${category.category_name}.`)).toBeVisible();
+  await expect(dialog.getByRole("img")).toHaveCount(0);
+  await expect(dialog.getByText(/couldn't be read/)).toHaveCount(0);
   await expect(solidButtons(dialog)).toHaveCount(1);
   await expect(dialog.getByRole("link", { name: "View drafts" })).toHaveAttribute(
     "href",
     `/helpdesk/kb?category=${encodeURIComponent(category.name)}`,
   );
+});
+
+test("pages that couldn't be read are listed with why, behind one click", async ({ page, api }) => {
+  const category = await createCategory(api);
+  const unreadable = [
+    { url: `${DOCS_URL}/guide/billing.md`, reason: "not_found" },
+    { url: `${DOCS_URL}/guide/empty.md`, reason: "no_text" },
+  ];
+  await mockImport(page, [finished(category.name, 1, 2, unreadable)]);
+  const { dialog } = await openImport(page);
+  await fillForm(page, dialog, category.category_name);
+  await dialog.getByRole("button", { name: "Import", exact: true }).click();
+
+  await expect(dialog.getByText(`5 pages checked on ${HOST}`)).toBeVisible();
+  await expect(dialog.getByRole("img", { name: "1 new, 2 skipped, 2 failed" })).toBeVisible();
+  const link = dialog.getByRole("link", { name: "/guide/billing.md" });
+  await expect(link).toBeHidden();
+  await dialog.getByText("2 pages couldn't be read").click();
+  await expect(link).toHaveAttribute("href", unreadable[0].url);
+  await expect(dialog.getByText("Page not found")).toBeVisible();
+  await expect(dialog.getByText("No title or text on the page")).toBeVisible();
+});
+
+test("a new category named after the site can be picked", async ({ page }) => {
+  let sent: Record<string, string> = {};
+  await page.route("**/api/method/helpdesk.api.docs_source.import_docs", (route) => {
+    sent = route.request().postDataJSON();
+    return route.fulfill({ json: { message: running(0) } });
+  });
+  await page.route("**/api/method/helpdesk.api.docs_source.get_import_result", (route) =>
+    route.fulfill({ json: { message: sent.url ? running(0) : null } }),
+  );
+  const { dialog } = await openImport(page);
+  await dialog.getByRole("textbox", { name: /Docs site address/ }).fill(DOCS_URL);
+  await dialog.getByRole("combobox", { name: /Add the drafts to/ }).click();
+  await page.getByRole("option", { name: "New category: Example" }).click();
+  await dialog.getByRole("button", { name: "Import", exact: true }).click();
+  await expect(dialog.getByText("Copied 0 of 3 pages")).toBeVisible();
+  expect(sent).toEqual({ url: DOCS_URL, new_category: "Example" });
 });
 
 test("closing mid-run keeps the progress line in the settings row", async ({ page, api }) => {
@@ -111,15 +150,15 @@ test("closing mid-run keeps the progress line in the settings row", async ({ pag
   const { settings, dialog } = await openImport(page);
   await fillForm(page, dialog, category.category_name);
   await dialog.getByRole("button", { name: "Import", exact: true }).click();
-  await expect(dialog.getByText("Reading page 12 of 50")).toBeVisible();
+  await expect(dialog.getByText("Copied 11 of 50 pages")).toBeVisible();
 
   await dialog.getByRole("button", { name: "Close", exact: true }).first().click();
   await expect(dialog).toBeHidden();
-  const line = settings.getByRole("button", { name: `Importing from ${HOST}, 12 of 50 pages…` });
+  const line = settings.getByRole("button", { name: `Importing from ${HOST}, 11 of 50 pages…` });
   await expect(line).toBeVisible();
 
   await line.click();
-  await expect(dialog.getByText("Reading page 12 of 50")).toBeVisible();
+  await expect(dialog.getByText("Copied 11 of 50 pages")).toBeVisible();
 });
 
 test("a failed import shows plain words and Try again keeps the address", async ({ page, api }) => {
@@ -167,21 +206,22 @@ test("Enter in the address field starts the import, Enter on a category does not
   expect(calls.import).toBe(0);
 
   await address.press("Enter");
-  await expect(dialog.getByText("Reading page 1 of 3")).toBeVisible();
+  await expect(dialog.getByText("Copied 0 of 3 pages")).toBeVisible();
   expect(calls.import).toBe(1);
 });
 
-test("on a phone the dialog fits and the three counts stay inside it", async ({ page, api }) => {
+test("on a phone the dialog fits and the counts stay inside it", async ({ page, api }) => {
   const category = await createCategory(api);
   await page.setViewportSize({ width: 390, height: 844 });
-  await mockImport(page, [finished(category.name, 12, 3, 1)]);
+  const longPath = { url: `${DOCS_URL}/a-very/long/path/to/one/page.md`, reason: "timed_out" };
+  await mockImport(page, [finished(category.name, 12, 3, [longPath])]);
   const { dialog } = await openImport(page);
   await fillForm(page, dialog, category.category_name);
   await dialog.getByRole("button", { name: "Import", exact: true }).click();
 
-  await expect(dialog.locator("dd")).toHaveCount(3);
+  await expect(dialog.getByRole("img", { name: "12 new, 3 skipped, 1 failed" })).toBeVisible();
   const box = await dialog.boundingBox();
-  const list = await dialog.locator("dl").boundingBox();
+  const list = await dialog.getByRole("list").first().boundingBox();
   expect(list!.x).toBeGreaterThanOrEqual(box!.x);
   expect(list!.x + list!.width).toBeLessThanOrEqual(box!.x + box!.width);
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);

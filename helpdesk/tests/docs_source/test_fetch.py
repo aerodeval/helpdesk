@@ -76,6 +76,11 @@ class TestFetch(IntegrationTestCase):
             fetch(URL, HOST)
         close.assert_called()
 
+        chunk = b"x" * (MAX_BYTES // 2 + 1)
+        get.return_value = make_response(URL, chunks=[chunk, chunk])
+        body = fetch(URL, HOST, max_bytes=3 * MAX_BYTES).content
+        self.assertEqual(len(body), 2 * len(chunk))
+
     def test_non_success_status_raises(self, get, validate):
         for status, location in [(404, None), (304, None), (302, None)]:
             get.return_value = make_response(URL, status, location)

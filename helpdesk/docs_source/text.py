@@ -2,6 +2,7 @@ import re
 from html import unescape
 from urllib.parse import unquote, urljoin, urlsplit
 
+import yaml
 from bs4 import BeautifulSoup
 from frappe.utils import strip_html_tags
 from frappe.utils.html_utils import sanitize_html
@@ -67,6 +68,22 @@ def absolute_links(html: str, base_url: str) -> str:
                 continue
             tag[attr] = urljoin(base_url, value)
     return str(soup)
+
+
+FRONT_MATTER = re.compile(r"\A\s*---[ \t]*\n(.*?)\n---[ \t]*(?:\n|\Z)", re.S)
+
+
+def split_front_matter(text: str) -> tuple[dict, str]:
+    """A Markdown page's YAML front matter, and the page without it."""
+    # Not frappe's get_frontmatter: its pattern also matches a `---` rule mid-page.
+    match = FRONT_MATTER.match(text)
+    if not match:
+        return {}, text
+    try:
+        meta = yaml.safe_load(match[1])
+    except yaml.YAMLError:
+        meta = None
+    return (meta if isinstance(meta, dict) else {}), text[match.end() :]
 
 
 def clean_markdown(text: str, title: str) -> str:

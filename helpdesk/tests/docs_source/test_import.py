@@ -8,6 +8,7 @@ from helpdesk.docs_source import importer
 from helpdesk.docs_source.fetch import DocsFetchError
 from helpdesk.docs_source.importer import (
     DocsImport,
+    RESULT_KEY,
     DocsImportError,
     normalize_url,
     page_key,
@@ -35,7 +36,14 @@ class DocsImportCase(IntegrationTestCase):
         self.category = make_article_category(unique_name("Imports")).name
 
     def run_import(self, url=BASE):
-        return DocsImport(url, self.category).run()
+        """The counts of one import, its page jobs run inline by `patch_docs_site`."""
+        counts = DocsImport(url, self.category).run()
+        if counts is not None:
+            return counts
+        result = frappe.cache.get_value(RESULT_KEY)
+        if result["state"] == "error":
+            raise DocsImportError(result["message"])
+        return {k: result[k] for k in ("created", "skipped", "failed", "unreadable")}
 
 
 class TestSources(DocsImportCase):
@@ -82,7 +90,9 @@ class TestCreate(DocsImportCase):
         patch_docs_site(self, site)
         with patch("frappe.enqueue") as enqueue:
             result = self.run_import()
-        self.assertEqual(result, {"created": 3, "skipped": 0, "failed": 0})
+        self.assertEqual(
+            result, {"created": 3, "skipped": 0, "failed": 0, "unreadable": []}
+        )
         self.assertEqual(len(article_index_jobs(enqueue)), 1)
         rows = {row.docs_page_url: row for row in get_category_articles(self.category)}
         self.assertEqual(set(rows), {f"{BASE}/a", f"{BASE}/b/c", f"{BASE}/d"})
@@ -98,6 +108,16 @@ class TestCreate(DocsImportCase):
         self.assertEqual(importer_.read_one(f"{BASE}/a.md")[0], "Vec<T> basics")
         self.assertEqual(importer_.read_one(f"{BASE}/b.md")[0], "Fish &amp; Chips")
 
+    def test_pasted_sitemap_address_skips_llms_txt(self):
+        site = {
+            f"{BASE}/hc/sitemap.xml": make_sitemap(f"{BASE}/hc/a"),
+            f"{BASE}/hc/a": make_docs_page("Alpha"),
+        }
+        fetch = patch_docs_site(self, site)
+        self.assertEqual(self.run_import(f"{BASE}/hc/sitemap.xml")["created"], 1)
+        fetched = [c.args[0] for c in fetch.call_args_list]
+        self.assertFalse(any(u.endswith("llms.txt") for u in fetched))
+
     def test_second_run_skips_imported_and_adds_new(self):
         site = make_docs_site(HOST, {"a": "Alpha", "b": "Beta"})
         patch_docs_site(self, site)
@@ -108,12 +128,17 @@ class TestCreate(DocsImportCase):
         )
         result = self.run_import()
 
-        self.assertEqual(result, {"created": 1, "skipped": 2, "failed": 0})
+        self.assertEqual(
+            result, {"created": 1, "skipped": 2, "failed": 0, "unreadable": []}
+        )
         self.assertEqual(
             [a.title for a in get_category_articles(self.category)],
             ["Alpha", "Beta", "Gamma"],
         )
-        self.assertEqual(self.run_import(), {"created": 0, "skipped": 3, "failed": 0})
+        self.assertEqual(
+            self.run_import(),
+            {"created": 0, "skipped": 3, "failed": 0, "unreadable": []},
+        )
 
     def test_url_variants_are_one_page(self):
         self.assertEqual(
@@ -129,6 +154,14 @@ class TestCreate(DocsImportCase):
         self.assertEqual(self.run_import()["created"], 1)
         self.assertEqual(self.run_import()["created"], 0)
 
+    def test_no_page_read_is_an_error(self):
+        site = make_docs_site(HOST, {"a": "Alpha", "b": "Beta"})
+        site[f"{BASE}/a.md"] = site[f"{BASE}/b.md"] = 500
+        patch_docs_site(self, site)
+        with self.assertRaises(DocsImportError) as caught:
+            self.run_import()
+        self.assertIn("could not read any", str(caught.exception))
+
     def test_cap_counts_new_pages_only(self):
         pages = {f"p{i:02d}": f"Page {i:02d}" for i in range(45)}
         patch_docs_site(self, make_docs_site(HOST, pages))
@@ -139,13 +172,25 @@ class TestCreate(DocsImportCase):
 
     def test_unreadable_page_counts_failed_and_rest_import(self):
         site = make_docs_site(
-            HOST, {"a": "Alpha", "b": "Beta", "c": "Gamma", "d": "Delta"}
+            HOST,
+            {"a": "Alpha", "b": "Beta", "c": "Gamma", "d": "Delta", "e": "Eps"},
         )
         site[f"{BASE}/b.md"] = 500
         site[f"{BASE}/c.md"] = "No heading here, only some words."
         site[f"{BASE}/d.md"] = "# Delta\n\n"
+        site[f"{BASE}/e.md"] = 404
         patch_docs_site(self, site)
-        self.assertEqual(self.run_import(), {"created": 1, "skipped": 0, "failed": 3})
+        result = self.run_import()
+        self.assertEqual((result["created"], result["failed"]), (1, 4))
+        self.assertEqual(
+            result["unreadable"],
+            [
+                {"url": f"{BASE}/b.md", "reason": "server_error"},
+                {"url": f"{BASE}/c.md", "reason": "no_text"},
+                {"url": f"{BASE}/d.md", "reason": "no_text"},
+                {"url": f"{BASE}/e.md", "reason": "not_found"},
+            ],
+        )
         self.assertEqual(
             [a.title for a in get_category_articles(self.category)], ["Alpha"]
         )
