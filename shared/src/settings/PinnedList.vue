@@ -1,19 +1,11 @@
 <template>
   <div class="flex flex-col gap-3">
-    <div class="flex items-start justify-between gap-4">
-      <div class="flex min-w-0 flex-col">
-        <h3 class="text-base-medium text-ink-gray-8">
-          {{ text.title }}
-        </h3>
-        <span class="mt-1 text-base leading-5 text-ink-gray-6">
-          {{ text.description }}
-        </span>
-      </div>
+    <SettingsHeading :title="text.title" :description="text.description">
       <!-- Named apart: the form has a Customize per list. -->
       <Button class="shrink-0" :label="text.customize" @click="open = true">
         {{ __("Customize") }}
       </Button>
-    </div>
+    </SettingsHeading>
     <div
       v-if="pinned.length"
       class="rounded-5 border border-outline-gray-2 px-1"
@@ -72,11 +64,13 @@
 import ArticleIcon from "../ArticleIcon.vue";
 import { categoryIcon } from "../categoryIcons";
 import { __ } from "../translation";
+import { MoveOptions } from "../utils";
 import { Button, Dropdown } from "frappe-ui";
 import { computed, ref } from "vue";
 import CategoryAccessBadge from "./CategoryAccessBadge.vue";
 import type { PinKind } from "./knowledgeBaseDraft";
 import PinnedListDialog from "./PinnedListDialog.vue";
+import SettingsHeading from "./SettingsHeading.vue";
 import { pinnedListText } from "./pinnedListText";
 
 type Item = {
@@ -118,18 +112,7 @@ function moveTo(name: string, index: number) {
 function rowOptions(index: number) {
   const name = props.pinned[index];
   return [
-    {
-      label: __("Move up"),
-      icon: "lucide-arrow-up",
-      disabled: index === 0,
-      onClick: () => moveTo(name, index - 1),
-    },
-    {
-      label: __("Move down"),
-      icon: "lucide-arrow-down",
-      disabled: index === props.pinned.length - 1,
-      onClick: () => moveTo(name, index + 1),
-    },
+    ...MoveOptions(index, props.pinned.length, (to) => moveTo(name, to)),
     {
       label: __("Unpin"),
       icon: "lucide-pin-off",

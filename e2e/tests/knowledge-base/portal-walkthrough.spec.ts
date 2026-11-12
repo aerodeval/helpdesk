@@ -8,7 +8,7 @@ import { siteHeader } from "../../helpers/site";
 
 // Title ids (R1, H9, K2, ...) follow the portal walkthrough checklist.
 
-const KB_SETTINGS = ["public_knowledge_base", "allow_anonymous_article_voting", "banner_preset"];
+const KB_SETTINGS = ["public_knowledge_base", "allow_anonymous_article_voting", "banner_preset", "kb_footer"];
 const QUICK_LINKS = "Knowledge Base Quick Links";
 const GUEST = { storageState: { cookies: [], origins: [] } };
 const PHONE = { width: 390, height: 844 };
@@ -830,9 +830,11 @@ test.describe("knowledge base settings", () => {
       await expect(page).toHaveURL(/\/settings\/knowledge-base$/);
 
       // Switches save without the Save button.
+      await dialog.getByRole("tab", { name: "Access" }).click();
       await dialog.getByText("Allow guests to vote on articles").locator("xpath=../..").getByRole("switch").click();
       await expect.poll(async () => (await api.get("HD Settings", "HD Settings")).allow_anonymous_article_voting).toBe(1);
       await expect(dialog.getByText("Unsaved")).toBeHidden();
+      await dialog.getByRole("tab", { name: "Home page" }).click();
       await dialog.getByRole("radio", { name: "Blue" }).click();
       await expect(dialog.getByText("Unsaved")).toBeVisible();
       // Pins save from their own dialog, apart from the draft.
@@ -844,6 +846,7 @@ test.describe("knowledge base settings", () => {
       await pins.getByRole("button", { name: "Save" }).click();
       await expect(pins).toBeHidden();
       await expect.poll(async () => (await api.get("HD Article Category", category.name)).pinned).toBe(1);
+      await dialog.getByRole("tab", { name: "Header" }).click();
       await dialog.getByRole("button", { name: "Add link" }).click();
       await dialog.getByPlaceholder("Contact sales").fill(label);
       // S33: an unsafe address is refused on Save.
@@ -870,6 +873,44 @@ test.describe("knowledge base settings", () => {
       await api.update("HD Article Category", category.name, { pinned: 0, pinned_order: 0 });
       if (await api.exists("HD Form Script", { name: QUICK_LINKS })) await api.delete("HD Form Script", QUICK_LINKS);
     }
+  });
+
+  test("the footer previews, saves and shows to guests", async ({ page, kb, context, browser, baseURL }) => {
+    await kb({ public_knowledge_base: 1, kb_footer: null });
+    const tagline = `E2E tagline ${uid()}`;
+    await page.goto("/help/settings/knowledge-base");
+    const dialog = page.getByRole("dialog");
+    // Preview shows even without edits.
+    await expect(dialog.getByRole("button", { name: "Preview" })).toBeVisible();
+    await dialog.getByRole("tab", { name: "Footer" }).click();
+    await dialog.getByRole("switch", { name: "Show footer" }).click();
+    await dialog.locator("textarea").fill(tagline);
+    await dialog.getByRole("button", { name: "Add column" }).click();
+    await dialog.getByText("Untitled").click();
+    await dialog.getByLabel("Column title").fill("Company");
+    await dialog.getByRole("button", { name: "Add link" }).click();
+    await dialog.getByPlaceholder("Contact sales").fill("E2E About");
+    await dialog.getByPlaceholder("https://example.com/contact").fill("https://example.com/about");
+    await dialog.getByLabel("GitHub URL").fill("javascript:alert(1)");
+    await dialog.getByRole("button", { name: "Save" }).click();
+    await expect(page.getByText("GitHub: use a web address")).toBeVisible();
+    await dialog.getByLabel("GitHub URL").fill("https://github.com/example");
+
+    const popup = context.waitForEvent("page");
+    await dialog.getByRole("button", { name: "Preview" }).click();
+    const preview = await popup;
+    await expect(preview.getByText(tagline)).toBeVisible();
+    await preview.close();
+
+    await dialog.getByRole("button", { name: "Save" }).click();
+    await expect(dialog.getByText("Unsaved")).toBeHidden();
+
+    const guest = await (await browser.newContext({ baseURL, ...GUEST })).newPage();
+    await guest.goto("/help");
+    await expect(guest.getByText(tagline)).toBeVisible();
+    await expect(guest.getByRole("link", { name: "E2E About" })).toHaveAttribute("href", "https://example.com/about");
+    await expect(guest.getByRole("link", { name: "GitHub" })).toHaveAttribute("href", "https://github.com/example");
+    await guest.close();
   });
 });
 

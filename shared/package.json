@@ -15,6 +15,7 @@
 		"./tiptap": "./src/tiptap.ts",
 		"./knowledgeBaseBanner": "./src/knowledgeBaseBanner.ts",
 		"./knowledgeBasePreview": "./src/knowledgeBasePreview.ts",
+		"./knowledgeBaseFooter": "./src/knowledgeBaseFooter.ts",
 		"./portalRoutes": "./src/portalRoutes.ts",
 		"./categoryIcons": "./src/categoryIcons.ts",
 		"./Icon.vue": "./src/Icon.vue",
@@ -31,6 +32,7 @@
 		"./ListViewSkeleton.vue": "./src/ListViewSkeleton.vue",
 		"./ArticleIcon.vue": "./src/ArticleIcon.vue",
 		"./OrganizationsIcon.vue": "./src/OrganizationsIcon.vue",
+		"./ServiceIcon.vue": "./src/ServiceIcon.vue",
 		"./settings/*": "./src/settings/*"
 	},
 	"peerDependencies": {

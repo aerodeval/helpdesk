@@ -10,15 +10,15 @@ import { useDebounceFn } from "@vueuse/core";
 import { computed, effectScope, ref, shallowRef, watch } from "vue";
 import {
   KNOWLEDGE_BASE_PREVIEW_KEY,
+  type KnowledgeBaseLink,
   type KnowledgeBasePreview,
 } from "../knowledgeBasePreview";
+import { footerNetworks, parseFooter } from "../knowledgeBaseFooter";
 import { categoryIcon } from "../categoryIcons";
 import { __ } from "../translation";
 import { CUSTOMER_PORTAL_ROOT, getErrorMessage, isSafeLink } from "../utils";
 
-type Link = KnowledgeBasePreview["links"][number];
-
-type Draft = KnowledgeBasePreview;
+type Draft = Required<KnowledgeBasePreview>;
 
 const SETTINGS_FIELDS = ["banner_image", "banner_preset"] as const;
 
@@ -27,7 +27,7 @@ const LINKS_SCRIPT = "Knowledge Base Quick Links";
 const JSON_MARKER = "//JSON: ";
 
 // Only the last line: labels may contain the marker; hand edits may not parse.
-function parseLinks(script: string): Link[] {
+function parseLinks(script: string): KnowledgeBaseLink[] {
   const lastLine = script.trimEnd().split("\n").pop() || "";
   if (!lastLine.startsWith(JSON_MARKER)) return [];
   try {
@@ -133,6 +133,7 @@ function createDraft() {
       pinned: getPinned(categories.data),
       pinned_articles: getPinned(articles.data),
       links: parseLinks(script),
+      footer: parseFooter(settings.doc.kb_footer),
     };
   });
 
@@ -197,27 +198,42 @@ function createDraft() {
 
   async function save() {
     const value = normalize(draft.value!);
-    if (value.links.some((link) => !link.label || !link.url)) {
+    const links = [
+      ...value.links,
+      ...value.footer.columns.flatMap((column) => column.links),
+    ];
+    if (links.some((link) => !link.label || !link.url)) {
       return toast.error(__("Each link needs a label and a URL"));
     }
-    const unsafe = value.links.find((link) => !isSafeLink(link.url));
+    const unsafe =
+      links.find((link) => !isSafeLink(link.url))?.label ||
+      footerNetworks().find(
+        (network) =>
+          value.footer.socials[network.value] &&
+          !isSafeLink(value.footer.socials[network.value])
+      )?.label;
     if (unsafe) {
       return toast.error(
         __("{0}: use a web address, an email link or a path starting with /", [
-          unsafe.label,
+          unsafe,
         ])
       );
     }
     saving.value = true;
     try {
-      const fields = SETTINGS_FIELDS.filter((key) =>
-        changed.value.includes(key)
+      const fieldname: Record<string, string> = Object.fromEntries(
+        SETTINGS_FIELDS.filter((key) => changed.value.includes(key)).map(
+          (key) => [key, value[key]]
+        )
       );
-      if (fields.length) {
+      if (changed.value.includes("footer")) {
+        fieldname.kb_footer = JSON.stringify(value.footer);
+      }
+      if (Object.keys(fieldname).length) {
         await call("frappe.client.set_value", {
           doctype: "HD Settings",
           name: "HD Settings",
-          fieldname: Object.fromEntries(fields.map((key) => [key, value[key]])),
+          fieldname,
         });
       }
       if (changed.value.includes("links")) await saveLinks(value.links);
@@ -270,7 +286,7 @@ function createDraft() {
     });
   }
 
-  function saveLinks(links: Link[]) {
+  function saveLinks(links: KnowledgeBaseLink[]) {
     const json = JSON.stringify(links);
     const script = `function setupForm() {\n  return { links: ${json} };\n}\n${JSON_MARKER}${json}`;
     if (linksScript.data?.script) {
@@ -371,16 +387,37 @@ function createDraft() {
   };
 }
 
-// Ignore whitespace and empty link rows when diffing.
+// Ignore whitespace and empty rows when diffing.
 function normalize(draft: Draft): Draft {
+  const { footer } = draft;
   return {
     ...draft,
-    links: draft.links
-      .map(({ label, url, open_in_new_tab }) => ({
-        label: label?.trim() || "",
-        url: url?.trim() || "",
-        open_in_new_tab: Boolean(open_in_new_tab),
-      }))
-      .filter((link) => link.label || link.url),
+    links: normalizeLinks(draft.links),
+    footer: {
+      enabled: footer.enabled,
+      tagline: footer.tagline.trim(),
+      copyright: footer.copyright.trim(),
+      columns: footer.columns
+        .map((column) => ({
+          title: column.title?.trim() || "",
+          links: normalizeLinks(column.links),
+        }))
+        .filter((column) => column.title || column.links.length),
+      socials: Object.fromEntries(
+        Object.entries(footer.socials)
+          .map(([network, url]) => [network, url?.trim() || ""])
+          .filter(([, url]) => url)
+      ),
+    },
   };
+}
+
+function normalizeLinks(links: KnowledgeBaseLink[]): KnowledgeBaseLink[] {
+  return links
+    .map(({ label, url, open_in_new_tab }) => ({
+      label: label?.trim() || "",
+      url: url?.trim() || "",
+      open_in_new_tab: Boolean(open_in_new_tab),
+    }))
+    .filter((link) => link.label || link.url);
 }

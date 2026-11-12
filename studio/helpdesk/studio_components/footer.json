@@ -1,0 +1,193 @@
+{
+ "block": {
+  "blockName": "Footer",
+  "children": [
+   {
+    "blockName": "footer-content",
+    "children": [
+     {
+      "blockName": "footer-top",
+      "children": [
+       {
+        "blockName": "footer-brand",
+        "children": [
+         {
+          "componentId": "footer-brand-name",
+          "componentName": "PortalBrand",
+          "componentProps": {
+           "logo": "{{ brandLogo }}",
+           "name": "{{ brandName }}"
+          },
+          "isCustomVueComponent": true
+         },
+         {
+          "classes": [
+           "text-ink-gray-6",
+           "whitespace-pre-line"
+          ],
+          "componentId": "footer-tagline",
+          "componentName": "TextBlock",
+          "componentProps": {
+           "fontSize": "text-p-sm",
+           "tag": "p",
+           "text": "{{ footer.tagline }}"
+          },
+          "visibilityCondition": "{{ footer.tagline }}"
+         },
+         {
+          "componentId": "footer-socials",
+          "componentName": "PortalHeaderLinks",
+          "componentProps": {
+           "links": "{{ footer.socials }}"
+          },
+          "isCustomVueComponent": true,
+          "classes": [
+           "-ms-2"
+          ]
+         }
+        ],
+        "classes": [
+         "flex",
+         "flex-col",
+         "gap-3",
+         "sm:max-w-[220px]"
+        ],
+        "componentId": "footer-brand",
+        "componentName": "container",
+        "originalElement": "div"
+       },
+       {
+        "blockName": "footer-columns",
+        "children": [
+         {
+          "blockName": "footer-column",
+          "children": [
+           {
+            "classes": [
+             "text-ink-gray-9"
+            ],
+            "componentId": "footer-column-title",
+            "componentName": "TextBlock",
+            "componentProps": {
+             "fontSize": "text-sm-medium",
+             "tag": "h2",
+             "text": "{{ dataItem.title }}"
+            },
+            "visibilityCondition": "{{ dataItem.title }}"
+           },
+           {
+            "componentId": "footer-column-links",
+            "componentName": "PortalFooterLinks",
+            "componentProps": {
+             "links": "{{ dataItem.links }}"
+            },
+            "isCustomVueComponent": true
+           }
+          ],
+          "classes": [
+           "flex",
+           "min-w-0",
+           "flex-col",
+           "gap-3"
+          ],
+          "componentId": "footer-column",
+          "componentName": "container",
+          "originalElement": "div"
+         }
+        ],
+        "classes": [
+         "!grid",
+         "grid-cols-2",
+         "sm:grid-flow-col",
+         "sm:grid-cols-none",
+         "sm:auto-cols-max",
+         "!gap-x-12",
+         "!gap-y-8"
+        ],
+        "componentId": "footer-columns",
+        "componentName": "Repeater",
+        "componentProps": {
+         "data": "{{ footer.columns }}"
+        },
+        "visibilityCondition": "{{ footer.columns.length }}"
+       }
+      ],
+      "classes": [
+       "flex",
+       "flex-col",
+       "gap-10",
+       "sm:flex-row",
+       "sm:justify-between"
+      ],
+      "componentId": "footer-top",
+      "componentName": "container",
+      "originalElement": "div"
+     },
+     {
+      "blockName": "footer-bottom",
+      "children": [
+       {
+        "classes": [
+         "text-ink-gray-5"
+        ],
+        "componentId": "footer-copyright",
+        "componentName": "TextBlock",
+        "componentProps": {
+         "fontSize": "text-p-sm",
+         "tag": "p",
+         "text": "{{ footer.copyright }}"
+        }
+       }
+      ],
+      "classes": [
+       "border-t",
+       "border-outline-gray-1",
+       "pt-6"
+      ],
+      "componentId": "footer-bottom",
+      "componentName": "container",
+      "originalElement": "div",
+      "visibilityCondition": "{{ footer.copyright }}"
+     }
+    ],
+    "classes": [
+     "mx-auto",
+     "flex",
+     "w-full",
+     "max-w-[832px]",
+     "flex-col",
+     "gap-10",
+     "px-4",
+     "pt-12",
+     "pb-8"
+    ],
+    "componentId": "footer-content",
+    "componentName": "container",
+    "originalElement": "div"
+   }
+  ],
+  "classes": [
+   "w-full",
+   "shrink-0",
+   "mt-auto",
+   "border-t",
+   "border-outline-gray-1"
+  ],
+  "componentId": "footer-root",
+  "componentName": "container",
+  "originalElement": "div",
+  "visibilityCondition": "{{ footer }}"
+ },
+ "component_id": "footer",
+ "component_name": "Footer",
+ "creation": "2026-11-13 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Studio Component",
+ "idx": 0,
+ "inputs": [],
+ "is_disabled": 0,
+ "modified": "2026-11-13 12:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "footer",
+ "owner": "Administrator"
+}

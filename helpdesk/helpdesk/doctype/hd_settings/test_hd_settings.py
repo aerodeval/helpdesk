@@ -208,3 +208,52 @@ def make_customer(email: str) -> None:
         }
     ).insert(ignore_permissions=True)
     user.add_roles("HD Customer")
+
+
+class TestKnowledgeBaseFooter(IntegrationTestCase):
+    """Every visitor sees the footer, so a save checks its links."""
+
+    def save_footer(self, **footer) -> None:
+        settings = frappe.get_single("HD Settings")
+        settings.kb_footer = frappe.as_json({"enabled": True, **footer})
+        settings.save()
+
+    def link(self, url: str = "https://example.com/pricing", label: str = "Pricing"):
+        return {"label": label, "url": url, "open_in_new_tab": False}
+
+    def test_a_complete_footer_saves(self) -> None:
+        self.save_footer(
+            tagline="Help for everyone",
+            columns=[{"title": "Product", "links": [self.link(), self.link("/help")]}],
+            socials={"github": "https://github.com/example", "x": ""},
+        )
+        saved = frappe.parse_json(
+            frappe.db.get_single_value("HD Settings", "kb_footer")
+        )
+        self.assertEqual(saved["columns"][0]["links"][1]["url"], "/help")
+
+    def test_unsafe_urls_are_refused(self) -> None:
+        for footer in (
+            {"columns": [{"title": "A", "links": [self.link("javascript:alert(1)")]}]},
+            {"socials": {"github": "data:text/html,hi"}},
+        ):
+            with self.subTest(footer=footer), self.assertRaises(frappe.ValidationError):
+                self.save_footer(**footer)
+
+    def test_a_link_needs_a_label_and_a_url(self) -> None:
+        for link in (self.link(label=""), self.link(url="")):
+            with self.subTest(link=link), self.assertRaises(frappe.ValidationError):
+                self.save_footer(columns=[{"title": "A", "links": [link]}])
+
+    def test_at_most_four_columns(self) -> None:
+        column = {"title": "A", "links": [self.link()]}
+        self.save_footer(columns=[column] * 4)
+        with self.assertRaises(frappe.ValidationError):
+            self.save_footer(columns=[column] * 5)
+
+    def test_a_malformed_footer_is_refused(self) -> None:
+        settings = frappe.get_single("HD Settings")
+        for value in ("[]", '{"columns": {}}', '{"columns": ["Product"]}'):
+            settings.kb_footer = value
+            with self.subTest(value=value), self.assertRaises(frappe.ValidationError):
+                settings.save()

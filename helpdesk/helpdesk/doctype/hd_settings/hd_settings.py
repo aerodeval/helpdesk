@@ -4,6 +4,8 @@
 
 from __future__ import unicode_literals
 
+import re
+
 import frappe
 from frappe import _
 from frappe.model.document import Document
@@ -21,6 +23,11 @@ from helpdesk.helpdesk.doctype.hd_ticket.hd_ticket import (
     set_guest_ticket_creation_permission,
 )
 
+# The footer grid fits this many; keep in sync with MAX_FOOTER_COLUMNS in knowledgeBaseFooter.ts
+MAX_FOOTER_COLUMNS = 4
+# Same rule as isSafeLink in shared/src/utils.ts
+SAFE_LINK = re.compile(r"^(/|https?:|mailto:)", re.IGNORECASE)
+
 
 class HDSettings(Document):
     def validate(self):
@@ -32,6 +39,44 @@ class HDSettings(Document):
         self.validate_guest_only_settings()
         # every visitor loads it, so a linked image could track them
         validate_uploaded_image(self.banner_image)
+        self.validate_kb_footer()
+
+    def validate_kb_footer(self):
+        """Every visitor sees the footer, so each link must be complete and safe to open."""
+        if not self.kb_footer or not self.has_value_changed("kb_footer"):
+            return
+        footer = frappe.parse_json(self.kb_footer)
+        if not isinstance(footer, dict):
+            frappe.throw(_("The knowledge base footer is not valid"))
+        columns = footer.get("columns") or []
+        socials = footer.get("socials") or {}
+        if not (
+            isinstance(columns, list)
+            and isinstance(socials, dict)
+            and all(isinstance(column, dict) for column in columns)
+            and all(isinstance(column.get("links") or [], list) for column in columns)
+        ):
+            frappe.throw(_("The knowledge base footer is not valid"))
+        if len(columns) > MAX_FOOTER_COLUMNS:
+            frappe.throw(
+                _("The footer can have at most {0} link columns").format(
+                    MAX_FOOTER_COLUMNS
+                )
+            )
+
+        links = [link for column in columns for link in column.get("links") or []]
+        if any(
+            not isinstance(link, dict) or not link.get("label") or not link.get("url")
+            for link in links
+        ):
+            frappe.throw(_("Each footer link needs a label and a URL"))
+        for url in [link["url"] for link in links] + [u for u in socials.values() if u]:
+            if not isinstance(url, str) or not SAFE_LINK.match(url):
+                frappe.throw(
+                    _(
+                        "{0}: use a web address, an email link or a path starting with /"
+                    ).format(frappe.bold(url))
+                )
 
     def turn_off_guest_home_when_private(self):
         """A private knowledge base turns away guests, so it can't be their home."""

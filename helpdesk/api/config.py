@@ -11,6 +11,7 @@ GUEST_FIELDS = [
     "allow_anonymous_article_voting",
     "banner_image",
     "banner_preset",
+    "kb_footer",
 ]
 # The portal's ticket and organization pages
 USER_FIELDS = [

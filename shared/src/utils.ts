@@ -15,6 +15,27 @@ const YEAR = 365 * DAY;
 // Studio portal, outside the desk SPA.
 export const CUSTOMER_PORTAL_ROOT = "/help";
 
+export function MoveOptions(
+  index: number,
+  count: number,
+  moveTo: (index: number) => void
+) {
+  return [
+    {
+      label: __("Move up"),
+      icon: "lucide-arrow-up",
+      disabled: index === 0,
+      onClick: () => moveTo(index - 1),
+    },
+    {
+      label: __("Move down"),
+      icon: "lucide-arrow-down",
+      disabled: index === count - 1,
+      onClick: () => moveTo(index + 1),
+    },
+  ];
+}
+
 /**
  * Delete in its own red group, so the menu draws a divider above it, as
  * frappe-ui marks a danger action.
@@ -58,6 +79,13 @@ export function ConfirmDelete({ isConfirmingDelete, onConfirmDelete }) {
 // Guests see quick links, so allow only paths, web and mail URLs.
 export function isSafeLink(url: unknown) {
   return typeof url === "string" && /^(\/|https?:|mailto:)/i.test(url);
+}
+
+// rel=noopener: the opened page must not get a handle on this one.
+export function linkTarget(openInNewTab?: boolean | number) {
+  return openInNewTab
+    ? { target: "_blank", rel: "noopener" }
+    : { target: "_self" };
 }
 
 export function prettyDate(date) {

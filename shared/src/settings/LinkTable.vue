@@ -1,22 +1,11 @@
 <template>
   <div class="flex flex-col gap-3">
-    <div class="flex flex-col">
-      <h3 class="text-base-medium text-ink-gray-8">
-        {{ __("Quick links") }}
-      </h3>
-      <span class="mt-1 text-base leading-5 text-ink-gray-6">
-        {{
-          __(
-            "Add links to your website, docs or social pages. They will appear at the top right of every knowledge base page."
-          )
-        }}
-      </span>
-    </div>
+    <SettingsHeading v-if="title" :title="title" :description="description" />
     <div class="rounded-5 border border-outline-gray-2 px-1 text-sm">
       <List
         v-if="rows.length"
         :columns="columns"
-        :row-height="44"
+        :row-height="48"
         class="[--list-gap:1rem] [--list-row-padding-x:0.5rem]"
       >
         <ListHeader>
@@ -92,10 +81,13 @@ import {
   ListRows,
 } from "frappe-ui/list";
 import { ref } from "vue";
+import type { KnowledgeBaseLink } from "../knowledgeBasePreview";
+import SettingsHeading from "./SettingsHeading.vue";
 
-type HeaderLink = { label: string; url: string; open_in_new_tab: boolean };
+// Without a title, the caller heads the table.
+defineProps<{ title?: string; description?: string }>();
 
-const rows = defineModel<HeaderLink[]>({ required: true });
+const rows = defineModel<KnowledgeBaseLink[]>({ required: true });
 
 const columns = ["minmax(0,1fr)", "minmax(0,2fr)", "112px", "32px"];
 
