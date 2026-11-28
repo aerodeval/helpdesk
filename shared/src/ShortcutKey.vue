@@ -3,11 +3,11 @@
     <kbd
       v-for="(key, index) in keyList"
       :key="index"
-      class="flex items-center justify-center border border-outline-gray-2 bg-surface-base pt-px text-ink-gray-5"
+      class="flex items-center justify-center bg-surface-gray-2 text-ink-gray-7"
       :class="
         size === 'sm'
-          ? 'h-4 min-w-4 rounded-[4px] px-0.5 text-[10px]'
-          : 'h-5 min-w-5 rounded-[5px] px-1 text-xs'
+          ? 'h-4 min-w-4 rounded-[4px] px-1 text-[10px] font-medium'
+          : 'h-6 min-w-6 rounded-4 px-1.5 text-xs-medium'
       "
     >
       {{ key }}

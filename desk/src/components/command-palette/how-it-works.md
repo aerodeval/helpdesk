@@ -211,8 +211,8 @@ What consumes it:
    ticket, so a "Ticket" header would repeat it). Each scoped row carries
    `weight: CONTEXT_WEIGHT` (1.2, `paletteTypes.ts:92`) — that's *how* scoped
    rows lead once you type: they outrank, they don't exclude.
-2. **The chip** (the input's prefix in `CommandPalette.vue`) — renders
-   `label + title` beside the input. Inert by design; removal is Backspace, advertised by the footer's
+2. **The chip** (the row above the input in `CommandPalette.vue`) — renders
+   `label + title` above the input. Inert by design; removal is Backspace, advertised by the footer's
    esc label.
 3. **The command builders** — `ticketCommands(ticketId)` closes over the id,
    so every `perform` ("Set status", "Assign to me", tag toggles) knows which

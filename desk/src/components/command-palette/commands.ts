@@ -11,6 +11,7 @@ import { router } from "@/router";
 import { useAuthStore } from "@/stores/auth";
 import { useTelephonyStore } from "@/stores/telephony";
 import { __ } from "@/translation";
+import { CUSTOMER_PORTAL_ROOT } from "@/utils";
 import { useColorScheme } from "frappe-ui";
 import { availabilityCommands } from "./availabilityCommands";
 import { GROUP, type Command } from "./paletteTypes";
@@ -19,6 +20,7 @@ import { ticketListCommands } from "./ticketListCommands";
 
 import LucideClock from "~icons/lucide/clock";
 import LucideFileSearch from "~icons/lucide/file-search";
+import LucideGlobe from "~icons/lucide/globe";
 import LucideKeyboard from "~icons/lucide/keyboard";
 import LucideLogOut from "~icons/lucide/log-out";
 import LucideMoon from "~icons/lucide/moon";
@@ -82,16 +84,25 @@ export function recentTicketCommands(): Command[] {
 /** The sidebar's own nav list, so labels and icons can't drift from it. */
 function navigateCommands(): Command[] {
   const callingEnabled = useTelephonyStore().isCallingEnabled;
-  return agentPortalSidebarOptions
-    .filter((option) => callingEnabled || option.label !== __("Call Logs"))
-    .map((option) => ({
-      id: `go-${option.to}`,
-      title: __(option.label),
+  return [
+    ...agentPortalSidebarOptions
+      .filter((option) => callingEnabled || option.label !== __("Call Logs"))
+      .map((option) => ({
+        id: `go-${option.to}`,
+        title: __(option.label),
+        group: GROUP.navigate,
+        icon: option.icon,
+        weight: 0.7, // nav links are noise once the user has typed something real
+        perform: () => router.push({ name: option.to }),
+      })),
+    {
+      id: "go-customer-portal",
+      title: __("Customer portal"),
       group: GROUP.navigate,
-      icon: option.icon,
-      weight: 0.7, // nav links are noise once the user has typed something real
-      perform: () => router.push({ name: option.to }),
-    }));
+      icon: LucideGlobe,
+      perform: () => window.open(CUSTOMER_PORTAL_ROOT),
+    },
+  ];
 }
 
 function createCommands(): Command[] {

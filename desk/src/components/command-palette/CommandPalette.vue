@@ -10,6 +10,16 @@
   >
     <RekaBridge />
 
+    <div v-if="context" class="px-4.5 pt-3">
+      <Badge class="max-w-[30%]">
+        <span class="shrink-0 text-ink-gray-7">{{ context.label }}</span>
+        <span class="shrink-0 text-ink-gray-4">⋅</span>
+        <span class="truncate text-ink-gray-5">{{
+          context.title || __("Ticket")
+        }}</span>
+      </Badge>
+    </div>
+
     <CommandPaletteInput
       :placeholder="placeholder"
       :aria-label="
@@ -21,14 +31,6 @@
       @keydown="onKeydown($event, active)"
     >
       <template #prefix>
-        <LucideSearch class="size-4 shrink-0 text-ink-gray-6" />
-        <Badge v-if="context" class="max-w-[30%] shrink-0">
-          <span class="shrink-0 text-ink-gray-7">{{ context.label }}</span>
-          <span class="shrink-0 text-ink-gray-4">⋅</span>
-          <span class="truncate text-ink-gray-5">{{
-            context.title || __("Ticket")
-          }}</span>
-        </Badge>
         <Button
           v-if="stepLabel"
           variant="ghost"
@@ -38,13 +40,14 @@
           @mousedown.prevent
           @click="back"
         />
+        <LucideSearch class="size-4 shrink-0 text-ink-gray-6" />
       </template>
       <template v-if="isLoading" #suffix>
         <Spinner size="md" class="shrink-0 text-ink-gray-5" />
       </template>
     </CommandPaletteInput>
 
-    <CommandPaletteList>
+    <CommandPaletteList class="scroll-py-2">
       <CommandPaletteGroup
         v-for="(group, groupIndex) in groups"
         :key="`${depth}:${groupIndex}:${group.title}`"
@@ -60,37 +63,38 @@
 
     <CommandPaletteEmpty>{{ emptyMessage }}</CommandPaletteEmpty>
 
-    <CommandPaletteFooter>
-      <span class="flex items-center gap-1.5 text-xs text-ink-gray-4">
-        <ShortcutKey keys="↑ ↓" />
-        {{ __("Navigate") }}
-      </span>
-      <span class="flex items-center gap-1.5 text-xs text-ink-gray-4">
-        <ShortcutKey keys="↵" />
-        {{ __("Select") }}
-      </span>
-      <span
-        v-if="stepLabel"
-        class="flex items-center gap-1.5 text-xs text-ink-gray-4"
-      >
-        <ShortcutKey keys="⌫" />
-        {{ __("Back") }}
-      </span>
-      <span class="ms-auto flex items-center gap-1.5 text-xs text-ink-gray-4">
-        <ShortcutKey keys="esc" />
-        {{ escapeLabel }}
-      </span>
-    </CommandPaletteFooter>
+    <div
+      class="mt-2 flex items-center justify-between border-t border-outline-gray-1 px-2.5 py-2 text-xs text-ink-gray-6 dark:border-outline-gray-2"
+    >
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-1">
+          <ShortcutKey keys="↓ ↑" />
+          <span class="ms-1">{{ __("to navigate") }}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <ShortcutKey keys="↵" />
+          <span class="ms-1">{{ __("to select") }}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <ShortcutKey keys="esc" />
+          <span class="ms-1">{{ escapeLabel }}</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1">
+        <ShortcutKey :keys="`${metaIcon} K`" />
+        <span class="ms-1">{{ __("to open") }}</span>
+      </div>
+    </div>
   </CommandPalette>
 </template>
 
 <script setup lang="ts">
 import { __ } from "@/translation";
+import { useDevice } from "@/composables";
 import { Badge, Button, Spinner, useKeyboardShortcut } from "frappe-ui";
 import {
   CommandPalette,
   CommandPaletteEmpty,
-  CommandPaletteFooter,
   CommandPaletteGroup,
   CommandPaletteInput,
   CommandPaletteList,
@@ -121,6 +125,8 @@ import {
   resetPalette,
   run,
 } from "./useCommandPalette";
+
+const { metaIcon } = useDevice();
 
 let commandRan = false;
 
@@ -161,9 +167,9 @@ const emptyMessage = computed(() => {
 });
 
 const escapeLabel = computed(() => {
-  if (query.value) return __("Clear");
-  if (stepLabel.value) return __("Back");
-  return context.value ? __("Remove context") : __("Close");
+  if (query.value) return __("to clear");
+  if (stepLabel.value) return __("to go back");
+  return context.value ? __("to remove context") : __("to close");
 });
 
 const placeholder = computed(() =>

@@ -20,19 +20,7 @@
               <div class="text-ink-gray-7 text-base flex-1">
                 {{ shortcut.description }}
               </div>
-              <div class="flex gap-1 justify-end">
-                <span
-                  v-for="(key, kIndex) in shortcut.keys"
-                  :key="kIndex"
-                  class="bg-surface-gray-2 border border-outline-gray-2 text-xs rounded-1 text-ink-gray-8 shadow-sm min-w-5 h-5 flex items-center justify-center"
-                  :class="[
-                    ![metaIcon, shiftKey].includes(key) && 'w-5 ',
-                    key === shiftKey && '!px-2',
-                  ]"
-                >
-                  {{ key }}
-                </span>
-              </div>
+              <ShortcutKey :keys="shortcut.keys.join(' ')" />
             </li>
           </ul>
         </div>
@@ -43,6 +31,7 @@
 
 <script setup lang="ts">
 import { useDevice } from "@helpdesk/shared/device";
+import ShortcutKey from "@helpdesk/shared/ShortcutKey.vue";
 import { useShortcut } from "@helpdesk/shared/shortcuts";
 import { Dialog } from "frappe-ui";
 import { computed, onMounted } from "vue";
